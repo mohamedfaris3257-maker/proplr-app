@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/Button';
 import { CAREER_INTERESTS, type CareerInterest, type UserType } from '@/lib/types';
@@ -35,7 +34,6 @@ export function OnboardingFlow() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const fileRef = useRef<HTMLInputElement>(null);
-  const router = useRouter();
 
   const totalSteps = 5;
   const progress = (step / totalSteps) * 100;
@@ -100,11 +98,17 @@ export function OnboardingFlow() {
 
       if (profileError) throw profileError;
 
-      router.push('/feed');
-      router.refresh();
+      // Hard-navigate to /feed so the middleware sees the new profile cleanly.
+      // Using window.location avoids a router.refresh() race condition where the
+      // middleware redirect response gets caught as a non-Error and shows the
+      // "Something went wrong" message.
+      window.location.href = '/feed';
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Something went wrong');
-    } finally {
+      const message =
+        err instanceof Error
+          ? err.message
+          : (err as { message?: string })?.message ?? 'Something went wrong. Please try again.';
+      setError(message);
       setLoading(false);
     }
   };

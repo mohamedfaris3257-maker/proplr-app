@@ -4,13 +4,20 @@ import { useState } from 'react';
 import {
   Users, Calendar, Briefcase, FileText, Clock, Shield,
   CheckCircle2, XCircle, TrendingUp, School, GraduationCap,
+  Award,
 } from 'lucide-react';
 import { Avatar } from '@/components/ui/Avatar';
 import { PillarBadge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
+import { Modal } from '@/components/ui/Modal';
 import { formatDate } from '@/lib/utils';
 import { createClient } from '@/lib/supabase/client';
 import type { Profile, PillarHour } from '@/lib/types';
+import { EventsManager } from './EventsManager';
+import { OpportunitiesManager } from './OpportunitiesManager';
+import { PostsModeration } from './PostsModeration';
+import { CertificatesManager } from './CertificatesManager';
+import { ApplicationsManager } from './ApplicationsManager';
 
 interface AdminStats {
   totalUsers: number;
@@ -27,20 +34,52 @@ interface AdminDashboardProps {
   pendingHours: (PillarHour & { profiles: { name: string; email: string } })[];
 }
 
-type ActiveTab = 'overview' | 'users' | 'hours';
+type ActiveTab =
+  | 'overview'
+  | 'events'
+  | 'opportunities'
+  | 'posts'
+  | 'hours'
+  | 'certificates'
+  | 'applications';
+
+interface RejectModalState {
+  open: boolean;
+  hourId: string | null;
+  note: string;
+}
 
 export function AdminDashboard({ stats, recentUsers, pendingHours: initialPendingHours }: AdminDashboardProps) {
   const [activeTab, setActiveTab] = useState<ActiveTab>('overview');
   const [pendingHours, setPendingHours] = useState(initialPendingHours);
-  const supabase = createClient();
+  const [rejectModal, setRejectModal] = useState<RejectModalState>({ open: false, hourId: null, note: '' });
+  const [approving, setApproving] = useState<string | null>(null);
+  const [rejecting, setRejecting] = useState(false);
 
-  const handleApproveHour = async (id: string, approve: boolean) => {
+  async function handleApproveHour(id: string) {
+    setApproving(id);
+    const supabase = createClient();
+    await supabase.from('pillar_hours').update({ status: 'approved' }).eq('id', id);
+    setPendingHours((prev) => prev.filter((h) => h.id !== id));
+    setApproving(null);
+  }
+
+  function openRejectModal(id: string) {
+    setRejectModal({ open: true, hourId: id, note: '' });
+  }
+
+  async function handleRejectConfirm() {
+    if (!rejectModal.hourId) return;
+    setRejecting(true);
+    const supabase = createClient();
     await supabase
       .from('pillar_hours')
-      .update({ status: approve ? 'approved' : 'rejected' })
-      .eq('id', id);
-    setPendingHours((prev) => prev.filter((h) => h.id !== id));
-  };
+      .update({ status: 'rejected', rejection_note: rejectModal.note || null })
+      .eq('id', rejectModal.hourId);
+    setPendingHours((prev) => prev.filter((h) => h.id !== rejectModal.hourId));
+    setRejecting(false);
+    setRejectModal({ open: false, hourId: null, note: '' });
+  }
 
   const statCards = [
     { label: 'Total Students', value: stats.totalUsers, icon: Users, color: 'text-blue', bg: 'bg-blue/10' },
@@ -51,14 +90,18 @@ export function AdminDashboard({ stats, recentUsers, pendingHours: initialPendin
     { label: 'Applications', value: stats.totalApplications, icon: FileText, color: 'text-red', bg: 'bg-red/10' },
   ];
 
-  const tabs: { id: ActiveTab; label: string; icon: React.ElementType }[] = [
+  const tabs: { id: ActiveTab; label: string; icon: React.ElementType; badge?: number }[] = [
     { id: 'overview', label: 'Overview', icon: TrendingUp },
-    { id: 'users', label: 'Recent Users', icon: Users },
-    { id: 'hours', label: `Pending Hours ${pendingHours.length > 0 ? `(${pendingHours.length})` : ''}`, icon: Clock },
+    { id: 'events', label: 'Events', icon: Calendar },
+    { id: 'opportunities', label: 'Opportunities', icon: Briefcase },
+    { id: 'posts', label: 'Posts', icon: FileText },
+    { id: 'hours', label: 'Hours', icon: Clock, badge: pendingHours.length > 0 ? pendingHours.length : undefined },
+    { id: 'certificates', label: 'Certificates', icon: Award },
+    { id: 'applications', label: 'Applications', icon: Users },
   ];
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-6">
+    <div className="max-w-7xl mx-auto px-4 py-6">
       {/* Header */}
       <div className="flex items-center gap-3 mb-6">
         <div className="w-10 h-10 rounded-xl bg-purple/20 flex items-center justify-center">
@@ -71,27 +114,27 @@ export function AdminDashboard({ stats, recentUsers, pendingHours: initialPendin
       </div>
 
       {/* Stat cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
         {statCards.map(({ label, value, icon: Icon, color, bg }) => (
           <div key={label} className="card p-4 flex items-center gap-3">
-            <div className={`w-10 h-10 rounded-xl ${bg} flex items-center justify-center flex-shrink-0`}>
-              <Icon className={`w-5 h-5 ${color}`} />
+            <div className={`w-9 h-9 rounded-xl ${bg} flex items-center justify-center flex-shrink-0`}>
+              <Icon className={`w-4 h-4 ${color}`} />
             </div>
             <div>
-              <p className="text-2xl font-bold text-text-primary">{value}</p>
-              <p className="text-xs text-text-muted">{label}</p>
+              <p className="text-xl font-bold text-text-primary">{value}</p>
+              <p className="text-xs text-text-muted leading-tight">{label}</p>
             </div>
           </div>
         ))}
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 p-1 bg-surface-2 rounded-xl mb-6 w-fit">
-        {tabs.map(({ id, label, icon: Icon }) => (
+      <div className="flex flex-wrap gap-1 p-1 bg-surface-2 rounded-xl mb-6 w-fit">
+        {tabs.map(({ id, label, icon: Icon, badge }) => (
           <button
             key={id}
             onClick={() => setActiveTab(id)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+            className={`relative flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
               activeTab === id
                 ? 'bg-surface text-text-primary shadow-card'
                 : 'text-text-muted hover:text-text-secondary'
@@ -99,11 +142,16 @@ export function AdminDashboard({ stats, recentUsers, pendingHours: initialPendin
           >
             <Icon className="w-4 h-4" />
             {label}
+            {badge !== undefined && (
+              <span className="flex items-center justify-center w-4 h-4 rounded-full bg-gold text-background text-[10px] font-bold">
+                {badge > 9 ? '9+' : badge}
+              </span>
+            )}
           </button>
         ))}
       </div>
 
-      {/* Overview tab */}
+      {/* Tab content */}
       {activeTab === 'overview' && (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* User distribution */}
@@ -157,48 +205,54 @@ export function AdminDashboard({ stats, recentUsers, pendingHours: initialPendin
               </div>
             </div>
           </div>
-        </div>
-      )}
 
-      {/* Users tab */}
-      {activeTab === 'users' && (
-        <div className="card overflow-hidden">
-          <div className="p-4 border-b border-border">
-            <h3 className="text-sm font-semibold text-text-primary">Recently Joined Students</h3>
-          </div>
-          <div className="divide-y divide-border">
-            {recentUsers.length === 0 ? (
-              <p className="p-6 text-center text-text-muted text-sm">No users yet</p>
-            ) : (
-              recentUsers.map((u) => (
-                <div key={u.id} className="flex items-center gap-3 p-4 hover:bg-surface-2 transition-colors">
-                  <Avatar name={u.name} photoUrl={u.photo_url} size="sm" />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-text-primary truncate">{u.name}</p>
-                    <p className="text-xs text-text-muted truncate">{u.email}</p>
+          {/* Recent users */}
+          <div className="card overflow-hidden sm:col-span-2">
+            <div className="p-4 border-b border-border">
+              <h3 className="text-sm font-semibold text-text-primary">Recently Joined Students</h3>
+            </div>
+            <div className="divide-y divide-border">
+              {recentUsers.length === 0 ? (
+                <p className="p-6 text-center text-text-muted text-sm">No users yet</p>
+              ) : (
+                recentUsers.map((u) => (
+                  <div key={u.id} className="flex items-center gap-3 p-4 hover:bg-surface-2 transition-colors">
+                    <Avatar name={u.name} photoUrl={u.photo_url} size="sm" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-text-primary truncate">{u.name}</p>
+                      <p className="text-xs text-text-muted truncate">{u.email}</p>
+                    </div>
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      <span className={`text-xs font-medium px-2 py-0.5 rounded-sm ${
+                        u.type === 'school_student' ? 'bg-gold/10 text-gold' :
+                        u.type === 'uni_student' ? 'bg-blue/10 text-blue' : 'bg-purple/10 text-purple'
+                      }`}>
+                        {u.type === 'school_student' ? 'School' : u.type === 'uni_student' ? 'Uni' : 'Admin'}
+                      </span>
+                      <span className="text-xs text-text-muted hidden sm:block">{formatDate(u.created_at)}</span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2 flex-shrink-0">
-                    <span className={`text-xs font-medium px-2 py-0.5 rounded-sm ${
-                      u.type === 'school_student' ? 'bg-gold/10 text-gold' :
-                      u.type === 'uni_student' ? 'bg-blue/10 text-blue' : 'bg-purple/10 text-purple'
-                    }`}>
-                      {u.type === 'school_student' ? 'School' : u.type === 'uni_student' ? 'Uni' : 'Admin'}
-                    </span>
-                    <span className="text-xs text-text-muted hidden sm:block">{formatDate(u.created_at)}</span>
-                  </div>
-                </div>
-              ))
-            )}
+                ))
+              )}
+            </div>
           </div>
         </div>
       )}
 
-      {/* Pending hours tab */}
+      {activeTab === 'events' && <EventsManager />}
+
+      {activeTab === 'opportunities' && <OpportunitiesManager />}
+
+      {activeTab === 'posts' && <PostsModeration />}
+
       {activeTab === 'hours' && (
         <div className="card overflow-hidden">
           <div className="p-4 border-b border-border">
             <h3 className="text-sm font-semibold text-text-primary">
               Pending Pillar Hour Approvals
+              {pendingHours.length > 0 && (
+                <span className="ml-2 text-xs text-gold">({pendingHours.length})</span>
+              )}
             </h3>
           </div>
           {pendingHours.length === 0 ? (
@@ -224,14 +278,15 @@ export function AdminDashboard({ stats, recentUsers, pendingHours: initialPendin
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => handleApproveHour(ph.id, false)}
+                      onClick={() => openRejectModal(ph.id)}
                       className="text-red hover:bg-red/10 p-2"
                     >
                       <XCircle className="w-4 h-4" />
                     </Button>
                     <Button
                       size="sm"
-                      onClick={() => handleApproveHour(ph.id, true)}
+                      loading={approving === ph.id}
+                      onClick={() => handleApproveHour(ph.id)}
                       className="bg-green/10 text-green hover:bg-green/20 border-0"
                     >
                       <CheckCircle2 className="w-4 h-4" />
@@ -244,6 +299,54 @@ export function AdminDashboard({ stats, recentUsers, pendingHours: initialPendin
           )}
         </div>
       )}
+
+      {activeTab === 'certificates' && <CertificatesManager />}
+
+      {activeTab === 'applications' && <ApplicationsManager />}
+
+      {/* Reject Hour Modal */}
+      <Modal
+        open={rejectModal.open}
+        onClose={() => setRejectModal({ open: false, hourId: null, note: '' })}
+        title="Reject Hours"
+        size="sm"
+      >
+        <div className="space-y-4">
+          <p className="text-sm text-text-secondary">
+            Optionally add a note explaining why these hours are being rejected.
+          </p>
+          <div>
+            <label className="block text-xs font-medium text-text-secondary mb-1">
+              Rejection Note (optional)
+            </label>
+            <textarea
+              className="w-full bg-surface-2 border border-border rounded-lg px-3 py-2 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-blue transition-colors resize-none"
+              placeholder="e.g. Insufficient evidence provided..."
+              rows={3}
+              value={rejectModal.note}
+              onChange={(e) => setRejectModal((prev) => ({ ...prev, note: e.target.value }))}
+            />
+          </div>
+          <div className="flex justify-end gap-2">
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => setRejectModal({ open: false, hourId: null, note: '' })}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="danger"
+              size="sm"
+              loading={rejecting}
+              onClick={handleRejectConfirm}
+            >
+              <XCircle className="w-4 h-4" />
+              Reject
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }

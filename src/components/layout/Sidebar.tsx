@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import {
   LayoutDashboard,
@@ -14,9 +15,10 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { Avatar } from '@/components/ui/Avatar';
-import type { Profile } from '@/lib/types';
+import type { Profile, Notification } from '@/lib/types';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
+import { NotificationBell } from '@/components/notifications/NotificationBell';
 
 interface SidebarProps {
   profile: Profile;
@@ -32,6 +34,20 @@ const navItems = [
 export function Sidebar({ profile }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const [initialNotifications, setInitialNotifications] = useState<Notification[]>([]);
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase
+      .from('notifications')
+      .select('*')
+      .eq('user_id', profile.user_id)
+      .order('created_at', { ascending: false })
+      .limit(20)
+      .then(({ data }) => {
+        setInitialNotifications((data as Notification[]) || []);
+      });
+  }, [profile.user_id]);
 
   const handleSignOut = async () => {
     const supabase = createClient();
@@ -41,7 +57,12 @@ export function Sidebar({ profile }: SidebarProps) {
   };
 
   const isAdmin = profile.type === 'admin';
-  const trackLabel = profile.type === 'school_student' ? 'Foundation Track' : profile.type === 'uni_student' ? 'Impact Track' : 'Admin';
+  const trackLabel =
+    profile.type === 'school_student'
+      ? 'Foundation Track'
+      : profile.type === 'uni_student'
+      ? 'Impact Track'
+      : 'Admin';
 
   return (
     <aside className="hidden lg:flex flex-col w-64 h-screen sticky top-0 bg-surface border-r border-border p-4 gap-4">
@@ -53,16 +74,22 @@ export function Sidebar({ profile }: SidebarProps) {
         <span className="text-lg font-bold text-text-primary tracking-tight">proplr</span>
       </div>
 
-      {/* User card */}
+      {/* User card with notification bell */}
       <div className="card card-gradient-gold p-3 flex items-center gap-3">
         <Avatar name={profile.name} photoUrl={profile.photo_url} size="sm" />
-        <div className="min-w-0">
+        <div className="min-w-0 flex-1">
           <p className="text-sm font-medium text-text-primary truncate">{profile.name}</p>
           <p className="text-xs text-text-muted truncate">{trackLabel}</p>
         </div>
         {profile.subscription_status === 'premium' && (
-          <span className="ml-auto text-[10px] font-bold bg-gold/10 text-gold px-1.5 py-0.5 rounded-sm flex-shrink-0">PRO</span>
+          <span className="text-[10px] font-bold bg-gold/10 text-gold px-1.5 py-0.5 rounded-sm flex-shrink-0">
+            PRO
+          </span>
         )}
+        <NotificationBell
+          userId={profile.user_id}
+          initialNotifications={initialNotifications}
+        />
       </div>
 
       {/* Navigation */}
@@ -80,7 +107,12 @@ export function Sidebar({ profile }: SidebarProps) {
                   : 'text-text-secondary hover:bg-surface-2 hover:text-text-primary'
               )}
             >
-              <Icon className={cn('w-4 h-4', active ? 'text-gold' : 'text-text-muted group-hover:text-text-secondary')} />
+              <Icon
+                className={cn(
+                  'w-4 h-4',
+                  active ? 'text-gold' : 'text-text-muted group-hover:text-text-secondary'
+                )}
+              />
               {label}
               {active && <ChevronRight className="w-3 h-3 ml-auto text-gold" />}
             </Link>

@@ -2,7 +2,7 @@ import { AppShell } from '@/components/layout/AppShell';
 import { createClient } from '@/lib/supabase/server';
 import { OpportunityCard } from '@/components/opportunities/OpportunityCard';
 import { OpportunitiesFilter } from '@/components/opportunities/OpportunitiesFilter';
-import type { Opportunity, ApplicationStatus } from '@/lib/types';
+import type { Opportunity, ApplicationStatus, Profile } from '@/lib/types';
 import { Briefcase } from 'lucide-react';
 
 export const revalidate = 60;
@@ -13,12 +13,31 @@ interface OpportunitiesPageProps {
 
 export default async function OpportunitiesPage({ searchParams }: OpportunitiesPageProps) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  const [{ data: profile }, { data: savedItems }, { data: applications }] = await Promise.all([
-    supabase.from('profiles').select('type').eq('user_id', user!.id).single(),
-    supabase.from('saved_items').select('item_id').eq('user_id', user!.id).eq('item_type', 'opportunity'),
-    supabase.from('applications').select('opportunity_id, status').eq('user_id', user!.id),
+  const [
+    { data: profile },
+    { data: savedItems },
+    { data: applications },
+    { data: portfolioItems },
+  ] = await Promise.all([
+    supabase.from('profiles').select('*').eq('user_id', user!.id).single(),
+    supabase
+      .from('saved_items')
+      .select('item_id')
+      .eq('user_id', user!.id)
+      .eq('item_type', 'opportunity'),
+    supabase
+      .from('applications')
+      .select('opportunity_id, status')
+      .eq('user_id', user!.id),
+    supabase
+      .from('portfolio_items')
+      .select('id, title')
+      .eq('user_id', user!.id)
+      .order('created_at', { ascending: false }),
   ]);
 
   const isSchoolStudent = profile?.type === 'school_student';
@@ -46,10 +65,20 @@ export default async function OpportunitiesPage({ searchParams }: OpportunitiesP
 
   const { data: opportunities } = await query;
 
-  const savedIds = new Set((savedItems || []).map((s: { item_id: string }) => s.item_id));
-  const appMap = new Map<string, ApplicationStatus>(
-    (applications || []).map((a: { opportunity_id: string; status: ApplicationStatus }) => [a.opportunity_id, a.status])
+  const savedIds = new Set(
+    (savedItems || []).map((s: { item_id: string }) => s.item_id)
   );
+  const appMap = new Map<string, ApplicationStatus>(
+    (applications || []).map(
+      (a: { opportunity_id: string; status: ApplicationStatus }) => [
+        a.opportunity_id,
+        a.status,
+      ]
+    )
+  );
+
+  const typedProfile = profile as Profile | null;
+  const typedPortfolioItems = (portfolioItems || []) as { id: string; title: string }[];
 
   return (
     <AppShell>
@@ -94,6 +123,8 @@ export default async function OpportunitiesPage({ searchParams }: OpportunitiesP
                   currentUserId={user!.id}
                   isSaved={savedIds.has(opp.id)}
                   applicationStatus={appMap.get(opp.id) || null}
+                  profile={typedProfile}
+                  portfolioItems={typedPortfolioItems}
                 />
               ))}
             </div>
