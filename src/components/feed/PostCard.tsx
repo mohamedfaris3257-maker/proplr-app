@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { Heart, Bookmark, Share2, MessageCircle, Trash2 } from 'lucide-react';
+import { Heart, Bookmark, Share2, MessageCircle, Trash2, Megaphone } from 'lucide-react';
 import { Avatar } from '@/components/ui/Avatar';
 import { PillarBadge } from '@/components/ui/Badge';
 import { timeAgo } from '@/lib/utils';
@@ -140,15 +140,15 @@ export function PostCard({
 
   return (
     <div
-      className={`card p-4 hover:shadow-card-hover transition-all duration-200 animate-fade-in ${
+      className={`card p-4 hover:shadow-card-hover transition-all duration-200 animate-slide-up ${
         post.is_pinned ? 'border-l-2 border-l-[#E8A838]' : ''
       }`}
     >
       {/* Pinned announcement badge */}
       {post.is_pinned && (
         <div className="mb-3">
-          <span className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-sm bg-[#E8A838]/10 text-[#E8A838]">
-            📣 Announcement
+          <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-2 py-0.5 rounded-sm bg-[#E8A838]/10 text-[#E8A838]">
+            <Megaphone className="w-3 h-3" /> Announcement
           </span>
         </div>
       )}
@@ -213,7 +213,7 @@ export function PostCard({
           }`}
         >
           <MessageCircle className="w-4 h-4" />
-          💬 {commentCount > 0 ? commentCount : ''}
+          {commentCount > 0 ? commentCount : ''}
         </button>
 
         {/* Save */}

@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Bell } from 'lucide-react';
+import { Bell, GraduationCap, Trophy, CheckCircle2, Calendar, ClipboardList, MessageCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { timeAgo } from '@/lib/utils';
 import { createClient } from '@/lib/supabase/client';
@@ -13,18 +13,19 @@ interface NotificationBellProps {
   initialNotifications: Notification[];
 }
 
-function getNotificationIcon(type: NotificationType): string {
+function getNotificationIcon(type: NotificationType): React.ReactNode {
+  const cls = 'w-4 h-4';
   switch (type) {
-    case 'certificate':  return '🎓';
-    case 'badge':        return '🏆';
-    case 'hours':        return '✅';
-    case 'event':        return '📅';
-    case 'rsvp':         return '📅';
-    case 'waitlist':     return '📋';
-    case 'application':  return '📋';
-    case 'comment':      return '💬';
+    case 'certificate':  return <GraduationCap className={cls} />;
+    case 'badge':        return <Trophy className={cls} />;
+    case 'hours':        return <CheckCircle2 className={cls} />;
+    case 'event':
+    case 'rsvp':         return <Calendar className={cls} />;
+    case 'waitlist':
+    case 'application':  return <ClipboardList className={cls} />;
+    case 'comment':      return <MessageCircle className={cls} />;
     case 'general':
-    default:             return '🔔';
+    default:             return <Bell className={cls} />;
   }
 }
 
@@ -172,7 +173,7 @@ export function NotificationBell({ userId, initialNotifications }: NotificationB
                           : 'border-blue bg-blue/5 hover:bg-blue/10'
                       )}
                     >
-                      <span className="text-base mt-0.5 flex-shrink-0" role="img" aria-hidden="true">
+                      <span className="mt-0.5 flex-shrink-0 text-[#4A90D9]">
                         {getNotificationIcon(notification.type)}
                       </span>
                       <div className="min-w-0 flex-1">

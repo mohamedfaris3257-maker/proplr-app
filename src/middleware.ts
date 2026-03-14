@@ -1,7 +1,18 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
-const PUBLIC_ROUTES = ['/login', '/auth/callback'];
+const PUBLIC_ROUTES = [
+  '/login', '/auth/callback', '/register',
+  '/api/newsletter', '/api/register',
+];
+
+// Marketing pages accessible without auth
+const PUBLIC_PREFIXES = [
+  '/', '/about', '/programs', '/foundation', '/impact',
+  '/blog', '/showcase', '/summer-camp', '/partners',
+  '/mentorship', '/faq', '/careers', '/pricing', '/compass',
+  '/start-a-club',
+];
 const ONBOARDING_ROUTE = '/onboarding';
 
 export async function middleware(request: NextRequest) {
@@ -31,8 +42,13 @@ export async function middleware(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser();
   const pathname = request.nextUrl.pathname;
 
-  // Allow public routes
-  if (PUBLIC_ROUTES.some((r) => pathname.startsWith(r))) {
+  // Allow public routes and marketing pages
+  const isPublicRoute = PUBLIC_ROUTES.some((r) => pathname.startsWith(r));
+  const isPublicPrefix = PUBLIC_PREFIXES.some((p) =>
+    p === '/' ? pathname === '/' : pathname === p || pathname.startsWith(p + '/')
+  );
+
+  if (isPublicRoute || isPublicPrefix) {
     // Redirect logged-in users away from /login
     if (user && pathname === '/login') {
       return NextResponse.redirect(new URL('/feed', request.url));

@@ -29,6 +29,8 @@ export default async function AdminPage() {
     { count: totalApplications },
     { data: recentUsers },
     { data: pendingHours },
+    { count: pendingRegistrationsCount },
+    { data: initialRegistrations },
   ] = await Promise.all([
     supabase.from('profiles').select('*', { count: 'exact', head: true }),
     supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('type', 'school_student'),
@@ -38,6 +40,8 @@ export default async function AdminPage() {
     supabase.from('applications').select('*', { count: 'exact', head: true }),
     supabase.from('profiles').select('*').order('created_at', { ascending: false }).limit(10),
     supabase.from('pillar_hours').select('*, profiles(name, email)').eq('status', 'pending').limit(20),
+    supabase.from('student_registrations').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
+    supabase.from('student_registrations').select('*').order('created_at', { ascending: false }).limit(50),
   ]);
 
   return (
@@ -53,6 +57,8 @@ export default async function AdminPage() {
         }}
         recentUsers={recentUsers || []}
         pendingHours={pendingHours || []}
+        pendingRegistrationsCount={pendingRegistrationsCount || 0}
+        initialRegistrations={initialRegistrations || []}
       />
     </AppShell>
   );

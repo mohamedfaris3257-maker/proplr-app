@@ -3,6 +3,8 @@ import { createClient } from '@/lib/supabase/server';
 import { Avatar } from '@/components/ui/Avatar';
 import { PillarRing } from '@/components/profile/PillarRing';
 import { Badge, PillarBadge } from '@/components/ui/Badge';
+import { IntegrationCards } from '@/components/profile/IntegrationCards';
+import { ReferralCard } from '@/components/profile/ReferralCard';
 import { PILLARS, PILLAR_COLORS } from '@/lib/types';
 import type { Profile, PillarHour, Certificate, Application, PillarName } from '@/lib/types';
 import {
@@ -226,6 +228,16 @@ export default async function ProfilePage() {
             </div>
           </div>
         )}
+
+        {/* Integration Cards: Dibz + Compass */}
+        <div className="card p-5">
+          <h2 className="text-base font-semibold text-text-primary mb-4">Integrations & Partners</h2>
+          <IntegrationCards profile={p} />
+        </div>
+
+        {/* Referral Card */}
+        <ReferralCard />
+
       </div>
     </AppShell>
   );

@@ -78,6 +78,7 @@ export interface Profile {
   subscription_status: SubscriptionStatus;
   subscription_end_date: string | null;
   is_ambassador: boolean;
+  dibz_discount_active: boolean;
   username: string | null;
   created_at: string;
 }

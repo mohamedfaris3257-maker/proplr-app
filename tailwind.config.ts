@@ -24,6 +24,14 @@ const config: Config = {
         "text-primary": "#f0f4f8",
         "text-secondary": "#8ca3be",
         "text-muted": "#4a6785",
+        // Public site design tokens
+        "pub-navy": "#071629",
+        "pub-blue": "#3d9be9",
+        "pub-yellow": "#ffcb5d",
+        "pub-section-alt": "#f5f5f7",
+        "pub-text-primary": "#1d1d1f",
+        "pub-text-secondary": "#6e6e73",
+        "pub-light-bg": "#f3f4fb",
       },
       fontFamily: {
         sans: ["DM Sans", "sans-serif"],

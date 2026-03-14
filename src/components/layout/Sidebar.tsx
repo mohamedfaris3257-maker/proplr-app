@@ -11,8 +11,11 @@ import {
   User,
   Shield,
   LogOut,
-  Sparkles,
   ChevronRight,
+  Bookmark,
+  Users2,
+  CheckSquare,
+  BookOpen,
 } from 'lucide-react';
 import { Avatar } from '@/components/ui/Avatar';
 import type { Profile, Notification } from '@/lib/types';
@@ -26,8 +29,12 @@ interface SidebarProps {
 
 const navItems = [
   { href: '/feed', label: 'Feed', icon: LayoutDashboard },
+  { href: '/dashboard/courses', label: 'Courses', icon: BookOpen },
+  { href: '/dashboard/community', label: 'Community', icon: Users2 },
+  { href: '/dashboard/tasks', label: 'Tasks', icon: CheckSquare },
   { href: '/events', label: 'Events', icon: CalendarDays },
   { href: '/opportunities', label: 'Opportunities', icon: Briefcase },
+  { href: '/saved', label: 'Saved', icon: Bookmark },
   { href: '/profile', label: 'My Profile', icon: User },
 ];
 
@@ -69,7 +76,9 @@ export function Sidebar({ profile }: SidebarProps) {
       {/* Logo */}
       <div className="flex items-center gap-2 px-2 py-3">
         <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-gold to-gold-dim flex items-center justify-center">
-          <Sparkles className="w-4 h-4 text-background" />
+          <svg viewBox="0 0 20 20" className="w-4 h-4" fill="#0d1624" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 0L12.5 7.5L20 10L12.5 12.5L10 20L7.5 12.5L0 10L7.5 7.5L10 0Z" />
+          </svg>
         </div>
         <span className="text-lg font-bold text-text-primary tracking-tight">proplr</span>
       </div>
@@ -101,9 +110,9 @@ export function Sidebar({ profile }: SidebarProps) {
               key={href}
               href={href}
               className={cn(
-                'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 group',
+                'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 group hover:translate-x-0.5',
                 active
-                  ? 'bg-gold/10 text-gold'
+                  ? 'bg-gold/10 text-gold shadow-[inset_3px_0_0_#E8A838]'
                   : 'text-text-secondary hover:bg-surface-2 hover:text-text-primary'
               )}
             >
@@ -119,20 +128,18 @@ export function Sidebar({ profile }: SidebarProps) {
           );
         })}
 
-        {isAdmin && (
-          <Link
-            href="/admin"
-            className={cn(
-              'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 group',
-              pathname.startsWith('/admin')
-                ? 'bg-purple/10 text-purple'
-                : 'text-text-secondary hover:bg-surface-2 hover:text-text-primary'
-            )}
-          >
-            <Shield className="w-4 h-4" />
-            Admin Panel
-          </Link>
-        )}
+        <Link
+          href="/admin"
+          className={cn(
+            'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 group hover:translate-x-0.5',
+            pathname.startsWith('/admin')
+              ? 'bg-purple/10 text-purple shadow-[inset_3px_0_0_#9B59B6]'
+              : 'text-text-secondary hover:bg-surface-2 hover:text-text-primary'
+          )}
+        >
+          <Shield className="w-4 h-4" />
+          Admin Panel
+        </Link>
       </nav>
 
       {/* Sign out */}

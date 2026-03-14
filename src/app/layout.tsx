@@ -16,6 +16,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=DM+Sans:wght@400;500&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body className="antialiased bg-background text-text-primary font-sans">
         {children}
       </body>

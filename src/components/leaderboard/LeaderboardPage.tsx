@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Sparkles } from 'lucide-react';
+import { Trophy } from 'lucide-react';
 import { Avatar } from '@/components/ui/Avatar';
 
 interface SchoolEntry {
@@ -49,13 +49,12 @@ function rankStyle(rank: number): { row: string; badge: string } {
 
 function RankBadge({ rank }: { rank: number }) {
   const { badge } = rankStyle(rank);
-  const icon = rank === 1 ? '🏆' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : null;
 
   return (
     <span
       className={`inline-flex items-center justify-center w-7 h-7 rounded-full text-xs ${badge}`}
     >
-      {icon ?? rank}
+      {rank === 1 ? <Trophy className="w-3.5 h-3.5" /> : rank}
     </span>
   );
 }
@@ -66,7 +65,9 @@ export function LeaderboardPage({ schools, individuals }: LeaderboardPageProps) 
       {/* Simple header */}
       <header className="bg-surface border-b border-border px-6 py-4 flex items-center gap-3">
         <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#E8A838] to-[#c8881e] flex items-center justify-center">
-          <Sparkles className="w-4 h-4 text-background" />
+          <svg viewBox="0 0 20 20" className="w-4 h-4" fill="#0d1624" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 0L12.5 7.5L20 10L12.5 12.5L10 20L7.5 12.5L0 10L7.5 7.5L10 0Z" />
+          </svg>
         </div>
         <span className="text-lg font-bold text-text-primary tracking-tight">proplr</span>
         <div className="ml-auto">

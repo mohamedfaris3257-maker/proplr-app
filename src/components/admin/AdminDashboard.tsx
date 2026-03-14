@@ -4,7 +4,7 @@ import { useState } from 'react';
 import {
   Users, Calendar, Briefcase, FileText, Clock, Shield,
   CheckCircle2, XCircle, TrendingUp, School, GraduationCap,
-  Award,
+  Award, UserPlus, Tag, Users2, CheckSquare, BookOpen, Mail, Star,
 } from 'lucide-react';
 import { Avatar } from '@/components/ui/Avatar';
 import { PillarBadge } from '@/components/ui/Badge';
@@ -18,6 +18,14 @@ import { OpportunitiesManager } from './OpportunitiesManager';
 import { PostsModeration } from './PostsModeration';
 import { CertificatesManager } from './CertificatesManager';
 import { ApplicationsManager } from './ApplicationsManager';
+import { StudentsManager } from './StudentsManager';
+import { PricingManager } from './PricingManager';
+import { CommunitiesManager } from './CommunitiesManager';
+import { TasksManager } from './TasksManager';
+import { CoursesManager } from './CoursesManager';
+import { NewsletterManager } from './NewsletterManager';
+import { BadgesAdmin } from './BadgesAdmin';
+import type { StudentRegistration } from './StudentsManager';
 
 interface AdminStats {
   totalUsers: number;
@@ -32,6 +40,8 @@ interface AdminDashboardProps {
   stats: AdminStats;
   recentUsers: (Profile & { created_at: string })[];
   pendingHours: (PillarHour & { profiles: { name: string; email: string } })[];
+  pendingRegistrationsCount: number;
+  initialRegistrations: StudentRegistration[];
 }
 
 type ActiveTab =
@@ -41,7 +51,14 @@ type ActiveTab =
   | 'posts'
   | 'hours'
   | 'certificates'
-  | 'applications';
+  | 'applications'
+  | 'students'
+  | 'pricing'
+  | 'communities'
+  | 'tasks'
+  | 'courses'
+  | 'newsletter'
+  | 'badges_admin';
 
 interface RejectModalState {
   open: boolean;
@@ -49,7 +66,13 @@ interface RejectModalState {
   note: string;
 }
 
-export function AdminDashboard({ stats, recentUsers, pendingHours: initialPendingHours }: AdminDashboardProps) {
+export function AdminDashboard({
+  stats,
+  recentUsers,
+  pendingHours: initialPendingHours,
+  pendingRegistrationsCount,
+  initialRegistrations,
+}: AdminDashboardProps) {
   const [activeTab, setActiveTab] = useState<ActiveTab>('overview');
   const [pendingHours, setPendingHours] = useState(initialPendingHours);
   const [rejectModal, setRejectModal] = useState<RejectModalState>({ open: false, hourId: null, note: '' });
@@ -98,6 +121,13 @@ export function AdminDashboard({ stats, recentUsers, pendingHours: initialPendin
     { id: 'hours', label: 'Hours', icon: Clock, badge: pendingHours.length > 0 ? pendingHours.length : undefined },
     { id: 'certificates', label: 'Certificates', icon: Award },
     { id: 'applications', label: 'Applications', icon: Users },
+    { id: 'students', label: 'Students', icon: UserPlus, badge: pendingRegistrationsCount > 0 ? pendingRegistrationsCount : undefined },
+    { id: 'pricing', label: 'Pricing', icon: Tag },
+    { id: 'communities', label: 'Communities', icon: Users2 },
+    { id: 'tasks', label: 'Tasks', icon: CheckSquare },
+    { id: 'courses', label: 'Courses', icon: BookOpen },
+    { id: 'newsletter', label: 'Newsletter', icon: Mail },
+    { id: 'badges_admin', label: 'Badges', icon: Star },
   ];
 
   return (
@@ -193,6 +223,12 @@ export function AdminDashboard({ stats, recentUsers, pendingHours: initialPendin
                 <span className="text-text-secondary">Pending hour approvals</span>
                 <span className={`font-semibold ${pendingHours.length > 0 ? 'text-gold' : 'text-green'}`}>
                   {pendingHours.length}
+                </span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-text-secondary">Pending student registrations</span>
+                <span className={`font-semibold ${pendingRegistrationsCount > 0 ? 'text-gold' : 'text-green'}`}>
+                  {pendingRegistrationsCount}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
@@ -303,6 +339,26 @@ export function AdminDashboard({ stats, recentUsers, pendingHours: initialPendin
       {activeTab === 'certificates' && <CertificatesManager />}
 
       {activeTab === 'applications' && <ApplicationsManager />}
+
+      {activeTab === 'students' && (
+        <StudentsManager initialRegistrations={initialRegistrations} />
+      )}
+
+      {activeTab === 'pricing' && <PricingManager />}
+
+      {activeTab === 'communities' && <CommunitiesManager />}
+
+      {activeTab === 'tasks' && <TasksManager />}
+
+      {activeTab === 'courses' && <CoursesManager />}
+
+      {activeTab === 'newsletter' && (
+        <div className="max-w-4xl">
+          <NewsletterManager />
+        </div>
+      )}
+
+      {activeTab === 'badges_admin' && <BadgesAdmin />}
 
       {/* Reject Hour Modal */}
       <Modal

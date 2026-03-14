@@ -1,20 +1,38 @@
 import { AppShell } from '@/components/layout/AppShell';
 import { createClient } from '@/lib/supabase/server';
-import { PostCard } from '@/components/feed/PostCard';
 import { PostComposer } from '@/components/feed/PostComposer';
 import { UpcomingEventsWidget } from '@/components/feed/UpcomingEventsWidget';
-import { PillarBadge } from '@/components/ui/Badge';
-import { PILLARS } from '@/lib/types';
+import { PostCard } from '@/components/feed/PostCard';
+import { FeedFilters } from '@/components/feed/FeedFilters';
+import { FeedList } from '@/components/feed/FeedList';
 import type { Post, Event, Profile, PillarName } from '@/lib/types';
-import { Zap } from 'lucide-react';
+import { Zap, Megaphone } from 'lucide-react';
 
 export const revalidate = 60;
 
-export default async function FeedPage() {
+interface FeedPageProps {
+  searchParams: { pillar?: string };
+}
+
+export default async function FeedPage({ searchParams }: FeedPageProps) {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  const pillar = searchParams.pillar;
+
+  // Build the regular posts query with optional pillar filter
+  let regularPostsQuery = supabase
+    .from('posts')
+    .select('*, profiles(*)')
+    .eq('is_pinned', false)
+    .order('created_at', { ascending: false })
+    .limit(20);
+
+  if (pillar) {
+    regularPostsQuery = regularPostsQuery.eq('pillar_tag', pillar as PillarName);
+  }
 
   const [
     { data: pinnedPosts },
@@ -23,20 +41,15 @@ export default async function FeedPage() {
     { data: events },
     { data: savedItems },
   ] = await Promise.all([
-    // Pinned / announcement posts
+    // Pinned / announcement posts (not filtered by pillar)
     supabase
       .from('posts')
       .select('*, profiles(*)')
       .eq('is_pinned', true)
       .order('created_at', { ascending: false }),
 
-    // Regular (non-pinned) posts — limited to 20
-    supabase
-      .from('posts')
-      .select('*, profiles(*)')
-      .eq('is_pinned', false)
-      .order('created_at', { ascending: false })
-      .limit(20),
+    // Regular (non-pinned) posts — limited to first page of 20
+    regularPostsQuery,
 
     // Current user's profile
     supabase
@@ -75,19 +88,27 @@ export default async function FeedPage() {
     <AppShell>
       <div className="max-w-6xl mx-auto px-4 py-6">
         {/* Welcome banner */}
-        <div className="card card-gradient-gold p-4 mb-6 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-[#E8A838]/20 flex items-center justify-center flex-shrink-0">
+        <div className="card card-gradient-gold p-5 mb-6 flex items-center gap-4 animate-slide-up">
+          <div className="w-11 h-11 rounded-xl bg-[#E8A838]/20 flex items-center justify-center flex-shrink-0 border border-[#E8A838]/20">
             <Zap className="w-5 h-5 text-[#E8A838]" />
           </div>
-          <div>
+          <div className="flex-1 min-w-0">
             <h1 className="text-base font-semibold text-text-primary">
-              Welcome back, {typedProfile?.name?.split(' ')[0] || 'Student'} 👋
+              Welcome back, <span className="text-[#E8A838]">{typedProfile?.name?.split(' ')[0] || 'Student'}</span>
             </h1>
             <p className="text-xs text-text-muted mt-0.5">
               {typedProfile?.type === 'school_student'
                 ? 'Proplr Foundation Track'
                 : 'Proplr Impact Track'}{' '}
               · Keep building your pillars
+            </p>
+          </div>
+          <div className="hidden sm:flex flex-col items-end gap-0.5 flex-shrink-0">
+            <p className="text-[10px] text-text-muted uppercase tracking-wider font-medium">
+              {new Date().toLocaleDateString('en-AE', { weekday: 'short' })}
+            </p>
+            <p className="text-xs font-semibold text-text-secondary">
+              {new Date().toLocaleDateString('en-AE', { day: 'numeric', month: 'short' })}
             </p>
           </div>
         </div>
@@ -99,20 +120,13 @@ export default async function FeedPage() {
             <PostComposer currentUserId={user!.id} />
 
             {/* Pillar filter */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-              <span className="text-xs text-text-muted flex-shrink-0">Filter:</span>
-              {PILLARS.map((p) => (
-                <div key={p} className="flex-shrink-0">
-                  <PillarBadge pillar={p as PillarName} className="cursor-pointer" />
-                </div>
-              ))}
-            </div>
+            <FeedFilters activePillar={pillar} />
 
-            {/* Pinned announcements */}
+            {/* Pinned announcements — shown regardless of pillar filter */}
             {allPinnedPosts.length > 0 && (
               <div className="space-y-3">
                 <h2 className="text-sm font-semibold text-text-primary flex items-center gap-2">
-                  📣 Announcements
+                  <Megaphone className="w-4 h-4 text-[#E8A838]" /> Announcements
                 </h2>
                 {allPinnedPosts.map((post) => (
                   <PostCard
@@ -126,22 +140,14 @@ export default async function FeedPage() {
               </div>
             )}
 
-            {/* Regular posts */}
-            {allRegularPosts.length === 0 ? (
-              <div className="card p-8 text-center">
-                <p className="text-text-muted text-sm">No posts yet. Check back soon!</p>
-              </div>
-            ) : (
-              allRegularPosts.map((post) => (
-                <PostCard
-                  key={post.id}
-                  post={post}
-                  currentUserId={user!.id}
-                  isSaved={savedPostIds.has(post.id)}
-                  isAdmin={isAdmin}
-                />
-              ))
-            )}
+            {/* Regular posts with load-more infinite scroll */}
+            <FeedList
+              initialPosts={allRegularPosts}
+              currentUserId={user!.id}
+              savedPostIdArray={Array.from(savedPostIds)}
+              isAdmin={isAdmin}
+              pillarFilter={pillar}
+            />
           </div>
 
           {/* Right sidebar */}
