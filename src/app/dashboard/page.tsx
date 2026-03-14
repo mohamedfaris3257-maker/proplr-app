@@ -1,5 +1,4 @@
 import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
 import { DashboardClient } from '@/components/dashboard/DashboardClient';
 import type { Profile } from '@/lib/types';
 
@@ -11,7 +10,8 @@ export default async function DashboardPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) redirect('/login');
+  // Auth is handled by layout, but we still need the user for queries
+  if (!user) return null;
 
   const { data: profile } = await supabase
     .from('profiles')
@@ -19,7 +19,7 @@ export default async function DashboardPage() {
     .eq('user_id', user.id)
     .single();
 
-  if (!profile) redirect('/onboarding');
+  if (!profile) return null;
 
   // Fetch all dashboard data in parallel
   const [
@@ -69,7 +69,7 @@ export default async function DashboardPage() {
       .limit(5),
   ]);
 
-  // Fetch course-related data (module counts, progress, student counts)
+  // Fetch course-related data
   const activeCourses = courses || [];
   const courseIds = activeCourses.map((c: any) => c.id);
 
@@ -100,7 +100,6 @@ export default async function DashboardPage() {
 
     progressRows = progress || [];
 
-    // Count unique users per course
     const usersByCourse: Record<string, Set<string>> = {};
     for (const e of enrollments || []) {
       if (!usersByCourse[e.course_id]) usersByCourse[e.course_id] = new Set();
@@ -111,7 +110,6 @@ export default async function DashboardPage() {
     }
   }
 
-  // Calculate progress per course
   const courseProgressMap: Record<string, number> = {};
   for (const course of activeCourses) {
     const total = moduleCounts[course.id] || 0;
@@ -121,14 +119,12 @@ export default async function DashboardPage() {
     courseProgressMap[course.id] = total > 0 ? Math.round((completed / total) * 100) : 0;
   }
 
-  // Calculate stats
   const totalHours = (pillarHours || []).reduce(
     (sum: number, h: any) => sum + (h.hours || 0),
     0
   );
   const completedPillars = (certificates || []).length;
 
-  // Filter out completed tasks
   const completionIds = new Set(
     (taskCompletions || []).map((c: any) => c.task_id)
   );

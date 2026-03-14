@@ -1,4 +1,3 @@
-import { AppShell } from '@/components/layout/AppShell';
 import { createClient } from '@/lib/supabase/server';
 import { CourseDetailPage } from '@/components/courses/CourseDetailPage';
 import { notFound } from 'next/navigation';
@@ -70,7 +69,7 @@ export default async function CourseDetailRoute({ params }: PageProps) {
   }
 
   return (
-    <AppShell>
+    <div style={{ flex: 1, overflowY: 'auto', padding: '22px 20px' }}>
       <CourseDetailPage
         course={course}
         modules={courseModules}
@@ -80,6 +79,6 @@ export default async function CourseDetailRoute({ params }: PageProps) {
         totalCount={totalCount}
         overallPercent={overallPercent}
       />
-    </AppShell>
+    </div>
   );
 }

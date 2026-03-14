@@ -1,4 +1,3 @@
-import { AppShell } from '@/components/layout/AppShell';
 import { createClient } from '@/lib/supabase/server';
 import { CommunitiesPage } from '@/components/communities/CommunitiesPage';
 import type { Profile } from '@/lib/types';
@@ -92,7 +91,7 @@ export default async function CommunityPage() {
   }
 
   return (
-    <AppShell>
+    <div style={{ flex: 1, overflowY: 'auto', padding: '22px 20px' }}>
       <CommunitiesPage
         currentUserId={user!.id}
         profile={profile as unknown as Profile}
@@ -100,6 +99,6 @@ export default async function CommunityPage() {
         discoverCommunities={typedDiscover}
         memberCounts={memberCounts}
       />
-    </AppShell>
+    </div>
   );
 }

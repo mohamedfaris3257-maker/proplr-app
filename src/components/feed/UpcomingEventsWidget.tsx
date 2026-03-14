@@ -18,7 +18,7 @@ export function UpcomingEventsWidget({ events }: UpcomingEventsWidgetProps) {
           <CalendarDays className="w-4 h-4 text-gold" />
           <h3 className="text-sm font-semibold text-text-primary">Upcoming Events</h3>
         </div>
-        <Link href="/events" className="text-xs text-blue hover:text-blue/80 flex items-center gap-1 transition-colors">
+        <Link href="/dashboard/events" className="text-xs text-blue hover:text-blue/80 flex items-center gap-1 transition-colors">
           View all <ArrowRight className="w-3 h-3" />
         </Link>
       </div>

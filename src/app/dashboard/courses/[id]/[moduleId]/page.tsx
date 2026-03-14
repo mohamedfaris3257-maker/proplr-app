@@ -1,4 +1,3 @@
-import { AppShell } from '@/components/layout/AppShell';
 import { createClient } from '@/lib/supabase/server';
 import { ModuleViewerPage } from '@/components/courses/ModuleViewerPage';
 import { notFound } from 'next/navigation';
@@ -127,7 +126,7 @@ export default async function ModuleViewerRoute({ params }: PageProps) {
   const effectiveStatus = currentStatus === 'not_started' ? 'in_progress' : currentStatus;
 
   return (
-    <AppShell>
+    <div style={{ flex: 1, overflowY: 'auto', padding: '22px 20px' }}>
       <ModuleViewerPage
         courseId={courseId}
         module={mod}
@@ -137,6 +136,6 @@ export default async function ModuleViewerRoute({ params }: PageProps) {
         prevModule={prevModule ? { id: prevModule.id, title: prevModule.title } : null}
         nextModule={nextModule ? { id: nextModule.id, title: nextModule.title } : null}
       />
-    </AppShell>
+    </div>
   );
 }

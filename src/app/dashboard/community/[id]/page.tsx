@@ -1,4 +1,3 @@
-import { AppShell } from '@/components/layout/AppShell';
 import { createClient } from '@/lib/supabase/server';
 import { CommunityDetailPage } from '@/components/communities/CommunityDetailPage';
 import { notFound } from 'next/navigation';
@@ -63,7 +62,7 @@ export default async function CommunityDetailRoute({ params }: Props) {
   const currentMember = members.find((m) => m.user_id === user!.id);
 
   return (
-    <AppShell>
+    <div style={{ flex: 1, overflowY: 'auto', padding: '22px 20px' }}>
       <CommunityDetailPage
         community={community}
         members={members}
@@ -71,6 +70,6 @@ export default async function CommunityDetailRoute({ params }: Props) {
         isMember={!!currentMember}
         userRole={currentMember?.role ?? null}
       />
-    </AppShell>
+    </div>
   );
 }

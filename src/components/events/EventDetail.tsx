@@ -146,7 +146,7 @@ export function EventDetail({
     <div className="max-w-5xl mx-auto px-4 py-6">
       {/* Back link */}
       <Link
-        href="/events"
+        href="/dashboard/events"
         className="inline-flex items-center gap-1.5 text-sm text-text-muted hover:text-text-primary transition-colors mb-6"
       >
         <ArrowLeft className="w-4 h-4" />

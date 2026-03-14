@@ -1,4 +1,3 @@
-import { AppShell } from '@/components/layout/AppShell';
 import { createClient } from '@/lib/supabase/server';
 import { CoursesPage } from '@/components/courses/CoursesPage';
 
@@ -11,7 +10,8 @@ export default async function CoursesRoute() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Fetch all active courses ordered by sort_order
+  if (!user) return null;
+
   const { data: courses } = await supabase
     .from('courses')
     .select('*')
@@ -20,7 +20,6 @@ export default async function CoursesRoute() {
 
   const activeCourses = courses || [];
 
-  // Fetch module counts per course
   const moduleCounts: Record<string, number> = {};
   if (activeCourses.length > 0) {
     const courseIds = activeCourses.map((c) => c.id);
@@ -34,15 +33,13 @@ export default async function CoursesRoute() {
     }
   }
 
-  // Fetch student progress for current user across all courses
   const { data: progressRows } = await supabase
     .from('student_course_progress')
     .select('*')
-    .eq('user_id', user!.id);
+    .eq('user_id', user.id);
 
   const progress = progressRows || [];
 
-  // Calculate progress per course
   const courseProgressMap: Record<string, { completed: number; total: number; percent: number }> = {};
   for (const course of activeCourses) {
     const total = moduleCounts[course.id] || 0;
@@ -54,12 +51,12 @@ export default async function CoursesRoute() {
   }
 
   return (
-    <AppShell>
+    <div style={{ flex: 1, overflowY: 'auto', padding: '22px 20px' }}>
       <CoursesPage
         courses={activeCourses}
         courseProgressMap={courseProgressMap}
         moduleCounts={moduleCounts}
       />
-    </AppShell>
+    </div>
   );
 }

@@ -14,13 +14,13 @@ import {
 } from 'lucide-react';
 
 const navItems = [
-  { href: '/feed', label: 'Feed', icon: LayoutDashboard },
+  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/dashboard/community', label: 'Community', icon: Users2 },
   { href: '/dashboard/tasks', label: 'Tasks', icon: CheckSquare },
-  { href: '/events', label: 'Events', icon: CalendarDays },
-  { href: '/opportunities', label: 'Opportunities', icon: Briefcase },
-  { href: '/saved', label: 'Saved', icon: Bookmark },
-  { href: '/profile', label: 'Profile', icon: User },
+  { href: '/dashboard/events', label: 'Events', icon: CalendarDays },
+  { href: '/dashboard/opportunities', label: 'Opportunities', icon: Briefcase },
+  { href: '/dashboard/saved', label: 'Saved', icon: Bookmark },
+  { href: '/dashboard/profile', label: 'Profile', icon: User },
 ];
 
 export function MobileNav() {
