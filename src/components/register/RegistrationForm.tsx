@@ -188,7 +188,6 @@ export default function RegistrationForm() {
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: formData.email.toLowerCase().trim(),
         password: formData.password,
-        options: { data: { full_name: formData.full_name.trim() } },
       });
 
       if (authError) throw new Error(authError.message);

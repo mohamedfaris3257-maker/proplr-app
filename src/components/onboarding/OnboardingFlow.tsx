@@ -102,7 +102,7 @@ export function OnboardingFlow() {
       // Using window.location avoids a router.refresh() race condition where the
       // middleware redirect response gets caught as a non-Error and shows the
       // "Something went wrong" message.
-      window.location.href = '/feed';
+      window.location.href = '/dashboard';
     } catch (err: unknown) {
       const message =
         err instanceof Error

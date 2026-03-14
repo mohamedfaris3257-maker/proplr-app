@@ -2,15 +2,14 @@
 
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import Link from 'next/link';
 
 export function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [mode, setMode] = useState<'signin' | 'signup'>('signin');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
 
   const handleOAuth = async (provider: 'google' | 'apple') => {
     setLoading(true);
@@ -28,33 +27,19 @@ export function LoginForm() {
     }
   };
 
-  const handleEmailAuth = async (e: React.FormEvent) => {
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-    setMessage('');
     const supabase = createClient();
 
-    if (mode === 'signup') {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
-        },
-      });
-      if (error) {
-        setError(error.message);
-      } else {
-        setMessage('Check your email for a confirmation link.');
-      }
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) {
+      setError(error.message);
+      setLoading(false);
     } else {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) {
-        setError(error.message);
-      }
+      window.location.href = '/dashboard';
     }
-    setLoading(false);
   };
 
   return (
@@ -97,7 +82,7 @@ export function LoginForm() {
       </div>
 
       {/* Email/Password Form */}
-      <form onSubmit={handleEmailAuth} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <form onSubmit={handleSignIn} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         <div style={s.inputWrap}>
           <MailIcon />
           <input
@@ -130,31 +115,20 @@ export function LoginForm() {
           </button>
         </div>
 
-        {error && (
-          <div style={s.errorBox}>{error}</div>
-        )}
-
-        {message && (
-          <div style={s.successBox}>{message}</div>
-        )}
+        {error && <div style={s.errorBox}>{error}</div>}
 
         <button type="submit" disabled={loading} style={{
           ...s.submitBtn,
           opacity: loading ? 0.6 : 1,
           cursor: loading ? 'not-allowed' : 'pointer',
         }}>
-          {loading ? 'Please wait...' : mode === 'signin' ? 'Sign In' : 'Create Account'}
+          {loading ? 'Signing in...' : 'Sign In'}
         </button>
       </form>
 
       <p style={s.toggleText}>
-        {mode === 'signin' ? "Don't have an account? " : 'Already have an account? '}
-        <button
-          onClick={() => { setMode(mode === 'signin' ? 'signup' : 'signin'); setError(''); setMessage(''); }}
-          style={s.toggleBtn}
-        >
-          {mode === 'signin' ? 'Sign up' : 'Sign in'}
-        </button>
+        Don&apos;t have an account?{' '}
+        <Link href="/register" style={s.toggleLink}>Sign up</Link>
       </p>
     </div>
   );
@@ -232,14 +206,6 @@ const s: Record<string, React.CSSProperties> = {
     borderRadius: 10,
     padding: '8px 12px',
   },
-  successBox: {
-    fontSize: 12,
-    color: '#1a7a42',
-    background: 'rgba(46,213,115,.08)',
-    border: '1px solid rgba(46,213,115,.15)',
-    borderRadius: 10,
-    padding: '8px 12px',
-  },
   submitBtn: {
     width: '100%',
     padding: '12px 16px',
@@ -260,15 +226,10 @@ const s: Record<string, React.CSSProperties> = {
     textAlign: 'center',
     margin: '4px 0 0',
   },
-  toggleBtn: {
-    background: 'none',
-    border: 'none',
+  toggleLink: {
     color: '#3d9be9',
     fontWeight: 600,
-    cursor: 'pointer',
-    fontFamily: "'DM Sans', sans-serif",
-    fontSize: 13,
-    padding: 0,
+    textDecoration: 'none',
   },
 };
 

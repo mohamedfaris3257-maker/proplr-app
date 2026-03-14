@@ -12,6 +12,7 @@ const PUBLIC_PREFIXES = [
   '/blog', '/showcase', '/summer-camp', '/partners',
   '/mentorship', '/faq', '/careers', '/pricing', '/compass',
   '/start-a-club',
+  '/admin',  // Admin routes are public for now (no auth protection)
 ];
 const ONBOARDING_ROUTE = '/onboarding';
 
@@ -49,9 +50,9 @@ export async function middleware(request: NextRequest) {
   );
 
   if (isPublicRoute || isPublicPrefix) {
-    // Redirect logged-in users away from /login
-    if (user && pathname === '/login') {
-      return NextResponse.redirect(new URL('/feed', request.url));
+    // Redirect logged-in users away from /login and /register → /dashboard
+    if (user && (pathname === '/login' || pathname === '/register')) {
+      return NextResponse.redirect(new URL('/dashboard', request.url));
     }
     return supabaseResponse;
   }
@@ -75,12 +76,7 @@ export async function middleware(request: NextRequest) {
 
   // Has profile → don't let them go back to onboarding
   if (profile && pathname === ONBOARDING_ROUTE) {
-    return NextResponse.redirect(new URL('/feed', request.url));
-  }
-
-  // Admin guard
-  if (pathname.startsWith('/admin') && profile?.type !== 'admin') {
-    return NextResponse.redirect(new URL('/feed', request.url));
+    return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
   return supabaseResponse;
