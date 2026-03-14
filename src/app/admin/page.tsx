@@ -33,21 +33,19 @@ export default async function AdminPage() {
   ]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <AdminDashboard
-        stats={{
-          totalUsers: totalUsers || 0,
-          schoolStudents: schoolStudents || 0,
-          uniStudents: uniStudents || 0,
-          totalEvents: totalEvents || 0,
-          totalOpportunities: totalOpportunities || 0,
-          totalApplications: totalApplications || 0,
-        }}
-        recentUsers={recentUsers || []}
-        pendingHours={pendingHours || []}
-        pendingRegistrationsCount={pendingRegistrationsCount || 0}
-        initialRegistrations={initialRegistrations || []}
-      />
-    </div>
+    <AdminDashboard
+      stats={{
+        totalUsers: totalUsers || 0,
+        schoolStudents: schoolStudents || 0,
+        uniStudents: uniStudents || 0,
+        totalEvents: totalEvents || 0,
+        totalOpportunities: totalOpportunities || 0,
+        totalApplications: totalApplications || 0,
+      }}
+      recentUsers={recentUsers || []}
+      pendingHours={pendingHours || []}
+      pendingRegistrationsCount={pendingRegistrationsCount || 0}
+      initialRegistrations={initialRegistrations || []}
+    />
   );
 }

@@ -4,14 +4,12 @@ import { ExternalApplicationsManager } from '@/components/admin/ExternalApplicat
 
 export default async function AdminApplicationsRoute() {
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-6xl mx-auto px-4 py-6">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-text-primary">External Applications</h1>
-          <p className="text-text-muted text-sm">Partner, mentor, innovation, summer camp & job postings</p>
-        </div>
-        <ExternalApplicationsManager />
-      </div>
+    <div style={{ maxWidth: 1100 }}>
+      <h1 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 22, fontWeight: 700, color: '#071629', marginBottom: 4 }}>
+        External Applications
+      </h1>
+      <p style={{ color: '#6e7591', marginBottom: 24, fontSize: 14 }}>Partner, mentor, innovation, summer camp & job postings</p>
+      <ExternalApplicationsManager />
     </div>
   );
 }

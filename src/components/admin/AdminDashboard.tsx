@@ -131,17 +131,12 @@ export function AdminDashboard({
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6">
+    <div style={{ maxWidth: 1100 }}>
       {/* Header */}
-      <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 rounded-xl bg-purple/20 flex items-center justify-center">
-          <Shield className="w-5 h-5 text-purple" />
-        </div>
-        <div>
-          <h1 className="text-2xl font-bold text-text-primary">Admin Panel</h1>
-          <p className="text-text-muted text-sm">Proplr platform management</p>
-        </div>
-      </div>
+      <h1 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 22, fontWeight: 700, color: '#071629', marginBottom: 8 }}>
+        Admin Dashboard
+      </h1>
+      <p style={{ color: '#6e7591', marginBottom: 28, fontSize: 14 }}>Proplr platform management</p>
 
       {/* Stat cards */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">

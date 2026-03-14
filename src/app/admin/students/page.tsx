@@ -13,9 +13,5 @@ export default async function AdminStudentsRoute() {
     .in('type', ['school_student', 'uni_student'])
     .order('created_at', { ascending: false });
 
-  return (
-    <div className="min-h-screen bg-background">
-      <AdminStudentsPage students={students ?? []} />
-    </div>
-  );
+  return <AdminStudentsPage students={students ?? []} />;
 }

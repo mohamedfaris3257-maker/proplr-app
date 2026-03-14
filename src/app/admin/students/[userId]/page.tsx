@@ -22,12 +22,10 @@ export default async function StudentDetailRoute({ params }: Props) {
   if (!student) notFound();
 
   return (
-    <div className="min-h-screen bg-background">
-      <StudentDetailPage
-        student={student}
-        hours={hours ?? []}
-        certificates={certificates ?? []}
-      />
-    </div>
+    <StudentDetailPage
+      student={student}
+      hours={hours ?? []}
+      certificates={certificates ?? []}
+    />
   );
 }
