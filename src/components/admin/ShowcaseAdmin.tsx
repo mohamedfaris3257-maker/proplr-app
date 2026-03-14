@@ -3,6 +3,9 @@
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { formatDate } from '@/lib/utils';
+import { Pencil } from 'lucide-react';
+import { Modal } from '@/components/ui/Modal';
+import { Button } from '@/components/ui/Button';
 
 interface ShowcaseReg {
   id: string;
@@ -19,6 +22,9 @@ export function ShowcaseAdmin() {
   const [items, setItems] = useState<ShowcaseReg[]>([]);
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<ShowcaseReg | null>(null);
+  const [editOpen, setEditOpen] = useState(false);
+  const [editItem, setEditItem] = useState<ShowcaseReg | null>(null);
+  const [editSaving, setEditSaving] = useState(false);
 
   useEffect(() => {
     const supabase = createClient();
@@ -38,6 +44,23 @@ export function ShowcaseAdmin() {
     await supabase.from('showcase_registrations').update({ status }).eq('id', id);
     setItems((prev) => prev.map((i) => i.id === id ? { ...i, status } : i));
     if (selected?.id === id) setSelected((prev) => prev ? { ...prev, status } : null);
+  }
+
+  function openEdit(item: ShowcaseReg) {
+    setEditItem({ ...item });
+    setEditOpen(true);
+  }
+
+  async function saveEdit() {
+    if (!editItem) return;
+    setEditSaving(true);
+    const supabase = createClient();
+    const { id, created_at, ...updates } = editItem;
+    await supabase.from('showcase_registrations').update(updates).eq('id', id);
+    setItems((prev) => prev.map((i) => (i.id === id ? { ...i, ...updates } : i)));
+    if (selected?.id === id) setSelected((prev) => (prev ? { ...prev, ...updates } : null));
+    setEditSaving(false);
+    setEditOpen(false);
   }
 
   const statusColor = (s: string | null) =>
@@ -89,9 +112,18 @@ export function ShowcaseAdmin() {
                 <p className="text-xs text-text-muted">{selected.contact_name}</p>
                 <p className="text-xs text-text-muted">{selected.email}</p>
               </div>
-              <span className={`text-xs font-semibold px-2 py-1 rounded-full flex-shrink-0 ${statusColor(selected.status)}`}>
-                {selected.status ?? 'new'}
-              </span>
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <button
+                  onClick={() => openEdit(selected)}
+                  className="p-1.5 rounded-lg text-text-muted hover:text-blue hover:bg-blue/10 transition-colors"
+                  title="Edit registration"
+                >
+                  <Pencil className="w-4 h-4" />
+                </button>
+                <span className={`text-xs font-semibold px-2 py-1 rounded-full ${statusColor(selected.status)}`}>
+                  {selected.status ?? 'new'}
+                </span>
+              </div>
             </div>
 
             {selected.student_count && (
@@ -131,6 +163,79 @@ export function ShowcaseAdmin() {
           </div>
         )}
       </div>
+
+      {/* Edit Modal */}
+      <Modal open={editOpen} onClose={() => setEditOpen(false)} title="Edit Registration" size="md">
+        {editItem && (
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-medium text-text-muted mb-1">School Name</label>
+                <input
+                  className="w-full bg-surface-2 border border-border rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-blue/50"
+                  value={editItem.school_name}
+                  onChange={(e) => setEditItem({ ...editItem, school_name: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-text-muted mb-1">Contact Name</label>
+                <input
+                  className="w-full bg-surface-2 border border-border rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-blue/50"
+                  value={editItem.contact_name}
+                  onChange={(e) => setEditItem({ ...editItem, contact_name: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-text-muted mb-1">Email</label>
+                <input
+                  className="w-full bg-surface-2 border border-border rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-blue/50"
+                  type="email"
+                  value={editItem.email}
+                  onChange={(e) => setEditItem({ ...editItem, email: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-text-muted mb-1">Student Count</label>
+                <input
+                  className="w-full bg-surface-2 border border-border rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-blue/50"
+                  value={editItem.student_count ?? ''}
+                  onChange={(e) => setEditItem({ ...editItem, student_count: e.target.value })}
+                />
+              </div>
+              <div className="col-span-2">
+                <label className="block text-xs font-medium text-text-muted mb-1">Status</label>
+                <select
+                  className="w-full bg-surface-2 border border-border rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-blue/50"
+                  value={editItem.status ?? 'pending'}
+                  onChange={(e) => setEditItem({ ...editItem, status: e.target.value })}
+                >
+                  <option value="pending">Pending</option>
+                  <option value="confirmed">Confirmed</option>
+                  <option value="declined">Declined</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-text-muted mb-1">Notes</label>
+              <textarea
+                className="w-full bg-surface-2 border border-border rounded-lg px-3 py-2 text-sm text-text-primary resize-none focus:outline-none focus:ring-1 focus:ring-blue/50"
+                rows={3}
+                value={editItem.notes ?? ''}
+                onChange={(e) => setEditItem({ ...editItem, notes: e.target.value })}
+                placeholder="Add notes..."
+              />
+            </div>
+            <div className="flex justify-end gap-3 pt-2">
+              <Button variant="secondary" size="sm" onClick={() => setEditOpen(false)}>
+                Cancel
+              </Button>
+              <Button variant="primary" size="sm" loading={editSaving} onClick={saveEdit}>
+                Save Changes
+              </Button>
+            </div>
+          </div>
+        )}
+      </Modal>
     </div>
   );
 }

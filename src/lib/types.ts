@@ -159,6 +159,7 @@ export interface Opportunity {
   audience: AudienceType;
   deadline: string | null;
   is_active: boolean;
+  external_url: string | null;
   created_at: string;
 }
 

@@ -119,6 +119,25 @@ export default async function DashboardPage() {
     courseProgressMap[course.id] = total > 0 ? Math.round((completed / total) * 100) : 0;
   }
 
+  // Fetch top 5 students by approved pillar hours for leaderboard
+  const { data: leaderboardRows } = await supabase
+    .from('pillar_hours')
+    .select('user_id, hours, profiles!inner(name, photo_url)')
+    .eq('status', 'approved');
+
+  const hoursByUser: Record<string, { name: string; total_hours: number; photo_url: string | null }> = {};
+  for (const row of leaderboardRows || []) {
+    const uid = row.user_id;
+    const prof = row.profiles as any;
+    if (!hoursByUser[uid]) {
+      hoursByUser[uid] = { name: prof?.name || 'Unknown', total_hours: 0, photo_url: prof?.photo_url || null };
+    }
+    hoursByUser[uid].total_hours += row.hours || 0;
+  }
+  const topStudents = Object.values(hoursByUser)
+    .sort((a, b) => b.total_hours - a.total_hours)
+    .slice(0, 5);
+
   const totalHours = (pillarHours || []).reduce(
     (sum: number, h: any) => sum + (h.hours || 0),
     0
@@ -146,6 +165,7 @@ export default async function DashboardPage() {
       pendingTasks={pendingTasks}
       upcomingEvents={(events || []) as any[]}
       notifications={(notifications || []) as any[]}
+      topStudents={topStudents}
     />
   );
 }

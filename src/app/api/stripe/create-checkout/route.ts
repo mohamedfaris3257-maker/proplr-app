@@ -7,7 +7,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 });
 
 interface CreateCheckoutBody {
-  plan_id: string;
+  plan_id?: string;
+  product_id?: string;
   promo_code?: string;
 }
 
@@ -19,10 +20,10 @@ export async function POST(request: Request): Promise<Response> {
     return NextResponse.json({ error: 'Invalid JSON body.' }, { status: 400 });
   }
 
-  const { plan_id, promo_code } = body;
+  const { plan_id, product_id, promo_code } = body;
 
-  if (!plan_id) {
-    return NextResponse.json({ error: 'plan_id is required.' }, { status: 400 });
+  if (!plan_id && !product_id) {
+    return NextResponse.json({ error: 'Either plan_id or product_id is required.' }, { status: 400 });
   }
 
   const supabase = await createClient();
@@ -36,11 +37,101 @@ export async function POST(request: Request): Promise<Response> {
     return NextResponse.json({ error: 'Authentication required.' }, { status: 401 });
   }
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+
+  // ─── Product checkout flow ───────────────────────────────────────
+  if (product_id) {
+    const { data: product, error: productError } = await supabase
+      .from('products')
+      .select('*')
+      .eq('id', product_id)
+      .eq('is_active', true)
+      .single();
+
+    if (productError || !product) {
+      return NextResponse.json({ error: 'Product not found or inactive.' }, { status: 404 });
+    }
+
+    // Optionally validate and apply promo code
+    let discountAmount = 0;
+    let promoCodeId: string | null = null;
+
+    if (promo_code) {
+      const { data: promo } = await supabase
+        .from('promo_codes')
+        .select('*')
+        .eq('code', promo_code.trim().toUpperCase())
+        .eq('is_active', true)
+        .single();
+
+      if (promo) {
+        const now = new Date();
+        const notExpired = !promo.expires_at || new Date(promo.expires_at as string) > now;
+        const underLimit =
+          promo.usage_limit == null || (promo.usage_count as number) < (promo.usage_limit as number);
+
+        if (notExpired && underLimit) {
+          promoCodeId = promo.id as string;
+          if (promo.discount_type === 'percentage') {
+            discountAmount = Math.round(
+              (Number(product.price_aed) * (promo.discount_value as number)) / 100
+            );
+          } else {
+            discountAmount = Math.min(promo.discount_value as number, Number(product.price_aed));
+          }
+        }
+      }
+    }
+
+    const finalAmountAed = Math.max(0, Number(product.price_aed) - discountAmount);
+    const unitAmountCents = Math.round(finalAmountAed * 100);
+
+    const sessionParams: Stripe.Checkout.SessionCreateParams = {
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'aed',
+            product_data: {
+              name: product.name as string,
+              description: (product.description as string) || '',
+            },
+            unit_amount: unitAmountCents,
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: `${siteUrl}/shop?success=true`,
+      cancel_url: `${siteUrl}/shop`,
+      customer_email: user.email,
+      metadata: {
+        product_id,
+        user_id: user.id,
+        ...(promoCodeId ? { promo_code_id: promoCodeId } : {}),
+      },
+    };
+
+    let session: Stripe.Checkout.Session;
+    try {
+      session = await stripe.checkout.sessions.create(sessionParams);
+    } catch (err) {
+      console.error('[stripe/create-checkout] Stripe error (product):', err);
+      return NextResponse.json(
+        { error: 'Failed to create checkout session.' },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({ url: session.url });
+  }
+
+  // ─── Plan checkout flow (existing logic) ─────────────────────────
   // Fetch the plan
   const { data: plan, error: planError } = await supabase
     .from('pricing_plans')
     .select('*')
-    .eq('id', plan_id)
+    .eq('id', plan_id!)
     .eq('is_active', true)
     .single();
 
@@ -82,8 +173,6 @@ export async function POST(request: Request): Promise<Response> {
   const finalAmountAed = Math.max(0, Number(plan.price_aed) - discountAmount);
   const unitAmountCents = Math.round(finalAmountAed * 100);
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-
   const sessionParams: Stripe.Checkout.SessionCreateParams = {
     payment_method_types: ['card'],
     line_items: [
@@ -104,7 +193,7 @@ export async function POST(request: Request): Promise<Response> {
     cancel_url: `${siteUrl}/pricing`,
     customer_email: user.email,
     metadata: {
-      plan_id,
+      plan_id: plan_id!,
       user_id: user.id,
       ...(promoCodeId ? { promo_code_id: promoCodeId } : {}),
     },

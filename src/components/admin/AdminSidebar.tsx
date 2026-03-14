@@ -22,6 +22,7 @@ const adminNav = [
   { label: 'Careers', href: '/admin/careers' },
   { label: 'Mentors', href: '/admin/mentors' },
   { label: 'Newsletter', href: '/admin/newsletter' },
+  { label: 'Merch Store', href: '/admin/merch' },
   { label: 'Applications', href: '/admin/applications' },
 ];
 

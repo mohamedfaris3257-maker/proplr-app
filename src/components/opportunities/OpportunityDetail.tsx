@@ -11,6 +11,7 @@ import {
   Share2,
   Users,
   CalendarDays,
+  ExternalLink,
 } from 'lucide-react';
 import { PillarBadge, Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
@@ -287,6 +288,19 @@ export function OpportunityDetail({
                 <Share2 className="w-4 h-4" />
                 {copied ? 'Copied!' : 'Share'}
               </button>
+
+              {/* Visit Link button */}
+              {opportunity.external_url && (
+                <a
+                  href={opportunity.external_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center gap-2 text-sm font-medium py-2.5 px-4 rounded-lg bg-blue text-white hover:bg-blue/90 transition-all duration-200"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  Visit Link
+                </a>
+              )}
             </div>
           </div>
         </div>

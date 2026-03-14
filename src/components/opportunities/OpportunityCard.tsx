@@ -200,9 +200,17 @@ export function OpportunityCard({
               Apply Now
             </Button>
           )}
-          <button className="p-2 rounded-lg bg-surface-2 border border-border text-text-muted hover:text-text-primary hover:border-blue transition-colors">
-            <ExternalLink className="w-4 h-4" />
-          </button>
+          {opportunity.external_url && (
+            <a
+              href={opportunity.external_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-lg bg-surface-2 border border-border text-text-muted hover:text-text-primary hover:border-blue transition-colors"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <ExternalLink className="w-4 h-4" />
+            </a>
+          )}
         </div>
       </div>
 

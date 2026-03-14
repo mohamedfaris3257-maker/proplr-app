@@ -18,6 +18,7 @@ interface OpportunityFormData {
   audience: AudienceType;
   deadline: string;
   is_active: boolean;
+  external_url: string;
 }
 
 const defaultForm: OpportunityFormData = {
@@ -29,6 +30,7 @@ const defaultForm: OpportunityFormData = {
   audience: 'both',
   deadline: '',
   is_active: true,
+  external_url: '',
 };
 
 const OPPORTUNITY_TYPES: { value: OpportunityType; label: string }[] = [
@@ -80,6 +82,7 @@ export function OpportunitiesManager() {
       audience: opp.audience,
       deadline: opp.deadline || '',
       is_active: opp.is_active,
+      external_url: opp.external_url || '',
     });
     setModalOpen(true);
   }
@@ -113,6 +116,7 @@ export function OpportunitiesManager() {
       audience: form.audience,
       deadline: form.deadline || null,
       is_active: form.is_active,
+      external_url: form.external_url.trim() || null,
     };
 
     if (editingOpp) {
@@ -162,6 +166,7 @@ export function OpportunitiesManager() {
                   <th className="text-left px-4 py-3 text-xs font-medium text-text-muted">Audience</th>
                   <th className="text-left px-4 py-3 text-xs font-medium text-text-muted">Deadline</th>
                   <th className="text-left px-4 py-3 text-xs font-medium text-text-muted">Active</th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-text-muted">URL</th>
                   <th className="text-left px-4 py-3 text-xs font-medium text-text-muted">Actions</th>
                 </tr>
               </thead>
@@ -191,6 +196,20 @@ export function OpportunitiesManager() {
                       <span className={`text-xs font-medium ${opp.is_active ? 'text-green' : 'text-text-muted'}`}>
                         {opp.is_active ? 'Active' : 'Inactive'}
                       </span>
+                    </td>
+                    <td className="px-4 py-3 max-w-[140px] truncate">
+                      {opp.external_url ? (
+                        <a
+                          href={opp.external_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-blue hover:underline"
+                        >
+                          {opp.external_url}
+                        </a>
+                      ) : (
+                        <span className="text-xs text-text-muted">—</span>
+                      )}
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-1">
@@ -294,6 +313,17 @@ export function OpportunitiesManager() {
                 className={inputClass}
                 value={form.deadline}
                 onChange={(e) => setForm({ ...form, deadline: e.target.value })}
+              />
+            </div>
+
+            <div className="sm:col-span-2">
+              <label className={labelClass}>External URL</label>
+              <input
+                type="url"
+                className={inputClass}
+                placeholder="https://example.com/apply"
+                value={form.external_url}
+                onChange={(e) => setForm({ ...form, external_url: e.target.value })}
               />
             </div>
 

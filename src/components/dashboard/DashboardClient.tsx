@@ -17,6 +17,7 @@ interface DashboardClientProps {
   pendingTasks: any[]
   upcomingEvents: any[]
   notifications: any[]
+  topStudents: { name: string; total_hours: number; photo_url: string | null }[]
 }
 
 const PILLAR_EMOJI: Record<string, string> = {
@@ -60,6 +61,7 @@ export function DashboardClient({
   pendingTasks,
   upcomingEvents,
   notifications,
+  topStudents,
 }: DashboardClientProps) {
   const [activeTab, setActiveTab] = useState('all')
 
@@ -242,6 +244,29 @@ export function DashboardClient({
             </div>
           ))}
           {reminderItems.length === 0 && <p style={{ fontSize: 11.5, color: '#6e7591', textAlign: 'center', padding: '8px 0' }}>No new reminders.</p>}
+        </div>
+
+        <div style={s.card}>
+          <div style={s.cardHead}>Leaderboard</div>
+          {topStudents.length === 0 && <p style={{ fontSize: 11.5, color: '#6e7591', textAlign: 'center', padding: '8px 0' }}>No data yet.</p>}
+          {topStudents.map((student, i) => {
+            const rankColor = i === 0 ? '#ffcb5d' : i === 1 ? '#c0c0c0' : i === 2 ? '#cd7f32' : '#6e7591';
+            return (
+              <div key={student.name + i} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 0', borderBottom: '0.5px solid rgba(7,22,41,.06)' }}>
+                <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 12, fontWeight: 700, color: rankColor, minWidth: 16, textAlign: 'center' }}>{i + 1}</span>
+                <div style={{ width: 26, height: 26, borderRadius: '50%', background: '#3d9be9', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, overflow: 'hidden', flexShrink: 0 }}>
+                  {student.photo_url
+                    ? <img src={student.photo_url} alt={student.name} style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
+                    : student.name.charAt(0).toUpperCase()}
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 12, fontWeight: 500, color: '#071629', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{student.name}</div>
+                </div>
+                <span style={{ fontSize: 11, fontWeight: 600, color: '#071629', flexShrink: 0 }}>{student.total_hours}h</span>
+              </div>
+            );
+          })}
+          <a href="/dashboard/leaderboard" style={{ display: 'block', textAlign: 'center', fontSize: 11.5, color: '#3d9be9', marginTop: 10, textDecoration: 'none', cursor: 'pointer' }}>View Full Leaderboard</a>
         </div>
       </aside>
     </>

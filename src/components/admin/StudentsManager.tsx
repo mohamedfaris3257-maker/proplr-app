@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { CheckCircle2, XCircle, Search, UserCheck, UserX, Clock } from 'lucide-react';
+import { CheckCircle2, XCircle, Search, UserCheck, UserX, Clock, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { Modal } from '@/components/ui/Modal';
 import { formatDate } from '@/lib/utils';
 
 export interface StudentRegistration {
@@ -46,6 +47,40 @@ export function StudentsManager({ initialRegistrations }: StudentsManagerProps) 
   const [activeTab, setActiveTab] = useState<StatusTab>('pending');
   const [search, setSearch] = useState('');
   const [rowActions, setRowActions] = useState<Record<string, RowAction>>({});
+  const [addModalOpen, setAddModalOpen] = useState(false);
+  const [addForm, setAddForm] = useState({ email: '', password: '', name: '', school_name: '', grade: '', type: 'school_student' as 'school_student' | 'uni_student' });
+  const [addSaving, setAddSaving] = useState(false);
+  const [addSuccess, setAddSuccess] = useState('');
+
+  async function handleAddStudent(e: React.FormEvent) {
+    e.preventDefault();
+    setAddSaving(true);
+    setAddSuccess('');
+    try {
+      const res = await fetch('/api/admin/create-student', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(addForm),
+      });
+      const json = await res.json();
+      if (!res.ok) {
+        alert(json.error ?? 'Failed to create student');
+        setAddSaving(false);
+        return;
+      }
+      setAddSuccess(`Student "${addForm.name}" created successfully!`);
+      setAddForm({ email: '', password: '', name: '', school_name: '', grade: '', type: 'school_student' });
+      setAddSaving(false);
+      setTimeout(() => {
+        setAddModalOpen(false);
+        setAddSuccess('');
+        window.location.reload();
+      }, 1500);
+    } catch {
+      alert('Network error. Please try again.');
+      setAddSaving(false);
+    }
+  }
 
   // Per-tab counts based on current state
   const counts = useMemo(
@@ -196,6 +231,12 @@ export function StudentsManager({ initialRegistrations }: StudentsManagerProps) 
             className="w-full bg-surface-2 border border-border rounded-lg pl-9 pr-3 py-2 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-blue transition-colors"
           />
         </div>
+
+        {/* Add Student button */}
+        <Button size="sm" onClick={() => setAddModalOpen(true)}>
+          <Plus className="w-4 h-4" />
+          Add Student
+        </Button>
       </div>
 
       {/* Table card */}
@@ -337,6 +378,98 @@ export function StudentsManager({ initialRegistrations }: StudentsManagerProps) 
           </div>
         )}
       </div>
+
+      {/* Add Student Modal */}
+      <Modal
+        open={addModalOpen}
+        onClose={() => { setAddModalOpen(false); setAddSuccess(''); }}
+        title="Add Student"
+        size="md"
+      >
+        {addSuccess ? (
+          <div className="text-center py-4">
+            <CheckCircle2 className="w-10 h-10 text-green mx-auto mb-2" />
+            <p className="text-sm font-medium text-text-primary">{addSuccess}</p>
+          </div>
+        ) : (
+          <form onSubmit={handleAddStudent} className="space-y-4">
+            <div>
+              <label className="block text-xs font-medium text-text-secondary mb-1">Email *</label>
+              <input
+                type="email"
+                required
+                placeholder="student@example.com"
+                value={addForm.email}
+                onChange={(e) => setAddForm({ ...addForm, email: e.target.value })}
+                className="w-full bg-surface-2 border border-border rounded-lg px-3 py-2 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-blue transition-colors"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-text-secondary mb-1">Password *</label>
+              <input
+                type="password"
+                required
+                placeholder="Minimum 6 characters"
+                value={addForm.password}
+                onChange={(e) => setAddForm({ ...addForm, password: e.target.value })}
+                className="w-full bg-surface-2 border border-border rounded-lg px-3 py-2 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-blue transition-colors"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-text-secondary mb-1">Full Name *</label>
+              <input
+                type="text"
+                required
+                placeholder="Student full name"
+                value={addForm.name}
+                onChange={(e) => setAddForm({ ...addForm, name: e.target.value })}
+                className="w-full bg-surface-2 border border-border rounded-lg px-3 py-2 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-blue transition-colors"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-medium text-text-secondary mb-1">School Name</label>
+                <input
+                  type="text"
+                  placeholder="School name"
+                  value={addForm.school_name}
+                  onChange={(e) => setAddForm({ ...addForm, school_name: e.target.value })}
+                  className="w-full bg-surface-2 border border-border rounded-lg px-3 py-2 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-blue transition-colors"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-text-secondary mb-1">Grade</label>
+                <input
+                  type="text"
+                  placeholder="e.g. 10"
+                  value={addForm.grade}
+                  onChange={(e) => setAddForm({ ...addForm, grade: e.target.value })}
+                  className="w-full bg-surface-2 border border-border rounded-lg px-3 py-2 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-blue transition-colors"
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-text-secondary mb-1">Type</label>
+              <select
+                value={addForm.type}
+                onChange={(e) => setAddForm({ ...addForm, type: e.target.value as 'school_student' | 'uni_student' })}
+                className="w-full bg-surface-2 border border-border rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-blue transition-colors"
+              >
+                <option value="school_student">School Student</option>
+                <option value="uni_student">University Student</option>
+              </select>
+            </div>
+            <div className="flex justify-end gap-2 pt-2 border-t border-border">
+              <Button variant="secondary" size="sm" type="button" onClick={() => { setAddModalOpen(false); setAddSuccess(''); }}>
+                Cancel
+              </Button>
+              <Button size="sm" type="submit" loading={addSaving}>
+                Create Student
+              </Button>
+            </div>
+          </form>
+        )}
+      </Modal>
     </div>
   );
 }

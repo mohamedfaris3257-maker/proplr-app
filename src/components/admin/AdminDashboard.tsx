@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Users, Calendar, Briefcase, FileText, Clock, Shield,
   CheckCircle2, XCircle, TrendingUp, School, GraduationCap,
   Award, UserPlus, Tag, Users2, CheckSquare, BookOpen, Mail, Star,
+  Database, X, Bell, Send,
 } from 'lucide-react';
 import { Avatar } from '@/components/ui/Avatar';
 import { PillarBadge } from '@/components/ui/Badge';
@@ -58,7 +59,8 @@ type ActiveTab =
   | 'tasks'
   | 'courses'
   | 'newsletter'
-  | 'badges_admin';
+  | 'badges_admin'
+  | 'notifications';
 
 interface RejectModalState {
   open: boolean;
@@ -78,6 +80,88 @@ export function AdminDashboard({
   const [rejectModal, setRejectModal] = useState<RejectModalState>({ open: false, hourId: null, note: '' });
   const [approving, setApproving] = useState<string | null>(null);
   const [rejecting, setRejecting] = useState(false);
+  const [seeding, setSeeding] = useState(false);
+  const [seedResult, setSeedResult] = useState<{ success: boolean; results?: Record<string, string>; error?: string } | null>(null);
+
+  // Notification state
+  const [notifTarget, setNotifTarget] = useState<'all' | 'community' | 'individual'>('all');
+  const [notifTargetId, setNotifTargetId] = useState('');
+  const [notifTitle, setNotifTitle] = useState('');
+  const [notifMessage, setNotifMessage] = useState('');
+  const [notifLink, setNotifLink] = useState('');
+  const [notifSending, setNotifSending] = useState(false);
+  const [notifResult, setNotifResult] = useState<{ ok: boolean; message: string } | null>(null);
+  const [communities, setCommunities] = useState<{ id: string; name: string }[]>([]);
+  const [userSearchEmail, setUserSearchEmail] = useState('');
+  const [foundUserId, setFoundUserId] = useState<string | null>(null);
+  const [searchingUser, setSearchingUser] = useState(false);
+
+  // Fetch communities for notification target
+  useEffect(() => {
+    const supabase = createClient();
+    supabase
+      .from('communities')
+      .select('id, name')
+      .order('name')
+      .then(({ data }) => {
+        setCommunities(data ?? []);
+      });
+  }, []);
+
+  async function handleSearchUser() {
+    if (!userSearchEmail.trim()) return;
+    setSearchingUser(true);
+    setFoundUserId(null);
+    const supabase = createClient();
+    const { data } = await supabase
+      .from('profiles')
+      .select('user_id')
+      .eq('email', userSearchEmail.trim())
+      .single();
+    if (data) {
+      setFoundUserId(data.user_id);
+      setNotifTargetId(data.user_id);
+    } else {
+      setFoundUserId(null);
+      setNotifTargetId('');
+    }
+    setSearchingUser(false);
+  }
+
+  async function handleSendNotification() {
+    if (!notifTitle.trim() || !notifMessage.trim()) return;
+    if (notifTarget === 'community' && !notifTargetId) return;
+    if (notifTarget === 'individual' && !notifTargetId) return;
+
+    setNotifSending(true);
+    setNotifResult(null);
+    try {
+      const res = await fetch('/api/admin/send-notification', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          target: notifTarget,
+          target_id: notifTarget !== 'all' ? notifTargetId : undefined,
+          title: notifTitle.trim(),
+          message: notifMessage.trim(),
+          link: notifLink.trim() || undefined,
+        }),
+      });
+      const data = await res.json() as { sent?: number; error?: string };
+      if (res.ok) {
+        setNotifResult({ ok: true, message: `Notification sent to ${data.sent} user${data.sent !== 1 ? 's' : ''}.` });
+        setNotifTitle('');
+        setNotifMessage('');
+        setNotifLink('');
+      } else {
+        setNotifResult({ ok: false, message: data.error || 'Failed to send notification.' });
+      }
+    } catch {
+      setNotifResult({ ok: false, message: 'Network error. Please try again.' });
+    } finally {
+      setNotifSending(false);
+    }
+  }
 
   async function handleApproveHour(id: string) {
     setApproving(id);
@@ -104,6 +188,24 @@ export function AdminDashboard({
     setRejectModal({ open: false, hourId: null, note: '' });
   }
 
+  async function handleSeedData() {
+    setSeeding(true);
+    setSeedResult(null);
+    try {
+      const res = await fetch('/api/admin/seed', { method: 'POST' });
+      const data = await res.json();
+      if (res.ok) {
+        setSeedResult({ success: true, results: data.results });
+      } else {
+        setSeedResult({ success: false, error: data.error || 'Seed failed' });
+      }
+    } catch (err: unknown) {
+      setSeedResult({ success: false, error: err instanceof Error ? err.message : 'Network error' });
+    } finally {
+      setSeeding(false);
+    }
+  }
+
   const statCards = [
     { label: 'Total Students', value: stats.totalUsers, icon: Users, color: 'text-blue', bg: 'bg-blue/10' },
     { label: 'School Students', value: stats.schoolStudents, icon: School, color: 'text-gold', bg: 'bg-gold/10' },
@@ -128,6 +230,7 @@ export function AdminDashboard({
     { id: 'courses', label: 'Courses', icon: BookOpen },
     { id: 'newsletter', label: 'Newsletter', icon: Mail },
     { id: 'badges_admin', label: 'Badges', icon: Star },
+    { id: 'notifications', label: 'Notifications', icon: Bell },
   ];
 
   return (
@@ -136,7 +239,77 @@ export function AdminDashboard({
       <h1 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 22, fontWeight: 700, color: '#071629', marginBottom: 8 }}>
         Admin Dashboard
       </h1>
-      <p style={{ color: '#6e7591', marginBottom: 28, fontSize: 14 }}>Proplr platform management</p>
+      <p style={{ color: '#6e7591', marginBottom: 16, fontSize: 14 }}>Proplr platform management</p>
+
+      {/* Seed Default Data */}
+      <div style={{ marginBottom: 20 }}>
+        <button
+          onClick={handleSeedData}
+          disabled={seeding}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 8,
+            padding: '8px 16px',
+            backgroundColor: seeding ? '#d1d5db' : '#3d9be9',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 8,
+            fontSize: 13,
+            fontWeight: 600,
+            cursor: seeding ? 'not-allowed' : 'pointer',
+            transition: 'background-color 0.2s',
+          }}
+        >
+          <Database style={{ width: 15, height: 15 }} />
+          {seeding ? 'Seeding...' : 'Seed Default Data'}
+        </button>
+      </div>
+
+      {/* Seed result toast */}
+      {seedResult && (
+        <div
+          style={{
+            marginBottom: 20,
+            padding: '12px 16px',
+            borderRadius: 8,
+            backgroundColor: seedResult.success ? '#f0fdf4' : '#fef2f2',
+            border: `1px solid ${seedResult.success ? '#bbf7d0' : '#fecaca'}`,
+            position: 'relative',
+          }}
+        >
+          <button
+            onClick={() => setSeedResult(null)}
+            style={{
+              position: 'absolute',
+              top: 8,
+              right: 8,
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              color: '#6b7280',
+              padding: 2,
+            }}
+          >
+            <X style={{ width: 14, height: 14 }} />
+          </button>
+          <p style={{ fontSize: 13, fontWeight: 600, color: seedResult.success ? '#166534' : '#991b1b', marginBottom: 4 }}>
+            {seedResult.success ? 'Seed completed successfully' : 'Seed failed'}
+          </p>
+          {seedResult.success && seedResult.results && (
+            <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12, color: '#374151' }}>
+              {Object.entries(seedResult.results).map(([key, value]) => (
+                <li key={key} style={{ marginBottom: 2 }}>
+                  <strong>{key}:</strong> {value}
+                </li>
+              ))}
+            </ul>
+          )}
+          {seedResult.error && (
+            <p style={{ fontSize: 12, color: '#991b1b', margin: 0 }}>{seedResult.error}</p>
+          )}
+        </div>
+      )}
 
       {/* Stat cards */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
@@ -354,6 +527,156 @@ export function AdminDashboard({
       )}
 
       {activeTab === 'badges_admin' && <BadgesAdmin />}
+
+      {activeTab === 'notifications' && (
+        <div className="max-w-2xl">
+          <div className="card p-5">
+            <div className="flex items-center gap-2 mb-5">
+              <Bell className="w-4 h-4 text-blue" />
+              <h3 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 15, fontWeight: 700, color: '#071629' }}>
+                Send Notification
+              </h3>
+            </div>
+
+            <div className="space-y-4">
+              {/* Target selector */}
+              <div>
+                <label className="block text-xs font-medium text-text-secondary mb-2">Target</label>
+                <div className="flex gap-3">
+                  {(['all', 'community', 'individual'] as const).map((t) => (
+                    <label key={t} className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        name="notif-target"
+                        checked={notifTarget === t}
+                        onChange={() => {
+                          setNotifTarget(t);
+                          setNotifTargetId('');
+                          setFoundUserId(null);
+                          setUserSearchEmail('');
+                        }}
+                        className="accent-[#3d9be9]"
+                      />
+                      <span className="text-sm text-text-primary">
+                        {t === 'all' ? 'All Users' : t === 'community' ? 'Community' : 'Individual'}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Community selector */}
+              {notifTarget === 'community' && (
+                <div>
+                  <label className="block text-xs font-medium text-text-secondary mb-1">Community</label>
+                  <select
+                    value={notifTargetId}
+                    onChange={(e) => setNotifTargetId(e.target.value)}
+                    className="w-full bg-surface-2 border border-border rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-blue transition-colors"
+                  >
+                    <option value="">Select a community...</option>
+                    {communities.map((c) => (
+                      <option key={c.id} value={c.id}>{c.name}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              {/* Individual user search */}
+              {notifTarget === 'individual' && (
+                <div>
+                  <label className="block text-xs font-medium text-text-secondary mb-1">User Email</label>
+                  <div className="flex gap-2">
+                    <input
+                      type="email"
+                      value={userSearchEmail}
+                      onChange={(e) => {
+                        setUserSearchEmail(e.target.value);
+                        setFoundUserId(null);
+                        setNotifTargetId('');
+                      }}
+                      placeholder="Search by email..."
+                      className="flex-1 bg-surface-2 border border-border rounded-lg px-3 py-2 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-blue transition-colors"
+                    />
+                    <button
+                      onClick={handleSearchUser}
+                      disabled={searchingUser || !userSearchEmail.trim()}
+                      className="px-3 py-2 bg-blue hover:bg-blue/90 text-white text-sm font-semibold rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      {searchingUser ? 'Searching...' : 'Search'}
+                    </button>
+                  </div>
+                  {userSearchEmail.trim() && !searchingUser && foundUserId === null && notifTargetId === '' && (
+                    <p className="text-xs text-red mt-1">No user found with that email.</p>
+                  )}
+                  {foundUserId && (
+                    <p className="text-xs text-green mt-1">User found. Ready to send.</p>
+                  )}
+                </div>
+              )}
+
+              {/* Title */}
+              <div>
+                <label className="block text-xs font-medium text-text-secondary mb-1">Title</label>
+                <input
+                  type="text"
+                  value={notifTitle}
+                  onChange={(e) => setNotifTitle(e.target.value)}
+                  placeholder="Notification title..."
+                  className="w-full bg-surface-2 border border-border rounded-lg px-3 py-2 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-blue transition-colors"
+                />
+              </div>
+
+              {/* Message */}
+              <div>
+                <label className="block text-xs font-medium text-text-secondary mb-1">Message</label>
+                <textarea
+                  value={notifMessage}
+                  onChange={(e) => setNotifMessage(e.target.value)}
+                  placeholder="Notification message..."
+                  rows={4}
+                  className="w-full bg-surface-2 border border-border rounded-lg px-3 py-2 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-blue transition-colors resize-y"
+                />
+              </div>
+
+              {/* Link (optional) */}
+              <div>
+                <label className="block text-xs font-medium text-text-secondary mb-1">Link (optional)</label>
+                <input
+                  type="url"
+                  value={notifLink}
+                  onChange={(e) => setNotifLink(e.target.value)}
+                  placeholder="https://..."
+                  className="w-full bg-surface-2 border border-border rounded-lg px-3 py-2 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-blue transition-colors"
+                />
+              </div>
+
+              {/* Send button + result */}
+              <div className="flex items-center justify-between pt-1">
+                <button
+                  onClick={handleSendNotification}
+                  disabled={
+                    notifSending ||
+                    !notifTitle.trim() ||
+                    !notifMessage.trim() ||
+                    (notifTarget === 'community' && !notifTargetId) ||
+                    (notifTarget === 'individual' && !notifTargetId)
+                  }
+                  className="flex items-center gap-2 px-4 py-2 bg-blue hover:bg-blue/90 text-white text-sm font-semibold rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  <Send className="w-4 h-4" />
+                  {notifSending ? 'Sending...' : 'Send Notification'}
+                </button>
+                {notifResult && (
+                  <p className={`text-sm ${notifResult.ok ? 'text-green' : 'text-red'}`}>
+                    {notifResult.message}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Reject Hour Modal */}
       <Modal
