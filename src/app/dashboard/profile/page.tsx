@@ -4,6 +4,7 @@ import { PillarRing } from '@/components/profile/PillarRing';
 import { Badge, PillarBadge } from '@/components/ui/Badge';
 import { IntegrationCards } from '@/components/profile/IntegrationCards';
 import { ReferralCard } from '@/components/profile/ReferralCard';
+import { AiPortfolioSummary } from '@/components/profile/AiPortfolioSummary';
 import { PILLARS, PILLAR_COLORS } from '@/lib/types';
 import type { Profile, PillarHour, Certificate, Application, PillarName } from '@/lib/types';
 import { Star, Award, Briefcase, CheckCircle2, Clock, Crown } from 'lucide-react';
@@ -179,6 +180,9 @@ export default async function ProfilePage() {
             </div>
           </div>
         )}
+
+        {/* AI Portfolio Summary */}
+        <AiPortfolioSummary />
 
         {/* Integrations */}
         <div style={{ background: '#fff', borderRadius: 16, padding: 20 }}>
