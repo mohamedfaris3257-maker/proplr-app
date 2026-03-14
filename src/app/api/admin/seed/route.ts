@@ -233,6 +233,7 @@ export async function POST() {
         .from('courses')
         .insert({
           title: 'House Rules & Community Guidelines',
+          slug: 'house-rules-community-guidelines',
           description: 'Learn the rules and expectations for being part of the Proplr community',
           pillar_tag: null,
           audience: 'both',
