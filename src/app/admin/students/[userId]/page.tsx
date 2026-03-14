@@ -1,8 +1,7 @@
 export const dynamic = 'force-dynamic';
 
-import { AppShell } from '@/components/layout/AppShell';
 import { createClient } from '@/lib/supabase/server';
-import { redirect, notFound } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { StudentDetailPage } from '@/components/admin/StudentDetailPage';
 
 interface Props {
@@ -13,10 +12,6 @@ export default async function StudentDetailRoute({ params }: Props) {
   const { userId } = await params;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect('/login');
-
-  const { data: adminProfile } = await supabase.from('profiles').select('type').eq('user_id', user.id).single();
-  if (adminProfile?.type !== 'admin') redirect('/feed');
 
   const [{ data: student }, { data: hours }, { data: certificates }] = await Promise.all([
     supabase.from('profiles').select('*').eq('user_id', userId).single(),
@@ -27,12 +22,12 @@ export default async function StudentDetailRoute({ params }: Props) {
   if (!student) notFound();
 
   return (
-    <AppShell>
+    <div className="min-h-screen bg-background">
       <StudentDetailPage
         student={student}
         hours={hours ?? []}
         certificates={certificates ?? []}
       />
-    </AppShell>
+    </div>
   );
 }

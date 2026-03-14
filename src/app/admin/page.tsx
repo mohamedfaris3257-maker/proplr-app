@@ -1,23 +1,11 @@
 export const dynamic = 'force-dynamic';
 
-import { AppShell } from '@/components/layout/AppShell';
 import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
 import { AdminDashboard } from '@/components/admin/AdminDashboard';
 
 export default async function AdminPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('type')
-    .eq('user_id', user!.id)
-    .single();
-
-  if (profile?.type !== 'admin') {
-    redirect('/feed');
-  }
 
   // Fetch admin stats
   const [
@@ -45,7 +33,7 @@ export default async function AdminPage() {
   ]);
 
   return (
-    <AppShell>
+    <div className="min-h-screen bg-background">
       <AdminDashboard
         stats={{
           totalUsers: totalUsers || 0,
@@ -60,6 +48,6 @@ export default async function AdminPage() {
         pendingRegistrationsCount={pendingRegistrationsCount || 0}
         initialRegistrations={initialRegistrations || []}
       />
-    </AppShell>
+    </div>
   );
 }

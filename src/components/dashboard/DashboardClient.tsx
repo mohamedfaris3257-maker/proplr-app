@@ -194,15 +194,13 @@ export function DashboardClient({
             </Link>
           ))}
           <div style={s.sep} />
-          {isAdmin && (
-            <Link href="/admin" style={{
-              ...s.ni,
-              ...(pathname.startsWith('/admin') ? s.niActive : {}),
-            }}>
-              <ShieldIcon />
-              Admin
-            </Link>
-          )}
+          <Link href="/admin" style={{
+            ...s.ni,
+            ...(pathname.startsWith('/admin') ? s.niActive : {}),
+          }}>
+            <ShieldIcon />
+            Admin
+          </Link>
           <button onClick={handleSignOut} style={s.signOutBtn}>
             <LogOutIcon />
             Sign Out
