@@ -44,7 +44,8 @@ export function AdminSidebar() {
       }}
     >
       {/* Logo */}
-      <div
+      <Link
+        href="/"
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -54,6 +55,7 @@ export function AdminSidebar() {
           fontWeight: 700,
           fontSize: 16,
           color: '#071629',
+          textDecoration: 'none',
         }}
       >
         <div
@@ -72,7 +74,7 @@ export function AdminSidebar() {
           ✦
         </div>
         PROPLR
-      </div>
+      </Link>
 
       {/* Admin badge */}
       <div

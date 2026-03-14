@@ -33,12 +33,12 @@ export function DashboardSidebar({ profile }: DashboardSidebarProps) {
 
   return (
     <aside style={s.sidebar}>
-      <div style={s.logo}>
+      <Link href="/" style={{ ...s.logo, textDecoration: 'none', color: '#071629' }}>
         <div style={s.logoBox}>
           <PropellerIcon />
         </div>
         PROPLR
-      </div>
+      </Link>
 
       <nav style={s.nav}>
         {navItems.map(item => (
