@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import type { Profile } from '@/lib/types'
 
-/* ─── types ────────────────────────────────────────────────────────────── */
+/* ─── types ─────────────────────────────────────────────────────────── */
 
 interface LeaderboardEntry {
   user_id: string
@@ -32,7 +32,7 @@ interface DashboardClientProps {
   currentStreak: number
 }
 
-/* ─── constants ────────────────────────────────────────────────────────── */
+/* ─── constants ─────────────────────────────────────────────────────── */
 
 const PILLAR_EMOJI: Record<string, string> = {
   Leadership: '🧭',
@@ -43,25 +43,16 @@ const PILLAR_EMOJI: Record<string, string> = {
   'Project Management': '📊',
 }
 
-const PILLAR_BORDER_COLORS: Record<string, string> = {
+const PILLAR_COLORS: Record<string, string> = {
   Leadership: '#3d9be9',
-  Entrepreneurship: '#ffcb5d',
-  'Digital Literacy': '#2ed573',
-  'Personal Branding': '#9b59b6',
-  Communication: '#27ae60',
-  'Project Management': '#e05c3a',
+  Entrepreneurship: '#f59e0b',
+  'Digital Literacy': '#10b981',
+  'Personal Branding': '#ec4899',
+  Communication: '#f97316',
+  'Project Management': '#8b5cf6',
 }
 
-const PILLAR_BG: Record<string, string> = {
-  Leadership: 'rgba(61,155,233,.06)',
-  Entrepreneurship: 'rgba(255,203,93,.08)',
-  'Digital Literacy': 'rgba(46,213,115,.06)',
-  'Personal Branding': 'rgba(155,89,182,.06)',
-  Communication: 'rgba(39,174,96,.06)',
-  'Project Management': 'rgba(224,92,58,.06)',
-}
-
-/* ─── helpers ──────────────────────────────────────────────────────────── */
+/* ─── helpers ───────────────────────────────────────────────────────── */
 
 function getLevel(progress: number) {
   if (progress >= 100) return { label: 'Certified 🏅', color: 'rgba(255,203,93,.2)', text: '#7a5800' }
@@ -70,30 +61,7 @@ function getLevel(progress: number) {
   return { label: 'Beginner', color: 'rgba(46,213,115,.12)', text: '#1a7a42' }
 }
 
-function Avatar({ name, url, size = 36 }: { name: string; url: string | null; size?: number }) {
-  if (url) {
-    return (
-      <img
-        src={url}
-        alt={name}
-        style={{ width: size, height: size, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
-      />
-    )
-  }
-  return (
-    <div
-      style={{
-        width: size, height: size, borderRadius: '50%', flexShrink: 0,
-        background: '#3d9be9', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontFamily: "'Montserrat', sans-serif", fontSize: size * 0.4, fontWeight: 700,
-      }}
-    >
-      {name.charAt(0).toUpperCase()}
-    </div>
-  )
-}
-
-/* ─── component ────────────────────────────────────────────────────────── */
+/* ─── component ─────────────────────────────────────────────────────── */
 
 export function DashboardClient({
   profile,
@@ -113,17 +81,18 @@ export function DashboardClient({
   currentUserEntry,
   currentStreak,
 }: DashboardClientProps) {
-  const studentName = profile.name?.split(' ')[0] || 'Student'
+  const [activeTab, setActiveTab] = useState('All')
 
-  /* ── stat cards ── */
-  const stats = [
-    { icon: '⏱', label: 'Hours Logged', value: String(totalHours), gradient: 'linear-gradient(135deg, #e0f0ff 0%, #b6d8f7 100%)', accent: '#3d9be9' },
-    { icon: '⭐', label: 'Badges Earned', value: String(badgeCount), gradient: 'linear-gradient(135deg, #fff8e1 0%, #ffe082 100%)', accent: '#b87d00' },
-    { icon: '✅', label: 'Pillars Done', value: `${completedPillars}/6`, gradient: 'linear-gradient(135deg, #e8f5e9 0%, #a5d6a7 100%)', accent: '#1a9e4f' },
-    { icon: '🔥', label: 'Day Streak', value: String(currentStreak), gradient: 'linear-gradient(135deg, #071629 0%, #0f2744 100%)', accent: '#ffcb5d', dark: true },
-  ]
+  const firstName = profile.name?.split(' ')[0] || 'Student'
+  const fullName = profile.name || 'Student'
 
-  /* ── pillar cards ── */
+  /* ── overall progress ── */
+  const progressValues = courses.map((c: any) => courseProgressMap[c.id] || 0)
+  const overallProgress = progressValues.length > 0
+    ? Math.round(progressValues.reduce((a, b) => a + b, 0) / progressValues.length)
+    : 0
+
+  /* ── pillar data ── */
   const pillars = courses.map((c: any) => {
     const pillarName = c.pillar_tag || c.title || 'General'
     const progress = courseProgressMap[c.id] || 0
@@ -135,420 +104,434 @@ export function DashboardClient({
       level: level.label,
       levelColor: level.color,
       levelText: level.text,
-      sessions: moduleCounts[c.id] || 0,
-      students: studentCounts[c.id] || 0,
       progress,
-      borderColor: PILLAR_BORDER_COLORS[pillarName] || '#3d9be9',
-      bg: PILLAR_BG[pillarName] || 'rgba(61,155,233,.06)',
+      color: PILLAR_COLORS[pillarName] || '#3d9be9',
     }
   })
 
+  const filteredPillars =
+    activeTab === 'Completed' ? pillars.filter(p => p.progress >= 100)
+    : activeTab === 'Active' ? pillars.filter(p => p.progress > 0 && p.progress < 100)
+    : pillars
+
   /* ── tasks ── */
-  const taskItems = pendingTasks.slice(0, 6).map((t: any) => ({
+  const taskItems = pendingTasks.slice(0, 4).map((t: any) => ({
     id: t.id,
     title: t.title || 'Untitled Task',
-    desc: t.description || '',
     due: t.due_date ? new Date(t.due_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : '',
-    priority: t.priority === 'high' ? 'High' : 'Low',
+    priority: t.priority === 'high' ? 'high' : 'low',
   }))
 
   /* ── next event ── */
   const nextEvent = upcomingEvents[0] || null
 
-  /* ── leaderboard: check if current user is in top 5 ── */
+  /* ── calendar ── */
+  const now = new Date()
+  const year = now.getFullYear()
+  const month = now.getMonth()
+  const today = now.getDate().toString()
+  const firstDay = new Date(year, month, 1).getDay()
+  const daysInMonth = new Date(year, month + 1, 0).getDate()
+  const calDays: string[] = []
+  for (let i = 0; i < firstDay; i++) calDays.push('')
+  for (let d = 1; d <= daysInMonth; d++) calDays.push(d.toString())
+  const monthName = now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+  const eventDays = upcomingEvents
+    .filter((e: any) => { const d = new Date(e.date); return d.getMonth() === month && d.getFullYear() === year })
+    .map((e: any) => new Date(e.date).getDate().toString())
+
+  /* ── leaderboard ── */
   const currentUserInTop5 = topStudents.some(s => s.user_id === profile.user_id)
+  const currentHours = currentUserEntry?.total_hours || 0
 
   return (
-    <div style={{ flex: 1, overflowY: 'auto', padding: '0 0 40px' }}>
-      {/* ══════ HERO WELCOME BANNER ══════ */}
-      <div style={{
-        background: 'linear-gradient(135deg, #ffcb5d 0%, #ffe082 40%, #fff3c4 100%)',
-        padding: '28px 28px 24px',
-        position: 'relative',
-        overflow: 'hidden',
-      }}>
-        {/* decorative circles */}
-        <div style={{ position: 'absolute', top: -30, right: -20, width: 120, height: 120, borderRadius: '50%', background: 'rgba(255,255,255,.2)' }} />
-        <div style={{ position: 'absolute', bottom: -40, right: 60, width: 80, height: 80, borderRadius: '50%', background: 'rgba(255,255,255,.15)' }} />
-        <div style={{ position: 'relative', zIndex: 1 }}>
-          <h1 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 26, fontWeight: 800, color: '#071629', margin: 0, lineHeight: 1.2 }}>
-            Hello, {studentName} 👋
-          </h1>
-          <p style={{ fontSize: 14, color: 'rgba(7,22,41,.6)', margin: '6px 0 0', fontWeight: 500 }}>
-            Let&apos;s see what&apos;s happening today.
-          </p>
-        </div>
-      </div>
+    <>
+      {/* ═══════════════════ MAIN CONTENT ═══════════════════ */}
+      <div style={{ flex: 1, overflowY: 'auto', padding: '28px 24px' }}>
 
-      {/* ══════ STAT CARDS ══════ */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, padding: '0 28px', marginTop: -14, position: 'relative', zIndex: 2 }}>
-        {stats.map(stat => (
-          <div key={stat.label} style={{
-            background: stat.gradient,
-            borderRadius: 16,
-            padding: '16px 14px',
-            boxShadow: '0 2px 8px rgba(0,0,0,.06)',
-            transition: 'transform .15s',
-          }}>
-            <div style={{ fontSize: 20, marginBottom: 4 }}>{stat.icon}</div>
-            <div style={{
-              fontFamily: "'Montserrat', sans-serif",
-              fontSize: 26, fontWeight: 800,
-              color: stat.dark ? '#ffffff' : '#071629',
-              lineHeight: 1.1,
-            }}>
-              {stat.value}
-            </div>
-            <div style={{
-              fontSize: 11.5, fontWeight: 500, marginTop: 2,
-              color: stat.dark ? 'rgba(255,255,255,.7)' : 'rgba(7,22,41,.5)',
-            }}>
-              {stat.label}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* ══════ TWO-COLUMN LAYOUT ══════ */}
-      <div style={{ display: 'grid', gridTemplateColumns: '3fr 2fr', gap: 20, padding: '20px 28px 0' }}>
-
-        {/* ── LEFT COLUMN (60%) ── */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-
-          {/* MY PILLARS — horizontal scroll */}
+        {/* ── TOP BAR ── */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-              <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 15, fontWeight: 700, color: '#071629' }}>My Pillars</span>
-              <Link href="/dashboard/courses" style={{ fontSize: 12, color: '#3d9be9', textDecoration: 'none', fontWeight: 500 }}>See all →</Link>
+            <h1 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 24, fontWeight: 700, color: '#071629', margin: 0 }}>
+              Hello, {firstName} 👋
+            </h1>
+            <p style={{ fontSize: 13, color: '#6e7591', margin: '4px 0 0' }}>
+              Let&apos;s see what&apos;s happening today.
+            </p>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#fff', border: '0.5px solid rgba(7,22,41,0.08)', borderRadius: 100, padding: '8px 16px', fontSize: 13, color: '#6e7591', width: 220 }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Search courses, tasks...
             </div>
-            <div style={{
-              display: 'flex', gap: 12, overflowX: 'auto',
-              paddingBottom: 6,
-              scrollbarWidth: 'thin',
-              scrollbarColor: '#ddd transparent',
-            }}>
-              {pillars.length === 0 && (
-                <p style={{ fontSize: 13, color: '#6e7591', padding: '16px 0', width: '100%', textAlign: 'center' }}>
-                  No courses enrolled yet.
-                </p>
+            <div style={{ width: 38, height: 38, background: '#fff', border: '0.5px solid rgba(7,22,41,0.08)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', position: 'relative', fontSize: 16 }}>
+              🔔
+              {notifications.length > 0 && (
+                <div style={{ position: 'absolute', top: 6, right: 6, width: 8, height: 8, background: '#ff4757', borderRadius: '50%', border: '1.5px solid #f0f2f8' }} />
               )}
-              {pillars.map(p => (
-                <Link
-                  href={`/dashboard/courses/${p.id}`}
-                  key={p.id}
-                  style={{
-                    minWidth: 200, maxWidth: 220, flex: '0 0 auto',
-                    background: '#fff',
-                    borderRadius: 14,
-                    borderLeft: `4px solid ${p.borderColor}`,
-                    padding: '14px 14px 12px',
-                    display: 'flex', flexDirection: 'column', gap: 8,
-                    textDecoration: 'none', color: 'inherit',
-                    boxShadow: '0 1px 4px rgba(0,0,0,.04)',
-                    transition: 'box-shadow .15s, transform .15s',
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <span style={{
-                      width: 36, height: 36, borderRadius: 10, display: 'flex',
-                      alignItems: 'center', justifyContent: 'center', fontSize: 18,
-                      background: p.bg,
-                    }}>
-                      {p.emoji}
-                    </span>
-                    <div>
-                      <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 12.5, fontWeight: 700, color: '#071629', lineHeight: 1.3 }}>
-                        {p.title}
-                      </div>
-                      <span style={{
-                        display: 'inline-block', fontSize: 9.5, fontWeight: 600, marginTop: 2,
-                        padding: '2px 7px', borderRadius: 100,
-                        background: p.levelColor, color: p.levelText,
-                      }}>
-                        {p.level}
-                      </span>
-                    </div>
-                  </div>
-                  <div style={{ display: 'flex', gap: 10, fontSize: 10.5, color: '#6e7591' }}>
-                    <span>📋 {p.sessions}</span>
-                    <span>👥 {p.students}</span>
-                  </div>
-                  <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
-                      <span style={{ fontSize: 10, color: '#6e7591' }}>Progress</span>
-                      <span style={{ fontSize: 10, fontWeight: 600, color: '#071629' }}>{p.progress}%</span>
-                    </div>
-                    <div style={{ height: 5, background: '#eef0f8', borderRadius: 10, overflow: 'hidden' }}>
-                      <div style={{ height: '100%', borderRadius: 10, background: p.borderColor, width: `${p.progress}%`, transition: 'width .4s ease' }} />
-                    </div>
-                  </div>
-                </Link>
-              ))}
             </div>
-          </div>
-
-          {/* LEADERBOARD */}
-          <div style={{ background: '#fff', borderRadius: 16, padding: '18px 16px', boxShadow: '0 1px 4px rgba(0,0,0,.04)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-              <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 15, fontWeight: 700, color: '#071629' }}>🏆 Leaderboard</span>
-              <Link href="/dashboard/leaderboard" style={{ fontSize: 12, color: '#3d9be9', textDecoration: 'none', fontWeight: 500 }}>View all →</Link>
-            </div>
-
-            {topStudents.length === 0 ? (
-              <p style={{ fontSize: 13, color: '#6e7591', textAlign: 'center', padding: '20px 0' }}>No students yet.</p>
-            ) : (
-              <>
-                {/* ── PODIUM (top 3) ── */}
-                <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: 8, marginBottom: 18, paddingTop: 10 }}>
-                  {/* 2nd place */}
-                  {topStudents.length >= 2 && (
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
-                      <Avatar name={topStudents[1].name} url={topStudents[1].photo_url} size={40} />
-                      <span style={{ fontSize: 11, fontWeight: 600, color: '#071629', maxWidth: 72, textAlign: 'center', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {topStudents[1].name.split(' ')[0]}
-                      </span>
-                      <span style={{ fontSize: 10, color: '#6e7591', fontWeight: 500 }}>{topStudents[1].total_hours}h</span>
-                      <div style={{
-                        width: 56, height: 48, borderRadius: '8px 8px 0 0',
-                        background: 'linear-gradient(180deg, #e0e0e0 0%, #c0c0c0 100%)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontFamily: "'Montserrat', sans-serif", fontSize: 18, fontWeight: 800, color: '#fff',
-                      }}>
-                        2
-                      </div>
-                    </div>
-                  )}
-                  {/* 1st place */}
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
-                    <div style={{ fontSize: 18, marginBottom: -2 }}>👑</div>
-                    <Avatar name={topStudents[0].name} url={topStudents[0].photo_url} size={48} />
-                    <span style={{ fontSize: 12, fontWeight: 700, color: '#071629', maxWidth: 80, textAlign: 'center', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                      {topStudents[0].name.split(' ')[0]}
-                    </span>
-                    <span style={{ fontSize: 10.5, color: '#b87d00', fontWeight: 600 }}>{topStudents[0].total_hours}h</span>
-                    <div style={{
-                      width: 60, height: 64, borderRadius: '8px 8px 0 0',
-                      background: 'linear-gradient(180deg, #ffe082 0%, #ffcb5d 100%)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontFamily: "'Montserrat', sans-serif", fontSize: 20, fontWeight: 800, color: '#fff',
-                    }}>
-                      1
-                    </div>
-                  </div>
-                  {/* 3rd place */}
-                  {topStudents.length >= 3 && (
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
-                      <Avatar name={topStudents[2].name} url={topStudents[2].photo_url} size={38} />
-                      <span style={{ fontSize: 11, fontWeight: 600, color: '#071629', maxWidth: 72, textAlign: 'center', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {topStudents[2].name.split(' ')[0]}
-                      </span>
-                      <span style={{ fontSize: 10, color: '#6e7591', fontWeight: 500 }}>{topStudents[2].total_hours}h</span>
-                      <div style={{
-                        width: 52, height: 36, borderRadius: '8px 8px 0 0',
-                        background: 'linear-gradient(180deg, #e2a97e 0%, #cd7f32 100%)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontFamily: "'Montserrat', sans-serif", fontSize: 16, fontWeight: 800, color: '#fff',
-                      }}>
-                        3
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* ── Ranks 4-5 ── */}
-                {topStudents.slice(3).map((s, i) => (
-                  <div key={s.user_id} style={{
-                    display: 'flex', alignItems: 'center', gap: 10, padding: '8px 8px',
-                    borderTop: '1px solid rgba(7,22,41,.06)', background: i % 2 === 0 ? 'rgba(0,0,0,.015)' : 'transparent',
-                    borderRadius: 8,
-                  }}>
-                    <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 13, fontWeight: 700, color: '#6e7591', minWidth: 20, textAlign: 'center' }}>
-                      {i + 4}
-                    </span>
-                    <Avatar name={s.name} url={s.photo_url} size={30} />
-                    <span style={{ flex: 1, fontSize: 13, fontWeight: 500, color: '#071629', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                      {s.name}
-                    </span>
-                    <span style={{ fontSize: 12, fontWeight: 600, color: '#071629' }}>{s.total_hours}h</span>
-                  </div>
-                ))}
-
-                {/* ── Current user rank (if not in top 5) ── */}
-                {!currentUserInTop5 && currentUserEntry && (
-                  <>
-                    <div style={{ textAlign: 'center', padding: '4px 0', color: '#6e7591', fontSize: 14, letterSpacing: 2 }}>•••</div>
-                    <div style={{
-                      display: 'flex', alignItems: 'center', gap: 10, padding: '8px 8px',
-                      background: 'rgba(61,155,233,.06)', borderRadius: 8, border: '1px solid rgba(61,155,233,.15)',
-                    }}>
-                      <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 13, fontWeight: 700, color: '#3d9be9', minWidth: 20, textAlign: 'center' }}>
-                        {currentUserRank}
-                      </span>
-                      <Avatar name={currentUserEntry.name} url={currentUserEntry.photo_url} size={30} />
-                      <span style={{ flex: 1, fontSize: 13, fontWeight: 600, color: '#3d9be9' }}>
-                        You
-                      </span>
-                      <span style={{ fontSize: 12, fontWeight: 600, color: '#071629' }}>{currentUserEntry.total_hours}h</span>
-                    </div>
-                  </>
-                )}
-
-                {/* ── Current user rank (if in top 5 — show highlight) ── */}
-                {currentUserInTop5 && currentUserRank > 0 && (
-                  <div style={{
-                    textAlign: 'center', padding: '8px 0 2px',
-                    fontSize: 12, color: '#3d9be9', fontWeight: 600,
-                  }}>
-                    You&apos;re #{currentUserRank}! Keep going 🚀
-                  </div>
-                )}
-              </>
-            )}
           </div>
         </div>
 
-        {/* ── RIGHT COLUMN (40%) ── */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        {/* ── HERO BANNER — navy ── */}
+        <div style={{
+          background: '#071629',
+          borderRadius: 20,
+          padding: '28px 32px',
+          marginBottom: 20,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          overflow: 'hidden',
+          position: 'relative',
+        }}>
+          <div style={{ position: 'absolute', right: -40, top: -40, width: 200, height: 200, background: 'rgba(61,155,233,0.08)', borderRadius: '50%' }} />
+          <div style={{ position: 'absolute', right: 60, bottom: -60, width: 160, height: 160, background: 'rgba(255,203,93,0.06)', borderRadius: '50%' }} />
 
-          {/* QUICK TASKS */}
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-              <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 15, fontWeight: 700, color: '#071629' }}>Quick Tasks</span>
-              <Link href="/dashboard/tasks" style={{ fontSize: 12, color: '#3d9be9', textDecoration: 'none', fontWeight: 500 }}>All tasks →</Link>
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            <div style={{ fontSize: 11, color: '#ffcb5d', fontWeight: 700, letterSpacing: 1.5, marginBottom: 8 }}>PROPLR FOUNDATION TRACK</div>
+            <h2 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 20, fontWeight: 700, color: '#fff', margin: '0 0 6px' }}>
+              Build your career before you graduate.
+            </h2>
+            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', margin: '0 0 20px' }}>
+              Complete your 6 pillars · Earn KHDA certificates · Get industry-ready
+            </p>
+            <div style={{ display: 'flex', gap: 10 }}>
+              <Link href="/dashboard/courses" style={{ background: '#3d9be9', color: '#fff', borderRadius: 100, padding: '9px 20px', fontSize: 13, fontWeight: 600, textDecoration: 'none', fontFamily: 'inherit' }}>
+                Continue Learning →
+              </Link>
+              <Link href="/dashboard/events" style={{ background: 'rgba(255,255,255,0.1)', color: '#fff', borderRadius: 100, padding: '9px 20px', fontSize: 13, textDecoration: 'none', fontFamily: 'inherit' }}>
+                View Schedule
+              </Link>
             </div>
+          </div>
 
+          <div style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
+            <div style={{ width: 80, height: 80, borderRadius: '50%', border: '4px solid rgba(255,255,255,0.1)', borderTopColor: '#ffcb5d', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 6px' }}>
+              <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 18, fontWeight: 700, color: '#fff' }}>{overallProgress}%</span>
+            </div>
+            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)' }}>Overall Progress</div>
+          </div>
+        </div>
+
+        {/* ── STAT CARDS — white, clean ── */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 24 }}>
+          {[
+            { label: 'Hours Logged', value: String(totalHours), icon: '⏱', accent: '#3d9be9', lightBg: 'rgba(61,155,233,0.08)' },
+            { label: 'Badges Earned', value: String(badgeCount), icon: '🏅', accent: '#f59e0b', lightBg: 'rgba(245,158,11,0.08)' },
+            { label: 'Pillars Done', value: `${completedPillars}/6`, icon: '📚', accent: '#10b981', lightBg: 'rgba(16,185,129,0.08)' },
+            { label: 'Day Streak', value: `${currentStreak} 🔥`, icon: '🔥', accent: '#ef4444', lightBg: 'rgba(239,68,68,0.08)' },
+          ].map(stat => (
+            <div key={stat.label} style={{ background: '#fff', borderRadius: 16, padding: '18px 20px', boxShadow: '0 1px 8px rgba(7,22,41,0.06)' }}>
+              <div style={{ width: 36, height: 36, borderRadius: 10, background: stat.lightBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, marginBottom: 12 }}>
+                {stat.icon}
+              </div>
+              <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 24, fontWeight: 700, color: '#071629', lineHeight: 1 }}>
+                {stat.value}
+              </div>
+              <div style={{ fontSize: 12, color: '#6e7591', marginTop: 4 }}>{stat.label}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* ── MY PILLARS — vertical list in white card ── */}
+        <div style={{ background: '#fff', borderRadius: 20, padding: '20px 24px', marginBottom: 16, boxShadow: '0 1px 8px rgba(7,22,41,0.06)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+            <h3 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 15, fontWeight: 700, color: '#071629', margin: 0 }}>My Pillars</h3>
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+              {['All', 'Active', 'Completed'].map(t => (
+                <button key={t} onClick={() => setActiveTab(t)} style={{
+                  padding: '4px 14px', borderRadius: 100, fontSize: 12, border: 'none', cursor: 'pointer',
+                  fontFamily: 'inherit', background: activeTab === t ? '#071629' : 'transparent',
+                  color: activeTab === t ? '#fff' : '#6e7591',
+                }}>
+                  {t}
+                </button>
+              ))}
+              <Link href="/dashboard/courses" style={{ fontSize: 12, color: '#3d9be9', textDecoration: 'none', marginLeft: 8 }}>See all →</Link>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {filteredPillars.length === 0 && (
+              <p style={{ fontSize: 13, color: '#6e7591', textAlign: 'center', padding: '16px 0' }}>
+                No pillars found for this filter.
+              </p>
+            )}
+            {filteredPillars.map(p => (
+              <Link
+                key={p.id}
+                href={`/dashboard/courses/${p.id}`}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 14, padding: '12px 16px',
+                  background: '#f8f9fc', borderRadius: 12, borderLeft: `4px solid ${p.color}`,
+                  textDecoration: 'none', color: 'inherit', transition: 'background .15s',
+                }}
+              >
+                <div style={{ fontSize: 22 }}>{p.emoji}</div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 13, fontWeight: 700, color: '#071629' }}>{p.title}</div>
+                  <div style={{ fontSize: 11, color: '#6e7591', marginTop: 2 }}>Facilitated by Proplr Team</div>
+                </div>
+                <div style={{ width: 120 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10.5, color: '#6e7591', marginBottom: 4 }}>
+                    <span>Progress</span>
+                    <span style={{ fontWeight: 600, color: '#071629' }}>{p.progress}%</span>
+                  </div>
+                  <div style={{ height: 5, background: '#e8eaf0', borderRadius: 10, overflow: 'hidden' }}>
+                    <div style={{ height: '100%', width: `${p.progress}%`, background: p.color, borderRadius: 10, transition: 'width .4s ease' }} />
+                  </div>
+                </div>
+                <span style={{ fontSize: 10, fontWeight: 600, padding: '3px 10px', borderRadius: 100, background: `${p.color}18`, color: p.color }}>{p.level}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* ── MY TASKS — 2-col grid in white card ── */}
+        <div style={{ background: '#fff', borderRadius: 20, padding: '20px 24px', boxShadow: '0 1px 8px rgba(7,22,41,0.06)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+            <h3 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 15, fontWeight: 700, color: '#071629', margin: 0 }}>My Tasks</h3>
+            <Link href="/dashboard/tasks" style={{ fontSize: 12, color: '#3d9be9', textDecoration: 'none' }}>+ Add new</Link>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             {taskItems.length === 0 ? (
               <div style={{
-                background: '#fff', borderRadius: 14, padding: '28px 16px', textAlign: 'center',
-                boxShadow: '0 1px 4px rgba(0,0,0,.04)',
+                gridColumn: '1/-1', background: 'rgba(255,203,93,0.08)', border: '1.5px dashed rgba(255,203,93,0.4)',
+                borderRadius: 12, padding: 24, textAlign: 'center', color: '#b87d00', fontSize: 13,
               }}>
-                <div style={{ fontSize: 28, marginBottom: 6 }}>✨</div>
-                <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 14, fontWeight: 700, color: '#071629', margin: '0 0 4px' }}>
-                  All caught up!
-                </p>
-                <p style={{ fontSize: 12, color: '#6e7591' }}>No pending tasks right now.</p>
+                🎉 All caught up! No pending tasks.
               </div>
             ) : (
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-                {taskItems.map(task => (
-                  <div key={task.id} style={{
-                    background: '#fff', borderRadius: 12, padding: '12px 12px 10px',
-                    boxShadow: '0 1px 3px rgba(0,0,0,.04)',
-                    display: 'flex', flexDirection: 'column', gap: 4,
-                  }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 4 }}>
-                      <span style={{ fontSize: 12, fontWeight: 600, color: '#071629', lineHeight: 1.3, flex: 1 }}>
-                        {task.title}
-                      </span>
-                      <span style={{
-                        fontSize: 9, fontWeight: 700, padding: '2px 6px', borderRadius: 100, whiteSpace: 'nowrap',
-                        background: task.priority === 'High' ? 'rgba(255,71,87,.1)' : 'rgba(46,213,115,.1)',
-                        color: task.priority === 'High' ? '#c0392b' : '#1a7a42',
-                      }}>
-                        {task.priority}
-                      </span>
-                    </div>
-                    {task.due && (
-                      <span style={{ fontSize: 10.5, color: '#6e7591' }}>📅 {task.due}</span>
-                    )}
+              taskItems.map(task => (
+                <div key={task.id} style={{
+                  background: task.priority === 'high' ? 'rgba(255,203,93,0.12)' : '#f8f9fc',
+                  borderRadius: 12, padding: '14px 16px',
+                  borderLeft: `3px solid ${task.priority === 'high' ? '#ffcb5d' : '#e8eaf0'}`,
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+                    <span style={{ fontSize: 12.5, fontWeight: 600, color: '#071629', flex: 1, paddingRight: 8, lineHeight: 1.3 }}>
+                      {task.title}
+                    </span>
+                    <span style={{
+                      fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 100, whiteSpace: 'nowrap',
+                      background: task.priority === 'high' ? 'rgba(239,68,68,0.1)' : 'rgba(16,185,129,0.1)',
+                      color: task.priority === 'high' ? '#dc2626' : '#059669',
+                    }}>
+                      {task.priority === 'high' ? 'High' : 'Low'}
+                    </span>
                   </div>
-                ))}
-              </div>
+                  {task.due && (
+                    <div style={{ fontSize: 11, color: '#6e7591' }}>📅 Due: {task.due}</div>
+                  )}
+                </div>
+              ))
             )}
           </div>
+        </div>
+      </div>
 
-          {/* UPCOMING EVENT CARD — navy */}
+      {/* ═══════════════════ RIGHT PANEL (300px) ═══════════════════ */}
+      <div style={{ width: 300, minWidth: 300, overflowY: 'auto', padding: '28px 20px 28px 0', display: 'flex', flexDirection: 'column', gap: 16 }}>
+
+        {/* ── PROFILE CARD ── */}
+        <div style={{ background: '#fff', borderRadius: 20, padding: 20, textAlign: 'center', boxShadow: '0 1px 8px rgba(7,22,41,0.06)', position: 'relative' }}>
+          <Link href="/dashboard/profile" style={{ position: 'absolute', top: 14, right: 14, background: 'none', border: 'none', cursor: 'pointer', color: '#6e7591', fontSize: 13, textDecoration: 'none' }}>
+            ✏️
+          </Link>
           <div style={{
-            background: 'linear-gradient(135deg, #071629 0%, #0f2744 100%)',
-            borderRadius: 16, padding: '18px 16px',
-            boxShadow: '0 2px 10px rgba(7,22,41,.15)',
+            width: 56, height: 56, borderRadius: '50%', background: '#3d9be9', color: '#fff',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontFamily: "'Montserrat', sans-serif", fontSize: 20, fontWeight: 700,
+            margin: '0 auto 10px', overflow: 'hidden',
           }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-              <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 13, fontWeight: 700, color: '#fff' }}>📅 Upcoming Event</span>
-              <Link href="/dashboard/events" style={{ fontSize: 11, color: 'rgba(255,255,255,.5)', textDecoration: 'none' }}>See all</Link>
-            </div>
-            {nextEvent ? (
+            {profile.photo_url
+              ? <img src={profile.photo_url} alt={fullName} style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
+              : firstName?.[0]?.toUpperCase()}
+          </div>
+          <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 14, color: '#071629' }}>{fullName}</div>
+          <div style={{ fontSize: 12, color: '#6e7591', marginTop: 3 }}>{profile.email}</div>
+          <div style={{ marginTop: 10, display: 'inline-flex', padding: '3px 12px', background: 'rgba(61,155,233,0.1)', borderRadius: 100, fontSize: 11, fontWeight: 600, color: '#3d9be9' }}>
+            Foundation Track
+          </div>
+        </div>
+
+        {/* ── CALENDAR ── */}
+        <div style={{ background: '#fff', borderRadius: 20, padding: '16px 18px', boxShadow: '0 1px 8px rgba(7,22,41,0.06)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+            <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#6e7591', padding: '0 4px', fontSize: 13, fontFamily: 'inherit' }}>‹</button>
+            <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 12.5, fontWeight: 700, color: '#071629' }}>{monthName}</span>
+            <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#6e7591', padding: '0 4px', fontSize: 13, fontFamily: 'inherit' }}>›</button>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', textAlign: 'center', gap: 1 }}>
+            {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(d => (
+              <div key={d} style={{ fontSize: 9.5, color: '#6e7591', padding: '2px 0', fontWeight: 600 }}>{d}</div>
+            ))}
+            {calDays.map((d, i) => (
+              <div key={i} style={{
+                fontSize: 11, padding: '4px 2px', borderRadius: '50%', cursor: d ? 'pointer' : 'default',
+                color: d === today ? '#fff' : eventDays.includes(d) ? '#3d9be9' : '#071629',
+                background: d === today ? '#3d9be9' : 'transparent',
+                fontWeight: d === today || eventDays.includes(d) ? 700 : 400,
+                aspectRatio: '1', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                visibility: d === '' ? 'hidden' : 'visible',
+              }}>
+                {d}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── LEADERBOARD — navy, podium ── */}
+        <div style={{ background: '#071629', borderRadius: 20, padding: 18, boxShadow: '0 4px 20px rgba(7,22,41,0.15)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+            <span style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 13, color: '#fff' }}>🏆 Leaderboard</span>
+            <Link href="/dashboard/leaderboard" style={{ fontSize: 11, color: '#ffcb5d', textDecoration: 'none' }}>See all →</Link>
+          </div>
+
+          {topStudents.length === 0 ? (
+            <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', textAlign: 'center', padding: '12px 0' }}>No data yet.</p>
+          ) : (
+            <>
+              {/* Podium — top 3 */}
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end', gap: 6, marginBottom: 16 }}>
+                {/* 2nd */}
+                <div style={{ flex: 1, textAlign: 'center' }}>
+                  <div style={{ fontSize: 18, marginBottom: 4 }}>🥈</div>
+                  <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.6)', marginBottom: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {topStudents[1]?.name?.split(' ')[0] || '—'}
+                  </div>
+                  <div style={{
+                    background: 'rgba(255,255,255,0.1)', borderRadius: '8px 8px 0 0', height: 44,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 600, color: '#fff',
+                  }}>
+                    {topStudents[1]?.total_hours || 0}h
+                  </div>
+                </div>
+                {/* 1st */}
+                <div style={{ flex: 1, textAlign: 'center' }}>
+                  <div style={{ fontSize: 22, marginBottom: 4 }}>🥇</div>
+                  <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.9)', marginBottom: 4, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {topStudents[0]?.name?.split(' ')[0] || '—'}
+                  </div>
+                  <div style={{
+                    background: '#ffcb5d', borderRadius: '8px 8px 0 0', height: 60,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700, color: '#071629',
+                  }}>
+                    {topStudents[0]?.total_hours || 0}h
+                  </div>
+                </div>
+                {/* 3rd */}
+                <div style={{ flex: 1, textAlign: 'center' }}>
+                  <div style={{ fontSize: 16, marginBottom: 4 }}>🥉</div>
+                  <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.6)', marginBottom: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {topStudents[2]?.name?.split(' ')[0] || '—'}
+                  </div>
+                  <div style={{
+                    background: 'rgba(255,255,255,0.06)', borderRadius: '8px 8px 0 0', height: 32,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 600, color: '#fff',
+                  }}>
+                    {topStudents[2]?.total_hours || 0}h
+                  </div>
+                </div>
+              </div>
+
+              {/* Ranks 4-5 */}
+              {topStudents.slice(3, 5).map((s, i) => (
+                <div key={s.user_id} style={{
+                  display: 'flex', alignItems: 'center', gap: 8, padding: '7px 0',
+                  borderTop: '0.5px solid rgba(255,255,255,0.06)',
+                }}>
+                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', minWidth: 14 }}>{i + 4}</span>
+                  <div style={{
+                    width: 26, height: 26, borderRadius: '50%', background: 'rgba(255,255,255,0.1)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 700, color: '#fff',
+                    overflow: 'hidden', flexShrink: 0,
+                  }}>
+                    {s.photo_url
+                      ? <img src={s.photo_url} alt={s.name} style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
+                      : s.name?.[0]?.toUpperCase() || '?'}
+                  </div>
+                  <span style={{ flex: 1, fontSize: 12, color: 'rgba(255,255,255,0.7)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {s.name || 'Student'}
+                  </span>
+                  <span style={{ fontSize: 11, color: '#ffcb5d', fontWeight: 600 }}>{s.total_hours}h</span>
+                </div>
+              ))}
+
+              {/* Your rank */}
+              <div style={{
+                marginTop: 12, padding: '8px 12px', background: 'rgba(61,155,233,0.15)',
+                borderRadius: 10, display: 'flex', alignItems: 'center', gap: 8,
+              }}>
+                <span style={{ fontSize: 11.5, color: '#3d9be9', fontWeight: 600 }}>Your rank</span>
+                <span style={{ flex: 1 }} />
+                <span style={{ fontSize: 12, color: '#fff', fontWeight: 700 }}>#{currentUserRank} · {currentHours}h</span>
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* ── UPCOMING EVENT ── */}
+        <div style={{ background: '#fff', borderRadius: 20, padding: 18, boxShadow: '0 1px 8px rgba(7,22,41,0.06)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+            <span style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 13, color: '#071629' }}>Upcoming</span>
+            <Link href="/dashboard/events" style={{ fontSize: 11, color: '#3d9be9', textDecoration: 'none' }}>See all →</Link>
+          </div>
+          {nextEvent ? (
+            <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+              <div style={{
+                minWidth: 42, height: 42, background: '#071629', borderRadius: 10,
+                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <span style={{ fontSize: 9, color: '#ffcb5d', fontWeight: 700, lineHeight: 1 }}>
+                  {new Date(nextEvent.date).toLocaleDateString('en-US', { month: 'short' }).toUpperCase()}
+                </span>
+                <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 16, fontWeight: 700, color: '#fff', lineHeight: 1 }}>
+                  {new Date(nextEvent.date).getDate()}
+                </span>
+              </div>
               <div>
-                <div style={{ fontSize: 15, fontWeight: 700, color: '#fff', marginBottom: 6, lineHeight: 1.3 }}>
+                <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 13, fontWeight: 700, color: '#071629', lineHeight: 1.3 }}>
                   {nextEvent.title}
                 </div>
-                <div style={{ display: 'flex', gap: 10, fontSize: 12, color: 'rgba(255,255,255,.6)', marginBottom: 12, flexWrap: 'wrap' }}>
-                  <span>📆 {new Date(nextEvent.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
-                  {nextEvent.time && <span>🕐 {nextEvent.time}</span>}
-                  {nextEvent.location && <span>📍 {nextEvent.location}</span>}
-                  {!nextEvent.location && nextEvent.online_link && <span>🌐 Online</span>}
+                <div style={{ fontSize: 11, color: '#6e7591', margin: '3px 0 10px' }}>
+                  {nextEvent.time || ''}{nextEvent.location ? ` · ${nextEvent.location}` : nextEvent.online_link ? ' · Online' : ''}
                 </div>
-                <Link
-                  href={`/dashboard/events`}
-                  style={{
-                    display: 'inline-flex', alignItems: 'center', gap: 6,
-                    background: '#ffcb5d', color: '#071629', borderRadius: 100,
-                    padding: '8px 18px', fontSize: 12, fontWeight: 700,
-                    textDecoration: 'none', fontFamily: "'Montserrat', sans-serif",
-                    transition: 'transform .1s',
-                  }}
-                >
+                <Link href="/dashboard/events" style={{
+                  background: '#3d9be9', color: '#fff', border: 'none', borderRadius: 100,
+                  padding: '6px 16px', fontSize: 11.5, fontWeight: 600, textDecoration: 'none', fontFamily: 'inherit',
+                }}>
                   RSVP →
                 </Link>
               </div>
-            ) : (
-              <p style={{ fontSize: 13, color: 'rgba(255,255,255,.5)', textAlign: 'center', padding: '10px 0' }}>
-                No upcoming events.
-              </p>
-            )}
-          </div>
-
-          {/* NOTIFICATIONS / REMINDERS */}
-          {notifications.length > 0 && (
-            <div style={{ background: '#fff', borderRadius: 14, padding: '14px 14px', boxShadow: '0 1px 4px rgba(0,0,0,.04)' }}>
-              <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 13, fontWeight: 700, color: '#071629', marginBottom: 8 }}>
-                🔔 Notifications
-              </div>
-              {notifications.slice(0, 3).map((n: any) => (
-                <div key={n.id} style={{
-                  display: 'flex', gap: 8, padding: '7px 0',
-                  borderBottom: '1px solid rgba(7,22,41,.05)',
-                }}>
-                  <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#3d9be9', marginTop: 6, flexShrink: 0 }} />
-                  <div>
-                    <div style={{ fontSize: 12, fontWeight: 500, color: '#071629', lineHeight: 1.4 }}>{n.title}</div>
-                    <div style={{ fontSize: 11, color: '#6e7591', lineHeight: 1.4 }}>{n.message}</div>
-                  </div>
-                </div>
-              ))}
             </div>
-          )}
-
-          {/* UPCOMING EVENTS LIST */}
-          {upcomingEvents.length > 1 && (
-            <div style={{ background: '#fff', borderRadius: 14, padding: '14px 14px', boxShadow: '0 1px 4px rgba(0,0,0,.04)' }}>
-              <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 13, fontWeight: 700, color: '#071629', marginBottom: 8 }}>
-                🗓️ More Events
-              </div>
-              {upcomingEvents.slice(1, 4).map((e: any, i: number) => {
-                const colors = ['#3d9be9', '#ffcb5d', '#2ed573', '#9b59b6']
-                return (
-                  <div key={e.id} style={{
-                    display: 'flex', gap: 10, padding: '7px 0',
-                    borderBottom: i < 2 ? '1px solid rgba(7,22,41,.05)' : 'none',
-                  }}>
-                    <span style={{ fontSize: 11, color: '#6e7591', minWidth: 38 }}>
-                      {new Date(e.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                    </span>
-                    <div style={{ width: 7, height: 7, borderRadius: '50%', background: colors[i % colors.length], marginTop: 4, flexShrink: 0 }} />
-                    <div>
-                      <div style={{ fontSize: 12, fontWeight: 500, color: '#071629' }}>{e.title}</div>
-                      <div style={{ fontSize: 10.5, color: '#6e7591' }}>
-                        {e.time || ''}{e.location ? ` · ${e.location}` : e.online_link ? ' · Online' : ''}
-                      </div>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
+          ) : (
+            <p style={{ fontSize: 12, color: '#6e7591', textAlign: 'center', padding: '8px 0' }}>No upcoming events.</p>
           )}
         </div>
+
+        {/* ── REMINDERS ── */}
+        {notifications.length > 0 && (
+          <div style={{ background: '#fff', borderRadius: 20, padding: 18, boxShadow: '0 1px 8px rgba(7,22,41,0.06)' }}>
+            <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 13, color: '#071629', marginBottom: 10 }}>
+              Reminders
+            </div>
+            {notifications.slice(0, 3).map((n: any, i: number) => {
+              const dotColors = ['#ff4757', '#3d9be9', '#ffcb5d']
+              return (
+                <div key={n.id} style={{ display: 'flex', gap: 9, padding: '7px 0', borderBottom: i < 2 ? '0.5px solid rgba(7,22,41,0.06)' : 'none' }}>
+                  <div style={{ width: 7, height: 7, borderRadius: '50%', background: dotColors[i % dotColors.length], marginTop: 4, flexShrink: 0 }} />
+                  <div>
+                    <div style={{ fontSize: 12, fontWeight: 500, color: '#071629' }}>{n.title}</div>
+                    <div style={{ fontSize: 10.5, color: '#6e7591' }}>{n.message}</div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        )}
       </div>
-    </div>
+    </>
   )
 }
