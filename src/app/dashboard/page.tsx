@@ -32,6 +32,7 @@ export default async function DashboardPage() {
     { data: taskCompletions },
     { data: events },
     { data: notifications },
+    { data: streaks },
   ] = await Promise.all([
     supabase
       .from('pillar_hours')
@@ -67,6 +68,10 @@ export default async function DashboardPage() {
       .eq('is_read', false)
       .order('created_at', { ascending: false })
       .limit(5),
+    supabase
+      .from('streaks')
+      .select('*')
+      .eq('user_id', user.id),
   ]);
 
   // Fetch course-related data
@@ -119,24 +124,35 @@ export default async function DashboardPage() {
     courseProgressMap[course.id] = total > 0 ? Math.round((completed / total) * 100) : 0;
   }
 
-  // Fetch top 5 students by approved pillar hours for leaderboard
-  const { data: leaderboardRows } = await supabase
-    .from('pillar_hours')
-    .select('user_id, hours, profiles!inner(name, photo_url)')
-    .eq('status', 'approved');
+  // ── LEADERBOARD: Fetch ALL profiles + their approved hours ──
+  const [{ data: allProfiles }, { data: allApprovedHours }] = await Promise.all([
+    supabase.from('profiles').select('user_id, name, photo_url').neq('type', 'admin'),
+    supabase.from('pillar_hours').select('user_id, hours').eq('status', 'approved'),
+  ]);
 
-  const hoursByUser: Record<string, { name: string; total_hours: number; photo_url: string | null }> = {};
-  for (const row of leaderboardRows || []) {
-    const uid = row.user_id;
-    const prof = row.profiles as any;
-    if (!hoursByUser[uid]) {
-      hoursByUser[uid] = { name: prof?.name || 'Unknown', total_hours: 0, photo_url: prof?.photo_url || null };
-    }
-    hoursByUser[uid].total_hours += row.hours || 0;
+  // Build hours map
+  const hoursByUser: Record<string, number> = {};
+  for (const row of allApprovedHours || []) {
+    hoursByUser[row.user_id] = (hoursByUser[row.user_id] || 0) + (row.hours || 0);
   }
-  const topStudents = Object.values(hoursByUser)
-    .sort((a, b) => b.total_hours - a.total_hours)
-    .slice(0, 5);
+
+  // Build leaderboard entries for ALL students
+  const leaderboard = (allProfiles || []).map((p: any) => ({
+    user_id: p.user_id,
+    name: p.name || 'Unknown',
+    photo_url: p.photo_url || null,
+    total_hours: hoursByUser[p.user_id] || 0,
+  }));
+
+  // Sort by hours descending, then by name
+  leaderboard.sort((a: any, b: any) => b.total_hours - a.total_hours || a.name.localeCompare(b.name));
+
+  // Find current user rank (1-indexed)
+  const currentUserRank = leaderboard.findIndex((s: any) => s.user_id === user.id) + 1;
+  const currentUserEntry = leaderboard.find((s: any) => s.user_id === user.id) || null;
+
+  // Top 5 for display
+  const topStudents = leaderboard.slice(0, 5);
 
   const totalHours = (pillarHours || []).reduce(
     (sum: number, h: any) => sum + (h.hours || 0),
@@ -149,6 +165,12 @@ export default async function DashboardPage() {
   );
   const pendingTasks = (tasks || []).filter(
     (t: any) => !completionIds.has(t.id)
+  );
+
+  // Calculate best current streak
+  const currentStreak = (streaks || []).reduce(
+    (max: number, s: any) => Math.max(max, s.current_streak || 0),
+    0
   );
 
   return (
@@ -166,6 +188,9 @@ export default async function DashboardPage() {
       upcomingEvents={(events || []) as any[]}
       notifications={(notifications || []) as any[]}
       topStudents={topStudents}
+      currentUserRank={currentUserRank}
+      currentUserEntry={currentUserEntry}
+      currentStreak={currentStreak}
     />
   );
 }
