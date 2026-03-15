@@ -114,6 +114,46 @@ export default function CompassPage() {
         </div>
       </section>
 
+      {/* ── HOW IT COMPARES ──────────────────────────────── */}
+      <section style={{ background: '#ffffff' }}>
+        <div className="pub-section">
+          <div className="text-center mb-14 reveal">
+            <h2 className="pub-heading" style={{ fontSize: 'clamp(24px, 3vw, 38px)', color: '#071629', marginBottom: 10 }}>
+              Why Compass is different.
+            </h2>
+            <p style={{ color: '#6e6e73', fontSize: 16, maxWidth: 560, margin: '0 auto' }}>Most career assessments give you a list. Compass gives you a map.</p>
+          </div>
+          <div className="overflow-x-auto reveal">
+            <table className="w-full text-sm max-w-3xl mx-auto" style={{ borderCollapse: 'separate', borderSpacing: 0, border: '1px solid rgba(0,0,0,0.08)', borderRadius: 16, overflow: 'hidden' }}>
+              <thead>
+                <tr style={{ background: '#071629' }}>
+                  <th className="px-6 py-4 text-left text-white font-semibold">Feature</th>
+                  <th className="px-6 py-4 text-center text-white font-semibold">Generic Tests</th>
+                  <th className="px-6 py-4 text-center font-semibold" style={{ color: '#ffcb5d' }}>Compass</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ['Multiple methodologies', '\u2715', '\u2713'],
+                  ['AI-powered blending', '\u2715', '\u2713'],
+                  ['Personal inputs (hobbies, grades)', '\u2715', '\u2713'],
+                  ['Adjacent career paths', '\u2715', '\u2713'],
+                  ['Group analytics for schools', '\u2715', '\u2713'],
+                  ['UAE context-aware', '\u2715', '\u2713'],
+                  ['Takes under 45 minutes', '~', '\u2713'],
+                ].map(([feature, generic, compass], i) => (
+                  <tr key={feature} style={{ background: i % 2 === 0 ? '#ffffff' : '#f9f9f9' }}>
+                    <td className="px-6 py-3.5 font-medium" style={{ color: '#071629', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>{feature}</td>
+                    <td className="px-6 py-3.5 text-center" style={{ color: generic === '\u2715' ? '#d1d5db' : '#6e6e73', borderBottom: '1px solid rgba(0,0,0,0.05)', fontSize: 18 }}>{generic}</td>
+                    <td className="px-6 py-3.5 text-center" style={{ color: '#3d9be9', borderBottom: '1px solid rgba(0,0,0,0.05)', fontSize: 18, fontWeight: 700 }}>{compass}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
       {/* ── COMPASS FOR SCHOOLS ──────────────────────────── */}
       <section style={{ background: 'rgba(61,155,233,0.04)', borderTop: '1px solid rgba(61,155,233,0.1)', borderBottom: '1px solid rgba(61,155,233,0.1)' }}>
         <div className="pub-section">

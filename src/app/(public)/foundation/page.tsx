@@ -40,6 +40,27 @@ const FEATURED_ACTIVITIES = [
   { icon: '💻', label: 'Hackathons & Case Competitions' },
 ];
 
+const INDUSTRY_CARDS = [
+  { title: 'Job Shadowing', desc: 'Learn directly from professionals in real workflows. Observe, question, and connect.', badge: 'Years 9-12' },
+  { title: 'Internship Pathways', desc: 'Short-term projects during school breaks for hands-on experience with real deliverables.', badge: 'Senior Years' },
+  { title: 'Global Mentorship', desc: 'Connect with 150+ experts from top MNCs and startups across 20+ countries.', badge: '150+ Mentors' },
+];
+
+const PARTNERSHIP_BENEFITS = [
+  {
+    title: 'Inspection-Ready Evidence',
+    body: 'KHDA approved certificates, assessment rubrics, and mentor notes create a clear audit trail for school inspections.',
+  },
+  {
+    title: 'Visible Student Futures',
+    body: 'Direct access to internships and scholarships boosts parent satisfaction by showing tangible career ROI.',
+  },
+  {
+    title: 'Low Lift for Staff',
+    body: 'We act as a turnkey extension of your team, managing facilitators, mentors, and all operational reporting.',
+  },
+];
+
 export default function FoundationPage() {
   return (
     <div>
@@ -48,20 +69,45 @@ export default function FoundationPage() {
         <div className="pub-orb-yellow" style={{ width: 500, height: 500, top: -150, right: -100 }} />
         <div className="pub-orb-blue" style={{ width: 400, height: 400, bottom: -100, left: -80 }} />
         <div className="pub-section relative z-10">
-          <div className="max-w-3xl">
-            <span className="inline-block px-4 py-2 rounded-full text-xs font-bold mb-5" style={{ background: 'rgba(255,203,93,0.15)', color: '#a07800', border: '1px solid rgba(255,203,93,0.3)' }}>
-              PROPLR FOUNDATION · K-12 PROGRAM
-            </span>
-            <h1 className="pub-heading reveal" style={{ fontSize: 'clamp(32px, 5vw, 60px)', color: '#071629', marginBottom: 20 }}>
-              The program your school<br />
-              <span className="pub-gradient-text">should have had.</span>
-            </h1>
-            <p className="reveal reveal-delay-1" style={{ fontSize: 18, color: '#6e6e73', lineHeight: 1.65, maxWidth: 560, marginBottom: 36 }}>
-              A co-curricular club built for Grades 8–12 that gives students KHDA-certified career skills, real industry exposure, and a portfolio before graduation — without disrupting a single class.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 reveal reveal-delay-2">
-              <Link href="/register" className="pub-btn-primary">Register Now</Link>
-              <Link href="/start-a-club" className="pub-btn-ghost">Start a Club at My School</Link>
+          <div className="grid lg:grid-cols-3 gap-10 items-start">
+            <div className="lg:col-span-2">
+              <span className="inline-block px-4 py-2 rounded-full text-xs font-bold mb-5" style={{ background: 'rgba(255,203,93,0.15)', color: '#a07800', border: '1px solid rgba(255,203,93,0.3)' }}>
+                PROPLR FOUNDATION · K-12 PROGRAM
+              </span>
+              <h1 className="pub-heading reveal" style={{ fontSize: 'clamp(32px, 5vw, 60px)', color: '#071629', marginBottom: 20 }}>
+                The program your school<br />
+                <span className="pub-gradient-text">should have had.</span>
+              </h1>
+              <p className="reveal reveal-delay-1" style={{ fontSize: 18, color: '#6e6e73', lineHeight: 1.65, maxWidth: 560, marginBottom: 36 }}>
+                A co-curricular club built for Grades 8–12 that gives students KHDA-certified career skills, real industry exposure, and a portfolio before graduation — without disrupting a single class.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 reveal reveal-delay-2">
+                <Link href="/register" className="pub-btn-primary">Register Now</Link>
+                <Link href="/start-a-club" className="pub-btn-ghost">Start a Club at My School</Link>
+              </div>
+            </div>
+
+            {/* Program Snapshot Sidebar Card */}
+            <div className="reveal reveal-delay-3">
+              <div className="p-6 rounded-2xl" style={{ background: '#ffffff', border: '1.5px solid rgba(61,155,233,0.15)', boxShadow: '0 4px 24px rgba(7,22,41,0.08)' }}>
+                <h3 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800, fontSize: 14, color: '#3d9be9', textTransform: 'uppercase' as const, letterSpacing: '0.08em', marginBottom: 20 }}>
+                  Program Snapshot
+                </h3>
+                <ul className="space-y-4">
+                  {[
+                    { label: 'Regulatory Status', value: 'KHDA-Permitted' },
+                    { label: 'Courses / Pillars', value: '6' },
+                    { label: 'Hours per Course', value: '20 h' },
+                    { label: 'Total Program Hours', value: '120 h' },
+                    { label: 'Outputs', value: 'Portfolio + Certificate' },
+                  ].map((row) => (
+                    <li key={row.label} className="flex items-center justify-between gap-4" style={{ borderBottom: '1px solid rgba(0,0,0,0.05)', paddingBottom: 12 }}>
+                      <span style={{ fontSize: 13, color: '#6e6e73', fontWeight: 500 }}>{row.label}</span>
+                      <span style={{ fontSize: 14, color: '#071629', fontWeight: 700, fontFamily: 'Montserrat, sans-serif', textAlign: 'right' }}>{row.value}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -158,8 +204,34 @@ export default function FoundationPage() {
         </div>
       </section>
 
-      {/* ── DELIVERY MODEL TABLE ─────────────────────────── */}
+      {/* ── NEW: INDUSTRY EXPOSURE ─────────────────────────── */}
       <section style={{ background: '#ffffff' }}>
+        <div className="pub-section">
+          <div className="text-center mb-14 reveal">
+            <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: '#3d9be9', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 12 }}>INDUSTRY EXPOSURE</span>
+            <h2 className="pub-heading" style={{ fontSize: 'clamp(26px, 4vw, 40px)', color: '#071629', marginBottom: 12 }}>
+              Start your career early.
+            </h2>
+            <p style={{ color: '#6e6e73', fontSize: 16, maxWidth: 580, margin: '0 auto' }}>
+              Job shadowing, mentoring, and internships — built into your timetable. Build a professional network before you graduate.
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-3 gap-6">
+            {INDUSTRY_CARDS.map((card, i) => (
+              <div key={card.title} className={`pub-card reveal reveal-delay-${i + 1} p-8`} style={{ border: '1px solid rgba(0,0,0,0.06)' }}>
+                <span className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-5" style={{ background: 'rgba(255,203,93,0.15)', color: '#a07800', border: '1px solid rgba(255,203,93,0.3)' }}>
+                  {card.badge}
+                </span>
+                <h3 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800, fontSize: 17, color: '#071629', marginBottom: 10 }}>{card.title}</h3>
+                <p style={{ color: '#6e6e73', fontSize: 14, lineHeight: 1.7 }}>{card.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── DELIVERY MODEL TABLE ─────────────────────────── */}
+      <section style={{ background: '#f5f5f7' }}>
         <div className="pub-section">
           <div className="text-center mb-10 reveal">
             <h2 className="pub-heading" style={{ fontSize: 'clamp(22px, 3vw, 34px)', color: '#071629' }}>
@@ -232,6 +304,35 @@ export default function FoundationPage() {
         </div>
       </section>
 
+      {/* ── NEW: NATIONAL SHOWCASE ──────────────────────────── */}
+      <section style={{ background: '#071629' }}>
+        <div className="pub-section">
+          <div className="max-w-3xl mx-auto text-center reveal">
+            <span className="inline-block px-4 py-2 rounded-full text-xs font-bold mb-6" style={{ background: 'rgba(61,155,233,0.15)', color: '#3d9be9', border: '1px solid rgba(61,155,233,0.25)' }}>
+              NATIONAL SHOWCASE
+            </span>
+            <h2 className="pub-heading" style={{ fontSize: 'clamp(26px, 4vw, 40px)', color: '#ffffff', marginBottom: 16 }}>
+              From classroom to national stage.
+            </h2>
+            <p className="reveal reveal-delay-1" style={{ color: '#8ca3be', fontSize: 16, lineHeight: 1.7, marginBottom: 32 }}>
+              A high-energy capstone that brings every pillar together. Students form crews, pick a real brief, and ship solutions — pulling from leadership, entrepreneurship, digital literacy, communication, personal branding, and project management. Evidence goes into portfolios; finalists pitch live on stage.
+            </p>
+            <div className="flex flex-wrap justify-center gap-3 mb-10 reveal reveal-delay-2">
+              {['Company-sponsored', 'Cash prizes', 'National leaderboard', 'Cross-school teams'].map((chip) => (
+                <span key={chip} className="px-4 py-2 rounded-full text-sm font-semibold" style={{ background: 'rgba(255,255,255,0.08)', color: '#ffffff', border: '1px solid rgba(255,255,255,0.1)' }}>
+                  {chip}
+                </span>
+              ))}
+            </div>
+            <div className="reveal reveal-delay-3">
+              <Link href="/showcase" className="pub-btn-primary">
+                Learn More →
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── AI INTEGRATION ───────────────────────────────── */}
       <section style={{ background: '#ffffff' }}>
         <div className="pub-section">
@@ -293,8 +394,60 @@ export default function FoundationPage() {
         </div>
       </section>
 
-      {/* ── PRICING + CTA ────────────────────────────────── */}
+      {/* ── NEW: SCHOOL PARTNERSHIPS ────────────────────────── */}
       <section style={{ background: '#f5f5f7' }}>
+        <div className="pub-section">
+          <div className="text-center mb-14 reveal">
+            <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: '#3d9be9', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 12 }}>INSTITUTIONAL PARTNERSHIPS</span>
+            <h2 className="pub-heading" style={{ fontSize: 'clamp(26px, 4vw, 40px)', color: '#071629', marginBottom: 12 }}>
+              Bring the Proplr Edge to your campus.
+            </h2>
+            <p style={{ color: '#6e6e73', fontSize: 16, maxWidth: 600, margin: '0 auto 24px' }}>
+              Empower your students with industry-grade skills and real-world exposure. We handle the complexity of industry integration so you can focus on student success.
+            </p>
+            <div className="flex flex-wrap justify-center gap-3 reveal reveal-delay-1">
+              {['KHDA APPROVED', 'TURNKEY OPERATIONS', 'GLOBAL NETWORK'].map((pill) => (
+                <span key={pill} className="px-4 py-2 rounded-full text-xs font-bold" style={{ background: 'rgba(61,155,233,0.1)', color: '#3d9be9', border: '1px solid rgba(61,155,233,0.2)' }}>
+                  {pill}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Action Card */}
+          <div className="reveal reveal-delay-2 mb-10">
+            <div className="p-8 rounded-2xl max-w-2xl mx-auto" style={{ background: '#071629' }}>
+              <h3 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800, fontSize: 20, color: '#ffffff', marginBottom: 8 }}>
+                Request a Briefing
+              </h3>
+              <p style={{ color: '#8ca3be', fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
+                Schedule a 15-minute demo to see how Proplr fits your core curriculum.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link href="/start-a-club" className="pub-btn-primary">
+                  Become a Partner School
+                </Link>
+                <Link href="#" className="pub-btn-ghost" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.25)' }}>
+                  Download Partnership Deck
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* 3 Benefit Cards */}
+          <div className="grid md:grid-cols-3 gap-6">
+            {PARTNERSHIP_BENEFITS.map((card, i) => (
+              <div key={card.title} className={`pub-card reveal reveal-delay-${i + 1} p-8`} style={{ border: '1px solid rgba(0,0,0,0.06)' }}>
+                <h3 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 17, color: '#071629', marginBottom: 10 }}>{card.title}</h3>
+                <p style={{ color: '#6e6e73', fontSize: 14, lineHeight: 1.7 }}>{card.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PRICING + CTA ────────────────────────────────── */}
+      <section style={{ background: '#ffffff' }}>
         <div className="pub-section text-center reveal" style={{ paddingTop: 64, paddingBottom: 64 }}>
           <h2 className="pub-heading" style={{ fontSize: 'clamp(22px, 3vw, 34px)', color: '#071629', marginBottom: 8 }}>
             AED 400/month
@@ -303,7 +456,7 @@ export default function FoundationPage() {
           <p style={{ color: '#9ca3af', fontSize: 14, marginBottom: 28 }}>Everything included. No hidden fees. KHDA certified.</p>
           <div className="flex flex-wrap justify-center gap-3 mb-10">
             {['6 KHDA Certificates', 'Weekly Program Sessions', 'Industry Mentorship', 'Career Discovery Panels', 'Portfolio Building', 'Compass Assessment', 'Showcase Eligibility'].map((f) => (
-              <span key={f} className="px-4 py-2 rounded-full text-sm font-medium" style={{ background: '#ffffff', color: '#1d1d1f', border: '1px solid rgba(0,0,0,0.08)' }}>
+              <span key={f} className="px-4 py-2 rounded-full text-sm font-medium" style={{ background: '#f5f5f7', color: '#1d1d1f', border: '1px solid rgba(0,0,0,0.08)' }}>
                 {f}
               </span>
             ))}

@@ -31,6 +31,49 @@ const TRACKS = [
   },
 ];
 
+const SNAPSHOT_ITEMS = [
+  { label: 'Delivery', value: 'On-campus + Platform' },
+  { label: 'Structure', value: 'Clubs + Accelerator' },
+  { label: 'Assessment', value: 'Deliverables + Mentor Feedback' },
+  { label: 'Outputs', value: 'Portfolio + References' },
+  { label: 'Credential', value: 'Impact Certificate' },
+];
+
+const SHOWCASE_CHIPS = ['Company-sponsored', 'Cash prizes', 'National leaderboard', 'Cross-school teams'];
+
+const REAL_WORLD_FEATURES = [
+  {
+    title: 'Strategic Shadowing',
+    desc: 'Move beyond the classroom and sit in on real executive meetings.',
+    bullets: ['Hosted days at top-tier MNCs', 'Direct access to senior management', 'Real-world project observation'],
+  },
+  {
+    title: 'Internship Sprints',
+    desc: 'Apply your foundation skills to tangible company goals.',
+    bullets: ['Term-break placements', 'Deliverable-based projects', 'Supervisor feedback reports'],
+  },
+  {
+    title: 'The Global Mentorship',
+    desc: 'Connect with a network of 150+ professionals across the globe.',
+    bullets: ['Mentors from 20+ countries', 'University admissions strategies', 'Career pathway mapping'],
+  },
+];
+
+const UNI_BENEFITS = [
+  {
+    title: 'High-Value Alumni Conversion',
+    desc: 'Our alumni secure roles 35% faster through built-in professional networks.',
+  },
+  {
+    title: 'Employer Reputation & Rankings',
+    desc: 'Directly impact university rankings by aligning curriculum with hiring requirements of global partners.',
+  },
+  {
+    title: 'Turnkey Career Support',
+    desc: 'We handle the heavy lifting — managing mentors and project reporting — as a seamless extension of your Career Services office.',
+  },
+];
+
 export default function ImpactPage() {
   return (
     <div>
@@ -39,20 +82,47 @@ export default function ImpactPage() {
         <div className="pub-orb-blue" style={{ width: 600, height: 600, top: -200, right: -100 }} />
         <div className="pub-orb-yellow" style={{ width: 400, height: 400, bottom: -100, left: -80 }} />
         <div className="pub-section relative z-10">
-          <div className="max-w-3xl">
-            <span className="inline-block px-4 py-2 rounded-full text-xs font-bold mb-5" style={{ background: 'rgba(61,155,233,0.12)', color: '#1a6fad', border: '1px solid rgba(61,155,233,0.25)' }}>
-              PROPLR IMPACT · UNIVERSITY PROGRAM
-            </span>
-            <h1 className="pub-heading reveal" style={{ fontSize: 'clamp(32px, 5vw, 60px)', color: '#071629', marginBottom: 20 }}>
-              Where university students<br />
-              <span className="pub-gradient-text">get industry-ready.</span>
-            </h1>
-            <p className="reveal reveal-delay-1" style={{ fontSize: 18, color: '#6e6e73', lineHeight: 1.65, maxWidth: 560, marginBottom: 36 }}>
-              A co-curricular chapter that lives inside your campus — startup challenges, industry mentors, real deliverables, KHDA certificates, and a professional network that actually opens doors.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 reveal reveal-delay-2">
-              <Link href="/register" className="pub-btn-primary">Join the Waitlist</Link>
-              <Link href="/partners" className="pub-btn-ghost">Launch a Chapter at My University</Link>
+          <div className="grid md:grid-cols-5 gap-12 items-start">
+            {/* Left — Hero content */}
+            <div className="md:col-span-3">
+              <span className="inline-block px-4 py-2 rounded-full text-xs font-bold mb-5" style={{ background: 'rgba(61,155,233,0.12)', color: '#1a6fad', border: '1px solid rgba(61,155,233,0.25)' }}>
+                PROPLR IMPACT · UNIVERSITY PROGRAM
+              </span>
+              <h1 className="pub-heading reveal" style={{ fontSize: 'clamp(32px, 5vw, 60px)', color: '#071629', marginBottom: 20 }}>
+                Where university students<br />
+                <span className="pub-gradient-text">get industry-ready.</span>
+              </h1>
+              <p className="reveal reveal-delay-1" style={{ fontSize: 18, color: '#6e6e73', lineHeight: 1.65, maxWidth: 560, marginBottom: 36 }}>
+                A co-curricular chapter that lives inside your campus — startup challenges, industry mentors, real deliverables, KHDA certificates, and a professional network that actually opens doors.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 reveal reveal-delay-2">
+                <Link href="/register" className="pub-btn-primary">Join the Waitlist</Link>
+                <Link href="/partners" className="pub-btn-ghost">Launch a Chapter at My University</Link>
+              </div>
+            </div>
+
+            {/* Right — Program Snapshot sidebar card */}
+            <div className="md:col-span-2 reveal reveal-delay-3">
+              <div className="pub-card p-6" style={{ border: '1px solid rgba(61,155,233,0.12)' }}>
+                <div className="flex items-center gap-2 mb-5">
+                  <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#3d9be9', display: 'inline-block' }} />
+                  <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 13, color: '#071629', textTransform: 'uppercase' as const, letterSpacing: '0.06em' }}>
+                    Program Snapshot
+                  </span>
+                </div>
+                <div className="space-y-4">
+                  {SNAPSHOT_ITEMS.map((item) => (
+                    <div key={item.label} className="flex items-start justify-between gap-4" style={{ borderBottom: '1px solid rgba(0,0,0,0.05)', paddingBottom: 12 }}>
+                      <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 12, color: '#6e6e73', textTransform: 'uppercase' as const, letterSpacing: '0.06em', flexShrink: 0 }}>
+                        {item.label}
+                      </span>
+                      <span style={{ fontSize: 14, fontWeight: 600, color: '#071629', textAlign: 'right' }}>
+                        {item.value}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -167,6 +237,56 @@ export default function ImpactPage() {
         </div>
       </section>
 
+      {/* ── NEW: NATIONAL SHOWCASE BANNER ─────────────────── */}
+      <section style={{ background: '#071629' }}>
+        <div className="pub-section" style={{ paddingTop: 80, paddingBottom: 80 }}>
+          <div className="max-w-3xl mx-auto text-center reveal">
+            <span
+              className="inline-block px-4 py-2 rounded-full text-xs font-bold mb-6"
+              style={{ background: 'rgba(61,155,233,0.15)', color: '#3d9be9', border: '1px solid rgba(61,155,233,0.3)' }}
+            >
+              NATIONAL SHOWCASE
+            </span>
+            <h2
+              className="pub-heading"
+              style={{ fontSize: 'clamp(26px, 4vw, 44px)', color: '#ffffff', marginBottom: 18 }}
+            >
+              From classroom to national stage.
+            </h2>
+            <p
+              className="reveal reveal-delay-1"
+              style={{ color: '#8ca3be', fontSize: 17, lineHeight: 1.7, maxWidth: 640, margin: '0 auto 32px' }}
+            >
+              A high-energy capstone that brings every pillar together. Students form crews, pick a real brief, and ship solutions — pulling from leadership, entrepreneurship, digital literacy, communication, personal branding, and project management.
+            </p>
+
+            {/* Highlight chips */}
+            <div className="flex flex-wrap justify-center gap-3 mb-10 reveal reveal-delay-2">
+              {SHOWCASE_CHIPS.map((chip) => (
+                <span
+                  key={chip}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold"
+                  style={{ background: 'rgba(255,255,255,0.06)', color: '#ffffff', border: '1px solid rgba(255,255,255,0.1)' }}
+                >
+                  <span style={{ color: '#ffcb5d', fontSize: 10 }}>●</span>
+                  {chip}
+                </span>
+              ))}
+            </div>
+
+            <div className="reveal reveal-delay-3">
+              <Link
+                href="/showcase"
+                className="inline-flex items-center gap-2 font-bold text-base transition-all"
+                style={{ color: '#3d9be9' }}
+              >
+                Learn More →
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── UAE AI 2031 ──────────────────────────────────── */}
       <section style={{ background: '#f5f5f7' }}>
         <div className="pub-section">
@@ -180,6 +300,98 @@ export default function ImpactPage() {
             <p style={{ color: '#6e6e73', fontSize: 16, lineHeight: 1.65 }}>
               Proplr Impact aligns with UAE&apos;s ambition to develop world-class talent. Our curriculum prepares students for the AI-driven economy with practical skills, not just theory. Universities hosting a Proplr Impact chapter demonstrate measurable co-curricular outcomes to accreditation bodies.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── NEW: REAL WORLD OUTCOMES ──────────────────────── */}
+      <section style={{ background: '#ffffff' }}>
+        <div className="pub-section">
+          <div className="text-center mb-16 reveal">
+            <span
+              style={{
+                fontFamily: 'Montserrat, sans-serif',
+                fontWeight: 700,
+                fontSize: 11,
+                color: '#3d9be9',
+                textTransform: 'uppercase' as const,
+                letterSpacing: '0.1em',
+                display: 'block',
+                marginBottom: 12,
+              }}
+            >
+              REAL WORLD OUTCOMES
+            </span>
+            <h2 className="pub-heading" style={{ fontSize: 'clamp(26px, 4vw, 42px)', color: '#071629' }}>
+              The Impact of Early Exposure
+            </h2>
+          </div>
+
+          <div className="space-y-20 max-w-5xl mx-auto">
+            {REAL_WORLD_FEATURES.map((feature, i) => {
+              const isReversed = i % 2 === 1;
+              return (
+                <div
+                  key={feature.title}
+                  className={`reveal reveal-delay-${(i % 3) + 1} grid md:grid-cols-2 gap-10 items-center`}
+                >
+                  {/* Text column */}
+                  <div className={isReversed ? 'md:order-2' : ''}>
+                    <span
+                      className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-4"
+                      style={{ background: 'rgba(61,155,233,0.1)', color: '#3d9be9' }}
+                    >
+                      0{i + 1}
+                    </span>
+                    <h3
+                      style={{
+                        fontFamily: 'Montserrat, sans-serif',
+                        fontWeight: 800,
+                        fontSize: 'clamp(20px, 2.5vw, 28px)',
+                        color: '#071629',
+                        marginBottom: 12,
+                        letterSpacing: '-0.02em',
+                      }}
+                    >
+                      {feature.title}
+                    </h3>
+                    <p style={{ color: '#6e6e73', fontSize: 16, lineHeight: 1.65, marginBottom: 20 }}>
+                      {feature.desc}
+                    </p>
+                    <ul className="space-y-3">
+                      {feature.bullets.map((bullet) => (
+                        <li key={bullet} className="flex items-start gap-3" style={{ color: '#1d1d1f', fontSize: 15 }}>
+                          <span style={{ color: '#3d9be9', fontWeight: 700, fontSize: 16, flexShrink: 0 }}>✓</span>
+                          {bullet}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  {/* Visual placeholder column */}
+                  <div className={isReversed ? 'md:order-1' : ''}>
+                    <div
+                      className="rounded-2xl"
+                      style={{
+                        background: i === 0
+                          ? 'linear-gradient(135deg, rgba(61,155,233,0.08) 0%, rgba(255,203,93,0.08) 100%)'
+                          : i === 1
+                          ? 'linear-gradient(135deg, rgba(255,203,93,0.1) 0%, rgba(61,155,233,0.05) 100%)'
+                          : 'linear-gradient(135deg, rgba(61,155,233,0.1) 0%, rgba(7,22,41,0.05) 100%)',
+                        aspectRatio: '4/3',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        border: '1px solid rgba(0,0,0,0.05)',
+                      }}
+                    >
+                      <span style={{ fontSize: 48, opacity: 0.6 }}>
+                        {i === 0 ? '🏢' : i === 1 ? '⚡' : '🌍'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -221,8 +433,121 @@ export default function ImpactPage() {
         </div>
       </section>
 
-      {/* ── PRICING + CTA ────────────────────────────────── */}
+      {/* ── NEW: UNIVERSITY PARTNERSHIPS ──────────────────── */}
       <section style={{ background: '#f5f5f7' }}>
+        <div className="pub-section">
+          {/* Header */}
+          <div className="text-center mb-14 reveal">
+            <span
+              style={{
+                fontFamily: 'Montserrat, sans-serif',
+                fontWeight: 700,
+                fontSize: 11,
+                color: '#3d9be9',
+                textTransform: 'uppercase' as const,
+                letterSpacing: '0.1em',
+                display: 'block',
+                marginBottom: 12,
+              }}
+            >
+              HIGHER EDUCATION PATHWAYS
+            </span>
+            <h2 className="pub-heading" style={{ fontSize: 'clamp(26px, 4vw, 42px)', color: '#071629', marginBottom: 14 }}>
+              Bridge the gap between Campus &amp; Career.
+            </h2>
+            <p style={{ color: '#6e6e73', fontSize: 16, maxWidth: 600, margin: '0 auto 28px' }}>
+              Integrate industry-aligned technical foundations into your undergraduate experience.
+            </p>
+
+            {/* Checklist pills */}
+            <div className="flex flex-wrap justify-center gap-3 reveal reveal-delay-1">
+              {['GRADUATE EMPLOYABILITY', 'APPLIED RESEARCH', 'GLOBAL NETWORK'].map((pill) => (
+                <span
+                  key={pill}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold"
+                  style={{ background: 'rgba(61,155,233,0.1)', color: '#1a6fad', border: '1px solid rgba(61,155,233,0.2)' }}
+                >
+                  <span style={{ color: '#3d9be9' }}>✓</span>
+                  {pill}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Action card */}
+          <div className="max-w-2xl mx-auto mb-14 reveal reveal-delay-2">
+            <div
+              className="pub-card p-8"
+              style={{ border: '1px solid rgba(61,155,233,0.12)', textAlign: 'center' }}
+            >
+              <span style={{ fontSize: 36, display: 'block', marginBottom: 14 }}>🎓</span>
+              <h3
+                style={{
+                  fontFamily: 'Montserrat, sans-serif',
+                  fontWeight: 800,
+                  fontSize: 20,
+                  color: '#071629',
+                  marginBottom: 8,
+                }}
+              >
+                Higher-Ed Briefing
+              </h3>
+              <p style={{ color: '#6e6e73', fontSize: 15, lineHeight: 1.65, marginBottom: 24, maxWidth: 480, margin: '0 auto 24px' }}>
+                Explore credit-bearing internship models and campus integration strategies.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Link href="/partners" className="pub-btn-primary pub-btn-sm">
+                  Request Faculty Demo
+                </Link>
+                <Link href="#" className="pub-btn-ghost pub-btn-sm">
+                  View University Case Studies
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* 3 Benefit cards */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 reveal reveal-delay-3">
+            {UNI_BENEFITS.map((benefit, i) => (
+              <div
+                key={benefit.title}
+                className={`pub-card reveal reveal-delay-${(i % 3) + 1} p-7`}
+                style={{ border: '1px solid rgba(0,0,0,0.06)' }}
+              >
+                <div
+                  className="flex items-center justify-center rounded-xl mb-5"
+                  style={{
+                    width: 48,
+                    height: 48,
+                    background: 'rgba(61,155,233,0.1)',
+                  }}
+                >
+                  <span style={{ color: '#3d9be9', fontWeight: 800, fontSize: 18, fontFamily: 'Montserrat, sans-serif' }}>
+                    0{i + 1}
+                  </span>
+                </div>
+                <h3
+                  style={{
+                    fontFamily: 'Montserrat, sans-serif',
+                    fontWeight: 700,
+                    fontSize: 16,
+                    color: '#071629',
+                    marginBottom: 8,
+                  }}
+                >
+                  {benefit.title}
+                </h3>
+                <p style={{ color: '#6e6e73', fontSize: 14, lineHeight: 1.65 }}>
+                  {benefit.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PRICING + CTA ────────────────────────────────── */}
+      <section style={{ background: '#ffffff' }}>
         <div className="pub-section text-center reveal" style={{ paddingTop: 64, paddingBottom: 64 }}>
           <h2 className="pub-heading" style={{ fontSize: 'clamp(22px, 3vw, 34px)', color: '#071629', marginBottom: 8 }}>
             AED 999

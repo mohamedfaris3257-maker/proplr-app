@@ -101,6 +101,31 @@ export default function StartAClubPage() {
         </div>
       </section>
 
+      {/* ── FAQ ─────────────────────────────────────────── */}
+      <section style={{ background: '#071629' }}>
+        <div className="pub-section" style={{ paddingTop: 64, paddingBottom: 64 }}>
+          <div className="max-w-3xl mx-auto">
+            <div className="text-center mb-12 reveal">
+              <h2 className="pub-heading text-white" style={{ fontSize: 'clamp(24px, 3vw, 36px)', marginBottom: 10 }}>Common questions from schools.</h2>
+            </div>
+            <div className="space-y-4">
+              {[
+                { q: 'Does Proplr replace any existing school activities?', a: 'No. Proplr runs as an after-school club or co-curricular enrichment module. It does not interfere with core academic time or existing extracurriculars.' },
+                { q: 'What does Proplr cost the school?', a: 'Proplr is funded by parent enrollment fees (AED 400/month per student). There is no cost to the school for hosting a club \u2014 we provide everything.' },
+                { q: 'Who facilitates the sessions?', a: 'Proplr provides trained facilitators, industry mentors, and guest speakers. School staff are welcome to observe but are not required to run sessions.' },
+                { q: 'Is Proplr KHDA approved?', a: 'Yes. Proplr is a KHDA-permitted training institute (Permit #633441). All programs, assessments, and certificates are aligned with KHDA requirements.' },
+                { q: 'Can we start mid-year?', a: 'We recommend starting in September with a full cohort, but we can accommodate mid-year starts for schools that want to begin sooner. Contact us to discuss.' },
+              ].map((faq, i) => (
+                <div key={faq.q} className={`reveal reveal-delay-${(i % 3) + 1} p-6 rounded-2xl`} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                  <h4 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 15, color: '#ffffff', marginBottom: 8 }}>{faq.q}</h4>
+                  <p style={{ color: '#8ca3be', fontSize: 14, lineHeight: 1.65 }}>{faq.a}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── INTEREST FORM ────────────────────────────────── */}
       <section style={{ background: '#f5f5f7' }}>
         <div className="pub-section">

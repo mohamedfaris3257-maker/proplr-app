@@ -57,6 +57,35 @@ export default function SummerCampPage() {
         </div>
       </section>
 
+      {/* ── DAILY SCHEDULE ──────────────────────────────── */}
+      <section style={{ background: '#ffffff' }}>
+        <div className="pub-section">
+          <div className="text-center mb-14 reveal">
+            <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: '#ffcb5d', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 12 }}>SAMPLE DAILY AGENDA</span>
+            <h2 className="pub-heading" style={{ fontSize: 'clamp(24px, 3vw, 38px)', color: '#071629', marginBottom: 10 }}>A day at Proplr Camp.</h2>
+          </div>
+          <div className="max-w-2xl mx-auto space-y-4">
+            {[
+              { time: '9:00 AM', title: 'Morning Check-in & Icebreaker', desc: 'Team formation and energy warm-up' },
+              { time: '9:30 AM', title: 'Pillar Workshop', desc: 'Facilitated deep-dive into one of the six pillars' },
+              { time: '11:00 AM', title: 'Industry Guest Speaker', desc: 'Real professionals share their career journey' },
+              { time: '12:00 PM', title: 'Lunch & Networking', desc: 'Connect with peers from different schools' },
+              { time: '1:00 PM', title: 'Design Sprint Challenge', desc: 'Hands-on team challenge with real deliverables' },
+              { time: '3:00 PM', title: 'Reflection & Portfolio Entry', desc: 'Document learnings and update your portfolio' },
+              { time: '3:30 PM', title: 'Wrap-up & Preview', desc: 'Debrief and preview of tomorrow&apos;s pillar' },
+            ].map((slot, i) => (
+              <div key={slot.time} className={`reveal reveal-delay-${(i % 3) + 1} flex items-start gap-5 p-5 rounded-xl`} style={{ background: '#f5f5f7', border: '1px solid rgba(0,0,0,0.04)' }}>
+                <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 14, color: '#3d9be9', whiteSpace: 'nowrap', minWidth: 80 }}>{slot.time}</span>
+                <div>
+                  <h4 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 15, color: '#071629', marginBottom: 2 }}>{slot.title}</h4>
+                  <p style={{ color: '#6e6e73', fontSize: 13 }}>{slot.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── WHO SHOULD JOIN ──────────────────────────────── */}
       <section style={{ background: '#ffffff' }}>
         <div className="pub-section">
@@ -91,6 +120,25 @@ export default function SummerCampPage() {
           <p style={{ color: '#8ca3be', fontSize: 17, maxWidth: 520, margin: '0 auto 24px', lineHeight: 1.65 }}>
             Every student who completes Summer Camp enters September ahead. You&apos;ll have your Compass report in hand, your first portfolio entry completed, and a real sense of which pillar you want to lead with. Summer Camp participants who enroll in Foundation receive credit toward their Year 1 journey.
           </p>
+        </div>
+      </section>
+
+      {/* ── STATS BAR ───────────────────────────────────── */}
+      <section style={{ background: '#f5f5f7' }}>
+        <div className="pub-section">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl mx-auto text-center reveal">
+            {[
+              { value: '5', label: 'Days' },
+              { value: '6', label: 'Pillars Explored' },
+              { value: '1', label: 'Compass Report' },
+              { value: '\u221E', label: 'Connections Made' },
+            ].map((stat) => (
+              <div key={stat.label}>
+                <p style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 900, fontSize: 36, color: '#3d9be9', marginBottom: 4 }}>{stat.value}</p>
+                <p style={{ color: '#6e6e73', fontSize: 13, fontWeight: 600 }}>{stat.label}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

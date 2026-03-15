@@ -37,6 +37,25 @@ export default function ShowcasePage() {
         </div>
       </section>
 
+      {/* ── STATS BANNER ───────────────────────────────── */}
+      <section style={{ background: '#f5f5f7', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
+        <div className="pub-section" style={{ paddingTop: 32, paddingBottom: 32 }}>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl mx-auto text-center">
+            {[
+              { value: '6', label: 'Pillars Combined' },
+              { value: '1', label: 'Epic Showcase' },
+              { value: '2', label: 'Cohorts Compete' },
+              { value: '\u221E', label: 'Possibilities' },
+            ].map((stat) => (
+              <div key={stat.label}>
+                <p style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 900, fontSize: 32, color: '#ffcb5d', marginBottom: 4 }}>{stat.value}</p>
+                <p style={{ color: '#6e6e73', fontSize: 12, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: '0.05em' }}>{stat.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── WHAT IS THE SHOWCASE ─────────────────────────── */}
       <section style={{ background: '#ffffff' }}>
         <div className="pub-section">
@@ -103,6 +122,34 @@ export default function ShowcasePage() {
                     </li>
                   ))}
                 </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── HIGHLIGHT FEATURES ──────────────────────────── */}
+      <section style={{ background: '#ffffff' }}>
+        <div className="pub-section">
+          <div className="text-center mb-12 reveal">
+            <h2 className="pub-heading" style={{ fontSize: 'clamp(24px, 3vw, 36px)', color: '#071629', marginBottom: 10 }}>
+              What makes this different.
+            </h2>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto">
+            {[
+              { icon: '\uD83C\uDFE2', label: 'Company-Sponsored Briefs' },
+              { icon: '\uD83D\uDCB0', label: 'Cash Prizes' },
+              { icon: '\uD83D\uDCCA', label: 'National Leaderboard' },
+              { icon: '\uD83E\uDD1D', label: 'Cross-School Teams' },
+              { icon: '\uD83C\uDFA5', label: 'Live-Streamed Event' },
+              { icon: '\uD83D\uDCDC', label: 'Winner Certificates' },
+              { icon: '\uD83C\uDF10', label: 'Industry Judges' },
+              { icon: '\uD83D\uDE80', label: 'Startup Funding Access' },
+            ].map((chip, i) => (
+              <div key={chip.label} className={`reveal reveal-delay-${(i % 4) + 1} text-center p-5 rounded-2xl`} style={{ background: '#f5f5f7', border: '1px solid rgba(0,0,0,0.04)' }}>
+                <span style={{ fontSize: 28, display: 'block', marginBottom: 8 }}>{chip.icon}</span>
+                <p style={{ fontSize: 13, color: '#1d1d1f', fontWeight: 600 }}>{chip.label}</p>
               </div>
             ))}
           </div>

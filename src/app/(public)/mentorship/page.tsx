@@ -70,6 +70,25 @@ export default function MentorshipPage() {
         </div>
       </section>
 
+      {/* ── MENTOR NETWORK STATS ──────────────────────── */}
+      <section style={{ background: '#ffffff' }}>
+        <div className="pub-section">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-4xl mx-auto reveal">
+            {[
+              { value: '150+', label: 'Active Mentors', color: '#3d9be9' },
+              { value: '20+', label: 'Countries', color: '#ffcb5d' },
+              { value: '40+', label: 'Industries', color: '#3d9be9' },
+              { value: '2hrs', label: 'Monthly Commitment', color: '#ffcb5d' },
+            ].map((stat) => (
+              <div key={stat.label} className="text-center p-6 rounded-2xl" style={{ background: '#f5f5f7', border: '1px solid rgba(0,0,0,0.04)' }}>
+                <p style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 900, fontSize: 32, color: stat.color, marginBottom: 4 }}>{stat.value}</p>
+                <p style={{ color: '#6e6e73', fontSize: 12, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: '0.05em' }}>{stat.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── HOW MATCHING WORKS ───────────────────────────── */}
       <section style={{ background: '#ffffff' }}>
         <div className="pub-section">
@@ -90,6 +109,29 @@ export default function MentorshipPage() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── WHAT MENTORS PROVIDE ────────────────────────── */}
+      <section style={{ background: '#f5f5f7' }}>
+        <div className="pub-section">
+          <div className="text-center mb-12 reveal">
+            <h2 className="pub-heading" style={{ fontSize: 'clamp(22px, 3vw, 34px)', color: '#071629', marginBottom: 10 }}>The mentor experience.</h2>
+            <p style={{ color: '#6e6e73', fontSize: 15, maxWidth: 480, margin: '0 auto' }}>What a typical mentorship journey looks like over the program year.</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            {[
+              { month: 'Month 1-2', title: 'Discovery', desc: 'Get to know your mentee. Understand their goals, strengths, and Compass results. Set shared objectives for the year.', color: '#ffcb5d' },
+              { month: 'Month 3-5', title: 'Growth', desc: 'Regular sessions on career skills, portfolio building, and professional development. Provide industry context and real feedback.', color: '#3d9be9' },
+              { month: 'Month 6-8', title: 'Launch', desc: 'Help mentees prepare for the National Showcase, refine their portfolios, and make introductions to your professional network.', color: '#071629' },
+            ].map((phase, i) => (
+              <div key={phase.month} className={`pub-card reveal reveal-delay-${i + 1} p-7`} style={{ borderTop: `3px solid ${phase.color}` }}>
+                <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: phase.color, textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 8 }}>{phase.month}</span>
+                <h3 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 17, color: '#071629', marginBottom: 8 }}>{phase.title}</h3>
+                <p style={{ color: '#6e6e73', fontSize: 14, lineHeight: 1.65 }}>{phase.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
