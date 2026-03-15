@@ -235,9 +235,268 @@ body {
 .js-animations .reveal-delay-3 { transition-delay: 0.24s; }
 .js-animations .reveal-delay-4 { transition-delay: 0.32s; }
 
+/* ─── ENHANCED ANIMATIONS & VISUAL EFFECTS ─────────────────────── */
+
+/* Reveal variants */
+.js-animations .reveal-scale {
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.7s cubic-bezier(0.23,1,0.32,1), transform 0.7s cubic-bezier(0.23,1,0.32,1);
+}
+.js-animations .reveal-scale.in-view {
+  opacity: 1;
+  transform: scale(1);
+}
+.js-animations .reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.js-animations .reveal-left.in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+.js-animations .reveal-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.js-animations .reveal-right.in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Floating animation */
+@keyframes pub-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+.pub-float {
+  animation: pub-float 5s ease-in-out infinite;
+}
+.pub-float-slow {
+  animation: pub-float 7s ease-in-out infinite;
+}
+.pub-float-delay {
+  animation: pub-float 5s ease-in-out 1.5s infinite;
+}
+
+/* Rotating propeller */
+@keyframes pub-spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.pub-spin-slow {
+  animation: pub-spin-slow 20s linear infinite;
+}
+.pub-spin-reverse {
+  animation: pub-spin-slow 25s linear infinite reverse;
+}
+
+/* Pulse glow */
+@keyframes pub-pulse-glow {
+  0%, 100% { opacity: 0.06; transform: scale(1); }
+  50% { opacity: 0.12; transform: scale(1.05); }
+}
+.pub-pulse-glow {
+  animation: pub-pulse-glow 4s ease-in-out infinite;
+}
+
+/* Gradient text shimmer */
+@keyframes pub-shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.pub-gradient-text-animated {
+  background: linear-gradient(90deg, #3d9be9 0%, #ffcb5d 30%, #3d9be9 60%, #ffcb5d 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: pub-shimmer 4s ease-in-out infinite;
+}
+
+/* Propeller SVG motif — CSS-drawn 4-blade propeller */
+.pub-propeller {
+  position: absolute;
+  pointer-events: none;
+  width: 120px;
+  height: 120px;
+}
+.pub-propeller::before,
+.pub-propeller::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 45%;
+  height: 10%;
+  border-radius: 50%;
+  transform-origin: 0% 50%;
+}
+.pub-propeller::before {
+  background: rgba(61,155,233,0.12);
+  box-shadow:
+    0 0 0 0 transparent,
+    -50px 0 0 0 transparent;
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+.pub-propeller::after {
+  background: rgba(255,203,93,0.12);
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+/* Diagonal stripe pattern */
+.pub-pattern-stripes {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 10px,
+    rgba(61,155,233,0.03) 10px,
+    rgba(61,155,233,0.03) 20px
+  );
+}
+
+/* Dot grid pattern */
+.pub-pattern-dots {
+  background-image: radial-gradient(rgba(61,155,233,0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Grid line pattern */
+.pub-pattern-grid {
+  background-image:
+    linear-gradient(rgba(61,155,233,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(61,155,233,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Noise texture overlay */
+.pub-noise::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Glassmorphism card */
+.pub-glass {
+  background: rgba(255,255,255,0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 20px;
+}
+
+/* Glow border on hover */
+.pub-glow-border {
+  position: relative;
+  overflow: hidden;
+}
+.pub-glow-border::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(135deg, rgba(61,155,233,0), rgba(61,155,233,0.3), rgba(255,203,93,0.3), rgba(255,203,93,0));
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.pub-glow-border:hover::after {
+  opacity: 1;
+}
+
+/* Gradient border — always visible */
+.pub-gradient-border {
+  position: relative;
+  border: none !important;
+}
+.pub-gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(135deg, #3d9be9, #ffcb5d);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+}
+
+/* Animated background gradient */
+@keyframes pub-bg-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.pub-bg-animated {
+  background: linear-gradient(-45deg, #071629, #0d2440, #1a3a5c, #071629);
+  background-size: 400% 400%;
+  animation: pub-bg-shift 12s ease infinite;
+}
+
+/* Counter/stat number animation */
+.pub-stat-number {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+
+/* Horizontal scroll container */
+.pub-hscroll {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 8px 0;
+}
+.pub-hscroll::-webkit-scrollbar { display: none; }
+.pub-hscroll > * {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+/* Marquee scroll — infinite auto-scroll */
+@keyframes pub-marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.pub-marquee-track {
+  display: flex;
+  animation: pub-marquee 30s linear infinite;
+  width: max-content;
+}
+.pub-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Divider line with gradient */
+.pub-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(61,155,233,0.2) 50%, transparent 100%);
+  border: none;
+  margin: 0;
+}
+
 /* Section rhythm */
 .pub-section {
   padding: 96px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.pub-section-compact {
+  padding: 56px 24px;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -247,6 +506,25 @@ body {
 .pub-section-navy {
   background-color: #071629;
   color: #ffffff;
+}
+
+/* Bento grid helper */
+.pub-bento {
+  display: grid;
+  gap: 16px;
+}
+@media (min-width: 640px) {
+  .pub-bento {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1024px) {
+  .pub-bento {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.pub-bento-wide {
+  grid-column: span 2;
 }
 
 /* ─── DASHBOARD LIGHT THEME OVERRIDES ─────────────────────────── */
