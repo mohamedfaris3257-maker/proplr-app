@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ShowcaseRegisterForm } from '@/components/public/ShowcaseRegisterForm';
 
 export const metadata: Metadata = { title: 'Proplr National Showcase 2026' };
@@ -8,17 +9,25 @@ export default function ShowcasePage() {
   return (
     <div>
       {/* ── HERO ── */}
-      <section className="relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #071629 0%, #0d2440 100%)', minHeight: 420 }}>
-        <div style={{ position: 'absolute', width: 500, height: 500, top: -100, right: -80, background: '#ffcb5d', opacity: 0.06, filter: 'blur(80px)', borderRadius: '50%' }} />
+      <section className="pub-hero-image" style={{ minHeight: 420 }}>
+        <Image
+          src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1920&q=80&auto=format"
+          alt="Conference stage"
+          fill
+          priority
+          className="pub-ken-burns"
+          style={{ objectFit: 'cover', opacity: 0.35 }}
+        />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, #071629 0%, #0d2440 100%)', opacity: 0.75, zIndex: 1 }} />
         <div className="pub-section relative z-10 text-center" style={{ paddingTop: 88, paddingBottom: 72 }}>
           <span className="inline-block px-4 py-2 rounded-full text-xs font-bold mb-5" style={{ background: 'rgba(255,203,93,0.15)', color: '#ffcb5d', border: '1px solid rgba(255,203,93,0.25)' }}>
             NATIONAL SHOWCASE 2026
           </span>
-          <h1 className="pub-heading text-white reveal" style={{ fontSize: 'clamp(36px, 6vw, 68px)', marginBottom: 20 }}>
+          <h1 className="pub-heading pub-text-shadow text-white reveal" style={{ fontSize: 'clamp(36px, 6vw, 68px)', marginBottom: 20 }}>
             Where ambitious students<br />
             <span className="pub-gradient-text-animated">take the stage.</span>
           </h1>
-          <p className="reveal reveal-delay-1" style={{ fontSize: 18, color: '#8ca3be', maxWidth: 520, margin: '0 auto 32px' }}>
+          <p className="reveal reveal-delay-1 pub-text-shadow" style={{ fontSize: 18, color: 'rgba(255,255,255,0.85)', maxWidth: 520, margin: '0 auto 32px' }}>
             Present real work. Compete in live challenges. Get judged by industry professionals.
           </p>
           <div className="flex items-center justify-center gap-4 reveal reveal-delay-2">

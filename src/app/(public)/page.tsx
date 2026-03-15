@@ -1,32 +1,38 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default async function HomePage() {
-
   return (
     <div>
-      {/* ── HERO ──────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden" style={{ background: '#ffffff', minHeight: 600 }}>
-        {/* Ambient orbs */}
-        <div className="pub-orb-blue" style={{ width: 600, height: 600, top: -200, left: -100 }} />
-        <div className="pub-orb-yellow" style={{ width: 500, height: 500, top: -100, right: -80 }} />
-
-        <div className="pub-section relative z-10" style={{ paddingTop: 96, paddingBottom: 80 }}>
-          <div className="text-center max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full text-sm font-semibold" style={{ background: 'rgba(61,155,233,0.08)', color: '#3d9be9', border: '1px solid rgba(61,155,233,0.15)' }}>
-              <span>KHDA Certified · Permit #633441 · Starting September 2026</span>
-            </div>
-            <h1 className="pub-heading reveal" style={{ fontSize: 'clamp(40px, 7vw, 72px)', color: '#071629', marginBottom: 24 }}>
-              Your future doesn&apos;t have to be<br />
-              <span className="pub-gradient-text">a guessing game.</span>
+      {/* ── HERO — FULL-BLEED IMAGE ─────────────────────────────────── */}
+      <section className="pub-hero-image pub-overlay-dark" style={{ minHeight: '92vh' }}>
+        <Image
+          src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1920&q=80&auto=format"
+          alt="Students collaborating"
+          fill
+          priority
+          className="pub-ken-burns"
+          style={{ objectFit: 'cover', objectPosition: 'center 30%' }}
+        />
+        <div className="pub-section relative z-10 w-full" style={{ paddingTop: 120, paddingBottom: 100 }}>
+          <div className="max-w-4xl">
+            <div className="pub-line-grow reveal mb-8" />
+            <h1
+              className="pub-heading pub-text-shadow reveal"
+              style={{ fontSize: 'clamp(42px, 7vw, 80px)', color: '#ffffff', marginBottom: 24, lineHeight: 1.05 }}
+            >
+              Your future doesn&apos;t<br />
+              have to be a<br />
+              <span className="pub-gradient-text-animated">guessing game.</span>
             </h1>
-            <p className="reveal reveal-delay-1" style={{ fontSize: 18, color: '#6e6e73', maxWidth: 600, margin: '0 auto 40px', lineHeight: 1.65 }}>
-              Proplr is the program that gets you career-ready before you graduate — through real experiences, real mentors, and real industry connections. Not more homework.
+            <p className="reveal reveal-delay-1 pub-text-shadow" style={{ fontSize: 20, color: 'rgba(255,255,255,0.85)', maxWidth: 520, marginBottom: 40, lineHeight: 1.6 }}>
+              KHDA-certified career programs with real mentors, real companies, and a portfolio that proves you&apos;re ready.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 reveal reveal-delay-2">
-              <Link href="/register" className="pub-btn-primary">
-                Get Started
+            <div className="flex flex-col sm:flex-row items-start gap-4 reveal reveal-delay-2">
+              <Link href="/register" className="pub-btn-primary" style={{ fontSize: 18, padding: '16px 40px' }}>
+                Get Started →
               </Link>
-              <a href="#how-it-works" className="pub-btn-ghost">
+              <a href="#how-it-works" className="pub-btn-ghost" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.3)' }}>
                 See How It Works
               </a>
             </div>
@@ -34,255 +40,365 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── SOCIAL PROOF BAR ──────────────────────────────────────── */}
-      <section style={{ background: '#f5f5f7', borderTop: '1px solid rgba(0,0,0,0.06)', borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '24px 24px' }}>
-        <div className="max-w-[1200px] mx-auto">
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            {[
-              '6 KHDA Certificates',
-              '4 Program Tracks',
-              'Grades 8–12 + University',
-              'Starting September 2026',
-              'National Showcase 2026',
-            ].map((pill) => (
-              <span key={pill} className="px-4 py-2 rounded-full text-sm font-medium" style={{ background: '#ffffff', color: '#1d1d1f', border: '1px solid rgba(0,0,0,0.08)' }}>
-                {pill}
+      {/* ── TRUST STRIP ─────────────────────────────────────────────── */}
+      <section style={{ background: '#071629', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div className="pub-section-compact" style={{ padding: '20px 24px' }}>
+          <div className="pub-marquee-track">
+            {[...Array(3)].flatMap((_, j) => [
+              { label: 'KHDA Permit #633441', color: '#ffcb5d' },
+              { label: '6 Certified Courses', color: '#3d9be9' },
+              { label: 'Grades 8 – University', color: '#ffffff' },
+              { label: '150+ Industry Mentors', color: '#ffcb5d' },
+              { label: 'National Showcase 2026', color: '#3d9be9' },
+              { label: 'September 2026 Cohort', color: '#ffffff' },
+            ].map((pill, i) => (
+              <span
+                key={`${j}-${i}`}
+                style={{
+                  fontFamily: 'Montserrat, sans-serif',
+                  fontWeight: 700,
+                  fontSize: 12,
+                  color: pill.color,
+                  opacity: 0.6,
+                  whiteSpace: 'nowrap',
+                  padding: '0 28px',
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase' as const,
+                }}
+              >
+                {pill.label}
               </span>
-            ))}
+            )))}
           </div>
         </div>
       </section>
 
-      {/* ── HOW IT WORKS ──────────────────────────────────────────── */}
+      {/* ── HOW IT WORKS — IMAGE + TEXT ALTERNATING ──────────────────── */}
       <section id="how-it-works" style={{ background: '#ffffff' }}>
         <div className="pub-section">
-          <div className="text-center max-w-2xl mx-auto mb-16 reveal">
-            <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: '#3d9be9', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 12 }}>WHAT WE DO</span>
-            <h2 className="pub-heading" style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: '#071629', marginBottom: 16 }}>
-              It&apos;s not a class. It&apos;s a club<br />that changes what&apos;s possible.
+          <div className="text-center mb-16 reveal">
+            <h2 className="pub-heading" style={{ fontSize: 'clamp(32px, 5vw, 52px)', color: '#071629', marginBottom: 14 }}>
+              Not another class.{' '}
+              <span className="pub-gradient-text-animated">A launchpad.</span>
             </h2>
-            <p style={{ color: '#6e6e73', fontSize: 17, lineHeight: 1.65 }}>
-              Most programs give you a certificate for sitting still. Proplr is different. We run a co-curricular club inside your school or university — three trimesters, six pillars, real industry mentors, actual challenges from real companies, and a portfolio you can actually show someone. By the time you graduate, you&apos;ll have 6 KHDA-certified completions, a career direction, and proof that you&apos;ve done the work.
+            <p style={{ color: '#6e6e73', fontSize: 17, maxWidth: 480, margin: '0 auto' }}>
+              A co-curricular club that builds real skills through real industry exposure.
             </p>
           </div>
 
-          {/* 4 Program Tracks */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Feature Row 1 */}
+          <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
+            <div className="reveal reveal-left">
+              <div className="pub-img-card">
+                <Image
+                  src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80&auto=format"
+                  alt="Industry mentorship session"
+                  width={600}
+                  height={400}
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                />
+              </div>
+            </div>
+            <div className="reveal reveal-right">
+              <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: '#3d9be9', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 12 }}>WEEKLY SESSIONS</span>
+              <h3 className="pub-heading" style={{ fontSize: 'clamp(24px, 3vw, 36px)', color: '#071629', marginBottom: 14 }}>
+                6 pillars. Real projects. Not worksheets.
+              </h3>
+              <p style={{ color: '#6e6e73', fontSize: 16, lineHeight: 1.65, marginBottom: 20 }}>
+                Leadership, entrepreneurship, digital literacy, communication, personal branding, and project management — delivered through challenges, not lectures.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {['Career Panels', 'Hackathons', 'Design Sprints', 'Portfolio Building'].map((t) => (
+                  <span key={t} className="px-3 py-1 rounded-full text-xs font-semibold" style={{ background: 'rgba(61,155,233,0.08)', color: '#3d9be9' }}>{t}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Feature Row 2 — reversed */}
+          <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
+            <div className="reveal reveal-left md:order-2">
+              <div className="pub-img-card">
+                <Image
+                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80&auto=format"
+                  alt="Team collaboration"
+                  width={600}
+                  height={400}
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                />
+              </div>
+            </div>
+            <div className="reveal reveal-right md:order-1">
+              <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: '#ffcb5d', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 12 }}>INDUSTRY ACCESS</span>
+              <h3 className="pub-heading" style={{ fontSize: 'clamp(24px, 3vw, 36px)', color: '#071629', marginBottom: 14 }}>
+                Real companies. Real mentors. Real work.
+              </h3>
+              <p style={{ color: '#6e6e73', fontSize: 16, lineHeight: 1.65, marginBottom: 20 }}>
+                Job shadowing, internship pathways, innovation challenges from real businesses, and 1-on-1 mentorship with professionals across 40+ industries.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {['150+ Mentors', '20+ Countries', '40+ Industries'].map((t) => (
+                  <span key={t} className="px-3 py-1 rounded-full text-xs font-semibold" style={{ background: 'rgba(255,203,93,0.12)', color: '#a07800' }}>{t}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Feature Row 3 */}
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="reveal reveal-left">
+              <div className="pub-img-card">
+                <Image
+                  src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=800&q=80&auto=format"
+                  alt="Student presenting on stage"
+                  width={600}
+                  height={400}
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                />
+              </div>
+            </div>
+            <div className="reveal reveal-right">
+              <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: '#071629', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 12 }}>SHOWCASE & PORTFOLIO</span>
+              <h3 className="pub-heading" style={{ fontSize: 'clamp(24px, 3vw, 36px)', color: '#071629', marginBottom: 14 }}>
+                Graduate with proof, not just promises.
+              </h3>
+              <p style={{ color: '#6e6e73', fontSize: 16, lineHeight: 1.65, marginBottom: 20 }}>
+                6 KHDA certificates, a verified portfolio, and a national showcase where you present real work to industry judges.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {['6 KHDA Certs', 'Digital Portfolio', 'Live Pitch Finals'].map((t) => (
+                  <span key={t} className="px-3 py-1 rounded-full text-xs font-semibold" style={{ background: 'rgba(7,22,41,0.06)', color: '#071629' }}>{t}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── COUNTER STATS — PARALLAX BG ─────────────────────────────── */}
+      <section
+        className="pub-parallax-bg relative overflow-hidden"
+        style={{
+          backgroundImage: 'url(https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1920&q=80&auto=format)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(7,22,41,0.88)', zIndex: 0 }} />
+        <div className="pub-section relative z-10" style={{ paddingTop: 72, paddingBottom: 72 }}>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
-              { icon: '📅', title: 'Weekly Sessions', desc: 'Structured weekly experiences covering all 6 pillars through career panels, challenges, hackathons, and leadership activities. Every session counts toward your portfolio.' },
-              { icon: '🏭', title: 'Industry', desc: 'Real access to real companies. Job shadow days, internship opportunities, industry innovation challenges, and career discovery panels with professionals doing the work you\'re curious about.' },
-              { icon: '🎯', title: 'Mentorship & Leadership', desc: 'One-on-one mentor office hours, a Student Leadership Council, alumni networking, and parent engagement events. You\'re not alone in figuring this out.' },
-              { icon: '🔬', title: 'Skills Building & Assessment', desc: 'Hackathons, case competitions, industry challenges, and portfolio submissions. Your growth is tracked and recognized — not with a grade, but with outcomes.' },
-            ].map((track, i) => (
-              <div key={track.title} className={`pub-card reveal reveal-delay-${i + 1} p-6`} style={{ border: '1px solid rgba(0,0,0,0.06)' }}>
-                <span style={{ fontSize: 32, marginBottom: 16, display: 'block' }}>{track.icon}</span>
-                <h3 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 16, color: '#071629', marginBottom: 8 }}>{track.title}</h3>
-                <p style={{ color: '#6e6e73', fontSize: 14, lineHeight: 1.6 }}>{track.desc}</p>
+              { target: 8, suffix: '', label: 'Months' },
+              { target: 6, suffix: '', label: 'KHDA Certificates' },
+              { target: 150, suffix: '+', label: 'Industry Mentors' },
+              { target: 120, suffix: 'h', label: 'Program Hours' },
+            ].map((stat) => (
+              <div key={stat.label} className="reveal">
+                <span
+                  className="pub-counter pub-stat-number pub-count-pop"
+                  data-target={stat.target}
+                  data-suffix={stat.suffix}
+                  style={{ fontSize: 'clamp(36px, 5vw, 56px)', color: '#ffffff', display: 'block', marginBottom: 4 }}
+                >
+                  0
+                </span>
+                <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: '0.08em' }}>
+                  {stat.label}
+                </span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── TWO PROGRAMS ──────────────────────────────────────────── */}
+      {/* ── TWO PROGRAMS — WITH IMAGES ──────────────────────────────── */}
       <section style={{ background: '#f5f5f7' }}>
         <div className="pub-section">
           <div className="text-center mb-14 reveal">
-            <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: '#3d9be9', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 12 }}>OUR PROGRAMS</span>
-            <h2 className="pub-heading" style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: '#071629', marginBottom: 12 }}>
-              One platform. Two tracks.<br />Built for where you are right now.
+            <h2 className="pub-heading" style={{ fontSize: 'clamp(32px, 5vw, 52px)', color: '#071629', marginBottom: 12 }}>
+              Two tracks. One ecosystem.
             </h2>
+            <p style={{ color: '#6e6e73', fontSize: 17, maxWidth: 460, margin: '0 auto' }}>
+              Whether you&apos;re in high school or university — we built this for you.
+            </p>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
-            {/* Foundation */}
-            <div className="reveal pub-card p-10" style={{ border: '2px solid rgba(255,203,93,0.3)', background: 'linear-gradient(135deg, #fffdf5 0%, #ffffff 100%)' }}>
-              <div className="flex items-center gap-3 mb-5">
-                <span style={{ fontSize: 36 }}>🏫</span>
-                <span className="px-3 py-1 rounded-full text-xs font-bold" style={{ background: '#ffcb5d', color: '#071629' }}>School Students</span>
+            {/* Foundation Card */}
+            <div className="pub-card reveal reveal-left p-0 overflow-hidden" style={{ border: '2px solid rgba(255,203,93,0.3)' }}>
+              <div style={{ position: 'relative', height: 220 }}>
+                <Image
+                  src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800&q=80&auto=format"
+                  alt="High school students"
+                  fill
+                  style={{ objectFit: 'cover' }}
+                />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 30%, rgba(7,22,41,0.7) 100%)' }} />
+                <span className="absolute bottom-4 left-6 px-3 py-1 rounded-full text-xs font-bold" style={{ background: '#ffcb5d', color: '#071629' }}>
+                  Grades 8–12
+                </span>
               </div>
-              <h3 className="pub-heading" style={{ fontSize: 26, color: '#071629', marginBottom: 10 }}>Proplr Foundation</h3>
-              <p style={{ color: '#6e6e73', fontSize: 16, lineHeight: 1.65, marginBottom: 24 }}>
-                For School Students — Grades 8 to 12. Six KHDA-certified pillars delivered through an after-school club. Build your skills, meet industry mentors, and graduate with a portfolio and career direction before you even apply to university.
-              </p>
-              <div className="flex flex-wrap gap-2 mb-8">
-                {['6 KHDA Certificates', 'AED 400/mo', 'KHDA Aligned', 'Grades 8–12'].map((tag) => (
-                  <span key={tag} className="px-3 py-1 rounded-full text-xs font-medium" style={{ background: 'rgba(255,203,93,0.15)', color: '#a07800', border: '1px solid rgba(255,203,93,0.3)' }}>{tag}</span>
-                ))}
-              </div>
-              <Link href="/foundation" className="pub-btn-navy pub-btn-sm">
-                Learn More →
-              </Link>
-            </div>
-
-            {/* Impact */}
-            <div className="reveal reveal-delay-1 pub-card p-10" style={{ border: '2px solid rgba(61,155,233,0.3)', background: 'linear-gradient(135deg, #f0f8ff 0%, #ffffff 100%)' }}>
-              <div className="flex items-center gap-3 mb-5">
-                <span style={{ fontSize: 36 }}>🎓</span>
-                <span className="px-3 py-1 rounded-full text-xs font-bold" style={{ background: '#3d9be9', color: '#ffffff' }}>University Students</span>
-              </div>
-              <h3 className="pub-heading" style={{ fontSize: 26, color: '#071629', marginBottom: 10 }}>Proplr Impact</h3>
-              <p style={{ color: '#6e6e73', fontSize: 16, lineHeight: 1.65, marginBottom: 24 }}>
-                For University Students. The same six pillars, raised to industry level. Real startup challenges, microplacements, demo days, and a professional network — all while you&apos;re still studying.
-              </p>
-              <div className="flex flex-wrap gap-2 mb-8">
-                {['6 KHDA Certificates', 'AED 999 flat', 'Industry Mentors', 'Demo Days'].map((tag) => (
-                  <span key={tag} className="px-3 py-1 rounded-full text-xs font-medium" style={{ background: 'rgba(61,155,233,0.1)', color: '#1a6fad', border: '1px solid rgba(61,155,233,0.2)' }}>{tag}</span>
-                ))}
-              </div>
-              <Link href="/impact" className="pub-btn-primary pub-btn-sm">
-                Learn More →
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── STUDENT JOURNEY ───────────────────────────────────────── */}
-      <section style={{ background: '#ffffff' }}>
-        <div className="pub-section">
-          <div className="text-center mb-14 reveal">
-            <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: '#3d9be9', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 12 }}>THE JOURNEY</span>
-            <h2 className="pub-heading" style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: '#071629', marginBottom: 12 }}>
-              Here&apos;s what your year with Proplr looks like.
-            </h2>
-            <p style={{ color: '#6e6e73', fontSize: 17 }}>From your first session to standing on a stage — this is the path.</p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                step: '01', title: 'Awareness', color: '#ffcb5d',
-                points: ['Compass career assessment', 'Intro assembly at your school', 'Meet the mentors', 'Pick your program track'],
-              },
-              {
-                step: '02', title: 'Program', color: '#3d9be9',
-                points: ['Weekly pillar sessions', 'Industry challenge briefs', 'Mentor office hours', 'Portfolio starts building'],
-              },
-              {
-                step: '03', title: 'Showcase', color: '#071629',
-                points: ['Present your work publicly', 'Industry judge panel', 'National competition', 'Annual awards'],
-              },
-              {
-                step: '04', title: 'Graduation', color: '#27AE60',
-                points: ['6 KHDA certificates', 'Verified portfolio', 'Job/uni readiness report', 'Alumni network access'],
-              },
-            ].map((stage, i) => (
-              <div key={stage.title} className={`reveal reveal-delay-${i + 1}`}>
-                <div className="pub-card p-6 h-full" style={{ border: '1px solid rgba(0,0,0,0.06)' }}>
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold text-white" style={{ background: stage.color }}>
-                      {stage.step}
-                    </span>
-                    <h3 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800, fontSize: 18, color: '#071629' }}>{stage.title}</h3>
-                  </div>
-                  <ul className="space-y-2">
-                    {stage.points.map((p) => (
-                      <li key={p} className="flex items-start gap-2 text-sm" style={{ color: '#6e6e73' }}>
-                        <span style={{ color: stage.color, flexShrink: 0 }}>✓</span>
-                        {p}
-                      </li>
-                    ))}
-                  </ul>
+              <div className="p-8">
+                <h3 className="pub-heading" style={{ fontSize: 26, color: '#071629', marginBottom: 10 }}>Foundation K-12</h3>
+                <p style={{ color: '#6e6e73', fontSize: 15, lineHeight: 1.6, marginBottom: 20 }}>
+                  After-school career club. 6 KHDA certificates. Real industry exposure before graduation.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {['120 hours', '8 months', 'AED 400/mo'].map((tag) => (
+                    <span key={tag} className="px-3 py-1 rounded-full text-xs font-semibold" style={{ background: 'rgba(255,203,93,0.12)', color: '#a07800' }}>{tag}</span>
+                  ))}
                 </div>
+                <Link href="/foundation" className="pub-btn-navy pub-btn-sm">Explore Foundation →</Link>
               </div>
-            ))}
-          </div>
-          <div className="text-center mt-12 reveal">
-            <Link href="/register" className="pub-btn-primary">Start Your Journey</Link>
+            </div>
+
+            {/* Impact Card */}
+            <div className="pub-card reveal reveal-right p-0 overflow-hidden" style={{ border: '2px solid rgba(61,155,233,0.3)' }}>
+              <div style={{ position: 'relative', height: 220 }}>
+                <Image
+                  src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=800&q=80&auto=format"
+                  alt="University students"
+                  fill
+                  style={{ objectFit: 'cover' }}
+                />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 30%, rgba(7,22,41,0.7) 100%)' }} />
+                <span className="absolute bottom-4 left-6 px-3 py-1 rounded-full text-xs font-bold" style={{ background: '#3d9be9', color: '#ffffff' }}>
+                  University & Young Adults
+                </span>
+              </div>
+              <div className="p-8">
+                <h3 className="pub-heading" style={{ fontSize: 26, color: '#071629', marginBottom: 10 }}>Impact University</h3>
+                <p style={{ color: '#6e6e73', fontSize: 15, lineHeight: 1.6, marginBottom: 20 }}>
+                  Advanced acceleration for the global workforce. Industry-led, campus-delivered.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {['Work-ready skills', 'AED 999 flat', 'Startup track'].map((tag) => (
+                    <span key={tag} className="px-3 py-1 rounded-full text-xs font-semibold" style={{ background: 'rgba(61,155,233,0.08)', color: '#1a6fad' }}>{tag}</span>
+                  ))}
+                </div>
+                <Link href="/impact" className="pub-btn-primary pub-btn-sm">Explore Impact →</Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── COMPASS TEASER ────────────────────────────────────────── */}
-      <section style={{ background: '#f5f5f7' }}>
-        <div className="pub-section">
-          <div className="max-w-3xl mx-auto">
-            <div className="pub-card p-10 text-center reveal" style={{ border: '1px solid rgba(0,0,0,0.06)' }}>
-              <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: '#a07800', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 12 }}>COMPASS BY PROPLR</span>
-              <h2 className="pub-heading" style={{ fontSize: 'clamp(24px, 3vw, 36px)', color: '#071629', marginBottom: 16 }}>
-                Not sure what you want to do? Start here.
+      {/* ── COMPASS TEASER — DARK WITH IMAGE ─────────────────────────── */}
+      <section className="relative overflow-hidden" style={{ background: '#071629' }}>
+        <Image
+          src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80&auto=format"
+          alt="Abstract technology"
+          fill
+          style={{ objectFit: 'cover', opacity: 0.15 }}
+        />
+        <div className="pub-section relative z-10">
+          <div className="grid md:grid-cols-2 gap-14 items-center">
+            <div className="reveal reveal-left">
+              <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: '#ffcb5d', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 14 }}>COMPASS BY PROPLR</span>
+              <h2 className="pub-heading" style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: '#ffffff', marginBottom: 16 }}>
+                Not sure what you want?{' '}
+                <span style={{ color: '#ffcb5d' }}>Start here.</span>
               </h2>
-              <p style={{ color: '#6e6e73', fontSize: 16, lineHeight: 1.65, maxWidth: 520, margin: '0 auto 12px' }}>
-                Compass is our AI-powered career assessment. In 30–45 minutes, it takes your interests, work style, and personal inputs and turns them into a personalized career report — with your top career clusters, adjacent paths you might not have considered, and actionable next steps.
+              <p style={{ color: '#8ca3be', fontSize: 16, lineHeight: 1.65, marginBottom: 32 }}>
+                AI-powered career assessment. 30 minutes. Three career lenses. A personalized report with your top matches and clear next steps.
               </p>
-              <p style={{ color: '#9ca3af', fontSize: 14, marginBottom: 28 }}>No pressure. No commitment. Just clarity.</p>
-              <Link href="/compass" className="pub-btn-navy">
+              <Link href="/compass" className="pub-btn-primary">
                 Try Compass →
               </Link>
             </div>
+            <div className="reveal reveal-right">
+              <div className="pub-glass p-8 rounded-2xl" style={{ background: 'rgba(255,255,255,0.05)' }}>
+                <div className="grid grid-cols-2 gap-6 text-center">
+                  {[
+                    { icon: '🤖', label: 'AI-Powered Report' },
+                    { icon: '🧭', label: '3-Path Matching' },
+                    { icon: '📊', label: 'Career Clusters' },
+                    { icon: '⚡', label: 'Instant Results' },
+                  ].map((item) => (
+                    <div key={item.label}>
+                      <span style={{ fontSize: 28, display: 'block', marginBottom: 8 }}>{item.icon}</span>
+                      <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 12, color: '#ffffff' }}>{item.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── SHOWCASE BANNER ───────────────────────────────────────── */}
-      <section style={{ background: '#071629' }}>
-        <div className="pub-section text-center reveal" style={{ paddingTop: 64, paddingBottom: 64 }}>
+      {/* ── SHOWCASE BANNER — FULL BLEED IMAGE ───────────────────────── */}
+      <section className="pub-hero-image pub-overlay-dark" style={{ minHeight: 400 }}>
+        <Image
+          src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1920&q=80&auto=format"
+          alt="Conference stage"
+          fill
+          style={{ objectFit: 'cover' }}
+        />
+        <div className="pub-section relative z-10 w-full text-center reveal" style={{ paddingTop: 72, paddingBottom: 72 }}>
           <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full text-sm font-semibold" style={{ background: 'rgba(255,203,93,0.15)', color: '#ffcb5d', border: '1px solid rgba(255,203,93,0.25)' }}>
             🏆 Coming 2026
           </div>
-          <h2 className="pub-heading text-white" style={{ fontSize: 'clamp(26px, 4vw, 42px)', marginBottom: 16 }}>
-            Proplr National Showcase 2026
+          <h2 className="pub-heading pub-text-shadow" style={{ fontSize: 'clamp(30px, 5vw, 52px)', color: '#ffffff', marginBottom: 16 }}>
+            Proplr National Showcase
           </h2>
-          <p style={{ color: '#8ca3be', fontSize: 17, maxWidth: 560, margin: '0 auto 32px', lineHeight: 1.65 }}>
-            Dubai&apos;s first national showcase for student entrepreneurs and career builders. Get in the program by September — and you&apos;ll be on stage in 2026.
+          <p className="pub-text-shadow" style={{ color: 'rgba(255,255,255,0.8)', fontSize: 17, maxWidth: 500, margin: '0 auto 32px' }}>
+            Where the best student teams in the UAE compete on real industry challenges.
           </p>
-          <Link href="/showcase" className="pub-btn-primary">
-            Learn More →
-          </Link>
+          <Link href="/showcase" className="pub-btn-primary">Learn More →</Link>
         </div>
       </section>
 
-      {/* ── PARENT TRUST ──────────────────────────────────────────── */}
+      {/* ── PARENT TRUST — WITH IMAGE ────────────────────────────────── */}
       <section style={{ background: '#ffffff' }}>
         <div className="pub-section">
-          <div className="text-center mb-14 reveal">
-            <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: '#3d9be9', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 12 }}>FOR PARENTS</span>
-            <h2 className="pub-heading" style={{ fontSize: 'clamp(26px, 4vw, 42px)', color: '#071629', marginBottom: 12 }}>
-              Built for Dubai students. Backed by KHDA.
-            </h2>
-            <p style={{ color: '#6e6e73', fontSize: 17 }}>We know you have questions. Here&apos;s what matters most.</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              {
-                icon: '🏛️', title: 'Officially Certified',
-                body: 'Proplr is a KHDA-licensed education provider operating in Dubai (Permit #633441). Our programs are approved, our certificates are attested, and our standards are held to the highest regulatory benchmark in UAE education.',
-              },
-              {
-                icon: '📜', title: 'Real Certificates, Not Participation Trophies',
-                body: 'Students complete 6 KHDA-certified pillars over the academic year. Each certificate is formally attested — recognized by universities, employers, and institutions across the UAE and beyond.',
-              },
-              {
-                icon: '🌍', title: "Founded by People Who've Been There",
-                body: "Alina and Faris both graduated and faced the gap between academic qualifications and what the real world actually needed. They built Proplr because no one built it for them. Their work in student development has been nationally recognized across the UK, Canada, and UAE.",
-              },
-            ].map((card, i) => (
-              <div key={card.title} className={`pub-card reveal reveal-delay-${i + 1} p-8`} style={{ border: '1px solid rgba(0,0,0,0.06)' }}>
-                <span style={{ fontSize: 36, display: 'block', marginBottom: 16 }}>{card.icon}</span>
-                <h3 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 18, color: '#071629', marginBottom: 10 }}>{card.title}</h3>
-                <p style={{ color: '#6e6e73', fontSize: 14, lineHeight: 1.7 }}>{card.body}</p>
+          <div className="grid md:grid-cols-2 gap-14 items-center">
+            <div className="reveal reveal-left">
+              <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: '#3d9be9', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 12 }}>FOR PARENTS</span>
+              <h2 className="pub-heading" style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: '#071629', marginBottom: 14 }}>
+                Backed by KHDA.<br />Built for Dubai students.
+              </h2>
+              <p style={{ color: '#6e6e73', fontSize: 16, lineHeight: 1.65, marginBottom: 24 }}>
+                Officially licensed (Permit #633441). Certificates are KHDA-attested. Standards set by the highest education authority in Dubai.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                {['KHDA Certified', 'Real Certificates', 'Industry Mentors'].map((b) => (
+                  <span key={b} className="pub-glass px-4 py-2 rounded-full text-sm font-bold" style={{ color: '#071629' }}>{b}</span>
+                ))}
               </div>
-            ))}
+            </div>
+            <div className="reveal reveal-right">
+              <div className="pub-img-card">
+                <Image
+                  src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&q=80&auto=format"
+                  alt="Students learning together"
+                  width={600}
+                  height={400}
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── PRICING TEASER ────────────────────────────────────────── */}
-      <section style={{ background: '#f5f5f7' }}>
+      {/* ── PRICING TEASER ──────────────────────────────────────────── */}
+      <section className="pub-pattern-grid" style={{ background: '#f5f5f7' }}>
         <div className="pub-section">
           <div className="text-center mb-12 reveal">
-            <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: '#3d9be9', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 12 }}>PRICING</span>
-            <h2 className="pub-heading" style={{ fontSize: 'clamp(26px, 4vw, 40px)', color: '#071629', marginBottom: 12 }}>
-              Straightforward pricing. Real returns.
+            <h2 className="pub-heading" style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: '#071629', marginBottom: 8 }}>
+              Straightforward pricing.
             </h2>
           </div>
           <div className="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto mb-10">
             {[
-              { name: 'Foundation', price: 'AED 400/mo', note: '× 8 months = AED 3,200/year', color: '#ffcb5d', bg: 'rgba(255,203,93,0.08)', border: 'rgba(255,203,93,0.3)' },
-              { name: 'Impact', price: 'AED 999', note: 'flat/year — university students', color: '#3d9be9', bg: 'rgba(61,155,233,0.08)', border: 'rgba(61,155,233,0.25)' },
+              { name: 'Foundation', price: 'AED 400', unit: '/mo', note: '× 8 months = AED 3,200/year', color: '#ffcb5d', bg: 'rgba(255,203,93,0.08)', border: 'rgba(255,203,93,0.3)' },
+              { name: 'Impact', price: 'AED 999', unit: '/year', note: 'University students — flat rate', color: '#3d9be9', bg: 'rgba(61,155,233,0.08)', border: 'rgba(61,155,233,0.25)' },
             ].map((plan, i) => (
-              <div key={plan.name} className={`pub-card reveal reveal-delay-${i + 1} p-8 text-center`} style={{ background: plan.bg, border: `1.5px solid ${plan.border}` }}>
+              <div key={plan.name} className={`pub-card pub-glow-border reveal reveal-delay-${i + 1} p-8 text-center`} style={{ background: plan.bg, border: `1.5px solid ${plan.border}` }}>
                 <h3 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800, fontSize: 18, color: '#071629', marginBottom: 8 }}>{plan.name}</h3>
-                <p style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 900, fontSize: 30, color: plan.color, marginBottom: 4 }}>{plan.price}</p>
+                <p style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 900, fontSize: 36, color: plan.color, marginBottom: 4 }}>
+                  {plan.price}<span style={{ fontSize: 18, opacity: 0.7 }}>{plan.unit}</span>
+                </p>
                 <p style={{ color: '#6e6e73', fontSize: 13 }}>{plan.note}</p>
               </div>
             ))}
@@ -293,18 +409,26 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── FOOTER CTA BANNER ─────────────────────────────────────── */}
-      <section style={{ background: '#071629' }}>
-        <div className="pub-section text-center reveal" style={{ paddingTop: 72, paddingBottom: 72 }}>
-          <h2 className="pub-heading text-white" style={{ fontSize: 'clamp(26px, 4vw, 42px)', marginBottom: 16 }}>
-            Ready to future-proof your path before graduation?
+      {/* ── FINAL CTA — FULL BLEED ──────────────────────────────────── */}
+      <section className="pub-hero-image pub-overlay-dark" style={{ minHeight: 420 }}>
+        <Image
+          src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1920&q=80&auto=format"
+          alt="Students working together"
+          fill
+          style={{ objectFit: 'cover' }}
+        />
+        <div className="pub-section relative z-10 w-full text-center reveal" style={{ paddingTop: 80, paddingBottom: 80 }}>
+          <h2 className="pub-heading pub-text-shadow" style={{ fontSize: 'clamp(30px, 5vw, 52px)', color: '#ffffff', marginBottom: 16 }}>
+            Ready to future-proof your path?
           </h2>
-          <p style={{ color: '#8ca3be', fontSize: 17, marginBottom: 36 }}>Clubs are forming now. Program starts September 2026.</p>
+          <p className="pub-text-shadow" style={{ color: 'rgba(255,255,255,0.8)', fontSize: 18, marginBottom: 36 }}>
+            Clubs are forming now. September 2026 cohort enrolling.
+          </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/register" className="pub-btn-primary">
-              Get Started
+            <Link href="/register" className="pub-btn-primary" style={{ fontSize: 18, padding: '16px 40px' }}>
+              Get Started →
             </Link>
-            <Link href="/start-a-club" style={{ color: '#3d9be9', fontSize: 15, fontWeight: 600 }} className="hover:text-white transition-colors">
+            <Link href="/start-a-club" style={{ color: '#3d9be9', fontSize: 15, fontWeight: 600, textDecoration: 'none' }}>
               Or bring Proplr to your school →
             </Link>
           </div>

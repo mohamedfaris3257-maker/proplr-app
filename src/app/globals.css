@@ -527,6 +527,142 @@ body {
   grid-column: span 2;
 }
 
+/* ─── HERO & IMAGE EFFECTS ─────────────────────────────────────── */
+
+/* Full-bleed hero with image */
+.pub-hero-image {
+  position: relative;
+  overflow: hidden;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+}
+.pub-hero-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* Image overlay gradients */
+.pub-overlay-dark::after {
+  background: linear-gradient(180deg, rgba(7,22,41,0.7) 0%, rgba(7,22,41,0.85) 60%, #071629 100%);
+}
+.pub-overlay-bottom::after {
+  background: linear-gradient(180deg, transparent 40%, rgba(7,22,41,0.95) 100%);
+}
+.pub-overlay-left::after {
+  background: linear-gradient(90deg, rgba(7,22,41,0.9) 0%, rgba(7,22,41,0.5) 50%, transparent 100%);
+}
+
+/* Image zoom on section scroll */
+.pub-img-zoom {
+  transition: transform 8s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.pub-img-zoom.in-view {
+  transform: scale(1.08);
+}
+
+/* Image reveal — clip from left */
+.js-animations .pub-img-reveal {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1s cubic-bezier(0.77,0,0.175,1);
+}
+.js-animations .pub-img-reveal.in-view {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Parallax-style background (CSS only) */
+@media (min-width: 768px) {
+  .pub-parallax-bg {
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+/* Ken Burns — slow zoom + pan on an image */
+@keyframes pub-ken-burns {
+  0% { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.15) translate(-2%, -1%); }
+}
+.pub-ken-burns {
+  animation: pub-ken-burns 20s ease-in-out alternate infinite;
+}
+
+/* Text shadow for readability on images */
+.pub-text-shadow {
+  text-shadow: 0 2px 20px rgba(0,0,0,0.5), 0 0 60px rgba(0,0,0,0.3);
+}
+
+/* Sticky scroll section */
+.pub-sticky-wrap {
+  position: relative;
+}
+.pub-sticky-panel {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Scale on scroll — starts small, grows as it enters view */
+.js-animations .reveal-grow {
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 0.8s cubic-bezier(0.23,1,0.32,1), transform 1s cubic-bezier(0.23,1,0.32,1);
+}
+.js-animations .reveal-grow.in-view {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Clip reveal from bottom */
+.js-animations .reveal-clip {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 0.8s cubic-bezier(0.77,0,0.175,1);
+}
+.js-animations .reveal-clip.in-view {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Counter number pop */
+@keyframes pub-count-pop {
+  0% { transform: scale(0.6); opacity: 0; }
+  60% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.pub-count-pop {
+  opacity: 0;
+}
+.pub-count-pop.in-view {
+  animation: pub-count-pop 0.6s cubic-bezier(0.23,1,0.32,1) forwards;
+}
+
+/* Horizontal line grow */
+.js-animations .pub-line-grow {
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #3d9be9, #ffcb5d);
+  transition: width 1.2s cubic-bezier(0.23,1,0.32,1);
+}
+.js-animations .pub-line-grow.in-view {
+  width: 80px;
+}
+
+/* Image rounded with tilt */
+.pub-img-card {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 24px 48px rgba(7,22,41,0.15);
+  transition: transform 0.6s cubic-bezier(0.23,1,0.32,1);
+}
+.pub-img-card:hover {
+  transform: perspective(800px) rotateY(-2deg) rotateX(1deg);
+}
+
 /* ─── DASHBOARD LIGHT THEME OVERRIDES ─────────────────────────── */
 /* Override dark Tailwind utility classes inside the dashboard layout */
 [data-theme="light"] {

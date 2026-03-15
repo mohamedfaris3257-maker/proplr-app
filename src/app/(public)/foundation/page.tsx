@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = { title: 'Proplr Foundation — K-12 Program' };
@@ -7,28 +8,34 @@ export default function FoundationPage() {
   return (
     <div>
       {/* ── HERO ───────────────────────────────────────────── */}
-      <section className="pub-pattern-dots relative overflow-hidden">
-        <div className="pub-orb-blue" style={{ width: 500, height: 500, top: -120, right: -100 }} />
-        <div className="pub-orb-yellow" style={{ width: 400, height: 400, bottom: -80, left: -60 }} />
-
-        <div className="pub-section relative z-10" style={{ paddingTop: 100, paddingBottom: 80 }}>
-          <div className="max-w-3xl">
-            <span className="inline-block px-4 py-2 rounded-full text-xs font-bold mb-6" style={{ background: 'rgba(255,203,93,0.15)', color: '#a07800', border: '1px solid rgba(255,203,93,0.3)' }}>
+      <section className="pub-hero-image pub-overlay-left" style={{ minHeight: 520 }}>
+        <Image
+          src="https://images.unsplash.com/photo-1577896851231-70ef18881754?w=1920&q=80&auto=format"
+          alt="High school students collaborating"
+          fill
+          className="pub-ken-burns"
+          style={{ objectFit: 'cover' }}
+          priority
+        />
+        <div className="pub-section relative z-10" style={{ paddingTop: 120, paddingBottom: 100 }}>
+          <div className="max-w-2xl">
+            <div className="pub-line-grow reveal mb-8" />
+            <span className="inline-block px-4 py-2 rounded-full text-xs font-bold mb-6" style={{ background: 'rgba(255,203,93,0.2)', color: '#ffcb5d', border: '1px solid rgba(255,203,93,0.3)' }}>
               PROPLR FOUNDATION &middot; GRADES 8 &ndash; 12
             </span>
 
-            <h1 className="pub-heading reveal" style={{ fontSize: 'clamp(36px, 6vw, 72px)', color: '#071629', marginBottom: 20, lineHeight: 1.05 }}>
+            <h1 className="pub-heading pub-text-shadow reveal" style={{ fontSize: 'clamp(36px, 6vw, 72px)', color: '#ffffff', marginBottom: 20, lineHeight: 1.05 }}>
               Career-ready before<br />
-              <span className="pub-gradient-text-animated">graduation.</span>
+              <span style={{ color: '#ffcb5d' }}>graduation.</span>
             </h1>
 
-            <p className="reveal reveal-delay-1" style={{ fontSize: 20, color: '#6e6e73', maxWidth: 520, marginBottom: 40 }}>
+            <p className="pub-text-shadow reveal reveal-delay-1" style={{ fontSize: 20, color: 'rgba(255,255,255,0.9)', maxWidth: 480, marginBottom: 40 }}>
               KHDA-certified skills, real industry exposure, and a portfolio &mdash; all inside one after-school club.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 reveal reveal-delay-2">
               <Link href="/register" className="pub-btn-primary">Register Now</Link>
-              <Link href="/start-a-club" className="pub-btn-ghost">Start a Club</Link>
+              <Link href="/start-a-club" className="pub-btn-ghost" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.4)' }}>Start a Club</Link>
             </div>
           </div>
         </div>
@@ -122,20 +129,48 @@ export default function FoundationPage() {
         </div>
       </section>
 
+      {/* ── INDUSTRY EXPOSURE — IMAGE + TEXT ROW ──────────── */}
+      <section style={{ background: '#f5f5f7' }}>
+        <div className="pub-section">
+          <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <div className="reveal-left">
+              <div className="pub-img-card">
+                <Image
+                  src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&q=80&auto=format"
+                  alt="Students in office mentorship session"
+                  width={800}
+                  height={530}
+                  style={{ objectFit: 'cover', width: '100%', height: 'auto', borderRadius: 16 }}
+                />
+              </div>
+            </div>
+            <div className="reveal-right">
+              <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: '#3d9be9', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 12 }}>
+                INDUSTRY EXPOSURE
+              </span>
+              <h2 className="pub-heading" style={{ fontSize: 'clamp(26px, 3.5vw, 40px)', color: '#071629', marginBottom: 14 }}>
+                Start your career early.
+              </h2>
+              <p style={{ color: '#6e6e73', fontSize: 15, lineHeight: 1.7, marginBottom: 24 }}>
+                From job shadowing to internships and global mentorship, Foundation students gain real-world experience before they leave school. Over 150 mentors across 20+ countries guide students through live industry challenges.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                {['Job Shadowing', 'Internships', '150+ Mentors'].map((tag) => (
+                  <span key={tag} className="px-4 py-2 rounded-full text-sm font-semibold" style={{ background: 'rgba(61,155,233,0.1)', color: '#3d9be9', border: '1px solid rgba(61,155,233,0.2)' }}>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <div className="pub-divider" />
 
-      {/* ── INDUSTRY EXPOSURE ──────────────────────────────── */}
+      {/* ── INDUSTRY EXPOSURE CARDS ───────────────────────── */}
       <section style={{ background: '#ffffff' }}>
         <div className="pub-section">
-          <div className="text-center mb-12 reveal">
-            <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: '#3d9be9', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 10 }}>
-              INDUSTRY EXPOSURE
-            </span>
-            <h2 className="pub-heading" style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: '#071629' }}>
-              Start your career early.
-            </h2>
-          </div>
-
           <div className="grid sm:grid-cols-3 gap-6">
             {[
               { title: 'Job Shadowing', desc: 'Observe professionals in real workflows.', badge: 'Years 9 &ndash; 12' },
@@ -177,16 +212,23 @@ export default function FoundationPage() {
       </section>
 
       {/* ── NATIONAL SHOWCASE ──────────────────────────────── */}
-      <section style={{ background: '#071629' }}>
-        <div className="pub-section">
+      <section className="pub-hero-image pub-overlay-dark" style={{ minHeight: 380 }}>
+        <Image
+          src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1920&q=80&auto=format"
+          alt="Conference stage with audience"
+          fill
+          className="pub-ken-burns"
+          style={{ objectFit: 'cover' }}
+        />
+        <div className="pub-section relative z-10" style={{ paddingTop: 80, paddingBottom: 80 }}>
           <div className="max-w-2xl mx-auto text-center reveal">
             <span className="inline-block px-4 py-2 rounded-full text-xs font-bold mb-6 pub-pulse-glow" style={{ background: 'rgba(61,155,233,0.15)', color: '#3d9be9', border: '1px solid rgba(61,155,233,0.25)' }}>
               NATIONAL SHOWCASE
             </span>
-            <h2 className="pub-heading" style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: '#ffffff', marginBottom: 14 }}>
+            <h2 className="pub-heading pub-text-shadow" style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: '#ffffff', marginBottom: 14 }}>
               From classroom to <span style={{ color: '#ffcb5d' }}>national stage.</span>
             </h2>
-            <p className="reveal reveal-delay-1" style={{ color: '#8ca3be', fontSize: 16, marginBottom: 32 }}>
+            <p className="pub-text-shadow reveal reveal-delay-1" style={{ color: 'rgba(255,255,255,0.85)', fontSize: 16, marginBottom: 32 }}>
               Cross-school teams. Company-sponsored briefs. Cash prizes. Live pitch finals.
             </p>
             <Link href="/showcase" className="pub-btn-primary reveal reveal-delay-2">

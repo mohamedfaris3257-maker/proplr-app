@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { MentorApplicationForm } from '@/components/public/MentorApplicationForm';
 
 export const metadata: Metadata = { title: 'Mentorship — Proplr', description: 'Get matched with experienced UAE professionals.' };
@@ -8,23 +9,31 @@ export default function MentorshipPage() {
   return (
     <div>
       {/* ── HERO ── */}
-      <section className="relative overflow-hidden" style={{ background: '#ffffff' }}>
-        <div className="pub-orb-blue" style={{ width: 500, height: 500, top: -200, right: -100 }} />
-        <div className="pub-section relative z-10">
-          <div className="max-w-3xl">
-            <span className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-5" style={{ background: 'rgba(61,155,233,0.1)', color: '#1a6fad', border: '1px solid rgba(61,155,233,0.2)' }}>
+      <section className="pub-hero-image pub-overlay-left">
+        <Image
+          src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1920&q=80&auto=format"
+          alt="Mentorship session"
+          fill
+          priority
+          className="pub-ken-burns"
+          style={{ objectFit: 'cover' }}
+        />
+        <div className="pub-section relative z-10 w-full">
+          <div className="max-w-2xl">
+            <div className="pub-line-grow reveal mb-6" />
+            <span className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-5" style={{ background: 'rgba(61,155,233,0.2)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)' }}>
               MENTORSHIP PROGRAM
             </span>
-            <h1 className="pub-heading reveal" style={{ fontSize: 'clamp(36px, 6vw, 60px)', color: '#071629', marginBottom: 20 }}>
+            <h1 className="pub-heading pub-text-shadow reveal" style={{ fontSize: 'clamp(36px, 6vw, 60px)', color: '#ffffff', marginBottom: 20 }}>
               Guidance from people<br />
-              <span className="pub-gradient-text-animated">who&apos;ve been there.</span>
+              <span style={{ color: '#ffcb5d' }}>who&apos;ve been there.</span>
             </h1>
-            <p className="reveal reveal-delay-1" style={{ fontSize: 18, color: '#6e6e73', maxWidth: 480, marginBottom: 32 }}>
+            <p className="reveal reveal-delay-1 pub-text-shadow" style={{ fontSize: 18, color: 'rgba(255,255,255,0.85)', maxWidth: 480, marginBottom: 32 }}>
               Every student gets matched with a real professional. Real advice. Real careers. Not textbook theory.
             </p>
             <div className="flex flex-wrap gap-3 reveal reveal-delay-2">
               <Link href="/register" className="pub-btn-primary">Join a Program →</Link>
-              <a href="#become-mentor" className="pub-btn-ghost">Become a Mentor →</a>
+              <a href="#become-mentor" className="pub-btn-ghost" style={{ color: '#fff', borderColor: 'rgba(255,255,255,0.3)' }}>Become a Mentor →</a>
             </div>
           </div>
         </div>

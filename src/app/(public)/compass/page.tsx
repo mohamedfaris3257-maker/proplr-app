@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = { title: 'Compass — AI Career Assessment by Proplr' };
@@ -7,21 +8,27 @@ export default function CompassPage() {
   return (
     <div>
       {/* ── HERO ───────────────────────────────────────────── */}
-      <section className="relative overflow-hidden pub-pattern-dots" style={{ background: '#071629', minHeight: 480 }}>
-        <div className="pub-orb-blue" style={{ top: -180, right: -80 }} />
-        <div className="pub-orb-yellow" style={{ bottom: -120, left: -60 }} />
+      <section className="pub-hero-image pub-overlay-dark">
+        <Image
+          src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80&auto=format"
+          alt="Abstract technology background"
+          fill
+          priority
+          className="pub-ken-burns"
+          style={{ objectFit: 'cover' }}
+        />
 
         <div className="pub-section relative z-10 text-center" style={{ paddingTop: 100, paddingBottom: 80 }}>
           <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full text-xs font-bold tracking-widest uppercase" style={{ background: 'rgba(255,255,255,0.06)', color: '#8ca3be', border: '1px solid rgba(255,255,255,0.08)' }}>
             AI-Powered Career Clarity
           </div>
 
-          <h1 className="pub-heading text-white reveal" style={{ fontSize: 'clamp(38px, 7vw, 72px)', marginBottom: 20, lineHeight: 1.05 }}>
+          <h1 className="pub-heading pub-text-shadow text-white reveal" style={{ fontSize: 'clamp(38px, 7vw, 72px)', marginBottom: 20, lineHeight: 1.05 }}>
             Find your path.<br />
             <span className="pub-gradient-text-animated">Own your future.</span>
           </h1>
 
-          <p className="reveal reveal-delay-1" style={{ fontSize: 18, color: '#8ca3be', maxWidth: 480, margin: '0 auto 40px', lineHeight: 1.6 }}>
+          <p className="reveal reveal-delay-1 pub-text-shadow" style={{ fontSize: 18, color: 'rgba(255,255,255,0.85)', maxWidth: 480, margin: '0 auto 40px', lineHeight: 1.6 }}>
             One assessment. Three career lenses. A personalized AI report in under 45 minutes.
           </p>
 
@@ -29,7 +36,7 @@ export default function CompassPage() {
             <a href="#take-assessment" className="pub-btn-primary pub-pulse-glow">
               Take the Assessment
             </a>
-            <a href="#what-you-get" className="pub-btn-ghost" style={{ color: '#8ca3be', borderColor: 'rgba(255,255,255,0.15)' }}>
+            <a href="#what-you-get" className="pub-btn-ghost" style={{ color: '#fff', borderColor: 'rgba(255,255,255,0.3)' }}>
               Learn More
             </a>
           </div>

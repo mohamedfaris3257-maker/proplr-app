@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = { title: 'Programs – Proplr' };
@@ -16,20 +17,26 @@ export default function ProgramsPage() {
   return (
     <div>
       {/* ── HERO ──────────────────────────────────────────── */}
-      <section className="relative overflow-hidden pub-pattern-dots" style={{ background: '#ffffff', minHeight: 520 }}>
-        <div className="pub-orb-blue pub-pulse-glow" style={{ width: 600, height: 600, top: -200, right: -150 }} />
-        <div className="pub-orb-yellow pub-pulse-glow" style={{ width: 500, height: 500, bottom: -200, left: -150 }} />
-
-        <div className="pub-section relative z-10" style={{ paddingTop: 100, paddingBottom: 100 }}>
+      <section className="pub-hero-image pub-overlay-dark" style={{ minHeight: 520 }}>
+        <Image
+          src="https://images.unsplash.com/photo-1529390079861-591de354faf5?w=1920&q=80&auto=format"
+          alt="Students collaborating on career projects"
+          fill
+          priority
+          className="pub-ken-burns"
+          style={{ objectFit: 'cover' }}
+        />
+        <div className="pub-section relative z-10 w-full" style={{ paddingTop: 100, paddingBottom: 100 }}>
           <div className="max-w-3xl mx-auto text-center">
+            <div className="pub-line-grow reveal mx-auto mb-8" />
             <h1
-              className="pub-heading reveal"
-              style={{ fontSize: 'clamp(36px, 6vw, 72px)', color: '#071629', marginBottom: 20, lineHeight: 1.05 }}
+              className="pub-heading pub-text-shadow reveal"
+              style={{ fontSize: 'clamp(36px, 6vw, 72px)', color: '#ffffff', marginBottom: 20, lineHeight: 1.05 }}
             >
               School to career.{' '}
               <span className="pub-gradient-text-animated">One pipeline.</span>
             </h1>
-            <p className="reveal reveal-delay-1" style={{ fontSize: 19, color: '#6e6e73', lineHeight: 1.6, maxWidth: 480, margin: '0 auto 40px' }}>
+            <p className="pub-text-shadow reveal reveal-delay-1" style={{ fontSize: 19, color: '#e0e0e5', lineHeight: 1.6, maxWidth: 480, margin: '0 auto 40px' }}>
               KHDA-certified programs that build real skills, industry access, and a portfolio — not just another certificate.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center reveal reveal-delay-2">
@@ -80,12 +87,20 @@ export default function ProgramsPage() {
 
           <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
             {/* Foundation */}
-            <div className="pub-card pub-glow-border reveal reveal-delay-1 p-0 overflow-hidden" style={{ border: '1px solid rgba(255,203,93,0.2)' }}>
-              <div style={{ height: 4, background: 'linear-gradient(90deg, #ffcb5d, #f5a623)' }} />
-              <div className="p-8">
-                <span className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-4" style={{ background: 'rgba(255,203,93,0.15)', color: '#a07800' }}>
+            <div className="pub-card pub-glow-border reveal-left p-0 overflow-hidden" style={{ border: '1px solid rgba(255,203,93,0.2)' }}>
+              <div style={{ position: 'relative', height: 200 }}>
+                <Image
+                  src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800&q=80&auto=format"
+                  alt="High school students in a career development workshop"
+                  fill
+                  style={{ objectFit: 'cover' }}
+                />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 30%, rgba(7,22,41,0.7) 100%)' }} />
+                <span className="absolute bottom-4 left-6 px-3 py-1 rounded-full text-xs font-bold" style={{ background: 'rgba(255,203,93,0.9)', color: '#071629' }}>
                   Grades 8–12
                 </span>
+              </div>
+              <div className="p-8">
                 <h3 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 900, fontSize: 28, color: '#071629', marginBottom: 12 }}>
                   Foundation <span style={{ color: '#ffcb5d' }}>K-12</span>
                 </h3>
@@ -104,12 +119,20 @@ export default function ProgramsPage() {
             </div>
 
             {/* Impact */}
-            <div className="pub-card pub-glow-border reveal reveal-delay-2 p-0 overflow-hidden" style={{ border: '1px solid rgba(61,155,233,0.2)' }}>
-              <div style={{ height: 4, background: 'linear-gradient(90deg, #3d9be9, #1a6fad)' }} />
-              <div className="p-8">
-                <span className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-4" style={{ background: 'rgba(61,155,233,0.12)', color: '#1a6fad' }}>
+            <div className="pub-card pub-glow-border reveal-right p-0 overflow-hidden" style={{ border: '1px solid rgba(61,155,233,0.2)' }}>
+              <div style={{ position: 'relative', height: 200 }}>
+                <Image
+                  src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=800&q=80&auto=format"
+                  alt="University students collaborating on advanced projects"
+                  fill
+                  style={{ objectFit: 'cover' }}
+                />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 30%, rgba(7,22,41,0.7) 100%)' }} />
+                <span className="absolute bottom-4 left-6 px-3 py-1 rounded-full text-xs font-bold" style={{ background: 'rgba(61,155,233,0.9)', color: '#ffffff' }}>
                   University & Young Adults
                 </span>
+              </div>
+              <div className="p-8">
                 <h3 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 900, fontSize: 28, color: '#071629', marginBottom: 12 }}>
                   Impact <span style={{ color: '#3d9be9' }}>University</span>
                 </h3>
@@ -143,7 +166,7 @@ export default function ProgramsPage() {
             {PILLARS.map((p, i) => (
               <div
                 key={p.title}
-                className={`reveal reveal-delay-${(i % 3) + 1} p-6 rounded-2xl pub-glow-border`}
+                className={`reveal ${i % 2 === 0 ? 'reveal-left' : 'reveal-right'} p-6 rounded-2xl pub-glow-border`}
                 style={{ background: '#f5f5f7', border: '1px solid rgba(0,0,0,0.04)', textAlign: 'center' }}
               >
                 <span className="pub-stat-number" style={{ fontSize: 36, color: p.color, opacity: 0.3, display: 'block', marginBottom: 4 }}>
@@ -200,7 +223,7 @@ export default function ProgramsPage() {
               <Link
                 key={card.title}
                 href={card.link}
-                className={`pub-card pub-glow-border reveal reveal-delay-${(i % 4) + 1} p-6 block`}
+                className={`pub-card pub-glow-border ${i % 2 === 0 ? 'reveal-left' : 'reveal-right'} p-6 block`}
                 style={{ border: '1px solid rgba(0,0,0,0.06)', textDecoration: 'none' }}
               >
                 <span style={{ fontSize: 32, display: 'block', marginBottom: 12 }}>{card.icon}</span>
@@ -210,6 +233,30 @@ export default function ProgramsPage() {
                 <p style={{ color: '#6e6e73', fontSize: 14, lineHeight: 1.55 }}>{card.desc}</p>
               </Link>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── FULL-BLEED IMAGE CTA ──────────────────────────── */}
+      <section className="pub-hero-image pub-overlay-dark" style={{ minHeight: 360 }}>
+        <Image
+          src="https://images.unsplash.com/photo-1529390079861-591de354faf5?w=1920&q=80&auto=format"
+          alt="Students working together on career projects"
+          fill
+          style={{ objectFit: 'cover' }}
+        />
+        <div className="pub-section relative z-10 w-full text-center" style={{ paddingTop: 80, paddingBottom: 80 }}>
+          <h2
+            className="pub-heading pub-text-shadow reveal"
+            style={{ fontSize: 'clamp(24px, 4vw, 42px)', color: '#ffffff', marginBottom: 16 }}
+          >
+            Your career starts before graduation.
+          </h2>
+          <p className="pub-text-shadow reveal reveal-delay-1" style={{ color: '#e0e0e5', fontSize: 17, maxWidth: 440, margin: '0 auto 32px' }}>
+            Real skills. Real mentors. Real outcomes.
+          </p>
+          <div className="reveal reveal-delay-2">
+            <Link href="/register" className="pub-btn-primary">Apply Now →</Link>
           </div>
         </div>
       </section>

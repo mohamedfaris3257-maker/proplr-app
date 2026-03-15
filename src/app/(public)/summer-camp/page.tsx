@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { SummerCampForm } from '@/components/public/SummerCampForm';
 
 export const metadata: Metadata = { title: 'Proplr Summer Camp 2026 — Get a Head Start' };
@@ -8,24 +9,31 @@ export default function SummerCampPage() {
   return (
     <div>
       {/* ── HERO ── */}
-      <section className="relative overflow-hidden" style={{ background: '#ffffff' }}>
-        <div className="pub-orb-yellow" style={{ width: 500, height: 500, top: -150, right: -80 }} />
-        <div className="pub-orb-blue" style={{ width: 400, height: 400, bottom: -100, left: -80 }} />
-        <div className="pub-section relative z-10">
-          <div className="max-w-3xl">
-            <span className="inline-block px-4 py-2 rounded-full text-xs font-bold mb-5" style={{ background: 'rgba(255,203,93,0.15)', color: '#a07800', border: '1px solid rgba(255,203,93,0.3)' }}>
+      <section className="pub-hero-image pub-overlay-left">
+        <Image
+          src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1920&q=80&auto=format"
+          alt="Summer outdoor activity"
+          fill
+          priority
+          className="pub-ken-burns"
+          style={{ objectFit: 'cover' }}
+        />
+        <div className="pub-section relative z-10 w-full">
+          <div className="max-w-2xl">
+            <div className="pub-line-grow reveal mb-6" />
+            <span className="inline-block px-4 py-2 rounded-full text-xs font-bold mb-5" style={{ background: 'rgba(255,203,93,0.15)', color: '#ffcb5d', border: '1px solid rgba(255,203,93,0.3)' }}>
               SUMMER CAMP 2026
             </span>
-            <h1 className="pub-heading reveal" style={{ fontSize: 'clamp(36px, 6vw, 64px)', color: '#071629', marginBottom: 20 }}>
+            <h1 className="pub-heading pub-text-shadow reveal" style={{ fontSize: 'clamp(36px, 6vw, 64px)', color: '#ffffff', marginBottom: 20 }}>
               Get a head start.<br />
-              <span className="pub-gradient-text-animated">Before September arrives.</span>
+              <span style={{ color: '#ffcb5d' }}>Before September arrives.</span>
             </h1>
-            <p className="reveal reveal-delay-1" style={{ fontSize: 18, color: '#6e6e73', maxWidth: 480, marginBottom: 32 }}>
+            <p className="reveal reveal-delay-1 pub-text-shadow" style={{ fontSize: 18, color: 'rgba(255,255,255,0.85)', maxWidth: 480, marginBottom: 32 }}>
               5 days of career exploration, industry mentors, and real skill-building — before school even starts.
             </p>
             <div className="flex flex-wrap gap-3 reveal reveal-delay-2">
               <a href="#register-camp" className="pub-btn-primary">Secure Your Spot →</a>
-              <span style={{ color: '#9ca3af', fontSize: 14, alignSelf: 'center' }}>Dubai, UAE · Dates Coming Soon</span>
+              <span className="pub-text-shadow" style={{ color: 'rgba(255,255,255,0.7)', fontSize: 14, alignSelf: 'center' }}>Dubai, UAE · Dates Coming Soon</span>
             </div>
           </div>
         </div>

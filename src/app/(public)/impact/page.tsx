@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = { title: 'Proplr Impact — University Program' };
@@ -33,30 +34,37 @@ export default function ImpactPage() {
   return (
     <div>
       {/* ── HERO ─────────────────────────────────────────── */}
-      <section className="pub-pattern-dots relative overflow-hidden" style={{ background: '#ffffff' }}>
-        <div className="pub-orb-blue" style={{ width: 600, height: 600, top: -200, right: -100 }} />
-        <div className="pub-orb-yellow" style={{ width: 400, height: 400, bottom: -100, left: -80 }} />
-        <div className="pub-section relative z-10" style={{ paddingTop: 100, paddingBottom: 80 }}>
-          <div className="max-w-3xl">
+      <section className="pub-hero-image pub-overlay-left" style={{ minHeight: 520 }}>
+        <Image
+          src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=1920&q=80&auto=format"
+          alt="University students on campus"
+          fill
+          className="pub-ken-burns"
+          style={{ objectFit: 'cover' }}
+          priority
+        />
+        <div className="pub-section relative z-10" style={{ paddingTop: 120, paddingBottom: 100 }}>
+          <div className="max-w-2xl">
+            <div className="pub-line-grow reveal mb-8" />
             <span
-              className="inline-block px-4 py-2 rounded-full text-xs font-bold mb-6 reveal"
-              style={{ background: 'rgba(61,155,233,0.12)', color: '#1a6fad', border: '1px solid rgba(61,155,233,0.25)' }}
+              className="inline-block px-4 py-2 rounded-full text-xs font-bold mb-6"
+              style={{ background: 'rgba(61,155,233,0.2)', color: '#93cbf7', border: '1px solid rgba(61,155,233,0.3)' }}
             >
               PROPLR IMPACT
             </span>
             <h1
-              className="pub-heading reveal"
-              style={{ fontSize: 'clamp(36px, 6vw, 68px)', color: '#071629', marginBottom: 20, letterSpacing: '-0.03em' }}
+              className="pub-heading pub-text-shadow reveal"
+              style={{ fontSize: 'clamp(36px, 6vw, 68px)', color: '#ffffff', marginBottom: 20, letterSpacing: '-0.03em', lineHeight: 1.05 }}
             >
               Your degree opens doors.<br />
-              <span className="pub-gradient-text-animated">We make sure you walk through them.</span>
+              <span style={{ color: '#ffcb5d' }}>We make sure you walk through them.</span>
             </h1>
-            <p className="reveal reveal-delay-1" style={{ fontSize: 19, color: '#6e6e73', lineHeight: 1.6, maxWidth: 520, marginBottom: 40 }}>
+            <p className="pub-text-shadow reveal reveal-delay-1" style={{ fontSize: 19, color: 'rgba(255,255,255,0.9)', lineHeight: 1.6, maxWidth: 480, marginBottom: 40 }}>
               The university program that turns ambition into industry-ready capability.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 reveal reveal-delay-2">
               <Link href="/register" className="pub-btn-primary">Join the Waitlist</Link>
-              <Link href="/partners" className="pub-btn-ghost">Launch a Campus Chapter</Link>
+              <Link href="/partners" className="pub-btn-ghost" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.4)' }}>Launch a Campus Chapter</Link>
             </div>
           </div>
         </div>
@@ -128,7 +136,7 @@ export default function ImpactPage() {
         </div>
       </section>
 
-      {/* ── WHAT MAKES IMPACT DIFFERENT ───────────────────── */}
+      {/* ── WHAT MAKES IMPACT DIFFERENT — SPLIT LAYOUT ──── */}
       <section style={{ background: '#ffffff' }}>
         <div className="pub-section">
           <div className="text-center mb-14 reveal">
@@ -150,56 +158,81 @@ export default function ImpactPage() {
               What makes Impact <span className="pub-gradient-text-animated">different.</span>
             </h2>
           </div>
-          <div className="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            {DIFFERENTIATORS.map((d, i) => (
-              <div
-                key={d.title}
-                className={`pub-card pub-glow-border reveal reveal-delay-${i + 1} p-8`}
-                style={{ textAlign: 'center' }}
-              >
-                <div
-                  className="pub-pulse-glow mx-auto mb-5"
-                  style={{
-                    width: 56,
-                    height: 56,
-                    borderRadius: '50%',
-                    background: 'rgba(61,155,233,0.1)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 900, fontSize: 20, color: '#3d9be9' }}>
-                    0{i + 1}
-                  </span>
-                </div>
-                <h3 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800, fontSize: 17, color: '#071629', marginBottom: 8 }}>
-                  {d.title}
-                </h3>
-                <p style={{ color: '#6e6e73', fontSize: 14, lineHeight: 1.6 }}>{d.desc}</p>
+          <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            {/* Left — Image */}
+            <div className="reveal-left">
+              <div className="pub-img-card">
+                <Image
+                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80&auto=format"
+                  alt="Team collaborating on a project"
+                  width={800}
+                  height={530}
+                  style={{ objectFit: 'cover', width: '100%', height: 'auto', borderRadius: 16 }}
+                />
               </div>
-            ))}
+            </div>
+            {/* Right — 3 Differentiator Cards */}
+            <div className="reveal-right space-y-5">
+              {DIFFERENTIATORS.map((d, i) => (
+                <div
+                  key={d.title}
+                  className={`pub-card pub-glow-border p-6 reveal reveal-delay-${i + 1}`}
+                >
+                  <div className="flex items-start gap-4">
+                    <div
+                      className="pub-pulse-glow flex-shrink-0"
+                      style={{
+                        width: 44,
+                        height: 44,
+                        borderRadius: '50%',
+                        background: 'rgba(61,155,233,0.1)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 900, fontSize: 16, color: '#3d9be9' }}>
+                        0{i + 1}
+                      </span>
+                    </div>
+                    <div>
+                      <h3 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800, fontSize: 17, color: '#071629', marginBottom: 6 }}>
+                        {d.title}
+                      </h3>
+                      <p style={{ color: '#6e6e73', fontSize: 14, lineHeight: 1.6 }}>{d.desc}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* ── NATIONAL SHOWCASE ────────────────────────────── */}
-      <section className="pub-pattern-grid" style={{ background: '#071629' }}>
-        <div className="pub-section" style={{ paddingTop: 80, paddingBottom: 80 }}>
+      <section className="pub-hero-image pub-overlay-dark" style={{ minHeight: 420 }}>
+        <Image
+          src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=1920&q=80&auto=format"
+          alt="Person presenting on stage"
+          fill
+          className="pub-ken-burns"
+          style={{ objectFit: 'cover' }}
+        />
+        <div className="pub-section relative z-10" style={{ paddingTop: 80, paddingBottom: 80 }}>
           <div className="max-w-3xl mx-auto text-center">
             <span
-              className="inline-block px-4 py-2 rounded-full text-xs font-bold mb-6 reveal pub-float-slow"
+              className="inline-block px-4 py-2 rounded-full text-xs font-bold mb-6 reveal pub-float-slow pub-pulse-glow"
               style={{ background: 'rgba(255,203,93,0.15)', color: '#ffcb5d', border: '1px solid rgba(255,203,93,0.3)' }}
             >
               NATIONAL SHOWCASE
             </span>
             <h2
-              className="pub-heading reveal"
+              className="pub-heading pub-text-shadow reveal"
               style={{ fontSize: 'clamp(28px, 5vw, 50px)', color: '#ffffff', marginBottom: 16 }}
             >
               From campus to national stage.
             </h2>
-            <p className="reveal reveal-delay-1" style={{ color: '#8ca3be', fontSize: 17, lineHeight: 1.6, maxWidth: 560, margin: '0 auto 32px' }}>
+            <p className="pub-text-shadow reveal reveal-delay-1" style={{ color: 'rgba(255,255,255,0.85)', fontSize: 17, lineHeight: 1.6, maxWidth: 560, margin: '0 auto 32px' }}>
               Teams compete on live industry briefs. Judges are hiring managers. Winners get funded.
             </p>
             <div className="flex flex-wrap justify-center gap-3 mb-10 reveal reveal-delay-2">
@@ -209,7 +242,7 @@ export default function ImpactPage() {
                   className="pub-glass inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold"
                   style={{ color: '#ffffff' }}
                 >
-                  <span style={{ color: '#ffcb5d', fontSize: 10 }}>●</span>
+                  <span style={{ color: '#ffcb5d', fontSize: 10 }}>&#9679;</span>
                   {chip}
                 </span>
               ))}
@@ -227,7 +260,20 @@ export default function ImpactPage() {
       <section style={{ background: '#f5f5f7' }}>
         <div className="pub-section-compact">
           <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            {/* Left — Image */}
             <div className="reveal reveal-left">
+              <div className="pub-img-card">
+                <Image
+                  src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=80&auto=format"
+                  alt="University campus"
+                  width={800}
+                  height={530}
+                  style={{ objectFit: 'cover', width: '100%', height: 'auto', borderRadius: 16 }}
+                />
+              </div>
+            </div>
+            {/* Right — What your campus gets */}
+            <div className="reveal reveal-right">
               <span
                 style={{
                   fontFamily: 'Montserrat, sans-serif',
@@ -245,13 +291,10 @@ export default function ImpactPage() {
               <h2 className="pub-heading" style={{ fontSize: 'clamp(24px, 3vw, 36px)', color: '#071629', marginBottom: 14 }}>
                 We bring the program.<br />You bring the students.
               </h2>
-              <p style={{ color: '#6e6e73', fontSize: 15, lineHeight: 1.6, marginBottom: 28 }}>
-                Proplr Impact runs as a student chapter on your campus — mentors, curriculum, and industry connections included.
+              <p style={{ color: '#6e6e73', fontSize: 15, lineHeight: 1.6, marginBottom: 24 }}>
+                Proplr Impact runs as a student chapter on your campus &mdash; mentors, curriculum, and industry connections included.
               </p>
-              <Link href="/partners" className="pub-btn-navy">Launch a Chapter</Link>
-            </div>
-            <div className="reveal reveal-right">
-              <div className="pub-card p-6" style={{ border: '1px solid rgba(61,155,233,0.12)' }}>
+              <div className="pub-card p-6 mb-6" style={{ border: '1px solid rgba(61,155,233,0.12)' }}>
                 <p style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 13, color: '#071629', marginBottom: 16 }}>
                   What your campus gets:
                 </p>
@@ -270,6 +313,7 @@ export default function ImpactPage() {
                   ))}
                 </ul>
               </div>
+              <Link href="/partners" className="pub-btn-navy">Launch a Chapter</Link>
             </div>
           </div>
         </div>

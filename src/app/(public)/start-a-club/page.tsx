@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ClubInterestForm } from '@/components/public/ClubInterestForm';
 
 export const metadata: Metadata = { title: 'Start a Proplr Club — Bring Proplr to Your School' };
@@ -8,18 +9,26 @@ export default function StartAClubPage() {
   return (
     <div>
       {/* ── HERO ── */}
-      <section className="relative overflow-hidden" style={{ background: '#ffffff' }}>
-        <div className="pub-orb-blue" style={{ width: 500, height: 500, top: -150, right: -80 }} />
-        <div className="pub-section relative z-10">
-          <div className="max-w-3xl">
-            <span className="inline-block px-4 py-2 rounded-full text-xs font-bold mb-5" style={{ background: 'rgba(61,155,233,0.1)', color: '#1a6fad', border: '1px solid rgba(61,155,233,0.2)' }}>
+      <section className="pub-hero-image pub-overlay-left">
+        <Image
+          src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1920&q=80&auto=format"
+          alt="Classroom setting"
+          fill
+          priority
+          className="pub-ken-burns"
+          style={{ objectFit: 'cover' }}
+        />
+        <div className="pub-section relative z-10 w-full">
+          <div className="max-w-2xl">
+            <div className="pub-line-grow reveal mb-6" />
+            <span className="inline-block px-4 py-2 rounded-full text-xs font-bold mb-5" style={{ background: 'rgba(61,155,233,0.2)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)' }}>
               FOR SCHOOLS & INSTITUTIONS
             </span>
-            <h1 className="pub-heading reveal" style={{ fontSize: 'clamp(36px, 6vw, 60px)', color: '#071629', marginBottom: 20 }}>
+            <h1 className="pub-heading pub-text-shadow reveal" style={{ fontSize: 'clamp(36px, 6vw, 60px)', color: '#ffffff', marginBottom: 20 }}>
               Bring Proplr<br />
-              <span className="pub-gradient-text-animated">to your school.</span>
+              <span style={{ color: '#ffcb5d' }}>to your school.</span>
             </h1>
-            <p className="reveal reveal-delay-1" style={{ fontSize: 18, color: '#6e6e73', maxWidth: 480, marginBottom: 32 }}>
+            <p className="reveal reveal-delay-1 pub-text-shadow" style={{ fontSize: 18, color: 'rgba(255,255,255,0.85)', maxWidth: 480, marginBottom: 32 }}>
               We handle facilitators, mentors, industry reps, and reporting. You provide students and space. That&apos;s it.
             </p>
             <a href="#club-form" className="pub-btn-primary reveal reveal-delay-2">Get Started →</a>
