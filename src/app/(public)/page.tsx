@@ -38,6 +38,10 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
+        {/* Scroll-down indicator */}
+        <a href="#how-it-works" className="pub-scroll-hint" aria-label="Scroll down">
+          <span />
+        </a>
       </section>
 
       {/* ── TRUST STRIP ─────────────────────────────────────────────── */}
