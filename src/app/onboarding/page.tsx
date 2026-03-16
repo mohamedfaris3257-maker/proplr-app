@@ -1,24 +1,75 @@
 import { OnboardingFlow } from '@/components/onboarding/OnboardingFlow';
-import { Sparkles } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
 export default function OnboardingPage() {
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 relative overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-gold/5 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="w-full max-w-lg relative z-10">
-        {/* Header */}
-        <div className="flex items-center justify-center gap-2 mb-8">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-gold to-gold-dim flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-background" />
+    <div style={styles.root}>
+      <div style={styles.inner}>
+        {/* Logo */}
+        <div style={styles.logoWrap}>
+          <div style={styles.logoBox}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="3" fill="#ffcb5d" />
+              <line x1="12" y1="2" x2="12" y2="9" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+              <line x1="12" y1="15" x2="12" y2="22" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+              <line x1="2" y1="12" x2="9" y2="12" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+              <line x1="15" y1="12" x2="22" y2="12" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+            </svg>
           </div>
-          <span className="text-xl font-bold text-text-primary">proplr</span>
+          <span style={styles.logoText}>PROPLR</span>
         </div>
+        <p style={styles.logoSub}>Complete your profile to get started</p>
 
         <OnboardingFlow />
       </div>
     </div>
   );
 }
+
+const styles: Record<string, React.CSSProperties> = {
+  root: {
+    minHeight: '100vh',
+    background: '#f0f2f8',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+    fontFamily: "'DM Sans', sans-serif",
+  },
+  inner: {
+    width: '100%',
+    maxWidth: 460,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  logoWrap: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 4,
+  },
+  logoBox: {
+    width: 42,
+    height: 42,
+    background: '#071629',
+    borderRadius: 12,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logoText: {
+    fontFamily: "'Montserrat', sans-serif",
+    fontWeight: 700,
+    fontSize: 24,
+    color: '#071629',
+    letterSpacing: -0.5,
+  },
+  logoSub: {
+    fontSize: 13,
+    color: '#6e7591',
+    marginTop: 2,
+    marginBottom: 28,
+  },
+};
