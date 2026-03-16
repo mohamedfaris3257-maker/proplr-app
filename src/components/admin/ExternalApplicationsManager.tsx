@@ -18,6 +18,17 @@ interface ApplicationBase {
   title?: string;
   description?: string;
   message?: string;
+  // Partner-specific fields
+  type?: string;
+  org_name?: string;
+  contact_name?: string;
+  role?: string;
+  phone?: string;
+  partnership_types?: string[];
+  institution_type?: string;
+  student_count?: number;
+  interests?: string[];
+  notes?: string;
 }
 
 const APP_TYPES: { id: AppType; label: string; table: string }[] = [
@@ -58,8 +69,22 @@ export function ExternalApplicationsManager() {
     if (selected?.id === id) setSelected((prev) => prev ? { ...prev, status } : null);
   }
 
-  const displayName = (item: ApplicationBase) =>
-    item.full_name ?? item.name ?? item.title ?? item.email;
+  const displayName = (item: ApplicationBase) => {
+    if (activeType === 'partner') {
+      return item.org_name || item.contact_name || item.email;
+    }
+    return item.full_name ?? item.name ?? item.title ?? item.email;
+  };
+
+  const displaySubtext = (item: ApplicationBase) => {
+    if (activeType === 'partner') {
+      const parts: string[] = [];
+      if (item.contact_name) parts.push(item.contact_name);
+      if (item.type) parts.push(item.type === 'industry' ? 'Industry' : 'Institution');
+      return parts.length > 0 ? parts.join(' · ') : item.email;
+    }
+    return item.email;
+  };
 
   return (
     <div className="space-y-4">
@@ -89,16 +114,25 @@ export function ExternalApplicationsManager() {
                   className={`w-full flex items-start gap-3 px-4 py-3 text-left hover:bg-surface-2 transition-colors ${selected?.id === item.id ? 'bg-blue/5' : ''}`}>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-text-primary truncate">{displayName(item)}</p>
-                    <p className="text-xs text-text-muted truncate">{item.email}</p>
+                    <p className="text-xs text-text-muted truncate">{displaySubtext(item)}</p>
                     <p className="text-xs text-text-muted">{formatDate(item.created_at)}</p>
                   </div>
-                  <span className={`text-xs font-semibold px-2 py-0.5 rounded-full flex-shrink-0 mt-0.5 ${
-                    item.status === 'approved' ? 'bg-green/10 text-green' :
-                    item.status === 'rejected' ? 'bg-red/10 text-red' :
-                    'bg-gold/10 text-gold'
-                  }`}>
-                    {item.status ?? 'pending'}
-                  </span>
+                  <div className="flex flex-col items-end gap-1 flex-shrink-0 mt-0.5">
+                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
+                      item.status === 'approved' ? 'bg-green/10 text-green' :
+                      item.status === 'rejected' ? 'bg-red/10 text-red' :
+                      'bg-gold/10 text-gold'
+                    }`}>
+                      {item.status ?? 'pending'}
+                    </span>
+                    {activeType === 'partner' && item.type && (
+                      <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                        item.type === 'industry' ? 'bg-blue/10 text-blue' : 'bg-purple/10 text-purple'
+                      }`}>
+                        {item.type === 'industry' ? 'Industry' : 'Institution'}
+                      </span>
+                    )}
+                  </div>
                 </button>
               ))}
             </div>
@@ -107,7 +141,7 @@ export function ExternalApplicationsManager() {
 
         {/* Detail */}
         {selected ? (
-          <div className="card p-5 space-y-4">
+          <div className="card p-5 space-y-4 max-h-[600px] overflow-y-auto">
             <div className="flex items-start justify-between gap-2">
               <div>
                 <h3 className="text-sm font-semibold text-text-primary">{displayName(selected)}</h3>
@@ -122,25 +156,130 @@ export function ExternalApplicationsManager() {
               </span>
             </div>
 
-            {selected.organization && (
-              <div>
-                <p className="text-xs font-medium text-text-muted mb-0.5">Organization</p>
-                <p className="text-sm text-text-primary">{selected.organization}</p>
-              </div>
+            {/* ── Partner-specific detail view ── */}
+            {activeType === 'partner' && (
+              <>
+                {/* Type badge */}
+                {selected.type && (
+                  <div className="flex items-center gap-2">
+                    <span className={`text-xs font-semibold px-3 py-1 rounded-full ${
+                      selected.type === 'industry' ? 'bg-blue/10 text-blue' : 'bg-purple/10 text-purple'
+                    }`}>
+                      {selected.type === 'industry' ? '🏢 Industry Partner' : '🎓 Institution Partner'}
+                    </span>
+                  </div>
+                )}
+
+                {/* Contact info grid */}
+                <div className="grid grid-cols-2 gap-3">
+                  {selected.org_name && (
+                    <div className="p-3 rounded-lg" style={{ background: 'rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.06)' }}>
+                      <p className="text-xs font-medium text-text-muted mb-0.5">Organization</p>
+                      <p className="text-sm text-text-primary font-medium">{selected.org_name}</p>
+                    </div>
+                  )}
+                  {selected.contact_name && (
+                    <div className="p-3 rounded-lg" style={{ background: 'rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.06)' }}>
+                      <p className="text-xs font-medium text-text-muted mb-0.5">Contact Person</p>
+                      <p className="text-sm text-text-primary font-medium">{selected.contact_name}</p>
+                    </div>
+                  )}
+                  {selected.role && (
+                    <div className="p-3 rounded-lg" style={{ background: 'rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.06)' }}>
+                      <p className="text-xs font-medium text-text-muted mb-0.5">Role</p>
+                      <p className="text-sm text-text-primary">{selected.role}</p>
+                    </div>
+                  )}
+                  {selected.phone && (
+                    <div className="p-3 rounded-lg" style={{ background: 'rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.06)' }}>
+                      <p className="text-xs font-medium text-text-muted mb-0.5">Phone</p>
+                      <p className="text-sm text-text-primary">{selected.phone}</p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Institution-specific fields */}
+                {selected.type === 'institution' && (
+                  <div className="grid grid-cols-2 gap-3">
+                    {selected.institution_type && (
+                      <div className="p-3 rounded-lg" style={{ background: 'rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.06)' }}>
+                        <p className="text-xs font-medium text-text-muted mb-0.5">Institution Type</p>
+                        <p className="text-sm text-text-primary capitalize">{selected.institution_type}</p>
+                      </div>
+                    )}
+                    {selected.student_count != null && selected.student_count > 0 && (
+                      <div className="p-3 rounded-lg" style={{ background: 'rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.06)' }}>
+                        <p className="text-xs font-medium text-text-muted mb-0.5">Student Body Size</p>
+                        <p className="text-sm text-text-primary font-medium">{selected.student_count.toLocaleString()}</p>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Partnership types (industry) */}
+                {selected.partnership_types && selected.partnership_types.length > 0 && (
+                  <div>
+                    <p className="text-xs font-medium text-text-muted mb-2">Partnership Types</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {selected.partnership_types.map((t) => (
+                        <span key={t} className="px-2.5 py-1 rounded-full text-xs font-semibold bg-blue/10 text-blue">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Interests (institution) */}
+                {selected.interests && selected.interests.length > 0 && (
+                  <div>
+                    <p className="text-xs font-medium text-text-muted mb-2">Interested In</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {selected.interests.map((t) => (
+                        <span key={t} className="px-2.5 py-1 rounded-full text-xs font-semibold bg-purple/10 text-purple">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Notes */}
+                {selected.notes && (
+                  <div>
+                    <p className="text-xs font-medium text-text-muted mb-1">Notes</p>
+                    <p className="text-sm text-text-secondary leading-relaxed whitespace-pre-wrap p-3 rounded-lg" style={{ background: 'rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.06)' }}>
+                      {selected.notes}
+                    </p>
+                  </div>
+                )}
+              </>
             )}
-            {selected.company_name && (
-              <div>
-                <p className="text-xs font-medium text-text-muted mb-0.5">Company</p>
-                <p className="text-sm text-text-primary">{selected.company_name}</p>
-              </div>
-            )}
-            {(selected.description ?? selected.message) && (
-              <div>
-                <p className="text-xs font-medium text-text-muted mb-0.5">Message</p>
-                <p className="text-sm text-text-secondary leading-relaxed whitespace-pre-wrap">
-                  {selected.description ?? selected.message}
-                </p>
-              </div>
+
+            {/* ── Generic detail view (for non-partner types) ── */}
+            {activeType !== 'partner' && (
+              <>
+                {selected.organization && (
+                  <div>
+                    <p className="text-xs font-medium text-text-muted mb-0.5">Organization</p>
+                    <p className="text-sm text-text-primary">{selected.organization}</p>
+                  </div>
+                )}
+                {selected.company_name && (
+                  <div>
+                    <p className="text-xs font-medium text-text-muted mb-0.5">Company</p>
+                    <p className="text-sm text-text-primary">{selected.company_name}</p>
+                  </div>
+                )}
+                {(selected.description ?? selected.message) && (
+                  <div>
+                    <p className="text-xs font-medium text-text-muted mb-0.5">Message</p>
+                    <p className="text-sm text-text-secondary leading-relaxed whitespace-pre-wrap">
+                      {selected.description ?? selected.message}
+                    </p>
+                  </div>
+                )}
+              </>
             )}
 
             <div className="flex gap-2 pt-2">
