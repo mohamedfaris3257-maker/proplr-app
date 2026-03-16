@@ -35,17 +35,59 @@ export async function middleware(request: NextRequest) {
     return supabaseResponse;
   }
 
-  // Dashboard — must be logged in
+  // Dashboard — must be logged in AND have completed onboarding
   if (pathname.startsWith('/dashboard')) {
     if (!user) {
       return NextResponse.redirect(new URL('/login', request.url));
     }
+
+    // Check if user has completed onboarding (has a profile with school_name)
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('school_name')
+      .eq('user_id', user.id)
+      .single();
+
+    if (!profile?.school_name) {
+      return NextResponse.redirect(new URL('/onboarding', request.url));
+    }
+
+    return supabaseResponse;
+  }
+
+  // Onboarding — must be logged in; if already has profile, go to dashboard
+  if (pathname === '/onboarding') {
+    if (!user) {
+      return NextResponse.redirect(new URL('/register', request.url));
+    }
+
+    // If user already completed onboarding, send to dashboard
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('school_name')
+      .eq('user_id', user.id)
+      .single();
+
+    if (profile?.school_name) {
+      return NextResponse.redirect(new URL('/dashboard', request.url));
+    }
+
     return supabaseResponse;
   }
 
   // Auth pages — redirect to dashboard if already logged in
   if (pathname === '/login' || pathname === '/register') {
     if (user) {
+      // Check if user needs onboarding first
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('school_name')
+        .eq('user_id', user.id)
+        .single();
+
+      if (!profile?.school_name) {
+        return NextResponse.redirect(new URL('/onboarding', request.url));
+      }
       return NextResponse.redirect(new URL('/dashboard', request.url));
     }
     return supabaseResponse;
@@ -55,5 +97,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/admin/:path*', '/login', '/register'],
+  matcher: ['/dashboard/:path*', '/admin/:path*', '/login', '/register', '/onboarding'],
 };

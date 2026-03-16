@@ -23,8 +23,8 @@ export default function RegisterPage() {
 
         {/* Card */}
         <div style={styles.card}>
-          <h2 style={styles.heading}>Create your account</h2>
-          <p style={styles.subheading}>Start building your career path</p>
+          <h2 style={styles.heading}>Join Proplr</h2>
+          <p style={styles.subheading}>Create your account to start enrollment</p>
           <RegisterForm />
         </div>
 

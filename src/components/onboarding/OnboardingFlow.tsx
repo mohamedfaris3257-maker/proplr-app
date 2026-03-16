@@ -83,7 +83,7 @@ export function OnboardingFlow() {
         }
       }
 
-      const { error: profileError } = await supabase.from('profiles').insert({
+      const { error: profileError } = await supabase.from('profiles').upsert({
         user_id: user.id,
         name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Student',
         email: user.email,
@@ -94,7 +94,7 @@ export function OnboardingFlow() {
         career_interests: form.careerInterests,
         subscription_status: 'free',
         is_ambassador: false,
-      });
+      }, { onConflict: 'user_id' });
 
       if (profileError) throw profileError;
 
