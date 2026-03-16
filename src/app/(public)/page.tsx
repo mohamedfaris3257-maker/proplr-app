@@ -1,48 +1,12 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { AnimatedHero } from '@/components/public/AnimatedHero';
 
 export default async function HomePage() {
   return (
     <div>
-      {/* ── HERO — FULL-BLEED IMAGE ─────────────────────────────────── */}
-      <section className="pub-hero-image pub-overlay-dark" style={{ minHeight: '92vh' }}>
-        <Image
-          src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1920&q=80&auto=format"
-          alt="Students collaborating"
-          fill
-          priority
-          className="pub-ken-burns"
-          style={{ objectFit: 'cover', objectPosition: 'center 30%' }}
-        />
-        <div className="pub-section relative z-10 w-full" style={{ paddingTop: 120, paddingBottom: 100 }}>
-          <div className="max-w-4xl">
-            <div className="pub-line-grow reveal mb-8" />
-            <h1
-              className="pub-heading pub-text-shadow reveal"
-              style={{ fontSize: 'clamp(42px, 7vw, 80px)', color: '#ffffff', marginBottom: 24, lineHeight: 1.05 }}
-            >
-              Your future doesn&apos;t<br />
-              have to be a<br />
-              <span className="pub-gradient-text-animated">guessing game.</span>
-            </h1>
-            <p className="reveal reveal-delay-1 pub-text-shadow" style={{ fontSize: 20, color: 'rgba(255,255,255,0.85)', maxWidth: 520, marginBottom: 40, lineHeight: 1.6 }}>
-              KHDA-certified career programs with real mentors, real companies, and a portfolio that proves you&apos;re ready.
-            </p>
-            <div className="flex flex-col sm:flex-row items-start gap-4 reveal reveal-delay-2">
-              <Link href="/register" className="pub-btn-primary" style={{ fontSize: 18, padding: '16px 40px' }}>
-                Get Started →
-              </Link>
-              <a href="#how-it-works" className="pub-btn-ghost" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.3)' }}>
-                See How It Works
-              </a>
-            </div>
-          </div>
-        </div>
-        {/* Scroll-down indicator */}
-        <a href="#how-it-works" className="pub-scroll-hint" aria-label="Scroll down">
-          <span />
-        </a>
-      </section>
+      {/* ── ANIMATED HERO — 3D SCROLL DASHBOARD MOCKUP ─────────────── */}
+      <AnimatedHero />
 
       {/* ── TRUST STRIP ─────────────────────────────────────────────── */}
       <section style={{ background: '#071629', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
