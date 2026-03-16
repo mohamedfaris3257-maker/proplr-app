@@ -1,30 +1,17 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import Link from "next/link";
 import { MagneticButton } from "@/components/ui/magnetic-button";
 import { PropellerSpinner } from "@/components/ui/propeller-spinner";
 
 export function AnimatedHero() {
-  const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef(null);
   const titleInView = useInView(titleRef, { once: true });
+  const cardRef = useRef(null);
+  const cardInView = useInView(cardRef, { once: true, margin: "-80px" });
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"],
-  });
-
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
-  const y = useTransform(smoothProgress, [0, 1], [0, 200]);
-  const opacity = useTransform(smoothProgress, [0, 0.6], [1, 0]);
-  const scale = useTransform(smoothProgress, [0, 0.5], [1, 0.9]);
-  const cardRotateX = useTransform(smoothProgress, [0, 0.4], [12, 0]);
-  const cardScale = useTransform(smoothProgress, [0, 0.4], [0.82, 1.02]);
-  const cardY = useTransform(smoothProgress, [0, 0.5], [120, -20]);
-  const cardOpacity = useTransform(smoothProgress, [0, 0.15, 0.5], [0.3, 1, 1]);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -48,9 +35,9 @@ export function AnimatedHero() {
   };
 
   return (
-    <div ref={containerRef} className="relative" style={{ minHeight: "220vh" }}>
-      {/* Sticky hero container */}
-      <div className="sticky top-0 h-screen overflow-hidden" style={{ background: "#fff" }}>
+    <>
+      {/* ── Hero Section ── */}
+      <div className="relative h-screen overflow-hidden" style={{ background: "#fff" }}>
         {/* Background elements */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <PropellerSpinner size={220} className="absolute -top-12 -right-12" speed={28} />
@@ -81,10 +68,7 @@ export function AnimatedHero() {
         </div>
 
         {/* Text content */}
-        <motion.div
-          style={{ y, opacity, scale }}
-          className="relative z-10 flex flex-col items-center justify-center h-full px-6 pt-16"
-        >
+        <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 pt-16">
           <motion.div
             ref={titleRef}
             variants={stagger}
@@ -210,119 +194,173 @@ export function AnimatedHero() {
               <path d="M10 4v12M4 10l6 6 6-6" stroke="#6e7591" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </motion.div>
-        </motion.div>
+        </div>
+      </div>
 
-        {/* 3D Dashboard Mockup — rises into view on scroll */}
-        <motion.div
-          className="absolute bottom-0 left-1/2 w-[92%] max-w-[1100px] pointer-events-none"
-          style={{
-            x: "-50%",
-            rotateX: cardRotateX,
-            scale: cardScale,
-            y: cardY,
-            opacity: cardOpacity,
-            perspective: 1200,
-            transformStyle: "preserve-3d",
-          }}
-        >
-          <div style={{
-            borderRadius: 20,
-            overflow: "hidden",
-            border: "1px solid rgba(7,22,41,0.06)",
-            boxShadow: "0 30px 100px rgba(7,22,41,0.15), 0 0 0 1px rgba(7,22,41,0.03)",
-            background: "#f0f2f8",
-          }}>
-            {/* Browser chrome */}
-            <div style={{ background: "#071629", padding: "10px 16px", display: "flex", alignItems: "center", gap: 10 }}>
-              <div style={{ display: "flex", gap: 6 }}>
-                <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#ff4757" }} />
-                <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#ffcb5d" }} />
-                <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#2ed573" }} />
-              </div>
-              <div style={{ flex: 1, background: "rgba(255,255,255,0.1)", borderRadius: 6, height: 22, maxWidth: 320, display: "flex", alignItems: "center", paddingLeft: 10 }}>
-                <span style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", fontFamily: "'DM Sans', sans-serif" }}>app.proplr.com/dashboard</span>
-              </div>
-            </div>
-            {/* Dashboard grid */}
-            <div style={{ display: "grid", gridTemplateColumns: "180px 1fr 220px", minHeight: 300 }}>
-              {/* Sidebar */}
-              <div style={{ background: "#fff", padding: 16, borderRight: "1px solid rgba(0,0,0,0.04)", display: "flex", flexDirection: "column", gap: 6 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-                  <div style={{ width: 28, height: 28, borderRadius: 8, background: "linear-gradient(135deg, #3d9be9, #2d8ad6)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <div style={{ width: 12, height: 12, borderRadius: "50%", background: "rgba(255,255,255,0.7)" }} />
-                  </div>
-                  <div>
-                    <div style={{ width: 64, height: 8, background: "#071629", borderRadius: 3, marginBottom: 3 }} />
-                    <div style={{ width: 40, height: 5, background: "#e0e2ea", borderRadius: 3 }} />
-                  </div>
+      {/* ── Student Community Showcase ── */}
+      <div ref={cardRef} className="relative overflow-hidden" style={{ background: "#f8f9fc", paddingTop: 60, paddingBottom: 60 }}>
+        <div className="max-w-[1100px] mx-auto px-6">
+          <motion.div
+            className="text-center mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={cardInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
+          >
+            <span style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 11, color: "#3d9be9", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+              YOUR STUDENT COMMUNITY
+            </span>
+            <h2 className="pub-heading" style={{ fontSize: "clamp(24px, 4vw, 38px)", color: "#071629", marginTop: 8 }}>
+              Where students connect, collaborate & grow
+            </h2>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 40, rotateX: 8 }}
+            animate={cardInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.15, ease: [0.23, 1, 0.32, 1] }}
+            style={{ perspective: 1200 }}
+          >
+            <div style={{
+              borderRadius: 20,
+              overflow: "hidden",
+              border: "1px solid rgba(7,22,41,0.06)",
+              boxShadow: "0 30px 100px rgba(7,22,41,0.12), 0 0 0 1px rgba(7,22,41,0.03)",
+              background: "#f0f2f8",
+            }}>
+              {/* Browser chrome */}
+              <div style={{ background: "#071629", padding: "10px 16px", display: "flex", alignItems: "center", gap: 10 }}>
+                <div style={{ display: "flex", gap: 6 }}>
+                  <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#ff4757" }} />
+                  <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#ffcb5d" }} />
+                  <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#2ed573" }} />
                 </div>
-                {["Dashboard", "My Program", "Community", "Events", "Opportunities", "Courses"].map((item, i) => (
-                  <div key={item} style={{ display: "flex", alignItems: "center", gap: 8, padding: "7px 10px", borderRadius: 10, background: i === 0 ? "rgba(61,155,233,0.1)" : "transparent" }}>
-                    <div style={{ width: 8, height: 8, borderRadius: i === 0 ? 3 : "50%", background: i === 0 ? "#3d9be9" : "#d0d2da" }} />
-                    <div style={{ height: 7, borderRadius: 3, background: i === 0 ? "#3d9be9" : "#d0d2da", flex: 1, opacity: i === 0 ? 0.7 : 0.5 }} />
-                  </div>
-                ))}
+                <div style={{ flex: 1, background: "rgba(255,255,255,0.1)", borderRadius: 6, height: 22, maxWidth: 320, display: "flex", alignItems: "center", paddingLeft: 10 }}>
+                  <span style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", fontFamily: "'DM Sans', sans-serif" }}>app.proplr.com/community</span>
+                </div>
               </div>
 
-              {/* Main content */}
-              <div style={{ padding: 16, display: "flex", flexDirection: "column", gap: 12 }}>
-                <div style={{ background: "linear-gradient(135deg, #071629, #0d2440)", borderRadius: 14, padding: "18px 20px", display: "flex", flexDirection: "column", gap: 6 }}>
-                  <div style={{ width: 180, height: 12, background: "rgba(255,255,255,0.8)", borderRadius: 4 }} />
-                  <div style={{ width: 120, height: 8, background: "rgba(255,255,255,0.25)", borderRadius: 4 }} />
-                </div>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8 }}>
-                  {[{ color: "#3d9be9" }, { color: "#ffcb5d" }, { color: "#2ed573" }, { color: "#9B59B6" }].map((c, i) => (
-                    <div key={i} style={{ background: "#fff", borderRadius: 12, padding: 12, border: "1px solid rgba(0,0,0,0.04)" }}>
-                      <div style={{ width: 24, height: 24, borderRadius: 8, background: `${c.color}18`, marginBottom: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        <div style={{ width: 10, height: 10, borderRadius: 3, background: c.color, opacity: 0.6 }} />
+              {/* Community Layout */}
+              <div style={{ display: "grid", gridTemplateColumns: "200px 1fr 240px", minHeight: 320 }}>
+                {/* Left sidebar — Communities */}
+                <div style={{ background: "#fff", padding: 16, borderRight: "1px solid rgba(0,0,0,0.04)", display: "flex", flexDirection: "column", gap: 8 }}>
+                  <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 800, fontSize: 11, color: "#071629", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 4 }}>Community</div>
+                  {["Foundation 2026", "Impact UAE", "Ambassadors", "Design Sprint", "Hackathon Hub"].map((ch, i) => (
+                    <div key={ch} style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 10px", borderRadius: 10, background: i === 0 ? "rgba(61,155,233,0.1)" : "transparent" }}>
+                      <div style={{ width: 28, height: 28, borderRadius: 8, background: i === 0 ? "#3d9be9" : i === 1 ? "#ffcb5d" : i === 2 ? "#2ed573" : i === 3 ? "#9B59B6" : "#ff6b6b", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        <span style={{ fontSize: 12, color: "#fff", fontWeight: 700 }}>{ch[0]}</span>
                       </div>
-                      <div style={{ width: 30, height: 16, background: "#071629", borderRadius: 4, marginBottom: 4 }} />
-                      <div style={{ width: 48, height: 6, background: "#e0e2ea", borderRadius: 3 }} />
+                      <div style={{ overflow: "hidden" }}>
+                        <div style={{ fontSize: 12, fontWeight: 600, color: i === 0 ? "#3d9be9" : "#071629", whiteSpace: "nowrap" }}>{ch}</div>
+                        <div style={{ fontSize: 9, color: "#999" }}>{[248, 134, 89, 56, 72][i]} members</div>
+                      </div>
                     </div>
                   ))}
+                  <div style={{ marginTop: "auto", padding: "8px 10px", borderRadius: 10, background: "rgba(61,155,233,0.06)", textAlign: "center" }}>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: "#3d9be9" }}>+ Join Community</span>
+                  </div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                  {[{ color: "#3d9be9", w: "72%" }, { color: "#ffcb5d", w: "45%" }, { color: "#2ed573", w: "88%" }].map((p, idx) => (
-                    <div key={idx} style={{ background: "#fff", borderRadius: 10, padding: "10px 14px", display: "flex", alignItems: "center", gap: 10, border: "1px solid rgba(0,0,0,0.04)", borderLeftWidth: 3, borderLeftColor: p.color }}>
-                      <div style={{ width: 20, height: 20, borderRadius: 6, background: `${p.color}18` }} />
-                      <div style={{ flex: 1 }}>
-                        <div style={{ width: 80, height: 7, background: "#071629", borderRadius: 3, marginBottom: 5 }} />
-                        <div style={{ height: 4, background: "#f0f1f5", borderRadius: 10, overflow: "hidden" }}>
-                          <div style={{ height: "100%", width: p.w, background: p.color, borderRadius: 10 }} />
+
+                {/* Main feed */}
+                <div style={{ padding: 16, display: "flex", flexDirection: "column", gap: 12 }}>
+                  {/* Community header */}
+                  <div style={{ background: "linear-gradient(135deg, #071629, #0d2440)", borderRadius: 14, padding: "16px 18px", display: "flex", alignItems: "center", gap: 14 }}>
+                    <div style={{ width: 40, height: 40, borderRadius: 12, background: "rgba(61,155,233,0.2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                      <span style={{ fontSize: 18 }}>🚀</span>
+                    </div>
+                    <div>
+                      <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 800, fontSize: 14, color: "#fff" }}>Foundation 2026</div>
+                      <div style={{ fontSize: 11, color: "rgba(255,255,255,0.5)" }}>248 students · 12 mentors · KHDA Certified</div>
+                    </div>
+                  </div>
+
+                  {/* Feed posts */}
+                  {[
+                    { name: "Sarah K.", avatar: "#3d9be9", time: "2h ago", text: "Just finished my Digital Literacy certificate! 🎉", likes: 24, badge: "Foundation" },
+                    { name: "Omar A.", avatar: "#ffcb5d", time: "5h ago", text: "Our team placed 2nd at the Design Sprint. So proud!", likes: 41, badge: "Ambassador" },
+                    { name: "Aisha M.", avatar: "#2ed573", time: "1d ago", text: "My mentor from Google helped me prep for my portfolio review", likes: 18, badge: "Impact" },
+                  ].map((post, idx) => (
+                    <div key={idx} style={{ background: "#fff", borderRadius: 12, padding: "12px 14px", border: "1px solid rgba(0,0,0,0.04)" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+                        <div style={{ width: 28, height: 28, borderRadius: "50%", background: post.avatar, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                          <span style={{ fontSize: 11, color: "#fff", fontWeight: 700 }}>{post.name[0]}</span>
+                        </div>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                            <span style={{ fontSize: 12, fontWeight: 700, color: "#071629" }}>{post.name}</span>
+                            <span style={{ fontSize: 9, fontWeight: 700, color: post.avatar, background: `${post.avatar}18`, padding: "1px 6px", borderRadius: 4 }}>{post.badge}</span>
+                          </div>
+                          <span style={{ fontSize: 10, color: "#999" }}>{post.time}</span>
                         </div>
                       </div>
+                      <div style={{ fontSize: 12, color: "#333", lineHeight: 1.5, marginBottom: 6 }}>{post.text}</div>
+                      <div style={{ display: "flex", gap: 12 }}>
+                        <span style={{ fontSize: 10, color: "#999" }}>❤️ {post.likes}</span>
+                        <span style={{ fontSize: 10, color: "#999" }}>💬 Reply</span>
+                      </div>
                     </div>
                   ))}
                 </div>
-              </div>
 
-              {/* Right sidebar */}
-              <div style={{ padding: 14, display: "flex", flexDirection: "column", gap: 10, borderLeft: "1px solid rgba(0,0,0,0.04)" }}>
-                <div style={{ background: "#fff", borderRadius: 14, padding: 14, textAlign: "center", border: "1px solid rgba(0,0,0,0.04)" }}>
-                  <div style={{ width: 44, height: 44, borderRadius: "50%", background: "linear-gradient(135deg, #3d9be9, #5aafe8)", margin: "0 auto 8px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <div style={{ width: 20, height: 20, borderRadius: "50%", background: "rgba(255,255,255,0.5)" }} />
+                {/* Right sidebar — Leaderboard & Events */}
+                <div style={{ padding: 14, display: "flex", flexDirection: "column", gap: 10, borderLeft: "1px solid rgba(0,0,0,0.04)" }}>
+                  {/* Leaderboard */}
+                  <div style={{ background: "#071629", borderRadius: 14, padding: 14 }}>
+                    <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 800, fontSize: 11, color: "#ffcb5d", marginBottom: 10, letterSpacing: "0.05em" }}>🏆 LEADERBOARD</div>
+                    {[
+                      { name: "Fatima R.", pts: 2840, color: "#ffcb5d" },
+                      { name: "Ahmed S.", pts: 2560, color: "#C0C0C0" },
+                      { name: "Lina K.", pts: 2310, color: "#CD7F32" },
+                    ].map((s, i) => (
+                      <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+                        <span style={{ fontSize: 12, fontWeight: 900, color: s.color, width: 16 }}>{i + 1}</span>
+                        <div style={{ width: 22, height: 22, borderRadius: "50%", background: `${s.color}30`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                          <span style={{ fontSize: 9, color: "#fff", fontWeight: 700 }}>{s.name[0]}</span>
+                        </div>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: 11, fontWeight: 600, color: "#fff" }}>{s.name}</div>
+                        </div>
+                        <span style={{ fontSize: 10, fontWeight: 800, color: s.color }}>{s.pts}</span>
+                      </div>
+                    ))}
                   </div>
-                  <div style={{ width: 70, height: 8, background: "#071629", borderRadius: 3, margin: "0 auto 4px" }} />
-                  <div style={{ width: 90, height: 6, background: "#e0e2ea", borderRadius: 3, margin: "0 auto" }} />
-                </div>
-                <div style={{ background: "#071629", borderRadius: 14, padding: 14 }}>
-                  <div style={{ width: 70, height: 8, background: "#ffcb5d", borderRadius: 3, marginBottom: 12 }} />
-                  <div style={{ display: "flex", justifyContent: "center", alignItems: "flex-end", gap: 6, height: 60 }}>
-                    <div style={{ width: 32, height: 36, background: "rgba(255,255,255,0.08)", borderRadius: "6px 6px 0 0" }} />
-                    <div style={{ width: 32, height: 56, background: "linear-gradient(180deg, #ffcb5d, #e8a838)", borderRadius: "6px 6px 0 0" }} />
-                    <div style={{ width: 32, height: 28, background: "rgba(255,255,255,0.05)", borderRadius: "6px 6px 0 0" }} />
+
+                  {/* Upcoming Events */}
+                  <div style={{ background: "#fff", borderRadius: 14, padding: 14, border: "1px solid rgba(0,0,0,0.04)" }}>
+                    <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 800, fontSize: 11, color: "#3d9be9", marginBottom: 10, letterSpacing: "0.05em" }}>📅 UPCOMING</div>
+                    {[
+                      { name: "Career Panel: Tech", date: "Mar 22", color: "#3d9be9" },
+                      { name: "Portfolio Review", date: "Mar 28", color: "#2ed573" },
+                      { name: "Hackathon Kickoff", date: "Apr 5", color: "#9B59B6" },
+                    ].map((evt, i) => (
+                      <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+                        <div style={{ width: 4, height: 28, borderRadius: 2, background: evt.color }} />
+                        <div>
+                          <div style={{ fontSize: 11, fontWeight: 600, color: "#071629" }}>{evt.name}</div>
+                          <div style={{ fontSize: 9, color: "#999" }}>{evt.date}</div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                </div>
-                <div style={{ background: "#fff", borderRadius: 14, padding: 12, border: "1px solid rgba(0,0,0,0.04)" }}>
-                  <div style={{ width: 50, height: 6, background: "#3d9be9", borderRadius: 3, marginBottom: 8, opacity: 0.6 }} />
-                  <div style={{ width: "100%", height: 7, background: "#071629", borderRadius: 3, marginBottom: 5 }} />
-                  <div style={{ width: "70%", height: 5, background: "#e0e2ea", borderRadius: 3 }} />
+
+                  {/* Active now */}
+                  <div style={{ background: "rgba(45,211,115,0.06)", borderRadius: 14, padding: 12, border: "1px solid rgba(45,211,115,0.15)" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
+                      <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#2ed573", animation: "pulse 2s infinite" }} />
+                      <span style={{ fontSize: 10, fontWeight: 700, color: "#2ed573" }}>42 online now</span>
+                    </div>
+                    <div style={{ display: "flex" }}>
+                      {["#3d9be9", "#ffcb5d", "#ff6b6b", "#9B59B6", "#2ed573"].map((c, i) => (
+                        <div key={i} style={{ width: 20, height: 20, borderRadius: "50%", background: c, border: "2px solid #fff", marginLeft: i > 0 ? -4 : 0 }} />
+                      ))}
+                      <span style={{ fontSize: 10, color: "#666", marginLeft: 6, alignSelf: "center" }}>+37</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
