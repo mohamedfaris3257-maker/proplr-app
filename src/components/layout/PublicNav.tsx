@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 
 const NAV_LINKS = [
   { label: 'How It Works', href: '/#how-it-works' },
@@ -21,6 +22,7 @@ const PROGRAMS_LINKS = [
 export function PublicNav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [programsOpen, setProgramsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -33,16 +35,32 @@ export function PublicNav() {
     return () => document.removeEventListener('mousedown', handleClick);
   }, []);
 
+  useEffect(() => {
+    const handler = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handler, { passive: true });
+    handler();
+    return () => window.removeEventListener('scroll', handler);
+  }, []);
+
   return (
-    <header
+    <motion.header
       className="sticky top-0 z-50"
-      style={{ backdropFilter: 'blur(20px)', background: 'rgba(255,255,255,0.88)', borderBottom: '1px solid rgba(0,0,0,0.06)' }}
+      initial={{ y: -80 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+      style={{
+        backdropFilter: 'blur(20px)',
+        background: scrolled ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0.75)',
+        borderBottom: scrolled ? '1px solid rgba(0,0,0,0.06)' : '1px solid transparent',
+        boxShadow: scrolled ? '0 1px 12px rgba(0,0,0,0.04)' : 'none',
+        transition: 'background 0.3s, border-color 0.3s, box-shadow 0.3s',
+      }}
     >
       <div className="max-w-[1200px] mx-auto px-6 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 flex-shrink-0">
+        {/* Logo with hover spin on the propeller "r" */}
+        <Link href="/" className="group flex items-center gap-2 flex-shrink-0">
           <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 900, fontSize: 20, color: '#071629', letterSpacing: '-0.04em' }}>
-            propl<span style={{ color: '#3d9be9' }}>r</span>
+            propl<span className="inline-block transition-transform duration-500 group-hover:rotate-[360deg]" style={{ color: '#3d9be9', transformOrigin: 'center' }}>r</span>
           </span>
         </Link>
 
@@ -56,38 +74,51 @@ export function PublicNav() {
               style={{ color: programsOpen ? '#3d9be9' : '#1d1d1f' }}
             >
               Programs
-              <svg
+              <motion.svg
                 width="12" height="12" viewBox="0 0 12 12" fill="none"
-                style={{ transform: programsOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}
+                animate={{ rotate: programsOpen ? 180 : 0 }}
+                transition={{ duration: 0.2 }}
               >
                 <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
+              </motion.svg>
             </button>
-            {programsOpen && (
-              <div
-                className="absolute top-full left-1/2 mt-2 w-72 rounded-2xl overflow-hidden shadow-xl"
-                style={{ transform: 'translateX(-50%)', background: '#fff', border: '1px solid rgba(0,0,0,0.08)' }}
-              >
-                {PROGRAMS_LINKS.map((p) => (
-                  <Link
-                    key={p.href}
-                    href={p.href}
-                    onClick={() => setProgramsOpen(false)}
-                    className="flex flex-col px-5 py-4 hover:bg-[#f5f5f7] transition-colors border-b border-gray-50 last:border-0"
-                  >
-                    <span className="font-semibold text-[#1d1d1f] text-sm">{p.label}</span>
-                    <span className="text-xs text-[#6e6e73] mt-0.5">{p.desc}</span>
-                  </Link>
-                ))}
-              </div>
-            )}
+            <AnimatePresence>
+              {programsOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -8, scale: 0.96 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -8, scale: 0.96 }}
+                  transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
+                  className="absolute top-full left-1/2 mt-2 w-72 rounded-2xl overflow-hidden shadow-xl"
+                  style={{ transform: 'translateX(-50%)', background: '#fff', border: '1px solid rgba(0,0,0,0.08)' }}
+                >
+                  {PROGRAMS_LINKS.map((p, i) => (
+                    <motion.div
+                      key={p.href}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.05 }}
+                    >
+                      <Link
+                        href={p.href}
+                        onClick={() => setProgramsOpen(false)}
+                        className="flex flex-col px-5 py-4 hover:bg-[#f5f5f7] transition-colors border-b border-gray-50 last:border-0"
+                      >
+                        <span className="font-semibold text-[#1d1d1f] text-sm">{p.label}</span>
+                        <span className="text-xs text-[#6e6e73] mt-0.5">{p.desc}</span>
+                      </Link>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="px-4 py-2 rounded-full text-sm font-medium transition-colors hover:bg-[#f5f5f7]"
+              className="relative px-4 py-2 rounded-full text-sm font-medium transition-colors hover:bg-[#f5f5f7] group"
               style={{ color: '#1d1d1f' }}
             >
               {link.label}
@@ -95,7 +126,7 @@ export function PublicNav() {
           ))}
         </nav>
 
-        {/* CTA buttons (desktop) */}
+        {/* CTA buttons */}
         <div className="hidden md:flex items-center gap-3">
           <Link
             href="/login"
@@ -104,9 +135,11 @@ export function PublicNav() {
           >
             Sign In
           </Link>
-          <Link href="/register" className="pub-btn-primary pub-btn-sm">
-            Get Started
-          </Link>
+          <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+            <Link href="/register" className="pub-btn-primary pub-btn-sm">
+              Get Started
+            </Link>
+          </motion.div>
         </div>
 
         {/* Mobile hamburger */}
@@ -115,62 +148,93 @@ export function PublicNav() {
           onClick={() => setMobileOpen((o) => !o)}
           aria-label="Toggle menu"
         >
-          {mobileOpen ? (
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M4 4l12 12M16 4L4 16" stroke="#071629" strokeWidth="1.8" strokeLinecap="round" />
-            </svg>
-          ) : (
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M3 6h14M3 10h14M3 14h14" stroke="#071629" strokeWidth="1.8" strokeLinecap="round" />
-            </svg>
-          )}
+          <div className="w-5 h-5 relative flex flex-col justify-center items-center">
+            <motion.span
+              className="absolute block w-full h-[1.8px] rounded-full bg-[#071629]"
+              animate={mobileOpen ? { rotate: 45, y: 0 } : { rotate: 0, y: -4 }}
+              transition={{ duration: 0.25 }}
+            />
+            <motion.span
+              className="absolute block w-full h-[1.8px] rounded-full bg-[#071629]"
+              animate={mobileOpen ? { opacity: 0, x: -10 } : { opacity: 1, x: 0 }}
+              transition={{ duration: 0.2 }}
+            />
+            <motion.span
+              className="absolute block w-full h-[1.8px] rounded-full bg-[#071629]"
+              animate={mobileOpen ? { rotate: -45, y: 0 } : { rotate: 0, y: 4 }}
+              transition={{ duration: 0.25 }}
+            />
+          </div>
         </button>
       </div>
 
       {/* Mobile menu */}
-      {mobileOpen && (
-        <div className="md:hidden border-t bg-white" style={{ borderColor: 'rgba(0,0,0,0.06)' }}>
-          <div className="px-6 py-4 space-y-1">
-            <p className="text-xs font-semibold text-[#6e6e73] uppercase tracking-wider mb-2 px-3">Programs</p>
-            {PROGRAMS_LINKS.map((p) => (
-              <Link
-                key={p.href}
-                href={p.href}
-                onClick={() => setMobileOpen(false)}
-                className="block px-3 py-2.5 rounded-xl text-sm font-medium text-[#1d1d1f] hover:bg-[#f5f5f7] transition-colors"
-              >
-                {p.label}
-              </Link>
-            ))}
-            <div className="h-px bg-gray-100 my-3" />
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className="block px-3 py-2.5 rounded-xl text-sm font-medium text-[#1d1d1f] hover:bg-[#f5f5f7] transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
-            <div className="h-px bg-gray-100 my-3" />
-            <Link
-              href="/login"
-              onClick={() => setMobileOpen(false)}
-              className="block px-3 py-2 rounded-xl text-sm font-medium text-[#6e6e73] hover:bg-[#f5f5f7] transition-colors"
-            >
-              Sign In
-            </Link>
-            <Link
-              href="/register"
-              onClick={() => setMobileOpen(false)}
-              className="pub-btn-primary w-full text-center mt-2 block"
-            >
-              Get Started
-            </Link>
-          </div>
-        </div>
-      )}
-    </header>
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+            className="md:hidden border-t bg-white overflow-hidden"
+            style={{ borderColor: 'rgba(0,0,0,0.06)' }}
+          >
+            <div className="px-6 py-4 space-y-1">
+              <p className="text-xs font-semibold text-[#6e6e73] uppercase tracking-wider mb-2 px-3">Programs</p>
+              {PROGRAMS_LINKS.map((p, i) => (
+                <motion.div
+                  key={p.href}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                >
+                  <Link
+                    href={p.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="block px-3 py-2.5 rounded-xl text-sm font-medium text-[#1d1d1f] hover:bg-[#f5f5f7] transition-colors"
+                  >
+                    {p.label}
+                  </Link>
+                </motion.div>
+              ))}
+              <div className="h-px bg-gray-100 my-3" />
+              {NAV_LINKS.map((link, i) => (
+                <motion.div
+                  key={link.href}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.15 + i * 0.04 }}
+                >
+                  <Link
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="block px-3 py-2.5 rounded-xl text-sm font-medium text-[#1d1d1f] hover:bg-[#f5f5f7] transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </motion.div>
+              ))}
+              <div className="h-px bg-gray-100 my-3" />
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>
+                <Link
+                  href="/login"
+                  onClick={() => setMobileOpen(false)}
+                  className="block px-3 py-2 rounded-xl text-sm font-medium text-[#6e6e73] hover:bg-[#f5f5f7] transition-colors"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/register"
+                  onClick={() => setMobileOpen(false)}
+                  className="pub-btn-primary w-full text-center mt-2 block"
+                >
+                  Get Started
+                </Link>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.header>
   );
 }
