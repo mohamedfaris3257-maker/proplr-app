@@ -40,7 +40,7 @@ export default async function CommunityDetailRoute({ params }: Props) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const [{ data: communityData }, { data: memberRows }] = await Promise.all([
+  const [{ data: communityData }, { data: memberRows }, { data: pendingRows }] = await Promise.all([
     supabase
       .from('communities')
       .select('*')
@@ -51,21 +51,29 @@ export default async function CommunityDetailRoute({ params }: Props) {
       .select('id, role, joined_at, user_id, status, profiles(*)')
       .eq('community_id', params.id)
       .eq('status', 'approved'),
+    supabase
+      .from('community_members')
+      .select('id, role, joined_at, user_id, status, profiles(*)')
+      .eq('community_id', params.id)
+      .eq('status', 'pending'),
   ]);
 
   if (!communityData) notFound();
 
   const community = communityData as unknown as CommunityRow;
   const members = (memberRows || []) as unknown as MemberRow[];
+  const pendingMembers = (pendingRows || []) as unknown as MemberRow[];
 
   // Check if current user is a member
   const currentMember = members.find((m) => m.user_id === user!.id);
+  const isAdmin = currentMember?.role === 'admin' || currentMember?.role === 'moderator';
 
   return (
     <div style={{ flex: 1, overflowY: 'auto', padding: '22px 20px' }}>
       <CommunityDetailPage
         community={community}
         members={members}
+        pendingMembers={isAdmin ? pendingMembers : []}
         currentUserId={user!.id}
         isMember={!!currentMember}
         userRole={currentMember?.role ?? null}

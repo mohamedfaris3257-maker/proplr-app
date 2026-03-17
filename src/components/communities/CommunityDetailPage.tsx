@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Users, Info, CalendarDays, Shield, Loader2, School, Lightbulb } from 'lucide-react';
+import { Users, Info, CalendarDays, Shield, Loader2, School, Lightbulb, CheckCircle2, XCircle } from 'lucide-react';
 import { Avatar } from '@/components/ui/Avatar';
 import { formatDate } from '@/lib/utils';
 
@@ -35,6 +35,7 @@ interface Member {
 interface Props {
   community: Community;
   members: Member[];
+  pendingMembers?: Member[];
   currentUserId: string;
   isMember: boolean;
   userRole: string | null;
@@ -69,6 +70,7 @@ type Tab = 'members' | 'info';
 export function CommunityDetailPage({
   community,
   members,
+  pendingMembers = [],
   currentUserId,
   isMember,
   userRole,
@@ -76,6 +78,47 @@ export function CommunityDetailPage({
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<Tab>('members');
   const [leaving, setLeaving] = useState(false);
+  const [pending, setPending] = useState<Member[]>(pendingMembers);
+  const [actionInProgress, setActionInProgress] = useState<string | null>(null);
+
+  const isAdmin = userRole === 'admin' || userRole === 'moderator';
+
+  async function handleApprove(memberId: string) {
+    setActionInProgress(memberId);
+    try {
+      const res = await fetch('/api/communities/members', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ member_id: memberId, action: 'approve' }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setPending((prev) => prev.filter((m) => m.id !== memberId));
+        router.refresh();
+      }
+    } catch (err) {
+      console.error('Approve error:', err);
+    }
+    setActionInProgress(null);
+  }
+
+  async function handleReject(memberId: string) {
+    setActionInProgress(memberId);
+    try {
+      const res = await fetch('/api/communities/members', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ member_id: memberId, action: 'reject' }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setPending((prev) => prev.filter((m) => m.id !== memberId));
+      }
+    } catch (err) {
+      console.error('Reject error:', err);
+    }
+    setActionInProgress(null);
+  }
 
   const badge = TYPE_BADGE[community.type] ?? TYPE_BADGE.interest;
   const gradient = TYPE_GRADIENT[community.type] ?? TYPE_GRADIENT.interest;
@@ -161,7 +204,61 @@ export function CommunityDetailPage({
 
       {/* Members Tab */}
       {activeTab === 'members' && (
-        <div className="card overflow-hidden">
+        <div className="space-y-4">
+          {/* Pending Requests — visible only to admin/moderator */}
+          {isAdmin && pending.length > 0 && (
+            <div className="card overflow-hidden border-gold/30">
+              <div className="p-4 border-b border-gold/20 bg-gold/5">
+                <h3 className="text-sm font-semibold text-gold flex items-center gap-2">
+                  <Shield className="w-4 h-4" />
+                  Pending Requests
+                  <span className="ml-1 text-xs font-normal text-text-muted">({pending.length})</span>
+                </h3>
+              </div>
+              <div className="divide-y divide-border">
+                {pending.map((member) => {
+                  const profile = member.profiles;
+                  const name = profile?.name ?? 'Unknown';
+                  return (
+                    <div key={member.id} className="flex items-center gap-3 p-4 hover:bg-surface-2 transition-colors">
+                      <Avatar name={name} photoUrl={profile?.photo_url} size="sm" />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-text-primary truncate">{name}</p>
+                        {profile?.school_name && (
+                          <p className="text-xs text-text-muted truncate">{profile.school_name}</p>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        <button
+                          onClick={() => handleReject(member.id)}
+                          disabled={actionInProgress === member.id}
+                          className="p-1.5 rounded-lg text-red hover:bg-red/10 transition-colors disabled:opacity-50"
+                          title="Reject"
+                        >
+                          <XCircle className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleApprove(member.id)}
+                          disabled={actionInProgress === member.id}
+                          className="flex items-center gap-1 text-xs font-medium px-3 py-1.5 rounded-lg bg-green/10 text-green hover:bg-green/20 transition-colors disabled:opacity-50"
+                        >
+                          {actionInProgress === member.id ? (
+                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                          ) : (
+                            <CheckCircle2 className="w-3.5 h-3.5" />
+                          )}
+                          Approve
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Approved Members */}
+          <div className="card overflow-hidden">
           <div className="p-4 border-b border-border flex items-center justify-between">
             <h3 className="text-sm font-semibold text-text-primary">
               Members
@@ -205,6 +302,7 @@ export function CommunityDetailPage({
               })}
             </div>
           )}
+        </div>
         </div>
       )}
 

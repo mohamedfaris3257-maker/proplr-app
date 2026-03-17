@@ -149,40 +149,69 @@ export function CommunitiesManager() {
 
   async function handleApproveMember(memberId: string) {
     setActionInProgress(memberId);
-    const supabase = createClient();
-    await supabase
-      .from('community_members')
-      .update({ status: 'approved' })
-      .eq('id', memberId);
-    setMembers((prev) =>
-      prev.map((m) => (m.id === memberId ? { ...m, status: 'approved' } : m))
-    );
+    try {
+      const res = await fetch('/api/communities/members', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ member_id: memberId, action: 'approve' }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setMembers((prev) =>
+          prev.map((m) => (m.id === memberId ? { ...m, status: 'approved' } : m))
+        );
+      } else {
+        console.error('Approve failed:', data.error);
+      }
+    } catch (err) {
+      console.error('Approve error:', err);
+    }
     setActionInProgress(null);
   }
 
   async function handleRejectMember(memberId: string) {
     setActionInProgress(memberId);
-    const supabase = createClient();
-    await supabase
-      .from('community_members')
-      .update({ status: 'rejected' })
-      .eq('id', memberId);
-    setMembers((prev) =>
-      prev.map((m) => (m.id === memberId ? { ...m, status: 'rejected' } : m))
-    );
+    try {
+      const res = await fetch('/api/communities/members', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ member_id: memberId, action: 'reject' }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setMembers((prev) =>
+          prev.map((m) => (m.id === memberId ? { ...m, status: 'rejected' } : m))
+        );
+      } else {
+        console.error('Reject failed:', data.error);
+      }
+    } catch (err) {
+      console.error('Reject error:', err);
+    }
     setActionInProgress(null);
   }
 
   async function handleRemoveMember(memberId: string) {
     setActionInProgress(memberId);
-    const supabase = createClient();
-    await supabase.from('community_members').delete().eq('id', memberId);
-    setMembers((prev) => prev.filter((m) => m.id !== memberId));
-    setActionInProgress(null);
-    // Refresh counts
-    if (managingCommunity) {
-      await fetchCommunities();
+    try {
+      const res = await fetch('/api/communities/members', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ member_id: memberId }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setMembers((prev) => prev.filter((m) => m.id !== memberId));
+        if (managingCommunity) {
+          await fetchCommunities();
+        }
+      } else {
+        console.error('Remove failed:', data.error);
+      }
+    } catch (err) {
+      console.error('Remove error:', err);
     }
+    setActionInProgress(null);
   }
 
   const pendingMembers = members.filter((m) => m.status === 'pending');
