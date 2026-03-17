@@ -29,7 +29,7 @@ export default async function HomePage() {
               KHDA-certified career programs with real mentors, real companies, and a portfolio that proves you&apos;re ready.
             </p>
             <div className="flex flex-col sm:flex-row items-start gap-4 reveal reveal-delay-2">
-              <Link href="/register" className="pub-btn-primary" style={{ fontSize: 18, padding: '16px 40px' }}>
+              <Link href="/enroll" className="pub-btn-primary" style={{ fontSize: 18, padding: '16px 40px' }}>
                 Get Started →
               </Link>
               <a href="#how-it-works" className="pub-btn-ghost" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.3)' }}>
@@ -429,7 +429,7 @@ export default async function HomePage() {
             Clubs are forming now. September 2026 cohort enrolling.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/register" className="pub-btn-primary" style={{ fontSize: 18, padding: '16px 40px' }}>
+            <Link href="/enroll" className="pub-btn-primary" style={{ fontSize: 18, padding: '16px 40px' }}>
               Get Started →
             </Link>
             <Link href="/start-a-club" style={{ color: '#3d9be9', fontSize: 15, fontWeight: 600, textDecoration: 'none' }}>

@@ -84,7 +84,7 @@ export function AnimatedHero() {
               transition={{ duration: 0.6, delay: 0.3 }}
               style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}
             >
-              <Link href="/register" style={{
+              <Link href="/enroll" style={{
                 background: '#3d9be9',
                 color: '#fff',
                 borderRadius: 100,

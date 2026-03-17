@@ -34,7 +34,7 @@ export default function FoundationPage() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 reveal reveal-delay-2">
-              <Link href="/register" className="pub-btn-primary">Register Now</Link>
+              <Link href="/enroll?plan=foundation" className="pub-btn-primary">Register Now</Link>
               <Link href="/start-a-club" className="pub-btn-ghost" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.4)' }}>Start a Club</Link>
             </div>
           </div>
@@ -260,7 +260,7 @@ export default function FoundationPage() {
           </div>
 
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link href="/register" className="pub-btn-primary">Register for Foundation</Link>
+            <Link href="/enroll?plan=foundation" className="pub-btn-primary">Register for Foundation</Link>
             <Link href="/start-a-club" className="pub-btn-navy">Start a Club at My School</Link>
           </div>
         </div>

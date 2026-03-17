@@ -136,7 +136,7 @@ export function PublicNav() {
             Sign In
           </Link>
           <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-            <Link href="/register" className="pub-btn-primary pub-btn-sm">
+            <Link href="/enroll" className="pub-btn-primary pub-btn-sm">
               Get Started
             </Link>
           </motion.div>
@@ -224,7 +224,7 @@ export function PublicNav() {
                   Sign In
                 </Link>
                 <Link
-                  href="/register"
+                  href="/enroll"
                   onClick={() => setMobileOpen(false)}
                   className="pub-btn-primary w-full text-center mt-2 block"
                 >

@@ -103,7 +103,7 @@ export default function PricingPage() {
                 ))}
               </ul>
 
-              <Link href="/register" className="pub-btn-navy w-full text-center block">
+              <Link href="/enroll?plan=foundation" className="pub-btn-navy w-full text-center block">
                 Register for Foundation →
               </Link>
             </div>
@@ -143,7 +143,7 @@ export default function PricingPage() {
                 ))}
               </ul>
 
-              <Link href="/register" className="pub-btn-primary w-full text-center block">
+              <Link href="/enroll?plan=impact" className="pub-btn-primary w-full text-center block">
                 Join Now →
               </Link>
             </div>
@@ -193,7 +193,7 @@ export default function PricingPage() {
             Ready to invest in your future?
           </h2>
           <p style={{ color: '#8ca3be', fontSize: 17, marginBottom: 32 }}>Clubs are forming now. Program starts September 2026.</p>
-          <Link href="/register" className="pub-btn-primary">Get Started →</Link>
+          <Link href="/enroll" className="pub-btn-primary">Get Started →</Link>
           <p style={{ color: '#4a6785', fontSize: 13, marginTop: 16 }}>Questions? <a href="mailto:hello@proplr.ae" style={{ color: '#3d9be9' }}>hello@proplr.ae</a></p>
         </div>
       </section>

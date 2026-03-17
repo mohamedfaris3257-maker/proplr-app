@@ -127,7 +127,7 @@ export default function ShowcasePage() {
           <p style={{ color: '#8ca3be', fontSize: 16, maxWidth: 480, margin: '0 auto 24px' }}>
             Get your students in by September 2026 and they&apos;ll be on stage.
           </p>
-          <Link href="/register" className="pub-btn-primary">Register Your School →</Link>
+          <Link href="/enroll" className="pub-btn-primary">Register Your School →</Link>
         </div>
       </section>
 

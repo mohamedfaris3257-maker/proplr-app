@@ -32,7 +32,7 @@ export default function MentorshipPage() {
               Every student gets matched with a real professional. Real advice. Real careers. Not textbook theory.
             </p>
             <div className="flex flex-wrap gap-3 reveal reveal-delay-2">
-              <Link href="/register" className="pub-btn-primary">Join a Program →</Link>
+              <Link href="/enroll" className="pub-btn-primary">Join a Program →</Link>
               <a href="#become-mentor" className="pub-btn-ghost" style={{ color: '#fff', borderColor: 'rgba(255,255,255,0.3)' }}>Become a Mentor →</a>
             </div>
           </div>

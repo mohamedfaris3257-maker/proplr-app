@@ -166,7 +166,7 @@ export function EventCard({
         </div>
 
         {/* Title — links to detail page */}
-        <Link href={`/events/${event.id}`}>
+        <Link href={`/dashboard/events/${event.id}`}>
           <h3 className="text-base font-semibold text-text-primary mb-2 leading-tight hover:text-gold transition-colors">
             {event.title}
           </h3>

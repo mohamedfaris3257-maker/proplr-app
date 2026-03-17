@@ -63,7 +63,7 @@ export default function ImpactPage() {
               The university program that turns ambition into industry-ready capability.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 reveal reveal-delay-2">
-              <Link href="/register" className="pub-btn-primary">Join the Waitlist</Link>
+              <Link href="/enroll?plan=impact" className="pub-btn-primary">Join the Waitlist</Link>
               <Link href="/partners" className="pub-btn-ghost" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.4)' }}>Launch a Campus Chapter</Link>
             </div>
           </div>
@@ -334,7 +334,7 @@ export default function ImpactPage() {
             AED 999 &middot; Full academic year &middot; Everything included.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center reveal reveal-delay-2">
-            <Link href="/register" className="pub-btn-primary">Register Now</Link>
+            <Link href="/enroll?plan=impact" className="pub-btn-primary">Register Now</Link>
             <Link href="/foundation" className="pub-btn-ghost">Explore Foundation (K-12)</Link>
           </div>
         </div>

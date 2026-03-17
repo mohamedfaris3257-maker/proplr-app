@@ -58,7 +58,7 @@ export async function middleware(request: NextRequest) {
   // Onboarding — must be logged in; if already has profile, go to dashboard
   if (pathname === '/onboarding') {
     if (!user) {
-      return NextResponse.redirect(new URL('/register', request.url));
+      return NextResponse.redirect(new URL('/enroll', request.url));
     }
 
     // If user already completed onboarding, send to dashboard

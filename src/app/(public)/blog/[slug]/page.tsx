@@ -82,7 +82,7 @@ export default async function BlogPostPage({ params }: Props) {
         <div className="max-w-[760px] mx-auto text-center">
           <p style={{ color: '#6e6e73', fontSize: 15, marginBottom: 16 }}>Enjoyed this article? Explore what Proplr offers.</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Link href="/register" className="pub-btn-primary">Get Started →</Link>
+            <Link href="/enroll" className="pub-btn-primary">Get Started →</Link>
             <Link href="/blog" className="pub-btn-ghost">More Articles →</Link>
           </div>
         </div>

@@ -86,7 +86,7 @@ export function PublicFooter() {
           <p style={{ fontSize: 12, color: '#4a6785' }}>
             © {new Date().getFullYear()} Proplr. All rights reserved. Dubai, UAE.
           </p>
-          <Link href="/register" style={{ fontSize: 13, fontWeight: 600, color: '#3d9be9' }} className="hover:text-white transition-colors">
+          <Link href="/enroll" style={{ fontSize: 13, fontWeight: 600, color: '#3d9be9' }} className="hover:text-white transition-colors">
             Get Started →
           </Link>
         </div>
