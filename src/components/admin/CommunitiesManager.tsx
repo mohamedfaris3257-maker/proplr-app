@@ -137,13 +137,19 @@ export function CommunitiesManager() {
   async function openManageMembers(community: Community) {
     setManagingCommunity(community);
     setMembersLoading(true);
-    const supabase = createClient();
-    const { data } = await supabase
-      .from('community_members')
-      .select('id, user_id, role, status, joined_at, profiles(name, email, photo_url)')
-      .eq('community_id', community.id)
-      .order('joined_at', { ascending: true });
-    setMembers((data || []) as unknown as CommunityMember[]);
+    try {
+      const res = await fetch(`/api/communities/members?community_id=${community.id}`);
+      const data = await res.json();
+      if (data.success) {
+        setMembers(data.members as CommunityMember[]);
+      } else {
+        console.error('Fetch members failed:', data.error);
+        setMembers([]);
+      }
+    } catch (err) {
+      console.error('Fetch members error:', err);
+      setMembers([]);
+    }
     setMembersLoading(false);
   }
 

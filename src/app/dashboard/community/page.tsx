@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 import { CommunitiesPage } from '@/components/communities/CommunitiesPage';
 import type { Profile } from '@/lib/types';
 
@@ -33,14 +34,17 @@ export default async function CommunityPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { data: profile } = await supabase
+  // Use admin client to bypass RLS for data fetching
+  const adminClient = createAdminClient();
+
+  const { data: profile } = await adminClient
     .from('profiles')
     .select('*')
     .eq('user_id', user!.id)
     .single();
 
   // Fetch communities where the user is an approved member
-  const { data: memberRows } = await supabase
+  const { data: memberRows } = await adminClient
     .from('community_members')
     .select('community_id, role, joined_at, communities(*)')
     .eq('user_id', user!.id)
@@ -58,7 +62,7 @@ export default async function CommunityPage() {
   const myCommunityIds = myCommunities.map((c) => c.id);
 
   // Fetch all active communities not already joined, limited to 20
-  let discoverQuery = supabase
+  let discoverQuery = adminClient
     .from('communities')
     .select('*')
     .eq('is_active', true)
@@ -79,7 +83,7 @@ export default async function CommunityPage() {
 
   const memberCounts: Record<string, number> = {};
   if (allCommunityIds.length > 0) {
-    const { data: counts } = await supabase
+    const { data: counts } = await adminClient
       .from('community_members')
       .select('community_id')
       .eq('status', 'approved')

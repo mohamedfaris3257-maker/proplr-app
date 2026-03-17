@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 
 export async function POST(req: NextRequest) {
   const supabase = await createClient();
 
+  // Authenticate the user via their session
   const {
     data: { user },
     error: authError,
@@ -25,8 +27,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'community_id is required' }, { status: 400 });
   }
 
+  // Use admin client to bypass RLS for all DB operations
+  const adminClient = createAdminClient();
+
   // Check if already a member
-  const { data: existing } = await supabase
+  const { data: existing } = await adminClient
     .from('community_members')
     .select('id, status')
     .eq('community_id', community_id)
@@ -38,7 +43,7 @@ export async function POST(req: NextRequest) {
   }
 
   // Fetch community to check type
-  const { data: community, error: communityError } = await supabase
+  const { data: community, error: communityError } = await adminClient
     .from('communities')
     .select('id, type, is_active')
     .eq('id', community_id)
@@ -55,7 +60,7 @@ export async function POST(req: NextRequest) {
   const status: 'approved' | 'pending' =
     community.type === 'interest' ? 'approved' : 'pending';
 
-  const { error: insertError } = await supabase.from('community_members').insert({
+  const { error: insertError } = await adminClient.from('community_members').insert({
     community_id,
     user_id: user.id,
     role: 'member',

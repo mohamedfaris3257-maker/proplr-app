@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 import { CommunityDetailPage } from '@/components/communities/CommunityDetailPage';
 import { notFound } from 'next/navigation';
 
@@ -40,18 +41,21 @@ export default async function CommunityDetailRoute({ params }: Props) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  // Use admin client to bypass RLS for fetching community data and members
+  const adminClient = createAdminClient();
+
   const [{ data: communityData }, { data: memberRows }, { data: pendingRows }] = await Promise.all([
-    supabase
+    adminClient
       .from('communities')
       .select('*')
       .eq('id', params.id)
       .single(),
-    supabase
+    adminClient
       .from('community_members')
       .select('id, role, joined_at, user_id, status, profiles(*)')
       .eq('community_id', params.id)
       .eq('status', 'approved'),
-    supabase
+    adminClient
       .from('community_members')
       .select('id, role, joined_at, user_id, status, profiles(*)')
       .eq('community_id', params.id)

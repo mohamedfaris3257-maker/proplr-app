@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 
 export async function POST(req: NextRequest) {
   const supabase = await createClient();
@@ -25,7 +26,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'community_id is required' }, { status: 400 });
   }
 
-  const { error } = await supabase
+  // Use admin client to bypass RLS
+  const adminClient = createAdminClient();
+
+  const { error } = await adminClient
     .from('community_members')
     .delete()
     .eq('community_id', community_id)
