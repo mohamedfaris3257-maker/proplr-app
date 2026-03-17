@@ -3,7 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { CommunityDetailPage } from '@/components/communities/CommunityDetailPage';
 import { notFound } from 'next/navigation';
 
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
 
 interface Props {
   params: { id: string };

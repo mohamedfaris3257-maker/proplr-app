@@ -5,7 +5,6 @@ import { Plus, Users2, CheckCircle2, XCircle, Trash2, Globe } from 'lucide-react
 import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 import { Avatar } from '@/components/ui/Avatar';
-import { createClient } from '@/lib/supabase/client';
 import { formatDate } from '@/lib/utils';
 
 type CommunityType = 'cohort' | 'school' | 'interest';
@@ -72,66 +71,79 @@ export function CommunitiesManager() {
   }, []);
 
   async function fetchCommunities() {
-    const supabase = createClient();
-    const { data } = await supabase
-      .from('communities')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if (!data) {
-      setLoading(false);
-      return;
+    try {
+      const res = await fetch('/api/communities');
+      const data = await res.json();
+      if (data.success) {
+        // Fetch member counts via the members API
+        const communitiesWithCounts = await Promise.all(
+          (data.communities as Community[]).map(async (c) => {
+            try {
+              const membersRes = await fetch(`/api/communities/members?community_id=${c.id}`);
+              const membersData = await membersRes.json();
+              const approvedCount = membersData.success
+                ? (membersData.members as CommunityMember[]).filter((m) => m.status === 'approved').length
+                : 0;
+              return { ...c, memberCount: approvedCount };
+            } catch {
+              return { ...c, memberCount: 0 };
+            }
+          })
+        );
+        setCommunities(communitiesWithCounts);
+      } else {
+        console.error('Fetch communities failed:', data.error);
+      }
+    } catch (err) {
+      console.error('Fetch communities error:', err);
     }
-
-    // Fetch member counts
-    const ids = (data as unknown as Community[]).map((c) => c.id);
-    const counts: Record<string, number> = {};
-    if (ids.length > 0) {
-      const { data: countData } = await supabase
-        .from('community_members')
-        .select('community_id')
-        .eq('status', 'approved')
-        .in('community_id', ids);
-      (countData as unknown as { community_id: string }[] || []).forEach((row) => {
-        counts[row.community_id] = (counts[row.community_id] || 0) + 1;
-      });
-    }
-
-    setCommunities(
-      (data as unknown as Community[]).map((c) => ({ ...c, memberCount: counts[c.id] || 0 }))
-    );
     setLoading(false);
   }
 
   async function handleCreate() {
     if (!form.name.trim()) return;
     setSaving(true);
-    const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-
-    const { error } = await supabase.from('communities').insert({
-      name: form.name.trim(),
-      description: form.description.trim() || null,
-      type: form.type,
-      is_active: form.is_active,
-      created_by: user!.id,
-    });
-
-    if (!error) {
-      setCreateOpen(false);
-      setForm(defaultForm);
-      await fetchCommunities();
+    try {
+      const res = await fetch('/api/communities', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          description: form.description.trim() || null,
+          type: form.type,
+          is_active: form.is_active,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setCreateOpen(false);
+        setForm(defaultForm);
+        await fetchCommunities();
+      } else {
+        console.error('Create community failed:', data.error);
+      }
+    } catch (err) {
+      console.error('Create community error:', err);
     }
     setSaving(false);
   }
 
   async function handleToggleActive(community: Community) {
-    const supabase = createClient();
-    await supabase
-      .from('communities')
-      .update({ is_active: !community.is_active })
-      .eq('id', community.id);
-    await fetchCommunities();
+    try {
+      const res = await fetch('/api/communities', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: community.id, is_active: !community.is_active }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        await fetchCommunities();
+      } else {
+        console.error('Toggle active failed:', data.error);
+      }
+    } catch (err) {
+      console.error('Toggle active error:', err);
+    }
   }
 
   async function openManageMembers(community: Community) {
