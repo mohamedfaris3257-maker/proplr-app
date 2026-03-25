@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Trophy } from 'lucide-react';
+import { Trophy, Search } from 'lucide-react';
 import { Avatar } from '@/components/ui/Avatar';
 
 interface SchoolEntry {
@@ -61,25 +61,7 @@ function RankBadge({ rank }: { rank: number }) {
 
 export function LeaderboardPage({ schools, individuals }: LeaderboardPageProps) {
   return (
-    <div className="min-h-screen bg-background font-sans">
-      {/* Simple header */}
-      <header className="bg-surface border-b border-border px-6 py-4 flex items-center gap-3">
-        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#E8A838] to-[#c8881e] flex items-center justify-center">
-          <svg viewBox="0 0 20 20" className="w-4 h-4" fill="#0d1624" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 0L12.5 7.5L20 10L12.5 12.5L10 20L7.5 12.5L0 10L7.5 7.5L10 0Z" />
-          </svg>
-        </div>
-        <span className="text-lg font-bold text-text-primary tracking-tight">proplr</span>
-        <div className="ml-auto">
-          <Link
-            href="/login"
-            className="text-sm font-medium text-text-secondary hover:text-text-primary transition-colors"
-          >
-            Sign in
-          </Link>
-        </div>
-      </header>
-
+    <div className="font-sans" style={{ flex: 1, overflowY: 'auto' }}>
       <main className="max-w-5xl mx-auto px-4 py-8 space-y-8">
         {/* Page title */}
         <div className="text-center space-y-2">
@@ -178,10 +160,10 @@ export function LeaderboardPage({ schools, individuals }: LeaderboardPageProps) 
                           <RankBadge rank={rank} />
                         </td>
                         <td className="px-5 py-3">
-                          <div className="flex items-center gap-2.5">
+                          <Link href={`/dashboard/profile/${student.user_id}`} className="flex items-center gap-2.5 hover:underline">
                             <Avatar name={student.name} photoUrl={student.photo_url} size="xs" />
                             <span className="font-medium text-text-primary">{student.name}</span>
-                          </div>
+                          </Link>
                         </td>
                         <td className="px-5 py-3 text-text-secondary">
                           {student.school || '—'}
@@ -198,18 +180,6 @@ export function LeaderboardPage({ schools, individuals }: LeaderboardPageProps) 
           </div>
         </section>
 
-        {/* CTA */}
-        <div className="card p-6 text-center space-y-3">
-          <p className="text-text-secondary text-sm">
-            Want to climb the leaderboard? Sign in and start logging your pillar hours.
-          </p>
-          <Link
-            href="/login"
-            className="inline-flex items-center gap-2 bg-[#E8A838] text-background font-semibold px-5 py-2.5 rounded-lg hover:bg-[#c8881e] transition-colors duration-200 text-sm"
-          >
-            Sign in to join the leaderboard
-          </Link>
-        </div>
       </main>
     </div>
   );

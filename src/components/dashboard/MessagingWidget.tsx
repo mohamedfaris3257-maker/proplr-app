@@ -34,6 +34,9 @@ export function MessagingWidget({ currentUserId, currentUserName }: Props) {
   const [searchQuery, setSearchQuery] = useState('');
   const [unreadCount, setUnreadCount] = useState(0);
   const [activeTab, setActiveTab] = useState<'Focused' | 'Other'>('Focused');
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [searching, setSearching] = useState(false);
+  const searchTimerRef = useRef<NodeJS.Timeout | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const initial = getInitials(currentUserName);
@@ -55,6 +58,47 @@ export function MessagingWidget({ currentUserId, currentUserName }: Props) {
   useEffect(() => {
     if (isOpen) fetchConversations();
   }, [isOpen, fetchConversations]);
+
+  /* ─── People search (debounced) ───────────────────────────────────── */
+  useEffect(() => {
+    if (searchTimerRef.current) clearTimeout(searchTimerRef.current);
+    if (!searchQuery || searchQuery.trim().length < 2) {
+      setSearchResults([]);
+      setSearching(false);
+      return;
+    }
+    setSearching(true);
+    searchTimerRef.current = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/people/search?q=${encodeURIComponent(searchQuery.trim())}`);
+        const data = await res.json();
+        setSearchResults(data.people || []);
+      } catch {
+        setSearchResults([]);
+      }
+      setSearching(false);
+    }, 300);
+    return () => { if (searchTimerRef.current) clearTimeout(searchTimerRef.current); };
+  }, [searchQuery]);
+
+  async function startConversation(recipientId: string, recipientName: string) {
+    try {
+      const res = await fetch('/api/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ recipient_id: recipientId, content: `Hi ${recipientName}! 👋` }),
+      });
+      const data = await res.json();
+      if (data.success && data.conversation_id) {
+        setSearchQuery('');
+        setSearchResults([]);
+        setActiveConversation(data.conversation_id);
+        fetchConversations();
+      }
+    } catch (err) {
+      console.error('Start conversation error:', err);
+    }
+  }
 
   /* ─── Fetch messages ──────────────────────────────────────────────── */
   const fetchMessages = useCallback(async (convId: string) => {
@@ -246,11 +290,45 @@ export function MessagingWidget({ currentUserId, currentUserName }: Props) {
                     <input
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder="Search messages"
+                      placeholder="Search people or messages"
                       style={{ flex: 1, border: 'none', outline: 'none', fontSize: 13, background: 'transparent', fontFamily: 'inherit' }}
                     />
                   </div>
                 </div>
+
+                {/* People search results */}
+                {searchQuery.trim().length >= 2 && (
+                  <div style={{ borderBottom: '0.5px solid rgba(0,0,0,0.1)', maxHeight: 200, overflowY: 'auto' }}>
+                    {searching && (
+                      <div style={{ padding: '10px 14px', fontSize: 12, color: '#666' }}>Searching...</div>
+                    )}
+                    {!searching && searchResults.length === 0 && (
+                      <div style={{ padding: '10px 14px', fontSize: 12, color: '#666' }}>No people found</div>
+                    )}
+                    {searchResults.map((person: any) => (
+                      <div
+                        key={person.id}
+                        style={{ display: 'flex', gap: 10, padding: '8px 14px', alignItems: 'center', borderBottom: '0.5px solid rgba(0,0,0,0.04)', cursor: 'pointer' }}
+                        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#f3f2ef'; }}
+                        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+                      >
+                        <div style={{ width: 36, height: 36, borderRadius: '50%', background: '#6e7591', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700, flexShrink: 0 }}>
+                          {getInitials(person.name)}
+                        </div>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: 13, fontWeight: 600, color: '#000' }}>{person.name}</div>
+                          <div style={{ fontSize: 11, color: '#666' }}>{person.school_name || person.type?.replace('_', ' ')}</div>
+                        </div>
+                        <button
+                          onClick={() => startConversation(person.user_id, person.name)}
+                          style={{ fontSize: 12, color: '#3d9be9', background: 'rgba(61,155,233,0.08)', border: '0.5px solid rgba(61,155,233,0.2)', borderRadius: 16, padding: '4px 10px', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600, flexShrink: 0 }}
+                        >
+                          Message
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
 
                 {/* Focused / Other tabs */}
                 <div style={{ display: 'flex', borderBottom: '0.5px solid rgba(0,0,0,0.1)', flexShrink: 0 }}>

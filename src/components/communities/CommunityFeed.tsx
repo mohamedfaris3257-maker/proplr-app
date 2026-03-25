@@ -419,13 +419,17 @@ export function CommunityFeed({
                 <div style={{ padding: '12px 16px 0' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
                     <div style={{ display: 'flex', gap: 8 }}>
-                      <div style={{ width: 48, height: 48, borderRadius: '50%', background: '#3d9be9', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 17, flexShrink: 0 }}>
-                        {getInitials(post.profiles?.name || '?')}
-                      </div>
-                      <div>
-                        <div style={{ fontWeight: 700, fontSize: 14, color: '#000', lineHeight: 1.2 }}>
-                          {post.profiles?.name || 'Unknown'}
+                      <Link href={`/dashboard/profile/${post.user_id}`} style={{ textDecoration: 'none' }}>
+                        <div style={{ width: 48, height: 48, borderRadius: '50%', background: '#3d9be9', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 17, flexShrink: 0 }}>
+                          {getInitials(post.profiles?.name || '?')}
                         </div>
+                      </Link>
+                      <div>
+                        <Link href={`/dashboard/profile/${post.user_id}`} style={{ fontWeight: 700, fontSize: 14, color: '#000', lineHeight: 1.2, textDecoration: 'none' }}
+                          onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.textDecoration = 'underline'; }}
+                          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.textDecoration = 'none'; }}>
+                          {post.profiles?.name || 'Unknown'}
+                        </Link>
                         <div style={{ fontSize: 12, color: '#666', lineHeight: 1.4 }}>
                           {post.profiles?.type?.replace('_', ' ')}
                           {post.community && (
@@ -588,7 +592,11 @@ export function CommunityFeed({
                         </div>
                         <div>
                           <div style={{ background: '#f3f2ef', borderRadius: '0 12px 12px 12px', padding: '8px 12px', display: 'inline-block', maxWidth: 400 }}>
-                            <div style={{ fontWeight: 700, fontSize: 13, color: '#000' }}>{comment.profiles?.name || 'Unknown'}</div>
+                            <Link href={`/dashboard/profile/${comment.user_id}`} style={{ fontWeight: 700, fontSize: 13, color: '#000', textDecoration: 'none' }}
+                              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.textDecoration = 'underline'; }}
+                              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.textDecoration = 'none'; }}>
+                              {comment.profiles?.name || 'Unknown'}
+                            </Link>
                             <div style={{ fontSize: 13, color: '#000', marginTop: 2 }}>{comment.content}</div>
                           </div>
                           <div style={{ fontSize: 11.5, color: '#666', marginTop: 4, paddingLeft: 4 }}>{timeAgo(comment.created_at)}</div>
@@ -647,7 +655,11 @@ export function CommunityFeed({
                     {getInitials(peer.name)}
                   </div>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 700, fontSize: 13.5, color: '#000' }}>{peer.name}</div>
+                    <Link href={`/dashboard/profile/${peer.user_id}`} style={{ fontWeight: 700, fontSize: 13.5, color: '#000', textDecoration: 'none', display: 'block' }}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.textDecoration = 'underline'; }}
+                      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.textDecoration = 'none'; }}>
+                      {peer.name}
+                    </Link>
                     <div style={{ fontSize: 12, color: '#666', lineHeight: 1.3 }}>{peer.school_name}</div>
                     <button
                       onClick={async () => {
