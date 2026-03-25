@@ -76,14 +76,23 @@ export async function PATCH(req: NextRequest) {
   // Use admin client to bypass RLS
   const adminClient = tryCreateAdminClient() || supabase;
 
-  const { error: updateError } = await adminClient
+  const { data: updated, error: updateError } = await adminClient
     .from('community_members')
     .update({ status: newStatus })
-    .eq('id', member_id);
+    .eq('id', member_id)
+    .select()
+    .maybeSingle();
 
   if (updateError) {
     console.error('community_members update error:', updateError);
-    return NextResponse.json({ error: 'Failed to update member' }, { status: 500 });
+    return NextResponse.json({ error: `Failed to update member: ${updateError.message}` }, { status: 500 });
+  }
+
+  if (!updated) {
+    console.error('[PATCH members] Update returned 0 rows — likely blocked by RLS. User:', user.id, 'Member:', member_id);
+    return NextResponse.json({
+      error: 'Update failed — you may not have permission. Ensure your profile type is "admin" and the SUPABASE_SERVICE_ROLE_KEY env var is set.',
+    }, { status: 403 });
   }
 
   return NextResponse.json({ success: true, status: newStatus });
@@ -120,14 +129,22 @@ export async function DELETE(req: NextRequest) {
   // Use admin client to bypass RLS
   const adminClient = tryCreateAdminClient() || supabase;
 
-  const { error: deleteError } = await adminClient
+  const { data: deleted, error: deleteError } = await adminClient
     .from('community_members')
     .delete()
-    .eq('id', member_id);
+    .eq('id', member_id)
+    .select()
+    .maybeSingle();
 
   if (deleteError) {
     console.error('community_members delete error:', deleteError);
-    return NextResponse.json({ error: 'Failed to remove member' }, { status: 500 });
+    return NextResponse.json({ error: `Failed to remove member: ${deleteError.message}` }, { status: 500 });
+  }
+
+  if (!deleted) {
+    return NextResponse.json({
+      error: 'Remove failed — member not found or insufficient permissions.',
+    }, { status: 403 });
   }
 
   return NextResponse.json({ success: true });

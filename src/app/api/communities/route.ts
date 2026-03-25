@@ -139,15 +139,24 @@ export async function PATCH(req: NextRequest) {
 
   const adminClient = tryCreateAdminClient() || supabase;
 
-  const { error } = await adminClient
+  const { data: updated, error } = await adminClient
     .from('communities')
     .update(updates)
-    .eq('id', id);
+    .eq('id', id)
+    .select()
+    .maybeSingle();
 
   if (error) {
     console.error('Update community error:', error);
-    return NextResponse.json({ error: 'Failed to update community' }, { status: 500 });
+    return NextResponse.json({ error: `Failed to update community: ${error.message}` }, { status: 500 });
   }
 
-  return NextResponse.json({ success: true });
+  if (!updated) {
+    console.error('[PATCH communities] Update returned 0 rows — likely blocked by RLS. User:', user.id);
+    return NextResponse.json({
+      error: 'Update failed — you may not have permission. Ensure your profile type is "admin" and the SUPABASE_SERVICE_ROLE_KEY env var is set.',
+    }, { status: 403 });
+  }
+
+  return NextResponse.json({ success: true, community: updated });
 }

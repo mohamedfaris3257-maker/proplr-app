@@ -72,18 +72,32 @@ export async function POST(req: NextRequest) {
   const status: 'approved' | 'pending' =
     community.type === 'interest' ? 'approved' : 'pending';
 
-  const { error: insertError } = await db.from('community_members').insert({
-    community_id,
-    user_id: user.id,
-    role: 'member',
-    status,
-    joined_at: new Date().toISOString(),
-  });
+  const { data: inserted, error: insertError } = await db
+    .from('community_members')
+    .insert({
+      community_id,
+      user_id: user.id,
+      role: 'member',
+      status,
+    })
+    .select()
+    .single();
 
   if (insertError) {
     console.error('[Join] Insert error:', insertError);
+    // Check for unique constraint violation (already a member)
+    if (insertError.code === '23505') {
+      return NextResponse.json({ success: true, status: 'existing' });
+    }
     return NextResponse.json({
       error: `Failed to join: ${insertError.message}`,
+    }, { status: 500 });
+  }
+
+  if (!inserted) {
+    console.error('[Join] Insert returned no data — likely blocked by RLS');
+    return NextResponse.json({
+      error: 'Join failed — please try again or contact support.',
     }, { status: 500 });
   }
 

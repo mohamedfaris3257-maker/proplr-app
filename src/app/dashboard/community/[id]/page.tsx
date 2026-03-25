@@ -71,17 +71,27 @@ export default async function CommunityDetailRoute({ params }: Props) {
 
   // Check if current user is a member
   const currentMember = members.find((m) => m.user_id === user!.id);
-  const isAdmin = currentMember?.role === 'admin' || currentMember?.role === 'moderator';
+  const isCommunityAdmin = currentMember?.role === 'admin' || currentMember?.role === 'moderator';
+
+  // Also check if user is a platform admin (profile.type = 'admin')
+  const { data: userProfile } = await adminClient
+    .from('profiles')
+    .select('type')
+    .eq('user_id', user!.id)
+    .single();
+
+  const isPlatformAdmin = userProfile?.type === 'admin';
+  const canManage = isCommunityAdmin || isPlatformAdmin;
 
   return (
     <div style={{ flex: 1, overflowY: 'auto', padding: '22px 20px' }}>
       <CommunityDetailPage
         community={community}
         members={members}
-        pendingMembers={isAdmin ? pendingMembers : []}
+        pendingMembers={canManage ? pendingMembers : []}
         currentUserId={user!.id}
         isMember={!!currentMember}
-        userRole={currentMember?.role ?? null}
+        userRole={currentMember?.role ?? (isPlatformAdmin ? 'admin' : null)}
       />
     </div>
   );
