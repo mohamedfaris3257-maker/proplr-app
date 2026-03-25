@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import type { Profile } from '@/lib/types'
+import { WelcomeModal } from './WelcomeModal'
 
 /* ─── types ─────────────────────────────────────────────────────────── */
 
@@ -146,6 +147,7 @@ export function DashboardClient({
 
   return (
     <>
+      <WelcomeModal name={profile.name || ''} />
       {/* ═══════════════════ MAIN CONTENT ═══════════════════ */}
       <div style={{ flex: 1, overflowY: 'auto', padding: '28px 24px' }}>
 

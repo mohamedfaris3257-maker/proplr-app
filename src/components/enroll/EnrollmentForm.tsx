@@ -200,7 +200,7 @@ export function EnrollmentForm() {
         name: formData.full_name.trim(),
         type: formData.plan === 'impact' ? 'university_student' : 'school_student',
         photo_url: photoUrl || null,
-        school: formData.school_name.trim(),
+        school_name: formData.school_name.trim(),
         grade: formData.grade || null,
         interests: formData.interests,
       });

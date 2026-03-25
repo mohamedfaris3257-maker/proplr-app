@@ -51,13 +51,6 @@ export function DashboardSidebar({ profile }: DashboardSidebarProps) {
           </Link>
         ))}
         <div style={s.sep} />
-        <Link href="/admin" style={{
-          ...s.ni,
-          ...(pathname.startsWith('/admin') ? s.niActive : {}),
-        }}>
-          <ShieldIcon />
-          Admin
-        </Link>
         <button onClick={handleSignOut} style={s.signOutBtn}>
           <LogOutIcon />
           Sign Out

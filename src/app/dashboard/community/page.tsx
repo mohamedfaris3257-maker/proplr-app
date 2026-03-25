@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { tryCreateAdminClient } from '@/lib/supabase/admin';
 import { CommunitiesPage } from '@/components/communities/CommunitiesPage';
 import type { Profile } from '@/lib/types';
 
@@ -43,7 +43,8 @@ export default async function CommunityPage() {
   }
 
   // Use admin client to bypass RLS for data fetching
-  const adminClient = createAdminClient();
+  // Use admin client if available, fall back to session client
+  const adminClient = tryCreateAdminClient() || supabase;
 
   const { data: profile, error: profileError } = await adminClient
     .from('profiles')

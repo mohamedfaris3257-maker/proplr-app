@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { tryCreateAdminClient } from '@/lib/supabase/admin';
 
 /**
  * GET — fetch all pending community join requests across all communities
@@ -17,7 +17,7 @@ export async function GET() {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const adminClient = createAdminClient();
+  const adminClient = tryCreateAdminClient() || supabase;
 
   const { data, error } = await adminClient
     .from('community_members')

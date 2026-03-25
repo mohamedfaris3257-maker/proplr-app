@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { tryCreateAdminClient } from '@/lib/supabase/admin';
 
 /**
  * GET — fetch members for a community (used by admin panel)
@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
   }
 
   // Use admin client to bypass RLS so admins can see all members
-  const adminClient = createAdminClient();
+  const adminClient = tryCreateAdminClient() || supabase;
 
   const { data, error } = await adminClient
     .from('community_members')
@@ -74,7 +74,7 @@ export async function PATCH(req: NextRequest) {
   const newStatus = action === 'approve' ? 'approved' : 'rejected';
 
   // Use admin client to bypass RLS
-  const adminClient = createAdminClient();
+  const adminClient = tryCreateAdminClient() || supabase;
 
   const { error: updateError } = await adminClient
     .from('community_members')
@@ -118,7 +118,7 @@ export async function DELETE(req: NextRequest) {
   }
 
   // Use admin client to bypass RLS
-  const adminClient = createAdminClient();
+  const adminClient = tryCreateAdminClient() || supabase;
 
   const { error: deleteError } = await adminClient
     .from('community_members')

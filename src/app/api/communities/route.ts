@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { tryCreateAdminClient } from '@/lib/supabase/admin';
 
 /**
  * GET — fetch all communities with member counts and pending counts
@@ -17,7 +17,7 @@ export async function GET() {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const adminClient = createAdminClient();
+  const adminClient = tryCreateAdminClient() || supabase;
 
   // Fetch communities and all memberships in parallel
   const [communitiesResult, membershipsResult] = await Promise.all([
@@ -87,7 +87,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'name is required' }, { status: 400 });
   }
 
-  const adminClient = createAdminClient();
+  const adminClient = tryCreateAdminClient() || supabase;
 
   const { data, error } = await adminClient
     .from('communities')
@@ -137,7 +137,7 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ error: 'id is required' }, { status: 400 });
   }
 
-  const adminClient = createAdminClient();
+  const adminClient = tryCreateAdminClient() || supabase;
 
   const { error } = await adminClient
     .from('communities')
