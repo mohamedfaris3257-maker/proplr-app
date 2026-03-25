@@ -24,6 +24,7 @@ export function DashboardSidebar({ profile }: DashboardSidebarProps) {
     { icon: <GridIcon />, label: 'Dashboard', href: '/dashboard', active: pathname === '/dashboard' },
     { icon: <LayersIcon />, label: 'My Program', href: '/dashboard/courses', active: pathname.startsWith('/dashboard/courses') },
     { icon: <UsersIcon />, label: 'Community', href: '/dashboard/community', active: pathname.startsWith('/dashboard/community') },
+    { icon: <MessageIcon />, label: 'Messages', href: '/dashboard/messages', active: pathname.startsWith('/dashboard/messages') },
     { icon: <CalIcon />, label: 'Events', href: '/dashboard/events', active: pathname.startsWith('/dashboard/events') },
     { icon: <ClockIcon />, label: 'Opportunities', href: '/dashboard/opportunities', active: pathname.startsWith('/dashboard/opportunities') },
     { icon: <ChartIcon />, label: 'Leaderboard', href: '/dashboard/leaderboard', active: pathname === '/dashboard/leaderboard' },
@@ -93,5 +94,6 @@ function ClockIcon() { return <svg width="15" height="15" viewBox="0 0 24 24" fi
 function ChartIcon() { return <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> }
 function UserIcon() { return <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> }
 function SettingsIcon() { return <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg> }
+function MessageIcon() { return <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> }
 function ShieldIcon() { return <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> }
 function LogOutIcon() { return <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> }
