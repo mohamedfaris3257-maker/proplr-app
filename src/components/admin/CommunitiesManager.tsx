@@ -78,6 +78,7 @@ export function CommunitiesManager() {
   const [pendingRequests, setPendingRequests] = useState<PendingRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
   const [createOpen, setCreateOpen] = useState(false);
   const [form, setForm] = useState<CreateForm>(defaultForm);
   const [saving, setSaving] = useState(false);
@@ -147,6 +148,7 @@ export function CommunitiesManager() {
   }
 
   async function handleToggleActive(community: Community) {
+    setActionError(null);
     try {
       const res = await fetch('/api/communities', {
         method: 'PATCH',
@@ -156,14 +158,17 @@ export function CommunitiesManager() {
       const data = await res.json();
       if (data.success) {
         await loadData();
+      } else {
+        setActionError(`Failed to update "${community.name}": ${data.error}`);
       }
     } catch (err) {
-      console.error('Toggle active error:', err);
+      setActionError(`Failed to update "${community.name}": ${(err as Error).message}`);
     }
   }
 
   async function handleApproveRequest(requestId: string) {
     setActionInProgress(requestId);
+    setActionError(null);
     try {
       const res = await fetch('/api/communities/members', {
         method: 'PATCH',
@@ -173,17 +178,19 @@ export function CommunitiesManager() {
       const data = await res.json();
       if (data.success) {
         setPendingRequests((prev) => prev.filter((r) => r.id !== requestId));
-        // Update community counts
         await loadData();
+      } else {
+        setActionError(`Failed to approve: ${data.error}`);
       }
     } catch (err) {
-      console.error('Approve error:', err);
+      setActionError(`Failed to approve: ${(err as Error).message}`);
     }
     setActionInProgress(null);
   }
 
   async function handleRejectRequest(requestId: string) {
     setActionInProgress(requestId);
+    setActionError(null);
     try {
       const res = await fetch('/api/communities/members', {
         method: 'PATCH',
@@ -194,9 +201,11 @@ export function CommunitiesManager() {
       if (data.success) {
         setPendingRequests((prev) => prev.filter((r) => r.id !== requestId));
         await loadData();
+      } else {
+        setActionError(`Failed to reject: ${data.error}`);
       }
     } catch (err) {
-      console.error('Reject error:', err);
+      setActionError(`Failed to reject: ${(err as Error).message}`);
     }
     setActionInProgress(null);
   }
@@ -325,6 +334,14 @@ export function CommunitiesManager() {
           Create Community
         </Button>
       </div>
+
+      {/* Action Error Banner */}
+      {actionError && (
+        <div className="card p-3 border-red/30 bg-red/5 flex items-center justify-between gap-3">
+          <p className="text-sm text-red">{actionError}</p>
+          <button onClick={() => setActionError(null)} className="text-xs text-red hover:underline flex-shrink-0">Dismiss</button>
+        </div>
+      )}
 
       {/* Pending Join Requests — Global Section */}
       {pendingRequests.length > 0 && (

@@ -146,9 +146,11 @@ export function CommunitiesPage({
   const [joiningId, setJoiningId] = useState<string | null>(null);
   const [joinStatuses, setJoinStatuses] = useState<Record<string, 'approved' | 'pending'>>({});
   const [memberCounts, setMemberCounts] = useState(initialMemberCounts);
+  const [joinError, setJoinError] = useState<string | null>(null);
 
   async function handleJoin(communityId: string) {
     setJoiningId(communityId);
+    setJoinError(null);
     try {
       const res = await fetch('/api/communities/join', {
         method: 'POST',
@@ -164,8 +166,11 @@ export function CommunitiesPage({
             [communityId]: (prev[communityId] || 0) + 1,
           }));
         }
+      } else {
+        setJoinError(data.error || 'Failed to join community. Please try again.');
       }
     } catch (err) {
+      setJoinError('Failed to connect. Please check your connection and try again.');
       console.error('Failed to join community:', err);
     } finally {
       setJoiningId(null);
@@ -184,6 +189,14 @@ export function CommunitiesPage({
           <p className="text-text-muted text-sm">Connect with your cohorts, school, and interests</p>
         </div>
       </div>
+
+      {/* Join Error */}
+      {joinError && (
+        <div className="card p-3 mb-4 border-red/30 bg-red/5 flex items-center justify-between gap-3">
+          <p className="text-sm text-red">{joinError}</p>
+          <button onClick={() => setJoinError(null)} className="text-xs text-red hover:underline flex-shrink-0">Dismiss</button>
+        </div>
+      )}
 
       {/* My Communities */}
       {myCommunities.length > 0 && (

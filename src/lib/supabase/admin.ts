@@ -6,13 +6,22 @@ import { createClient as createSupabaseClient } from '@supabase/supabase-js';
  * NEVER import this in client components or expose the key.
  */
 export function createAdminClient() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
+  if (!supabaseUrl) {
+    console.error('[Admin Client] NEXT_PUBLIC_SUPABASE_URL is not set');
+    throw new Error('NEXT_PUBLIC_SUPABASE_URL is not set');
+  }
+
   if (!serviceRoleKey) {
-    console.error('[createAdminClient] SUPABASE_SERVICE_ROLE_KEY is not set — DB operations will fail or fall back to RLS-limited client');
+    console.error('[Admin Client] SUPABASE_SERVICE_ROLE_KEY is not set. Available env vars:',
+      Object.keys(process.env).filter(k => k.includes('SUPA')).join(', ') || 'none'
+    );
     throw new Error('SUPABASE_SERVICE_ROLE_KEY is not set');
   }
+
+  console.log('[Admin Client] Creating admin client with service role key (length:', serviceRoleKey.length, ')');
 
   return createSupabaseClient(supabaseUrl, serviceRoleKey, {
     auth: {
@@ -29,7 +38,8 @@ export function createAdminClient() {
 export function tryCreateAdminClient() {
   try {
     return createAdminClient();
-  } catch {
+  } catch (err) {
+    console.error('[Admin Client] Fallback to session client:', (err as Error).message);
     return null;
   }
 }
