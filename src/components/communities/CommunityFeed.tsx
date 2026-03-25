@@ -122,7 +122,11 @@ export function CommunityFeed({
   /* ─── Post creation ───────────────────────────────────────────────── */
 
   async function handlePost() {
-    if (!postContent.trim() || !selectedCommunity || posting) return;
+    if (!postContent.trim()) return;
+    if (!selectedCommunity) {
+      alert('Please select a community to post in.');
+      return;
+    }
     setPosting(true);
     try {
       const res = await fetch('/api/communities/posts', {
@@ -135,6 +139,12 @@ export function CommunityFeed({
         }),
       });
       const data = await res.json();
+      if (!res.ok) {
+        console.error('Post failed:', data);
+        alert('Failed to post: ' + (data.error || 'Unknown error'));
+        setPosting(false);
+        return;
+      }
       if (data.success && data.post) {
         const community = myCommunities.find((c) => c.id === selectedCommunity);
         const newPost: FeedPost = {
@@ -150,9 +160,12 @@ export function CommunityFeed({
         setPostContent('');
         setIsAnnouncement(false);
         setShowPostModal(false);
+      } else {
+        alert('Failed to post: ' + (data.error || 'Unknown error'));
       }
     } catch (err) {
       console.error('Post error:', err);
+      alert('Something went wrong. Please try again.');
     }
     setPosting(false);
   }
@@ -637,6 +650,21 @@ export function CommunityFeed({
                     <div style={{ fontWeight: 700, fontSize: 13.5, color: '#000' }}>{peer.name}</div>
                     <div style={{ fontSize: 12, color: '#666', lineHeight: 1.3 }}>{peer.school_name}</div>
                     <button
+                      onClick={async () => {
+                        try {
+                          const res = await fetch('/api/messages', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ recipient_id: peer.user_id, content: `Hi ${peer.name}! 👋` }),
+                          });
+                          const data = await res.json();
+                          if (data.success) {
+                            alert(`Message sent to ${peer.name}! Check the messaging widget (💬) in the bottom right.`);
+                          }
+                        } catch (err) {
+                          console.error('Connect error:', err);
+                        }
+                      }}
                       style={{ marginTop: 6, background: 'transparent', border: '1.5px solid #666', borderRadius: 20, padding: '4px 14px', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: 6 }}
                       onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#f3f2ef'; }}
                       onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}

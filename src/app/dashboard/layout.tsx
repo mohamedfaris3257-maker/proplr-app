@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { DashboardSidebar } from '@/components/dashboard/DashboardSidebar';
+import { MessagingWidget } from '@/components/dashboard/MessagingWidget';
 import type { Profile } from '@/lib/types';
 
 export default async function DashboardLayout({
@@ -38,6 +39,10 @@ export default async function DashboardLayout({
       <div style={{ flex: 1, minWidth: 0, display: 'flex' }}>
         {children}
       </div>
+      <MessagingWidget
+        currentUserId={user.id}
+        currentUserName={(profile as Profile).name || ''}
+      />
     </div>
   );
 }
