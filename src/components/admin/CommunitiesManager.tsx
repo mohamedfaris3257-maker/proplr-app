@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Plus, Users2, CheckCircle2, XCircle, Trash2, Globe } from 'lucide-react';
+import { Plus, Users2, CheckCircle2, XCircle, Trash2, Globe, Clock, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 import { Avatar } from '@/components/ui/Avatar';
@@ -19,6 +19,7 @@ interface Community {
   is_active: boolean;
   created_at: string;
   memberCount?: number;
+  pendingCount?: number;
 }
 
 interface CommunityMember {
@@ -31,6 +32,24 @@ interface CommunityMember {
     name: string;
     email: string;
     photo_url: string | null;
+  } | null;
+}
+
+interface PendingRequest {
+  id: string;
+  user_id: string;
+  community_id: string;
+  role: string;
+  status: string;
+  joined_at: string;
+  profiles: {
+    name: string;
+    email: string;
+    photo_url: string | null;
+  } | null;
+  communities: {
+    name: string;
+    type: string;
   } | null;
 }
 
@@ -56,7 +75,9 @@ const TYPE_BADGE: Record<CommunityType, { label: string; className: string }> = 
 
 export function CommunitiesManager() {
   const [communities, setCommunities] = useState<Community[]>([]);
+  const [pendingRequests, setPendingRequests] = useState<PendingRequest[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [createOpen, setCreateOpen] = useState(false);
   const [form, setForm] = useState<CreateForm>(defaultForm);
   const [saving, setSaving] = useState(false);
@@ -67,35 +88,32 @@ export function CommunitiesManager() {
   const [actionInProgress, setActionInProgress] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchCommunities();
+    loadData();
   }, []);
 
-  async function fetchCommunities() {
+  async function loadData() {
+    setLoading(true);
+    setError(null);
     try {
-      const res = await fetch('/api/communities');
-      const data = await res.json();
-      if (data.success) {
-        // Fetch member counts via the members API
-        const communitiesWithCounts = await Promise.all(
-          (data.communities as Community[]).map(async (c) => {
-            try {
-              const membersRes = await fetch(`/api/communities/members?community_id=${c.id}`);
-              const membersData = await membersRes.json();
-              const approvedCount = membersData.success
-                ? (membersData.members as CommunityMember[]).filter((m) => m.status === 'approved').length
-                : 0;
-              return { ...c, memberCount: approvedCount };
-            } catch {
-              return { ...c, memberCount: 0 };
-            }
-          })
-        );
-        setCommunities(communitiesWithCounts);
-      } else {
-        console.error('Fetch communities failed:', data.error);
+      const [commRes, pendingRes] = await Promise.all([
+        fetch('/api/communities'),
+        fetch('/api/communities/pending'),
+      ]);
+
+      const commData = await commRes.json();
+      const pendingData = await pendingRes.json();
+
+      if (!commRes.ok || !commData.success) {
+        setError(commData.error || 'Failed to load communities');
+        setLoading(false);
+        return;
       }
+
+      setCommunities(commData.communities as Community[]);
+      setPendingRequests(pendingData.success ? (pendingData.requests as PendingRequest[]) : []);
     } catch (err) {
-      console.error('Fetch communities error:', err);
+      console.error('Load data error:', err);
+      setError('Failed to connect to the server. Please refresh the page.');
     }
     setLoading(false);
   }
@@ -118,7 +136,7 @@ export function CommunitiesManager() {
       if (data.success) {
         setCreateOpen(false);
         setForm(defaultForm);
-        await fetchCommunities();
+        await loadData();
       } else {
         console.error('Create community failed:', data.error);
       }
@@ -137,13 +155,50 @@ export function CommunitiesManager() {
       });
       const data = await res.json();
       if (data.success) {
-        await fetchCommunities();
-      } else {
-        console.error('Toggle active failed:', data.error);
+        await loadData();
       }
     } catch (err) {
       console.error('Toggle active error:', err);
     }
+  }
+
+  async function handleApproveRequest(requestId: string) {
+    setActionInProgress(requestId);
+    try {
+      const res = await fetch('/api/communities/members', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ member_id: requestId, action: 'approve' }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setPendingRequests((prev) => prev.filter((r) => r.id !== requestId));
+        // Update community counts
+        await loadData();
+      }
+    } catch (err) {
+      console.error('Approve error:', err);
+    }
+    setActionInProgress(null);
+  }
+
+  async function handleRejectRequest(requestId: string) {
+    setActionInProgress(requestId);
+    try {
+      const res = await fetch('/api/communities/members', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ member_id: requestId, action: 'reject' }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setPendingRequests((prev) => prev.filter((r) => r.id !== requestId));
+        await loadData();
+      }
+    } catch (err) {
+      console.error('Reject error:', err);
+    }
+    setActionInProgress(null);
   }
 
   async function openManageMembers(community: Community) {
@@ -155,11 +210,9 @@ export function CommunitiesManager() {
       if (data.success) {
         setMembers(data.members as CommunityMember[]);
       } else {
-        console.error('Fetch members failed:', data.error);
         setMembers([]);
       }
-    } catch (err) {
-      console.error('Fetch members error:', err);
+    } catch {
       setMembers([]);
     }
     setMembersLoading(false);
@@ -178,8 +231,6 @@ export function CommunitiesManager() {
         setMembers((prev) =>
           prev.map((m) => (m.id === memberId ? { ...m, status: 'approved' } : m))
         );
-      } else {
-        console.error('Approve failed:', data.error);
       }
     } catch (err) {
       console.error('Approve error:', err);
@@ -200,8 +251,6 @@ export function CommunitiesManager() {
         setMembers((prev) =>
           prev.map((m) => (m.id === memberId ? { ...m, status: 'rejected' } : m))
         );
-      } else {
-        console.error('Reject failed:', data.error);
       }
     } catch (err) {
       console.error('Reject error:', err);
@@ -221,10 +270,8 @@ export function CommunitiesManager() {
       if (data.success) {
         setMembers((prev) => prev.filter((m) => m.id !== memberId));
         if (managingCommunity) {
-          await fetchCommunities();
+          await loadData();
         }
-      } else {
-        console.error('Remove failed:', data.error);
       }
     } catch (err) {
       console.error('Remove error:', err);
@@ -232,11 +279,41 @@ export function CommunitiesManager() {
     setActionInProgress(null);
   }
 
-  const pendingMembers = members.filter((m) => m.status === 'pending');
-  const approvedMembers = members.filter((m) => m.status === 'approved');
+  const modalPendingMembers = members.filter((m) => m.status === 'pending');
+  const modalApprovedMembers = members.filter((m) => m.status === 'approved');
+
+  if (loading) {
+    return (
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="text-sm font-semibold text-text-primary">Communities</h3>
+          </div>
+        </div>
+        <div className="card p-10 text-center text-text-muted text-sm">Loading communities...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="text-sm font-semibold text-text-primary">Communities</h3>
+          </div>
+        </div>
+        <div className="card p-6 text-center">
+          <AlertCircle className="w-8 h-8 text-red mx-auto mb-3" />
+          <p className="text-text-secondary text-sm mb-3">{error}</p>
+          <Button size="sm" onClick={loadData}>Retry</Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -249,11 +326,69 @@ export function CommunitiesManager() {
         </Button>
       </div>
 
-      {/* List */}
+      {/* Pending Join Requests — Global Section */}
+      {pendingRequests.length > 0 && (
+        <div className="card overflow-hidden border-gold/30">
+          <div className="px-4 py-3 bg-gold/5 border-b border-gold/20">
+            <h4 className="text-sm font-semibold text-gold flex items-center gap-2">
+              <Clock className="w-4 h-4" />
+              Pending Join Requests
+              <span className="text-xs font-normal bg-gold/20 text-gold px-2 py-0.5 rounded-full">
+                {pendingRequests.length}
+              </span>
+            </h4>
+          </div>
+          <div className="divide-y divide-border">
+            {pendingRequests.map((request) => (
+              <div
+                key={request.id}
+                className="flex items-center gap-3 p-4 hover:bg-surface-2 transition-colors"
+              >
+                <Avatar
+                  name={request.profiles?.name ?? 'User'}
+                  photoUrl={request.profiles?.photo_url}
+                  size="sm"
+                />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-text-primary truncate">
+                    {request.profiles?.name ?? 'Unknown'}
+                  </p>
+                  <p className="text-xs text-text-muted">
+                    {request.profiles?.email} · wants to join{' '}
+                    <span className="font-medium text-text-secondary">
+                      {request.communities?.name ?? 'Unknown Community'}
+                    </span>
+                    {' · '}
+                    {formatDate(request.joined_at)}
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <button
+                    onClick={() => handleRejectRequest(request.id)}
+                    disabled={actionInProgress === request.id}
+                    className="p-1.5 rounded-lg text-red hover:bg-red/10 transition-colors disabled:opacity-50"
+                    title="Reject"
+                  >
+                    <XCircle className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => handleApproveRequest(request.id)}
+                    disabled={actionInProgress === request.id}
+                    className="flex items-center gap-1 text-xs font-medium px-3 py-1.5 rounded-lg bg-green/10 text-green hover:bg-green/20 transition-colors disabled:opacity-50"
+                  >
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    Approve
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Communities List */}
       <div className="card overflow-hidden">
-        {loading ? (
-          <div className="p-10 text-center text-text-muted text-sm">Loading...</div>
-        ) : communities.length === 0 ? (
+        {communities.length === 0 ? (
           <div className="p-10 text-center">
             <Globe className="w-8 h-8 text-text-muted mx-auto mb-3" />
             <p className="text-text-secondary text-sm">No communities yet.</p>
@@ -278,9 +413,14 @@ export function CommunitiesManager() {
                           Inactive
                         </span>
                       )}
+                      {(community.pendingCount ?? 0) > 0 && (
+                        <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-gold/10 text-gold">
+                          {community.pendingCount} pending
+                        </span>
+                      )}
                     </div>
                     <p className="text-xs text-text-muted">
-                      {community.memberCount} members · Created {formatDate(community.created_at)}
+                      {community.memberCount ?? 0} members · Created {formatDate(community.created_at)}
                     </p>
                   </div>
                   <div className="flex items-center gap-2 flex-shrink-0">
@@ -390,13 +530,13 @@ export function CommunitiesManager() {
           <div className="py-8 text-center text-text-muted text-sm">Loading members...</div>
         ) : (
           <div className="space-y-4">
-            {pendingMembers.length > 0 && (
+            {modalPendingMembers.length > 0 && (
               <div>
                 <h4 className="text-xs font-semibold text-gold uppercase tracking-wider mb-2">
-                  Pending Requests ({pendingMembers.length})
+                  Pending Requests ({modalPendingMembers.length})
                 </h4>
                 <div className="divide-y divide-border border border-border rounded-xl overflow-hidden">
-                  {pendingMembers.map((member) => (
+                  {modalPendingMembers.map((member) => (
                     <div key={member.id} className="flex items-center gap-3 p-3">
                       <Avatar
                         name={member.profiles?.name ?? 'User'}
@@ -434,13 +574,13 @@ export function CommunitiesManager() {
 
             <div>
               <h4 className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-2">
-                Approved Members ({approvedMembers.length})
+                Approved Members ({modalApprovedMembers.length})
               </h4>
-              {approvedMembers.length === 0 ? (
+              {modalApprovedMembers.length === 0 ? (
                 <p className="text-sm text-text-muted text-center py-4">No approved members.</p>
               ) : (
                 <div className="divide-y divide-border border border-border rounded-xl overflow-hidden max-h-64 overflow-y-auto">
-                  {approvedMembers.map((member) => (
+                  {modalApprovedMembers.map((member) => (
                     <div key={member.id} className="flex items-center gap-3 p-3">
                       <Avatar
                         name={member.profiles?.name ?? 'User'}

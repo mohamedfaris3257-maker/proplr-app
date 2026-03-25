@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 
 /**
- * GET — fetch all communities (admin) or active communities (student)
+ * GET — fetch all communities with member counts and pending counts
  */
 export async function GET() {
   const supabase = await createClient();
@@ -19,17 +19,44 @@ export async function GET() {
 
   const adminClient = createAdminClient();
 
-  const { data, error } = await adminClient
-    .from('communities')
-    .select('*')
-    .order('created_at', { ascending: false });
+  // Fetch communities and all memberships in parallel
+  const [communitiesResult, membershipsResult] = await Promise.all([
+    adminClient
+      .from('communities')
+      .select('*')
+      .order('created_at', { ascending: false }),
+    adminClient
+      .from('community_members')
+      .select('community_id, status'),
+  ]);
 
-  if (error) {
-    console.error('Fetch communities error:', error);
+  if (communitiesResult.error) {
+    console.error('Fetch communities error:', communitiesResult.error);
     return NextResponse.json({ error: 'Failed to fetch communities' }, { status: 500 });
   }
 
-  return NextResponse.json({ success: true, communities: data || [] });
+  const communities = communitiesResult.data || [];
+  const memberships = membershipsResult.data || [];
+
+  // Calculate counts per community
+  const memberCounts: Record<string, number> = {};
+  const pendingCounts: Record<string, number> = {};
+
+  for (const m of memberships) {
+    if (m.status === 'approved') {
+      memberCounts[m.community_id] = (memberCounts[m.community_id] || 0) + 1;
+    } else if (m.status === 'pending') {
+      pendingCounts[m.community_id] = (pendingCounts[m.community_id] || 0) + 1;
+    }
+  }
+
+  const communitiesWithCounts = communities.map((c) => ({
+    ...c,
+    memberCount: memberCounts[c.id] || 0,
+    pendingCount: pendingCounts[c.id] || 0,
+  }));
+
+  return NextResponse.json({ success: true, communities: communitiesWithCounts });
 }
 
 /**
