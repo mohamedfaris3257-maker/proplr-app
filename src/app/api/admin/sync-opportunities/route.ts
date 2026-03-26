@@ -86,6 +86,10 @@ export async function POST(req: NextRequest) {
 }
 
 async function runSync() {
+  console.log('ADZUNA_APP_ID:', process.env.ADZUNA_APP_ID ? 'SET' : 'MISSING');
+  console.log('ADZUNA_APP_KEY:', process.env.ADZUNA_APP_KEY ? 'SET' : 'MISSING');
+  console.log('ADZUNA_COUNTRY:', process.env.ADZUNA_COUNTRY || 'NOT SET - will default');
+
   if (!ADZUNA_APP_ID || !ADZUNA_APP_KEY) {
     return NextResponse.json({ error: 'Adzuna API credentials not configured' }, { status: 500 });
   }
