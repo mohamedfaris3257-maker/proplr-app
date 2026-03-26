@@ -1,246 +1,149 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
-import { tryCreateAdminClient } from '@/lib/supabase/admin';
+import { createClient } from '@supabase/supabase-js'
+import { NextResponse } from 'next/server'
 
-// Search across multiple countries — no strict location filters
-const SEARCH_CONFIGS = [
-  { country: 'ae', q: 'internship' },
-  { country: 'ae', q: 'graduate' },
-  { country: 'ae', q: 'entry level' },
-  { country: 'ae', q: 'job' },
-  { country: 'gb', q: 'internship dubai' },
-  { country: 'gb', q: 'remote internship' },
-  { country: 'gb', q: 'graduate remote' },
-  { country: 'us', q: 'remote internship' },
-  { country: 'us', q: 'remote graduate entry level' },
-];
+const adminClient = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+)
 
-// Map Adzuna categories to our opportunity types
-function mapCategory(category: string): string {
-  const lower = (category || '').toLowerCase();
-  if (lower.includes('intern')) return 'internship';
-  if (lower.includes('volunteer')) return 'volunteering';
-  if (lower.includes('graduate') || lower.includes('entry')) return 'job';
-  return 'internship';
-}
+const SEARCH_QUERIES = [
+  'internship Dubai',
+  'graduate trainee Dubai',
+  'entry level Dubai UAE',
+  'junior Dubai',
+  'internship UAE',
+]
 
-// Map Adzuna results to our opportunity schema
-function mapAdzunaToOpportunity(item: any) {
-  return {
-    title: item.title?.replace(/<\/?[^>]+(>|$)/g, '') || 'Untitled',
-    company: item.company?.display_name || 'Unknown Company',
-    description: item.description?.replace(/<\/?[^>]+(>|$)/g, '') || '',
-    type: mapCategory(item.category?.label || ''),
-    pillar_tags: ['Career Readiness'],
-    audience: 'both',
-    is_active: false,
-    external_url: item.redirect_url || null,
-    source: 'adzuna',
-    source_id: String(item.id),
-    salary_min: item.salary_min || null,
-    salary_max: item.salary_max || null,
-    location: item.location?.display_name || null,
-    expires_at: null,
-    status: 'staging',
-  };
-}
+async function fetchJSearchJobs(query: string) {
+  const apiKey = process.env.JSEARCH_API_KEY
+  if (!apiKey) throw new Error('JSEARCH_API_KEY not set')
 
-// Fetch jobs from Adzuna for a specific country/query
-async function fetchAdzunaJobs(
-  country: string,
-  query: string,
-  appId: string,
-  appKey: string
-): Promise<any[]> {
   const params = new URLSearchParams({
-    app_id: appId,
-    app_key: appKey,
-    results_per_page: '15',
-    what: query,
-    content_type: 'application/json',
-    sort_by: 'date',
-    max_days_old: '90',
-  });
+    query,
+    page: '1',
+    num_pages: '1',
+    date_posted: 'month',
+  })
 
-  // No location filter — let the search query handle targeting
-  const url = `https://api.adzuna.com/v1/api/jobs/${country}/search/1?${params}`;
-
-  console.log('Fetching:', url.replace(appKey, 'KEY_HIDDEN'));
-
-  const res = await fetch(url);
+  const res = await fetch(
+    `https://jsearch.p.rapidapi.com/search?${params}`,
+    {
+      headers: {
+        'X-RapidAPI-Key': apiKey,
+        'X-RapidAPI-Host': 'jsearch.p.rapidapi.com',
+      },
+    }
+  )
 
   if (!res.ok) {
-    console.error(`Adzuna ${country} error:`, res.status, await res.text());
-    return [];
+    const text = await res.text()
+    console.error(`JSearch error for "${query}":`, res.status, text)
+    return []
   }
 
-  const data = await res.json();
-  console.log(`Adzuna ${country} "${query}": ${data.results?.length || 0} results, total: ${data.count}`);
-
-  // Log sample result for debugging
-  if (data.results?.length > 0) {
-    const sample = data.results[0];
-    console.log('Sample result:', sample.title, '|', sample.company?.display_name, '|', sample.location?.display_name);
+  const data = await res.json()
+  console.log(`JSearch "${query}": ${data.data?.length || 0} results`)
+  if (data.data?.length > 0) {
+    console.log('Sample:', data.data[0].job_title, '|', data.data[0].job_city, data.data[0].job_country)
   }
-
-  return data.results || [];
+  return data.data || []
 }
 
-// POST — manually trigger sync (admin only)
-// GET  — can be called by Vercel cron
-export async function GET(req: NextRequest) {
-  const authHeader = req.headers.get('authorization');
-  const cronSecret = process.env.CRON_SECRET;
-
-  if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
-    const db = tryCreateAdminClient() || supabase;
-    const { data: profile } = await db
-      .from('profiles')
-      .select('type')
-      .eq('user_id', user.id)
-      .single();
-
-    if (profile?.type !== 'admin') {
-      return NextResponse.json({ error: 'Admin only' }, { status: 403 });
-    }
-  }
-
-  return runSync();
+function mapJobType(job: any): string {
+  const title = (job.job_title || '').toLowerCase()
+  const empType = (job.job_employment_type || '').toLowerCase()
+  if (title.includes('intern') || empType === 'intern') return 'internship'
+  if (title.includes('shadow')) return 'job_shadow'
+  return 'job'
 }
 
-export async function POST(req: NextRequest) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
-  const db = tryCreateAdminClient() || supabase;
-  const { data: profile } = await db
-    .from('profiles')
-    .select('type')
-    .eq('user_id', user.id)
-    .single();
-
-  if (profile?.type !== 'admin') {
-    return NextResponse.json({ error: 'Admin only' }, { status: 403 });
-  }
-
-  return runSync();
-}
-
-async function runSync() {
-  const ADZUNA_APP_ID = process.env.ADZUNA_APP_ID;
-  const ADZUNA_APP_KEY = process.env.ADZUNA_APP_KEY;
-
-  console.log('ENV CHECK - ADZUNA_APP_ID:', ADZUNA_APP_ID ? `SET (${ADZUNA_APP_ID.slice(0, 4)}...)` : 'MISSING');
-  console.log('ENV CHECK - ADZUNA_APP_KEY:', ADZUNA_APP_KEY ? `SET (${ADZUNA_APP_KEY.slice(0, 4)}...)` : 'MISSING');
-
-  if (!ADZUNA_APP_ID || !ADZUNA_APP_KEY) {
-    return NextResponse.json({
-      error: 'Adzuna API credentials not configured',
-      debug: {
-        hasAppId: !!ADZUNA_APP_ID,
-        hasAppKey: !!ADZUNA_APP_KEY,
-      },
-    }, { status: 500 });
-  }
-
-  const db = tryCreateAdminClient();
-  if (!db) {
-    return NextResponse.json({ error: 'Admin client not available' }, { status: 500 });
-  }
-
+export async function POST(req: Request) {
   try {
-    let allItems: any[] = [];
-    const queryResults: Record<string, number> = {};
+    const isVercelCron = req.headers.get('x-vercel-cron') === '1'
+    const authHeader = req.headers.get('authorization')
+    const isManual = authHeader === `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`
 
-    let totalSkipped = 0;
+    if (!isVercelCron && !isManual) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
 
-    for (const { country, q } of SEARCH_CONFIGS) {
+    if (!process.env.JSEARCH_API_KEY) {
+      return NextResponse.json({ error: 'JSEARCH_API_KEY not configured' }, { status: 500 })
+    }
+
+    let totalNew = 0
+    let totalSkipped = 0
+    let totalFetched = 0
+
+    for (const query of SEARCH_QUERIES) {
       try {
-        const jobs = await fetchAdzunaJobs(country, q, ADZUNA_APP_ID, ADZUNA_APP_KEY);
-        // Only skip jobs missing a title or apply link
-        const valid = jobs.filter((job: any) => {
-          if (!job.title && !job.redirect_url) {
-            totalSkipped++;
-            return false;
+        const jobs = await fetchJSearchJobs(query)
+        totalFetched += jobs.length
+
+        for (const job of jobs) {
+          if (!job.job_title || !job.job_apply_link) {
+            totalSkipped++
+            continue
           }
-          return true;
-        });
-        queryResults[`${country}:${q}`] = valid.length;
-        allItems = allItems.concat(valid);
+
+          const { data: existing } = await adminClient
+            .from('opportunities')
+            .select('id')
+            .eq('source_id', job.job_id)
+            .single()
+
+          if (existing) {
+            totalSkipped++
+            continue
+          }
+
+          const location = [job.job_city, job.job_state, job.job_country]
+            .filter(Boolean).join(', ')
+
+          const opportunity = {
+            title: job.job_title,
+            company: job.employer_name || 'Unknown Company',
+            company_logo_url: job.employer_logo || null,
+            description: (job.job_description || '').slice(0, 1000),
+            type: mapJobType(job),
+            location: location || 'UAE',
+            is_remote: job.job_is_remote || false,
+            external_url: job.job_apply_link,
+            source: 'adzuna',
+            source_id: job.job_id,
+            status: 'staging',
+            program: 'both',
+            published: false,
+            expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+          }
+
+          const { error } = await adminClient
+            .from('opportunities')
+            .insert(opportunity)
+
+          if (error) {
+            console.error('Insert error:', error.message)
+          } else {
+            totalNew++
+          }
+        }
+
+        await new Promise(r => setTimeout(r, 1000))
+
       } catch (err) {
-        console.error(`Error fetching ${country} "${q}":`, err);
-        queryResults[`${country}:${q}`] = 0;
+        console.error(`Error for query "${query}":`, err)
       }
     }
 
-    console.log('Total skipped (no title/link):', totalSkipped);
-
-    console.log('Query results summary:', JSON.stringify(queryResults));
-
-    if (allItems.length === 0) {
-      return NextResponse.json({
-        message: 'No results from Adzuna across all queries',
-        imported: 0,
-        queryResults,
-      });
-    }
-
-    // Deduplicate by Adzuna ID
-    const uniqueItems = new Map<string, any>();
-    for (const item of allItems) {
-      uniqueItems.set(String(item.id), item);
-    }
-
-    // Check which source_ids already exist
-    const sourceIds = Array.from(uniqueItems.keys());
-    const { data: existing } = await db
-      .from('opportunities')
-      .select('source_id')
-      .eq('source', 'adzuna')
-      .in('source_id', sourceIds);
-
-    const existingIds = new Set((existing || []).map((e: any) => e.source_id));
-
-    // Filter out already-imported items
-    const newItems = Array.from(uniqueItems.values())
-      .filter((item) => !existingIds.has(String(item.id)));
-
-    if (newItems.length === 0) {
-      return NextResponse.json({
-        message: 'All items already imported',
-        imported: 0,
-        total_fetched: uniqueItems.size,
-        queryResults,
-      });
-    }
-
-    // Map and insert
-    const mapped = newItems.map(mapAdzunaToOpportunity);
-
-    const { data: inserted, error } = await db
-      .from('opportunities')
-      .insert(mapped)
-      .select('id');
-
-    if (error) {
-      console.error('[Adzuna Sync] Insert error:', error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
-
     return NextResponse.json({
-      message: `Imported ${inserted?.length || 0} new opportunities`,
-      imported: inserted?.length || 0,
-      total_fetched: uniqueItems.size,
-      duplicates_skipped: uniqueItems.size - newItems.length,
-      queryResults,
-    });
-  } catch (err: any) {
-    console.error('[Adzuna Sync] Error:', err);
-    return NextResponse.json({ error: err.message || 'Sync failed' }, { status: 500 });
+      success: true,
+      fetched: totalFetched,
+      new: totalNew,
+      skipped: totalSkipped,
+    })
+
+  } catch (err) {
+    console.error('Sync error:', err)
+    return NextResponse.json({ error: 'Sync failed' }, { status: 500 })
   }
 }
