@@ -2,15 +2,17 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { tryCreateAdminClient } from '@/lib/supabase/admin';
 
-// Search across multiple countries since Adzuna UAE has limited listings
+// Search across multiple countries — no strict location filters
 const SEARCH_CONFIGS = [
   { country: 'ae', q: 'internship' },
   { country: 'ae', q: 'graduate' },
   { country: 'ae', q: 'entry level' },
+  { country: 'ae', q: 'job' },
   { country: 'gb', q: 'internship dubai' },
   { country: 'gb', q: 'remote internship' },
-  { country: 'us', q: 'remote internship entry level' },
-  { country: 'us', q: 'remote graduate trainee' },
+  { country: 'gb', q: 'graduate remote' },
+  { country: 'us', q: 'remote internship' },
+  { country: 'us', q: 'remote graduate entry level' },
 ];
 
 // Map Adzuna categories to our opportunity types
@@ -53,18 +55,14 @@ async function fetchAdzunaJobs(
   const params = new URLSearchParams({
     app_id: appId,
     app_key: appKey,
-    results_per_page: '10',
+    results_per_page: '15',
     what: query,
     content_type: 'application/json',
     sort_by: 'date',
-    max_days_old: '60',
+    max_days_old: '90',
   });
 
-  // Only add location filter for UAE
-  if (country === 'ae') {
-    params.set('where', 'Dubai');
-  }
-
+  // No location filter — let the search query handle targeting
   const url = `https://api.adzuna.com/v1/api/jobs/${country}/search/1?${params}`;
 
   console.log('Fetching:', url.replace(appKey, 'KEY_HIDDEN'));
@@ -78,6 +76,13 @@ async function fetchAdzunaJobs(
 
   const data = await res.json();
   console.log(`Adzuna ${country} "${query}": ${data.results?.length || 0} results, total: ${data.count}`);
+
+  // Log sample result for debugging
+  if (data.results?.length > 0) {
+    const sample = data.results[0];
+    console.log('Sample result:', sample.title, '|', sample.company?.display_name, '|', sample.location?.display_name);
+  }
+
   return data.results || [];
 }
 
@@ -152,16 +157,28 @@ async function runSync() {
     let allItems: any[] = [];
     const queryResults: Record<string, number> = {};
 
+    let totalSkipped = 0;
+
     for (const { country, q } of SEARCH_CONFIGS) {
       try {
         const jobs = await fetchAdzunaJobs(country, q, ADZUNA_APP_ID, ADZUNA_APP_KEY);
-        queryResults[`${country}:${q}`] = jobs.length;
-        allItems = allItems.concat(jobs);
+        // Only skip jobs missing a title or apply link
+        const valid = jobs.filter((job: any) => {
+          if (!job.title && !job.redirect_url) {
+            totalSkipped++;
+            return false;
+          }
+          return true;
+        });
+        queryResults[`${country}:${q}`] = valid.length;
+        allItems = allItems.concat(valid);
       } catch (err) {
         console.error(`Error fetching ${country} "${q}":`, err);
         queryResults[`${country}:${q}`] = 0;
       }
     }
+
+    console.log('Total skipped (no title/link):', totalSkipped);
 
     console.log('Query results summary:', JSON.stringify(queryResults));
 
