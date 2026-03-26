@@ -2,12 +2,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { tryCreateAdminClient } from '@/lib/supabase/admin';
 
-const SEARCH_QUERIES = [
-  'internship',
-  'graduate',
-  'trainee',
-  'entry level',
-  'junior',
+// Search across multiple countries since Adzuna UAE has limited listings
+const SEARCH_CONFIGS = [
+  { country: 'ae', q: 'internship' },
+  { country: 'ae', q: 'graduate' },
+  { country: 'ae', q: 'entry level' },
+  { country: 'gb', q: 'internship dubai' },
+  { country: 'gb', q: 'remote internship' },
+  { country: 'us', q: 'remote internship entry level' },
+  { country: 'us', q: 'remote graduate trainee' },
 ];
 
 // Map Adzuna categories to our opportunity types
@@ -16,7 +19,7 @@ function mapCategory(category: string): string {
   if (lower.includes('intern')) return 'internship';
   if (lower.includes('volunteer')) return 'volunteering';
   if (lower.includes('graduate') || lower.includes('entry')) return 'job';
-  return 'internship'; // default for student-focused
+  return 'internship';
 }
 
 // Map Adzuna results to our opportunity schema
@@ -40,68 +43,42 @@ function mapAdzunaToOpportunity(item: any) {
   };
 }
 
-// Fetch jobs from Adzuna for a specific country/location
+// Fetch jobs from Adzuna for a specific country/query
 async function fetchAdzunaJobs(
+  country: string,
   query: string,
   appId: string,
-  appKey: string,
-  country = 'ae',
-  where = 'Dubai'
+  appKey: string
 ): Promise<any[]> {
   const params = new URLSearchParams({
     app_id: appId,
     app_key: appKey,
-    results_per_page: '20',
+    results_per_page: '10',
     what: query,
+    content_type: 'application/json',
     sort_by: 'date',
     max_days_old: '60',
   });
 
-  if (where) params.set('where', where);
+  // Only add location filter for UAE
+  if (country === 'ae') {
+    params.set('where', 'Dubai');
+  }
 
   const url = `https://api.adzuna.com/v1/api/jobs/${country}/search/1?${params}`;
 
   console.log('Fetching:', url.replace(appKey, 'KEY_HIDDEN'));
 
-  const res = await fetch(url, {
-    headers: { 'Content-Type': 'application/json' },
-  });
-
-  console.log('Adzuna response status:', res.status);
+  const res = await fetch(url);
 
   if (!res.ok) {
-    const text = await res.text();
-    console.error('Adzuna error response:', text);
-    throw new Error(`Adzuna API error: ${res.status} - ${text}`);
+    console.error(`Adzuna ${country} error:`, res.status, await res.text());
+    return [];
   }
 
   const data = await res.json();
-  console.log(`Query "${query}" (${country}/${where || 'any'}): ${data.results?.length || 0} results, total: ${data.count}`);
+  console.log(`Adzuna ${country} "${query}": ${data.results?.length || 0} results, total: ${data.count}`);
   return data.results || [];
-}
-
-// Try UAE first, fall back to UK remote jobs
-async function fetchWithFallback(
-  query: string,
-  appId: string,
-  appKey: string
-): Promise<any[]> {
-  try {
-    // Try UAE / Dubai first
-    const uaeResults = await fetchAdzunaJobs(query, appId, appKey, 'ae', 'Dubai');
-    if (uaeResults.length > 0) return uaeResults;
-
-    // Try UAE without location filter
-    const uaeWideResults = await fetchAdzunaJobs(query, appId, appKey, 'ae', '');
-    if (uaeWideResults.length > 0) return uaeWideResults;
-
-    // Fallback: UK with remote filter (many remote jobs available to UAE students)
-    const remoteResults = await fetchAdzunaJobs(query + ' remote', appId, appKey, 'gb', '');
-    return remoteResults;
-  } catch (err) {
-    console.error(`[Adzuna] Error fetching "${query}":`, err);
-    return [];
-  }
 }
 
 // POST — manually trigger sync (admin only)
@@ -150,7 +127,6 @@ export async function POST(req: NextRequest) {
 }
 
 async function runSync() {
-  // Read env vars at runtime
   const ADZUNA_APP_ID = process.env.ADZUNA_APP_ID;
   const ADZUNA_APP_KEY = process.env.ADZUNA_APP_KEY;
 
@@ -174,19 +150,24 @@ async function runSync() {
 
   try {
     let allItems: any[] = [];
-    const queryResults: Record<string, { count: number; source: string }> = {};
+    const queryResults: Record<string, number> = {};
 
-    for (const query of SEARCH_QUERIES) {
-      const jobs = await fetchWithFallback(query, ADZUNA_APP_ID, ADZUNA_APP_KEY);
-      queryResults[query] = { count: jobs.length, source: jobs.length > 0 ? 'found' : 'none' };
-      allItems = allItems.concat(jobs);
+    for (const { country, q } of SEARCH_CONFIGS) {
+      try {
+        const jobs = await fetchAdzunaJobs(country, q, ADZUNA_APP_ID, ADZUNA_APP_KEY);
+        queryResults[`${country}:${q}`] = jobs.length;
+        allItems = allItems.concat(jobs);
+      } catch (err) {
+        console.error(`Error fetching ${country} "${q}":`, err);
+        queryResults[`${country}:${q}`] = 0;
+      }
     }
 
     console.log('Query results summary:', JSON.stringify(queryResults));
 
     if (allItems.length === 0) {
       return NextResponse.json({
-        message: 'No results from Adzuna across all queries and fallbacks',
+        message: 'No results from Adzuna across all queries',
         imported: 0,
         queryResults,
       });
