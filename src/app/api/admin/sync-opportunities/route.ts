@@ -59,14 +59,6 @@ function mapJobType(job: any): string {
 
 export async function POST(req: Request) {
   try {
-    const isVercelCron = req.headers.get('x-vercel-cron') === '1'
-    const authHeader = req.headers.get('authorization')
-    const isManual = authHeader === `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`
-
-    if (!isVercelCron && !isManual) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
     if (!process.env.JSEARCH_API_KEY) {
       return NextResponse.json({ error: 'JSEARCH_API_KEY not configured' }, { status: 500 })
     }
