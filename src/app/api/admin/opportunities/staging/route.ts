@@ -1,92 +1,58 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
-import { tryCreateAdminClient } from '@/lib/supabase/admin';
+import { createClient } from '@supabase/supabase-js'
+import { NextResponse } from 'next/server'
 
-// GET — list staging opportunities
+const adminClient = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+)
+
 export async function GET() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
-  const db = tryCreateAdminClient() || supabase;
-  const { data: profile } = await db
-    .from('profiles')
-    .select('type')
-    .eq('user_id', user.id)
-    .single();
-
-  if (profile?.type !== 'admin') {
-    return NextResponse.json({ error: 'Admin only' }, { status: 403 });
-  }
-
-  const { data: staging, error } = await db
+  const { data, error } = await adminClient
     .from('opportunities')
     .select('*')
     .eq('status', 'staging')
     .order('created_at', { ascending: false })
-    .limit(100);
+    .limit(100)
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
-
-  return NextResponse.json({ opportunities: staging || [] });
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  return NextResponse.json({ opportunities: data || [] })
 }
 
-// PATCH — approve or reject a staging opportunity
-export async function PATCH(req: NextRequest) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+export async function PATCH(req: Request) {
+  try {
+    const body = await req.json()
+    const { id, action } = body
 
-  const db = tryCreateAdminClient() || supabase;
-  const { data: profile } = await db
-    .from('profiles')
-    .select('type')
-    .eq('user_id', user.id)
-    .single();
+    if (action === 'approve_all') {
+      const { error } = await adminClient
+        .from('opportunities')
+        .update({ status: 'approved', published: true })
+        .eq('status', 'staging')
+      if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+      return NextResponse.json({ success: true })
+    }
 
-  if (profile?.type !== 'admin') {
-    return NextResponse.json({ error: 'Admin only' }, { status: 403 });
+    if (action === 'approve') {
+      const { error } = await adminClient
+        .from('opportunities')
+        .update({ status: 'approved', published: true })
+        .eq('id', id)
+      if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+      return NextResponse.json({ success: true })
+    }
+
+    if (action === 'reject') {
+      const { error } = await adminClient
+        .from('opportunities')
+        .update({ status: 'rejected' })
+        .eq('id', id)
+      if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+      return NextResponse.json({ success: true })
+    }
+
+    return NextResponse.json({ error: 'Invalid action' }, { status: 400 })
+  } catch (err) {
+    console.error('Staging PATCH error:', err)
+    return NextResponse.json({ error: 'Unexpected error' }, { status: 500 })
   }
-
-  const body = await req.json();
-  const { id, action } = body; // action: 'approve' | 'reject' | 'approve_all'
-
-  if (action === 'approve_all') {
-    const { error, count } = await db
-      .from('opportunities')
-      .update({ status: 'approved', is_active: true })
-      .eq('status', 'staging');
-
-    console.log('Approved count:', count, 'Error:', error);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-    return NextResponse.json({ success: true, count });
-  }
-
-  if (!id || !['approve', 'reject'].includes(action)) {
-    return NextResponse.json({ error: 'Invalid request. Need id and action (approve/reject)' }, { status: 400 });
-  }
-
-  if (action === 'approve') {
-    const { error } = await db
-      .from('opportunities')
-      .update({ status: 'approved', is_active: true })
-      .eq('id', id);
-
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-    return NextResponse.json({ success: true, message: 'Opportunity approved and activated' });
-  }
-
-  if (action === 'reject') {
-    const { error } = await db
-      .from('opportunities')
-      .update({ status: 'rejected', is_active: false })
-      .eq('id', id);
-
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-    return NextResponse.json({ success: true, message: 'Opportunity rejected' });
-  }
-
-  return NextResponse.json({ error: 'Unknown action' }, { status: 400 });
 }
