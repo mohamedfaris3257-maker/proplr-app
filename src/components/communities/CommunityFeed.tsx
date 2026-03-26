@@ -13,6 +13,7 @@ interface FeedPost {
   content: string;
   image_url: string | null;
   is_announcement: boolean;
+  is_pinned: boolean;
   likes_count: number;
   comments_count: number;
   created_at: string;
@@ -293,6 +294,32 @@ export function CommunityFeed({
             </div>
           </div>
 
+          {/* Profile completion */}
+          {(() => {
+            const fields = ['name', 'school_name', 'grade', 'career_interests', 'photo_url'] as const;
+            const filled = fields.filter((f) => {
+              const val = (profile as any)[f];
+              if (Array.isArray(val)) return val.length > 0;
+              return !!val;
+            }).length;
+            const pct = Math.round((filled / fields.length) * 100);
+            if (pct >= 100) return null;
+            return (
+              <div style={{ background: '#fff', borderRadius: 12, border: '0.5px solid rgba(0,0,0,0.1)', padding: '12px 16px', marginBottom: 8 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, marginBottom: 6 }}>
+                  <span style={{ fontWeight: 600, color: '#000' }}>Profile strength</span>
+                  <span style={{ color: '#3d9be9', fontWeight: 600 }}>{pct}%</span>
+                </div>
+                <div style={{ height: 5, background: '#e8eaf0', borderRadius: 10, overflow: 'hidden' }}>
+                  <div style={{ height: '100%', width: `${pct}%`, background: '#3d9be9', borderRadius: 10, transition: 'width 0.5s ease' }} />
+                </div>
+                <Link href="/dashboard/settings" style={{ fontSize: 11.5, color: '#3d9be9', display: 'block', marginTop: 6, textDecoration: 'none' }}>
+                  Complete your profile →
+                </Link>
+              </div>
+            );
+          })()}
+
           {/* Quick links */}
           <div style={{ background: '#fff', borderRadius: 12, border: '0.5px solid rgba(0,0,0,0.1)', padding: '8px 0', marginBottom: 8 }}>
             {[
@@ -408,6 +435,13 @@ export function CommunityFeed({
             posts.map((post) => (
               <div key={post.id} style={{ background: '#fff', borderRadius: 12, border: '0.5px solid rgba(0,0,0,0.1)', marginBottom: 8, overflow: 'hidden' }}>
 
+                {/* Pinned badge */}
+                {post.is_pinned && (
+                  <div style={{ background: '#f0f2f8', padding: '5px 16px', fontSize: 11, fontWeight: 700, color: '#666', letterSpacing: 0.5, display: 'flex', alignItems: 'center', gap: 4 }}>
+                    📌 PINNED
+                  </div>
+                )}
+
                 {/* Announcement banner */}
                 {post.is_announcement && (
                   <div style={{ background: '#ffcb5d', padding: '5px 16px', fontSize: 11, fontWeight: 700, color: '#071629', letterSpacing: 0.5 }}>
@@ -448,7 +482,27 @@ export function CommunityFeed({
                         </div>
                       </div>
                     </div>
-                    <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#666', fontSize: 20, padding: '0 4px' }}>···</button>
+                    <div style={{ position: 'relative' }}>
+                      {isAdmin && (
+                        <button
+                          onClick={async () => {
+                            const newPinned = !post.is_pinned;
+                            setPosts((prev) => prev.map((p) => p.id === post.id ? { ...p, is_pinned: newPinned } : p));
+                            await fetch('/api/communities/posts', {
+                              method: 'PATCH',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({ post_id: post.id, is_pinned: newPinned }),
+                            });
+                          }}
+                          style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: '#666', padding: '4px 8px', borderRadius: 6, fontFamily: 'inherit', fontWeight: 600 }}
+                          onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#f3f2ef'; }}
+                          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+                          title={post.is_pinned ? 'Unpin post' : 'Pin post'}
+                        >
+                          {post.is_pinned ? '📌 Unpin' : '📌 Pin'}
+                        </button>
+                      )}
+                    </div>
                   </div>
 
                   {/* Post content */}

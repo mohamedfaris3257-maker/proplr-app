@@ -108,6 +108,40 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({ success: true, post: { ...post, liked_by_me: false } });
 }
 
+// PATCH — pin/unpin a post
+export async function PATCH(req: NextRequest) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+
+  const { post_id, is_pinned } = await req.json();
+  if (!post_id || typeof is_pinned !== 'boolean') {
+    return NextResponse.json({ error: 'post_id and is_pinned required' }, { status: 400 });
+  }
+
+  const db = tryCreateAdminClient() || supabase;
+
+  // Check if user is admin or community leader
+  const { data: post } = await db.from('posts').select('community_id, user_id').eq('id', post_id).single();
+  if (!post) return NextResponse.json({ error: 'Post not found' }, { status: 404 });
+
+  const { data: profile } = await db.from('profiles').select('type').eq('user_id', user.id).single();
+  const { data: membership } = await db
+    .from('community_members')
+    .select('role')
+    .eq('community_id', post.community_id)
+    .eq('user_id', user.id)
+    .single();
+
+  const canPin = profile?.type === 'admin' || membership?.role === 'admin' || membership?.role === 'moderator';
+  if (!canPin) return NextResponse.json({ error: 'Only admins can pin posts' }, { status: 403 });
+
+  const { error } = await db.from('posts').update({ is_pinned }).eq('id', post_id);
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  return NextResponse.json({ success: true, is_pinned });
+}
+
 // DELETE — delete a post
 export async function DELETE(req: NextRequest) {
   const supabase = await createClient();

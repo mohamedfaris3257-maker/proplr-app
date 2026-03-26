@@ -33,6 +33,7 @@ export async function GET(req: NextRequest) {
       post_reactions(user_id, reaction)
     `)
     .in('community_id', communityIds)
+    .order('is_pinned', { ascending: false })
     .order('is_announcement', { ascending: false })
     .order('created_at', { ascending: false })
     .limit(50);
