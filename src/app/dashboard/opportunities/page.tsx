@@ -29,7 +29,7 @@ export default async function OpportunitiesPage({ searchParams }: OpportunitiesP
 
   const isSchoolStudent = profile?.type === 'school_student';
 
-  let query = supabase.from('opportunities').select('*').eq('is_active', true).order('created_at', { ascending: false });
+  let query = supabase.from('opportunities').select('*').eq('is_active', true).eq('status', 'approved').order('created_at', { ascending: false });
   if (isSchoolStudent) query = query.neq('type', 'job');
   if (searchParams.type) query = query.eq('type', searchParams.type);
   if (searchParams.pillar) query = query.contains('pillar_tags', [searchParams.pillar]);

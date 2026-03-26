@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Plus, Pencil, Trash2 } from 'lucide-react';
+import Link from 'next/link';
+import { Plus, Pencil, Trash2, Download } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 import { createClient } from '@/lib/supabase/client';
@@ -144,10 +145,19 @@ export function OpportunitiesManager() {
     <div>
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-base font-semibold text-text-primary">Opportunities</h2>
-        <Button size="sm" onClick={openCreate}>
-          <Plus className="w-4 h-4" />
-          Create Opportunity
-        </Button>
+        <div className="flex items-center gap-2">
+          <Link
+            href="/admin/opportunities/import"
+            className="flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-lg border border-border text-text-secondary hover:text-text-primary hover:border-blue transition-colors"
+          >
+            <Download className="w-4 h-4" />
+            Import from Adzuna
+          </Link>
+          <Button size="sm" onClick={openCreate}>
+            <Plus className="w-4 h-4" />
+            Create Opportunity
+          </Button>
+        </div>
       </div>
 
       {loading ? (

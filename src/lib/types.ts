@@ -161,6 +161,13 @@ export interface Opportunity {
   is_active: boolean;
   external_url: string | null;
   created_at: string;
+  source?: string;
+  source_id?: string;
+  salary_min?: number | null;
+  salary_max?: number | null;
+  location?: string | null;
+  expires_at?: string | null;
+  status?: string;
 }
 
 export interface SavedItem {

@@ -155,6 +155,11 @@ export function OpportunityCard({
               ? 'School'
               : 'University'}
           </Badge>
+          {opportunity.source === 'adzuna' && (
+            <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-sm" style={{ background: '#e8f4fd', color: '#3d9be9' }}>
+              Adzuna
+            </span>
+          )}
         </div>
 
         {/* Description */}
@@ -168,6 +173,24 @@ export function OpportunityCard({
             <PillarBadge key={p} pillar={p} />
           ))}
         </div>
+
+        {/* Location & Salary */}
+        {(opportunity.location || opportunity.salary_min || opportunity.salary_max) && (
+          <div className="flex items-center gap-3 text-xs text-text-muted mb-3 flex-wrap">
+            {opportunity.location && (
+              <span>📍 {opportunity.location}</span>
+            )}
+            {(opportunity.salary_min || opportunity.salary_max) && (
+              <span className="text-green font-medium">
+                💰 {opportunity.salary_min && opportunity.salary_max
+                  ? `$${Math.round(opportunity.salary_min).toLocaleString()} - $${Math.round(opportunity.salary_max).toLocaleString()}`
+                  : opportunity.salary_min
+                  ? `From $${Math.round(opportunity.salary_min).toLocaleString()}`
+                  : `Up to $${Math.round(opportunity.salary_max!).toLocaleString()}`}
+              </span>
+            )}
+          </div>
+        )}
 
         {/* Deadline */}
         {opportunity.deadline && (
