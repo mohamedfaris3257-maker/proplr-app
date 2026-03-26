@@ -24,7 +24,7 @@ export default function ImportOpportunitiesPage() {
   const [loading, setLoading] = useState(true);
   const [syncing, setSyncing] = useState(false);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
-  const [message, setMessage] = useState('');
+  const [syncResult, setSyncResult] = useState<any>(null);
 
   useEffect(() => {
     fetchStaging();
@@ -44,18 +44,18 @@ export default function ImportOpportunitiesPage() {
 
   async function handleSync() {
     setSyncing(true);
-    setMessage('');
+    setSyncResult(null);
     try {
-      const res = await fetch('/api/admin/sync-opportunities', { method: 'POST' });
+      const res = await fetch('/api/admin/sync-opportunities', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
       const data = await res.json();
-      if (res.ok) {
-        setMessage(`✓ ${data.message}`);
-        fetchStaging();
-      } else {
-        setMessage(`✗ ${data.error || 'Sync failed'}`);
-      }
-    } catch {
-      setMessage('✗ Network error during sync');
+      console.log('Sync result:', data);
+      setSyncResult(data);
+      await fetchStaging();
+    } catch (err) {
+      setSyncResult({ error: 'Network error' });
     } finally {
       setSyncing(false);
     }
@@ -137,17 +137,19 @@ export default function ImportOpportunitiesPage() {
         </div>
       </div>
 
-      {message && (
+      {syncResult && (
         <div style={{
+          background: syncResult.error ? 'rgba(255,71,87,0.08)' : 'rgba(46,213,115,0.08)',
+          border: `0.5px solid ${syncResult.error ? 'rgba(255,71,87,0.3)' : 'rgba(46,213,115,0.3)'}`,
+          borderRadius: 12,
           padding: '12px 16px',
-          borderRadius: 8,
           marginBottom: 16,
-          fontSize: 14,
-          fontWeight: 500,
-          background: message.startsWith('✓') ? '#e6f9ee' : '#fce8e8',
-          color: message.startsWith('✓') ? '#1a7a3a' : '#c0392b',
+          fontSize: 13,
         }}>
-          {message}
+          {syncResult.error
+            ? `❌ ${syncResult.error}`
+            : `✅ Sync complete — ${syncResult.new ?? 0} new jobs added to staging, ${syncResult.skipped ?? 0} skipped, ${syncResult.fetched ?? 0} fetched total`
+          }
         </div>
       )}
 
