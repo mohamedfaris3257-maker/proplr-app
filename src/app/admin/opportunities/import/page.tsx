@@ -80,9 +80,14 @@ export default function ImportOpportunitiesPage() {
   }
 
   async function handleBulkApprove() {
-    for (const opp of staging) {
-      await handleAction(opp.id, 'approve');
-    }
+    const res = await fetch('/api/admin/opportunities/staging', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'approve_all' }),
+    });
+    const data = await res.json();
+    console.log('Approve all result:', data);
+    await fetchStaging();
   }
 
   async function handleBulkReject() {

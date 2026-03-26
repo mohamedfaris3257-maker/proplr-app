@@ -23,7 +23,8 @@ export async function GET() {
     .from('opportunities')
     .select('*')
     .eq('status', 'staging')
-    .order('created_at', { ascending: false });
+    .order('created_at', { ascending: false })
+    .limit(100);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -50,7 +51,18 @@ export async function PATCH(req: NextRequest) {
   }
 
   const body = await req.json();
-  const { id, action } = body; // action: 'approve' | 'reject'
+  const { id, action } = body; // action: 'approve' | 'reject' | 'approve_all'
+
+  if (action === 'approve_all') {
+    const { error, count } = await db
+      .from('opportunities')
+      .update({ status: 'approved', is_active: true })
+      .eq('status', 'staging');
+
+    console.log('Approved count:', count, 'Error:', error);
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ success: true, count });
+  }
 
   if (!id || !['approve', 'reject'].includes(action)) {
     return NextResponse.json({ error: 'Invalid request. Need id and action (approve/reject)' }, { status: 400 });
