@@ -2,10 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { tryCreateAdminClient } from '@/lib/supabase/admin';
 
-const ADZUNA_APP_ID = process.env.ADZUNA_APP_ID || '';
-const ADZUNA_APP_KEY = process.env.ADZUNA_APP_KEY || '';
 const ADZUNA_BASE_URL = 'https://api.adzuna.com/v1/api/jobs';
-const ADZUNA_COUNTRY = process.env.ADZUNA_COUNTRY || 'au'; // Default to Australia
 
 // Map Adzuna categories to our opportunity types
 function mapCategory(category: string): string {
@@ -32,7 +29,7 @@ function mapAdzunaToOpportunity(item: any) {
     salary_min: item.salary_min || null,
     salary_max: item.salary_max || null,
     location: item.location?.display_name || null,
-    expires_at: item.contract_time ? null : null, // Adzuna doesn't always provide expiry
+    expires_at: null,
     status: 'staging',
   };
 }
@@ -45,8 +42,6 @@ export async function GET(req: NextRequest) {
   const cronSecret = process.env.CRON_SECRET;
 
   if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
-    // If cron secret is set, require it for GET requests
-    // Fall through to admin auth check
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -86,12 +81,24 @@ export async function POST(req: NextRequest) {
 }
 
 async function runSync() {
-  console.log('ADZUNA_APP_ID:', process.env.ADZUNA_APP_ID ? 'SET' : 'MISSING');
-  console.log('ADZUNA_APP_KEY:', process.env.ADZUNA_APP_KEY ? 'SET' : 'MISSING');
-  console.log('ADZUNA_COUNTRY:', process.env.ADZUNA_COUNTRY || 'NOT SET - will default');
+  // Read env vars at runtime, not module load time
+  const ADZUNA_APP_ID = process.env.ADZUNA_APP_ID;
+  const ADZUNA_APP_KEY = process.env.ADZUNA_APP_KEY;
+  const ADZUNA_COUNTRY = process.env.ADZUNA_COUNTRY || 'ae';
+
+  console.log('ENV CHECK - ADZUNA_APP_ID:', ADZUNA_APP_ID ? `SET (${ADZUNA_APP_ID.slice(0, 4)}...)` : 'MISSING');
+  console.log('ENV CHECK - ADZUNA_APP_KEY:', ADZUNA_APP_KEY ? `SET (${ADZUNA_APP_KEY.slice(0, 4)}...)` : 'MISSING');
+  console.log('ENV CHECK - ADZUNA_COUNTRY:', ADZUNA_COUNTRY);
 
   if (!ADZUNA_APP_ID || !ADZUNA_APP_KEY) {
-    return NextResponse.json({ error: 'Adzuna API credentials not configured' }, { status: 500 });
+    return NextResponse.json({
+      error: 'Adzuna API credentials not configured',
+      debug: {
+        hasAppId: !!ADZUNA_APP_ID,
+        hasAppKey: !!ADZUNA_APP_KEY,
+        country: ADZUNA_COUNTRY,
+      },
+    }, { status: 500 });
   }
 
   const db = tryCreateAdminClient();
