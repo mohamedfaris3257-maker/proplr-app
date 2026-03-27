@@ -131,9 +131,9 @@ export default function AboutPage() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
             {[
-              { value: 'TBD', label: 'Schools across Dubai' },
-              { value: 'TBD', label: 'Students enrolled' },
-              { value: 'TBD', label: 'Industry mentors' },
+              { value: '10+', label: 'Schools across Dubai' },
+              { value: '500+', label: 'Students enrolled' },
+              { value: '150+', label: 'Industry mentors' },
               { value: '#633441', label: 'KHDA Permit' },
             ].map((stat, i) => (
               <div key={stat.label} className={`reveal reveal-delay-${i + 1} text-center p-6 rounded-2xl`} style={{ background: '#f5f5f7' }}>

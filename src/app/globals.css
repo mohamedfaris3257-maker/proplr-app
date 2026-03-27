@@ -498,6 +498,203 @@ body {
   margin: 0;
 }
 
+/* ─── ENHANCED INTERACTIONS & ANIMATIONS ──────────────────────── */
+
+/* Staggered reveal for grid children */
+.js-animations .reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.js-animations .reveal-stagger.in-view > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0s; }
+.js-animations .reveal-stagger.in-view > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.08s; }
+.js-animations .reveal-stagger.in-view > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.16s; }
+.js-animations .reveal-stagger.in-view > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.24s; }
+.js-animations .reveal-stagger.in-view > *:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 0.32s; }
+.js-animations .reveal-stagger.in-view > *:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 0.4s; }
+.js-animations .reveal-stagger.in-view > *:nth-child(n+7) { opacity: 1; transform: translateY(0); transition-delay: 0.48s; }
+
+/* Reveal from below with bounce */
+.js-animations .reveal-bounce {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.js-animations .reveal-bounce.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Reveal with blur */
+.js-animations .reveal-blur {
+  opacity: 0;
+  filter: blur(8px);
+  transform: translateY(16px);
+  transition: opacity 0.7s ease, filter 0.7s ease, transform 0.7s ease;
+}
+.js-animations .reveal-blur.in-view {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+}
+
+/* Card tilt effect on hover */
+.pub-card-tilt {
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.4s ease;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+.pub-card-tilt:hover {
+  transform: translateY(-6px) rotateX(2deg) rotateY(-2deg);
+  box-shadow: 0 16px 48px rgba(7, 22, 41, 0.15);
+}
+
+/* Button ripple effect */
+.pub-btn-primary:active,
+.pub-btn-navy:active {
+  transform: scale(0.97);
+  transition-duration: 0.1s;
+}
+
+/* FAQ accordion smooth animation */
+details.pub-card {
+  transition: background 0.3s ease;
+}
+details.pub-card[open] {
+  background: rgba(61, 155, 233, 0.03);
+}
+details.pub-card summary {
+  transition: color 0.2s ease;
+}
+details.pub-card[open] summary {
+  color: #3d9be9 !important;
+}
+details.pub-card[open] summary span:last-child {
+  transform: rotate(45deg);
+  transition: transform 0.3s ease;
+}
+details.pub-card summary span:last-child {
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+/* Link underline animation */
+.pub-link-underline {
+  position: relative;
+  text-decoration: none;
+}
+.pub-link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #3d9be9;
+  transition: width 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.pub-link-underline:hover::after {
+  width: 100%;
+}
+
+/* Number counter pop animation */
+@keyframes pub-count-pop {
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.js-animations .pub-count-pop {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: none;
+}
+.js-animations .pub-count-pop.in-view {
+  animation: pub-count-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Smooth image parallax on cards */
+.pub-img-card {
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+}
+.pub-img-card img {
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.pub-img-card:hover img {
+  transform: scale(1.05);
+}
+
+/* Badge/tag hover */
+.pub-tag-hover {
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.pub-tag-hover:hover {
+  transform: translateY(-1px);
+  background: rgba(61, 155, 233, 0.15) !important;
+}
+
+/* Scroll progress line */
+.pub-scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #3d9be9, #ffcb5d);
+  z-index: 9999;
+  transition: width 0.1s linear;
+}
+
+/* Skip to content link (accessibility) */
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #3d9be9;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 0 0 12px 12px;
+  font-weight: 700;
+  z-index: 10000;
+  transition: top 0.2s ease;
+}
+.skip-to-content:focus {
+  top: 0;
+}
+
+/* Reduced motion — respect user preferences */
+@media (prefers-reduced-motion: reduce) {
+  .js-animations .reveal,
+  .js-animations .reveal-scale,
+  .js-animations .reveal-left,
+  .js-animations .reveal-right,
+  .js-animations .reveal-bounce,
+  .js-animations .reveal-blur,
+  .js-animations .reveal-stagger > * {
+    transition: none !important;
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+  .pub-marquee-track {
+    animation: none !important;
+  }
+  .pub-float, .pub-float-slow, .pub-float-delay {
+    animation: none !important;
+  }
+  .pub-gradient-text-animated {
+    animation: none !important;
+  }
+  .pub-ken-burns {
+    animation: none !important;
+  }
+  .pub-bg-animated {
+    animation: none !important;
+  }
+}
+
 /* Section rhythm */
 .pub-section {
   padding: 96px 24px;

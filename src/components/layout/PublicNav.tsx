@@ -5,7 +5,6 @@ import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 
 const NAV_LINKS = [
-  { label: 'How It Works', href: '/#how-it-works' },
   { label: 'Compass', href: '/compass' },
   { label: 'Showcase', href: '/showcase' },
   { label: 'Pricing', href: '/pricing' },
