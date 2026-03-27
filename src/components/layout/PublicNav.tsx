@@ -9,8 +9,6 @@ const NAV_LINKS = [
   { label: 'Compass', href: '/compass' },
   { label: 'Showcase', href: '/showcase' },
   { label: 'Pricing', href: '/pricing' },
-  { label: 'Shop', href: '/shop' },
-  { label: 'Admin', href: '/admin' },
 ];
 
 const PROGRAMS_LINKS = [

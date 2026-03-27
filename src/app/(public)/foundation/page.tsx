@@ -25,12 +25,12 @@ export default function FoundationPage() {
             </span>
 
             <h1 className="pub-heading pub-text-shadow reveal" style={{ fontSize: 'clamp(36px, 6vw, 72px)', color: '#ffffff', marginBottom: 20, lineHeight: 1.05 }}>
-              Career-ready before<br />
-              <span style={{ color: '#ffcb5d' }}>graduation.</span>
+              Get career-ready while<br />
+              you&apos;re still in <span style={{ color: '#ffcb5d' }}>school.</span>
             </h1>
 
-            <p className="pub-text-shadow reveal reveal-delay-1" style={{ fontSize: 20, color: 'rgba(255,255,255,0.9)', maxWidth: 480, marginBottom: 40 }}>
-              KHDA-certified skills, real industry exposure, and a portfolio &mdash; all inside one after-school club.
+            <p className="pub-text-shadow reveal reveal-delay-1" style={{ fontSize: 20, color: 'rgba(255,255,255,0.9)', maxWidth: 520, marginBottom: 40 }}>
+              Most students graduate with zero real-world experience. Proplr students graduate with 6 KHDA certificates, a portfolio, and industry connections.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 reveal reveal-delay-2">
@@ -71,17 +71,17 @@ export default function FoundationPage() {
             <h2 className="pub-heading" style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: '#071629', marginBottom: 10 }}>
               6 pillars. <span className="pub-gradient-text-animated">One program.</span>
             </h2>
-            <p style={{ color: '#6e6e73', fontSize: 16 }}>20 hours per pillar &middot; KHDA-certified</p>
+            <p style={{ color: '#5a5f7a', fontSize: 16 }}>20 hours per pillar &middot; KHDA-certified</p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {[
-              { num: '01', title: 'Leadership' },
-              { num: '02', title: 'Entrepreneurship' },
-              { num: '03', title: 'Digital Literacy' },
-              { num: '04', title: 'Communication' },
-              { num: '05', title: 'Personal Branding' },
-              { num: '06', title: 'Project Management' },
+              { num: '01', title: 'Leadership', desc: 'Learn to lead teams, run meetings, and make decisions under pressure.' },
+              { num: '02', title: 'Entrepreneurship', desc: 'Build and pitch a real business idea with mentors who\'ve done it.' },
+              { num: '03', title: 'Digital Literacy', desc: 'Go from user to creator — AI tools, data, and digital skills that actually matter.' },
+              { num: '04', title: 'Communication', desc: 'Present to real audiences. Write. Persuade. Be heard.' },
+              { num: '05', title: 'Personal Branding', desc: 'Build a LinkedIn, a portfolio, and a reputation — before you need one.' },
+              { num: '06', title: 'Project Management', desc: 'Ship real projects on time. Skills every employer wants.' },
             ].map((p, i) => (
               <div
                 key={p.title}
@@ -91,8 +91,11 @@ export default function FoundationPage() {
                 <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 900, fontSize: 32, color: '#3d9be9', display: 'block', marginBottom: 6 }}>
                   {p.num}
                 </span>
-                <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 15, color: '#071629' }}>
+                <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 15, color: '#071629', display: 'block', marginBottom: 6 }}>
                   {p.title}
+                </span>
+                <span style={{ fontSize: 13, color: '#5a5f7a', lineHeight: 1.5 }}>
+                  {p.desc}
                 </span>
               </div>
             ))}
@@ -122,7 +125,7 @@ export default function FoundationPage() {
                 <h3 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800, fontSize: 22, color: '#071629', marginBottom: 8 }}>
                   {t.title}
                 </h3>
-                <p style={{ color: '#6e6e73', fontSize: 14 }}>{t.line}</p>
+                <p style={{ color: '#5a5f7a', fontSize: 14 }}>{t.line}</p>
               </div>
             ))}
           </div>
@@ -151,7 +154,7 @@ export default function FoundationPage() {
               <h2 className="pub-heading" style={{ fontSize: 'clamp(26px, 3.5vw, 40px)', color: '#071629', marginBottom: 14 }}>
                 Start your career early.
               </h2>
-              <p style={{ color: '#6e6e73', fontSize: 15, lineHeight: 1.7, marginBottom: 24 }}>
+              <p style={{ color: '#5a5f7a', fontSize: 15, lineHeight: 1.7, marginBottom: 24 }}>
                 From job shadowing to internships and global mentorship, Foundation students gain real-world experience before they leave school. Over 150 mentors across 20+ countries guide students through live industry challenges.
               </p>
               <div className="flex flex-wrap gap-3">
@@ -186,7 +189,7 @@ export default function FoundationPage() {
                 <h3 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800, fontSize: 18, color: '#071629', marginBottom: 8 }}>
                   {card.title}
                 </h3>
-                <p style={{ color: '#6e6e73', fontSize: 14, lineHeight: 1.6 }}>{card.desc}</p>
+                <p style={{ color: '#5a5f7a', fontSize: 14, lineHeight: 1.6 }}>{card.desc}</p>
               </div>
             ))}
           </div>
@@ -204,7 +207,7 @@ export default function FoundationPage() {
                 </span>
               ))}
             </div>
-            <p style={{ color: '#6e6e73', fontSize: 15 }}>
+            <p style={{ color: '#5a5f7a', fontSize: 15 }}>
               Built for Dubai&apos;s education priorities. Inspection-ready from day one.
             </p>
           </div>
@@ -244,7 +247,7 @@ export default function FoundationPage() {
           <h2 className="pub-heading" style={{ fontSize: 'clamp(36px, 5vw, 56px)', color: '#071629', marginBottom: 8 }}>
             <span className="pub-gradient-text-animated">AED 400</span>/month
           </h2>
-          <p style={{ color: '#6e6e73', fontSize: 18, marginBottom: 6 }}>
+          <p style={{ color: '#5a5f7a', fontSize: 18, marginBottom: 6 }}>
             8 months &middot; AED 3,200/year
           </p>
           <p style={{ color: '#9ca3af', fontSize: 14, marginBottom: 36 }}>

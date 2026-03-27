@@ -17,6 +17,7 @@ const COMPANY_LINKS = [
   { href: '/faq', label: 'FAQ' },
   { href: '/careers', label: 'Careers' },
   { href: '/start-a-club', label: 'Start a Club' },
+  { href: '/shop', label: 'Shop' },
 ];
 
 export function PublicFooter() {
@@ -30,7 +31,7 @@ export function PublicFooter() {
               propl<span style={{ color: '#3d9be9' }}>r</span>
             </div>
             <p style={{ color: '#8ca3be', fontSize: 14, lineHeight: 1.7, maxWidth: 320 }}>
-              Dubai&apos;s KHDA-certified student development platform. Helping students Grades 8–22
+              Dubai&apos;s KHDA-certified student development platform. Helping students Grades 8 through university
               graduate career-ready with real experience, real mentors, and real certificates.
             </p>
             <div className="flex items-center gap-4 mt-5">

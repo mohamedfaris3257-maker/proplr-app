@@ -4,6 +4,7 @@ import { ScrollAnimations } from '@/components/public/ScrollAnimations';
 import { ScrollEffects } from '@/components/public/ScrollEffects';
 import { ScrollProgress } from '@/components/public/ScrollProgress';
 import { PageTransition } from '@/components/public/PageTransition';
+import { WhatsAppButton } from '@/components/WhatsAppButton';
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -16,6 +17,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         </PageTransition>
       </main>
       <PublicFooter />
+      <WhatsAppButton />
       <ScrollAnimations />
       <ScrollEffects />
     </div>
