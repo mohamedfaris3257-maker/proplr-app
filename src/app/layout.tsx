@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { DM_Sans } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { CookieConsent } from "@/components/CookieConsent";
 
 const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-sans', weight: ['400', '500', '600', '700'] });
 
@@ -28,6 +29,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased bg-background text-text-primary font-sans">
         {children}
+        <CookieConsent />
       </body>
     </html>
   );

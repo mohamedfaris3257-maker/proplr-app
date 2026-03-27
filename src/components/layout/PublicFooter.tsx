@@ -23,7 +23,7 @@ export function PublicFooter() {
   return (
     <footer style={{ background: '#071629', color: '#ffffff' }}>
       <div className="max-w-[1200px] mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-10 mb-12">
           {/* Brand */}
           <div className="md:col-span-2">
             <div style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 900, fontSize: 22, letterSpacing: '-0.04em', marginBottom: 12 }}>
@@ -72,6 +72,26 @@ export function PublicFooter() {
             </h4>
             <ul className="space-y-2.5">
               {COMPANY_LINKS.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} style={{ color: '#8ca3be', fontSize: 14 }} className="hover:text-white transition-colors">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Legal links */}
+          <div>
+            <h4 style={{ fontSize: 11, fontWeight: 700, color: '#4a6785', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 14 }}>
+              Legal
+            </h4>
+            <ul className="space-y-2.5">
+              {[
+                { href: '/privacy', label: 'Privacy Policy' },
+                { href: '/terms', label: 'Terms & Conditions' },
+                { href: '/cookies', label: 'Cookie Policy' },
+              ].map((l) => (
                 <li key={l.href}>
                   <Link href={l.href} style={{ color: '#8ca3be', fontSize: 14 }} className="hover:text-white transition-colors">
                     {l.label}
