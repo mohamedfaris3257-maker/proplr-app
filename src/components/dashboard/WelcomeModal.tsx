@@ -61,8 +61,8 @@ export function WelcomeModal({ name }: WelcomeModalProps) {
             }}
           >
             {/* Confetti dots */}
-            <div style={{ position: 'absolute', top: 16, left: 24, fontSize: 20 }}>🎉</div>
-            <div style={{ position: 'absolute', top: 16, right: 24, fontSize: 20 }}>🚀</div>
+            <div style={{ position: 'absolute', top: 16, left: 24, fontSize: 20 }}>★</div>
+            <div style={{ position: 'absolute', top: 16, right: 24, fontSize: 20 }}>↗</div>
 
             {/* Logo */}
             <div style={{
@@ -107,10 +107,10 @@ export function WelcomeModal({ name }: WelcomeModalProps) {
               marginBottom: 28,
             }}>
               {[
-                { icon: '📚', label: 'Explore courses' },
-                { icon: '🌍', label: 'Join communities' },
-                { icon: '🎯', label: 'Complete tasks' },
-                { icon: '🏆', label: 'Earn certificates' },
+                { icon: '▤', label: 'Explore courses' },
+                { icon: '●', label: 'Join communities' },
+                { icon: '◎', label: 'Complete tasks' },
+                { icon: '★', label: 'Earn certificates' },
               ].map((item) => (
                 <div
                   key={item.label}

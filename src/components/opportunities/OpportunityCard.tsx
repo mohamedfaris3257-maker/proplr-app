@@ -182,7 +182,7 @@ export function OpportunityCard({
             )}
             {(opportunity.salary_min || opportunity.salary_max) && (
               <span className="text-green font-medium">
-                💰 {opportunity.salary_min && opportunity.salary_max
+                $ {opportunity.salary_min && opportunity.salary_max
                   ? `$${Math.round(opportunity.salary_min).toLocaleString()} - $${Math.round(opportunity.salary_max).toLocaleString()}`
                   : opportunity.salary_min
                   ? `From $${Math.round(opportunity.salary_min).toLocaleString()}`

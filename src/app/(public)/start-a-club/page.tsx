@@ -68,12 +68,12 @@ export default function StartAClubPage() {
           </h2>
           <div className="grid sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
             {[
-              { icon: '📋', text: 'KHDA-aligned curriculum and reporting' },
+              { icon: '▤', text: 'KHDA-aligned curriculum and reporting' },
               { icon: '📁', text: 'Inspection-ready documentation' },
               { icon: '🏭', text: 'Industry access: internships, panels, challenges' },
-              { icon: '🧑‍🏫', text: 'No disruption to teaching staff' },
-              { icon: '🤝', text: 'Facilitators and mentors provided' },
-              { icon: '🎓', text: '6 KHDA-attested certificates per student' },
+              { icon: '◆', text: 'No disruption to teaching staff' },
+              { icon: '◆', text: 'Facilitators and mentors provided' },
+              { icon: '★', text: '6 KHDA-attested certificates per student' },
             ].map((item, i) => (
               <div key={item.text} className={`pub-card reveal reveal-delay-${(i % 3) + 1} p-4 flex items-start gap-3`}>
                 <span style={{ fontSize: 20, flexShrink: 0 }}>{item.icon}</span>
@@ -83,7 +83,7 @@ export default function StartAClubPage() {
           </div>
           <div className="max-w-lg mx-auto mt-8 reveal">
             <div className="pub-card pub-glow-border p-6 text-center" style={{ background: 'linear-gradient(135deg, #f0f8ff 0%, #ffffff 100%)' }}>
-              <span style={{ fontSize: 32, display: 'block', marginBottom: 8 }}>🧭</span>
+              <span style={{ fontSize: 32, display: 'block', marginBottom: 8 }}>◎</span>
               <h3 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 16, color: '#071629', marginBottom: 6 }}>
                 Start with a free Compass pilot
               </h3>

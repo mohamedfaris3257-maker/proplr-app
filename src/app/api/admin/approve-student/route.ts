@@ -124,7 +124,7 @@ export async function POST(req: NextRequest) {
   // Send welcome email via Resend (non-fatal)
   await sendEmail({
     to: registration.email,
-    subject: `Welcome to Proplr, ${registration.full_name}! 🎉`,
+    subject: `Welcome to Proplr, ${registration.full_name}!`,
     html: welcomeEmailHtml(registration.full_name),
   }).catch((err: unknown) => console.error('welcomeEmail error:', err));
 

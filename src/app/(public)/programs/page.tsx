@@ -215,10 +215,10 @@ export default function ProgramsPage() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-5xl mx-auto">
             {[
-              { title: 'Students', icon: '🎓', link: '/register', accent: '#3d9be9', desc: 'Build your portfolio and career skills.' },
-              { title: 'Schools', icon: '🏫', link: '/start-a-club', accent: '#ffcb5d', desc: 'Plug-and-play KHDA career program.' },
+              { title: 'Students', icon: '★', link: '/register', accent: '#3d9be9', desc: 'Build your portfolio and career skills.' },
+              { title: 'Schools', icon: '▣', link: '/start-a-club', accent: '#ffcb5d', desc: 'Plug-and-play KHDA career program.' },
               { title: 'Universities', icon: '🏛️', link: '/impact', accent: '#3d9be9', desc: 'Engage high-potential talent early.' },
-              { title: 'Partners', icon: '🤝', link: '/partners', accent: '#ffcb5d', desc: 'Shape the next generation of talent.' },
+              { title: 'Partners', icon: '◆', link: '/partners', accent: '#ffcb5d', desc: 'Shape the next generation of talent.' },
             ].map((card, i) => (
               <Link
                 key={card.title}

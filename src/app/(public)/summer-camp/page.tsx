@@ -66,9 +66,9 @@ export default function SummerCampPage() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {[
               { icon: '🗺️', title: 'Career Discovery' },
-              { icon: '🤝', title: 'Industry Speakers' },
-              { icon: '⚡', title: 'Design Sprints' },
-              { icon: '🧭', title: 'Compass Assessment' },
+              { icon: '◆', title: 'Industry Speakers' },
+              { icon: '↯', title: 'Design Sprints' },
+              { icon: '◎', title: 'Compass Assessment' },
               { icon: '📜', title: 'Certificate' },
             ].map((item, i) => (
               <div key={item.title} className={`pub-card pub-glow-border reveal reveal-delay-${(i % 4) + 1} p-5 text-center`}>
@@ -90,7 +90,7 @@ export default function SummerCampPage() {
             {[
               { icon: '🎒', title: 'You want a head start', desc: 'Grades 8-12. Hit September running, not from zero.' },
               { icon: '🤔', title: 'You\'re exploring Proplr', desc: 'Try the program before committing. Lowest-risk way in.' },
-              { icon: '🏫', title: 'Your school isn\'t on Proplr yet', desc: 'Open to all Dubai students. No school partnership needed.' },
+              { icon: '▣', title: 'Your school isn\'t on Proplr yet', desc: 'Open to all Dubai students. No school partnership needed.' },
             ].map((item, i) => (
               <div key={item.title} className={`pub-card reveal reveal-delay-${i + 1} p-6 text-center`} style={{ border: '1px solid rgba(255,203,93,0.25)', background: 'rgba(255,203,93,0.04)' }}>
                 <span style={{ fontSize: 36, display: 'block', marginBottom: 12 }}>{item.icon}</span>

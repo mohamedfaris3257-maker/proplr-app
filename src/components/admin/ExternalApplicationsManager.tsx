@@ -165,7 +165,7 @@ export function ExternalApplicationsManager() {
                     <span className={`text-xs font-semibold px-3 py-1 rounded-full ${
                       selected.type === 'industry' ? 'bg-blue/10 text-blue' : 'bg-purple/10 text-purple'
                     }`}>
-                      {selected.type === 'industry' ? '🏢 Industry Partner' : '🎓 Institution Partner'}
+                      {selected.type === 'industry' ? 'Industry Partner' : 'Institution Partner'}
                     </span>
                   </div>
                 )}

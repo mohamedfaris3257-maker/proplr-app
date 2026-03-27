@@ -51,7 +51,7 @@ export default async function PublicProfilePage({
     return (
       <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 40, marginBottom: 12 }}>🔍</div>
+          <div style={{ fontSize: 40, marginBottom: 12 }}>?</div>
           <h2 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 18, fontWeight: 700, color: '#000', marginBottom: 6 }}>
             Profile not found
           </h2>
@@ -152,7 +152,7 @@ export default async function PublicProfilePage({
                     fontFamily: 'inherit',
                   }}
                 >
-                  💬 Message
+                  Message
                 </Link>
                 <button style={{
                   display: 'inline-flex', alignItems: 'center', gap: 6,
@@ -174,7 +174,7 @@ export default async function PublicProfilePage({
                   textDecoration: 'none', fontFamily: 'inherit', marginTop: 16,
                 }}
               >
-                ✏️ Edit Profile
+                ✎ Edit Profile
               </Link>
             )}
           </div>
@@ -213,7 +213,7 @@ export default async function PublicProfilePage({
                 const meta = BADGE_META[badge.badge_type];
                 return (
                   <div key={badge.id} style={{ background: '#f3f2ef', borderRadius: 10, padding: '12px 10px', textAlign: 'center' }}>
-                    <div style={{ fontSize: 28 }}>{meta?.icon || '🏅'}</div>
+                    <div style={{ fontSize: 28 }}>{meta?.icon || '★'}</div>
                     <div style={{ fontSize: 12, fontWeight: 700, color: '#000', marginTop: 4 }}>{meta?.label || badge.badge_type}</div>
                     <div style={{ fontSize: 10.5, color: '#666', marginTop: 2 }}>{meta?.description || ''}</div>
                   </div>
@@ -233,7 +233,7 @@ export default async function PublicProfilePage({
               {(certificates as Certificate[]).map((cert) => (
                 <div key={cert.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: 10, background: '#f3f2ef', borderRadius: 10 }}>
                   <div style={{ width: 36, height: 36, borderRadius: 8, background: `${PILLAR_COLORS[cert.pillar_name]}20`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>
-                    🏆
+                    ★
                   </div>
                   <div style={{ minWidth: 0 }}>
                     <div style={{ fontSize: 13, fontWeight: 600, color: '#000' }}>{cert.pillar_name}</div>

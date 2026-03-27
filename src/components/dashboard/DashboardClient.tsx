@@ -36,12 +36,12 @@ interface DashboardClientProps {
 /* ─── constants ─────────────────────────────────────────────────────── */
 
 const PILLAR_EMOJI: Record<string, string> = {
-  Leadership: '🧭',
-  Entrepreneurship: '💡',
-  'Digital Literacy': '💻',
-  'Personal Branding': '🎨',
-  Communication: '💬',
-  'Project Management': '📊',
+  Leadership: '◎',
+  Entrepreneurship: '◆',
+  'Digital Literacy': '▣',
+  'Personal Branding': '●',
+  Communication: '◈',
+  'Project Management': '▦',
 }
 
 const PILLAR_COLORS: Record<string, string> = {
@@ -56,7 +56,7 @@ const PILLAR_COLORS: Record<string, string> = {
 /* ─── helpers ───────────────────────────────────────────────────────── */
 
 function getLevel(progress: number) {
-  if (progress >= 100) return { label: 'Certified 🏅', color: 'rgba(255,203,93,.2)', text: '#7a5800' }
+  if (progress >= 100) return { label: 'Certified ★', color: 'rgba(255,203,93,.2)', text: '#7a5800' }
   if (progress >= 70) return { label: 'Advanced', color: 'rgba(61,155,233,.12)', text: '#1a5ea5' }
   if (progress >= 30) return { label: 'Intermediate', color: 'rgba(255,203,93,.15)', text: '#7a5800' }
   return { label: 'Beginner', color: 'rgba(46,213,115,.12)', text: '#1a7a42' }
@@ -100,7 +100,7 @@ export function DashboardClient({
     const level = getLevel(progress)
     return {
       id: c.id,
-      emoji: PILLAR_EMOJI[pillarName] || '📘',
+      emoji: PILLAR_EMOJI[pillarName] || '▤',
       title: pillarName,
       level: level.label,
       levelColor: level.color,
@@ -155,7 +155,7 @@ export function DashboardClient({
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
           <div>
             <h1 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 24, fontWeight: 700, color: '#071629', margin: 0 }}>
-              Hello, {firstName} 👋
+              Hello, {firstName}
             </h1>
             <p style={{ fontSize: 13, color: '#6e7591', margin: '4px 0 0' }}>
               Let&apos;s see what&apos;s happening today.
@@ -167,7 +167,7 @@ export function DashboardClient({
               Search courses, tasks...
             </div>
             <div style={{ width: 38, height: 38, background: '#fff', border: '0.5px solid rgba(7,22,41,0.08)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', position: 'relative', fontSize: 16 }}>
-              🔔
+              ●
               {notifications.length > 0 && (
                 <div style={{ position: 'absolute', top: 6, right: 6, width: 8, height: 8, background: '#ff4757', borderRadius: '50%', border: '1.5px solid #f0f2f8' }} />
               )}
@@ -219,10 +219,10 @@ export function DashboardClient({
         {/* ── STAT CARDS — white, clean ── */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 24 }}>
           {[
-            { label: 'Hours Logged', value: String(totalHours), icon: '⏱', accent: '#3d9be9', lightBg: 'rgba(61,155,233,0.08)' },
-            { label: 'Badges Earned', value: String(badgeCount), icon: '🏅', accent: '#f59e0b', lightBg: 'rgba(245,158,11,0.08)' },
-            { label: 'Pillars Done', value: `${completedPillars}/6`, icon: '📚', accent: '#10b981', lightBg: 'rgba(16,185,129,0.08)' },
-            { label: 'Day Streak', value: `${currentStreak} 🔥`, icon: '🔥', accent: '#ef4444', lightBg: 'rgba(239,68,68,0.08)' },
+            { label: 'Hours Logged', value: String(totalHours), icon: '◷', accent: '#3d9be9', lightBg: 'rgba(61,155,233,0.08)' },
+            { label: 'Badges Earned', value: String(badgeCount), icon: '★', accent: '#f59e0b', lightBg: 'rgba(245,158,11,0.08)' },
+            { label: 'Pillars Done', value: `${completedPillars}/6`, icon: '▤', accent: '#10b981', lightBg: 'rgba(16,185,129,0.08)' },
+            { label: 'Day Streak', value: `${currentStreak}`, icon: '↯', accent: '#ef4444', lightBg: 'rgba(239,68,68,0.08)' },
           ].map(stat => (
             <div key={stat.label} style={{ background: '#fff', borderRadius: 16, padding: '18px 20px', boxShadow: '0 1px 8px rgba(7,22,41,0.06)' }}>
               <div style={{ width: 36, height: 36, borderRadius: 10, background: stat.lightBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, marginBottom: 12 }}>
@@ -302,7 +302,7 @@ export function DashboardClient({
                 gridColumn: '1/-1', background: 'rgba(255,203,93,0.08)', border: '1.5px dashed rgba(255,203,93,0.4)',
                 borderRadius: 12, padding: 24, textAlign: 'center', color: '#b87d00', fontSize: 13,
               }}>
-                🎉 All caught up! No pending tasks.
+                All caught up! No pending tasks.
               </div>
             ) : (
               taskItems.map(task => (
@@ -324,7 +324,7 @@ export function DashboardClient({
                     </span>
                   </div>
                   {task.due && (
-                    <div style={{ fontSize: 11, color: '#6e7591' }}>📅 Due: {task.due}</div>
+                    <div style={{ fontSize: 11, color: '#6e7591' }}>Due: {task.due}</div>
                   )}
                 </div>
               ))
@@ -339,7 +339,7 @@ export function DashboardClient({
         {/* ── PROFILE CARD ── */}
         <div style={{ background: '#fff', borderRadius: 20, padding: 20, textAlign: 'center', boxShadow: '0 1px 8px rgba(7,22,41,0.06)', position: 'relative' }}>
           <Link href="/dashboard/profile" style={{ position: 'absolute', top: 14, right: 14, background: 'none', border: 'none', cursor: 'pointer', color: '#6e7591', fontSize: 13, textDecoration: 'none' }}>
-            ✏️
+            ✎
           </Link>
           <div style={{
             width: 56, height: 56, borderRadius: '50%', background: '#3d9be9', color: '#fff',
@@ -387,7 +387,7 @@ export function DashboardClient({
         {/* ── LEADERBOARD — navy, podium ── */}
         <div style={{ background: '#071629', borderRadius: 20, padding: 18, boxShadow: '0 4px 20px rgba(7,22,41,0.15)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <span style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 13, color: '#fff' }}>🏆 Leaderboard</span>
+            <span style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 13, color: '#fff' }}>★ Leaderboard</span>
             <Link href="/dashboard/leaderboard" style={{ fontSize: 11, color: '#ffcb5d', textDecoration: 'none' }}>See all →</Link>
           </div>
 
@@ -399,7 +399,7 @@ export function DashboardClient({
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end', gap: 6, marginBottom: 16 }}>
                 {/* 2nd */}
                 <div style={{ flex: 1, textAlign: 'center' }}>
-                  <div style={{ fontSize: 18, marginBottom: 4 }}>🥈</div>
+                  <div style={{ fontSize: 18, marginBottom: 4 }}>▲2</div>
                   <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.6)', marginBottom: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {topStudents[1]?.name?.split(' ')[0] || '—'}
                   </div>
@@ -412,7 +412,7 @@ export function DashboardClient({
                 </div>
                 {/* 1st */}
                 <div style={{ flex: 1, textAlign: 'center' }}>
-                  <div style={{ fontSize: 22, marginBottom: 4 }}>🥇</div>
+                  <div style={{ fontSize: 22, marginBottom: 4 }}>▲1</div>
                   <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.9)', marginBottom: 4, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {topStudents[0]?.name?.split(' ')[0] || '—'}
                   </div>
@@ -425,7 +425,7 @@ export function DashboardClient({
                 </div>
                 {/* 3rd */}
                 <div style={{ flex: 1, textAlign: 'center' }}>
-                  <div style={{ fontSize: 16, marginBottom: 4 }}>🥉</div>
+                  <div style={{ fontSize: 16, marginBottom: 4 }}>▲3</div>
                   <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.6)', marginBottom: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {topStudents[2]?.name?.split(' ')[0] || '—'}
                   </div>

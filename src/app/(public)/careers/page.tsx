@@ -48,9 +48,9 @@ export default async function CareersPage() {
         <div className="pub-section">
           <div className="grid sm:grid-cols-3 gap-6">
             {[
-              { icon: '🎯', title: 'Mission-Driven', desc: 'Every decision traces back to student outcomes.' },
+              { icon: '◎', title: 'Mission-Driven', desc: 'Every decision traces back to student outcomes.' },
               { icon: '🇦🇪', title: 'UAE-Built', desc: 'Fully rooted in the UAE, building for the nation\'s vision.' },
-              { icon: '📈', title: 'High Ownership', desc: 'Small team means your work has outsized impact from day one.' },
+              { icon: '▦', title: 'High Ownership', desc: 'Small team means your work has outsized impact from day one.' },
             ].map((v, i) => (
               <div key={v.title} className={`pub-card reveal reveal-delay-${i + 1} p-6 text-center`} style={{ border: '1px solid rgba(0,0,0,0.06)' }}>
                 <span style={{ fontSize: 32, display: 'block', marginBottom: 12 }}>{v.icon}</span>
@@ -120,7 +120,7 @@ export default async function CareersPage() {
               </div>
             ) : (
               <div className="pub-card reveal p-10 text-center" style={{ border: '1px solid rgba(0,0,0,0.06)' }}>
-                <span style={{ fontSize: 40, display: 'block', marginBottom: 14 }}>🚀</span>
+                <span style={{ fontSize: 40, display: 'block', marginBottom: 14 }}>↗</span>
                 <h3 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 18, color: '#071629', marginBottom: 8 }}>
                   We&apos;re expanding across the UAE.
                 </h3>

@@ -36,7 +36,7 @@ export async function sendEmail({ to, subject, html, from }: SendEmailOptions) {
 export function welcomeEmailHtml(name: string): string {
   return `
     <div style="font-family:sans-serif;max-width:600px;margin:auto;padding:24px">
-      <h1 style="color:#1a2744;font-size:24px">Welcome to Proplr, ${name}! 🎉</h1>
+      <h1 style="color:#1a2744;font-size:24px">Welcome to Proplr, ${name}!</h1>
       <p style="color:#4a5568;font-size:16px;line-height:1.6">
         Your application has been approved. You can now sign into your Proplr account and
         start building your career portfolio.

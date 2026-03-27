@@ -32,7 +32,7 @@ export function IndustryPartnerForm() {
 
   if (success) return (
     <div className="text-center py-8">
-      <span style={{ fontSize: 36, display: 'block', marginBottom: 10 }}>🏢</span>
+      <span style={{ fontSize: 36, display: 'block', marginBottom: 10 }}>▣</span>
       <h3 className="pub-heading" style={{ fontSize: 18, color: '#071629', marginBottom: 6 }}>Application received!</h3>
       <p style={{ color: '#6e6e73', fontSize: 14 }}>Our team will be in touch within 48 hours.</p>
     </div>
@@ -114,7 +114,7 @@ export function InstitutionPartnerForm() {
 
   if (success) return (
     <div className="text-center py-8">
-      <span style={{ fontSize: 36, display: 'block', marginBottom: 10 }}>🎓</span>
+      <span style={{ fontSize: 36, display: 'block', marginBottom: 10 }}>★</span>
       <h3 className="pub-heading" style={{ fontSize: 18, color: '#071629', marginBottom: 6 }}>Application received!</h3>
       <p style={{ color: '#6e6e73', fontSize: 14 }}>Our team will be in touch within 48 hours.</p>
     </div>

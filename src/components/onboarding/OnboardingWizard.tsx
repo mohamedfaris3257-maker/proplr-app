@@ -147,7 +147,7 @@ export function OnboardingWizard({ userId, existingName, existingSchool, existin
       {/* Step 4: Done */}
       {step === 4 && (
         <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 48, marginBottom: 12 }}>🎉</div>
+          <div style={{ fontSize: 48, marginBottom: 12 }}>★</div>
           <h2 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 22, fontWeight: 700, color: '#000', margin: '0 0 6px' }}>
             You&apos;re all set!
           </h2>

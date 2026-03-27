@@ -46,7 +46,7 @@ const SKILL_OPTIONS = [
 ];
 
 const STEP_LABELS = ['Plan', 'Personal Info', 'Parent/Guardian', 'Profile & Interests', 'Review'];
-const STEP_ICONS = ['📋', '👤', '👪', '🎯', '✅'];
+const STEP_ICONS = ['▤', '●', '◆', '◎', '✓'];
 
 /* ── form data ───────────────────────────────────────────── */
 interface FormData {

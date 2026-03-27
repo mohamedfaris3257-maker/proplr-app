@@ -87,14 +87,14 @@ export default function CompassPage() {
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
             {[
-              { icon: '🤖', label: 'AI-Powered Career Report' },
-              { icon: '🧭', label: '3-Path Career Matches' },
+              { icon: '✦', label: 'AI-Powered Career Report' },
+              { icon: '◎', label: '3-Path Career Matches' },
               { icon: '🔀', label: 'Adjacent Career Paths' },
-              { icon: '📊', label: 'Career Cluster View' },
+              { icon: '▦', label: 'Career Cluster View' },
               { icon: '👨‍👩‍👧', label: 'Parent Report' },
-              { icon: '🏫', label: 'School Analytics' },
+              { icon: '▣', label: 'School Analytics' },
               { icon: '✏️', label: 'Personal Input Weighting' },
-              { icon: '⚡', label: 'Instant Delivery' },
+              { icon: '↯', label: 'Instant Delivery' },
             ].map((item, i) => (
               <div key={item.label} className={`pub-glass reveal reveal-scale reveal-delay-${(i % 4) + 1} p-5 text-center rounded-2xl`}>
                 <span style={{ fontSize: 28, display: 'block', marginBottom: 8 }}>{item.icon}</span>

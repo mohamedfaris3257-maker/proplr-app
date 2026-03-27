@@ -35,7 +35,7 @@ export function MentorApplicationForm() {
   if (status === 'success') {
     return (
       <div style={{ textAlign: 'center', padding: '32px 0' }}>
-        <div style={{ fontSize: 40, marginBottom: 16 }}>🎉</div>
+        <div style={{ fontSize: 40, marginBottom: 16 }}>★</div>
         <h3 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 18, color: '#071629', marginBottom: 8 }}>
           Application received!
         </h3>

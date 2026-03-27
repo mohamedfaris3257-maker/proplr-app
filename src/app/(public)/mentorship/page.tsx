@@ -66,12 +66,12 @@ export default function MentorshipPage() {
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
-              { icon: '🎯', title: 'Assigned Mentor', desc: 'Monthly 1:1 sessions matched to your interests.' },
-              { icon: '📋', title: 'CV & Portfolio Review', desc: 'Direct feedback before real applications.' },
-              { icon: '🤝', title: 'Industry Intros', desc: 'Warm connections in your target field.' },
+              { icon: '◎', title: 'Assigned Mentor', desc: 'Monthly 1:1 sessions matched to your interests.' },
+              { icon: '▤', title: 'CV & Portfolio Review', desc: 'Direct feedback before real applications.' },
+              { icon: '◆', title: 'Industry Intros', desc: 'Warm connections in your target field.' },
               { icon: '🗣', title: 'Interview Prep', desc: 'Mock interviews and practical guidance.' },
-              { icon: '🧭', title: 'Career Clarity', desc: 'Direction based on your Compass results.' },
-              { icon: '🌍', title: 'UAE Network', desc: 'Access to the broader mentor community.' },
+              { icon: '◎', title: 'Career Clarity', desc: 'Direction based on your Compass results.' },
+              { icon: '●', title: 'UAE Network', desc: 'Access to the broader mentor community.' },
             ].map((b, i) => (
               <div key={b.title} className={`pub-card pub-glow-border reveal reveal-delay-${(i % 3) + 1} p-5`}>
                 <span style={{ fontSize: 26, display: 'block', marginBottom: 10 }}>{b.icon}</span>

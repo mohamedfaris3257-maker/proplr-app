@@ -55,13 +55,13 @@ export const PILLAR_TAGS_BG: Record<PillarName, string> = {
 };
 
 export const BADGE_META: Record<BadgeType, { label: string; icon: string; description: string }> = {
-  first_post:  { label: 'First Post',  icon: '✍️',  description: 'Published your first post' },
-  explorer:    { label: 'Explorer',    icon: '🧭',  description: 'Posted in all 6 pillars' },
-  on_fire:     { label: 'On Fire',     icon: '🔥',  description: '4-week streak in any pillar' },
-  networker:   { label: 'Networker',   icon: '🤝',  description: 'RSVP\'d to 5+ events' },
-  pioneer:     { label: 'Pioneer',     icon: '🚀',  description: 'First from your school to complete a pillar' },
-  achiever:    { label: 'Achiever',    icon: '🏆',  description: 'Earned your first certificate' },
-  all_star:    { label: 'All-Star',    icon: '⭐',  description: 'Earned all 6 pillar certificates' },
+  first_post:  { label: 'First Post',  icon: '✎',   description: 'Published your first post' },
+  explorer:    { label: 'Explorer',    icon: '◎',   description: 'Posted in all 6 pillars' },
+  on_fire:     { label: 'On Fire',     icon: '↯',   description: '4-week streak in any pillar' },
+  networker:   { label: 'Networker',   icon: '◆',   description: 'RSVP\'d to 5+ events' },
+  pioneer:     { label: 'Pioneer',     icon: '↗',   description: 'First from your school to complete a pillar' },
+  achiever:    { label: 'Achiever',    icon: '★',   description: 'Earned your first certificate' },
+  all_star:    { label: 'All-Star',    icon: '★',   description: 'Earned all 6 pillar certificates' },
 };
 
 // ─── Database Interfaces ──────────────────────────────────────────────────────

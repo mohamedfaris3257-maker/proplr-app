@@ -79,12 +79,12 @@ export default function PartnersPage() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {[
-              { icon: '🎯', title: 'Access Top Talent', desc: 'Engage with ambitious students already building portfolios, pitching ideas, and running real projects.' },
-              { icon: '🏢', title: 'Brand Visibility', desc: 'Reach Dubai\'s next generation of professionals. Your brand in front of thousands of students and parents.' },
-              { icon: '🤝', title: 'CSR Alignment', desc: 'Align with UAE AI 2031, Dubai E33, and Rahhal Framework goals. Meaningful impact, not just optics.' },
-              { icon: '📊', title: 'Compass Reports', desc: 'Receive data-driven insights on student skills, interests, and career readiness from our proprietary assessments.' },
-              { icon: '🏆', title: 'Showcase Sponsorship', desc: 'Put your brand behind our national pitch competition — live finals, cash prizes, cross-school teams.' },
-              { icon: '🔗', title: 'Pipeline Building', desc: 'Build your future workforce. Connect early with students who match your industry and culture.' },
+              { icon: '◎', title: 'Access Top Talent', desc: 'Engage with ambitious students already building portfolios, pitching ideas, and running real projects.' },
+              { icon: '▣', title: 'Brand Visibility', desc: 'Reach Dubai\'s next generation of professionals. Your brand in front of thousands of students and parents.' },
+              { icon: '◆', title: 'CSR Alignment', desc: 'Align with UAE AI 2031, Dubai E33, and Rahhal Framework goals. Meaningful impact, not just optics.' },
+              { icon: '▦', title: 'Compass Reports', desc: 'Receive data-driven insights on student skills, interests, and career readiness from our proprietary assessments.' },
+              { icon: '★', title: 'Showcase Sponsorship', desc: 'Put your brand behind our national pitch competition — live finals, cash prizes, cross-school teams.' },
+              { icon: '⟁', title: 'Pipeline Building', desc: 'Build your future workforce. Connect early with students who match your industry and culture.' },
             ].map((card, i) => (
               <div key={card.title} className={`pub-card pub-glow-border reveal reveal-delay-${(i % 3) + 1} p-7`}>
                 <span style={{ fontSize: 28, display: 'block', marginBottom: 12 }}>{card.icon}</span>
@@ -258,9 +258,9 @@ export default function PartnersPage() {
                 {[
                   { icon: '📜', title: 'KHDA-Aligned Co-Curricular', desc: 'A ready-made program that meets Dubai\'s inspection and accreditation criteria.' },
                   { icon: '🏭', title: 'Industry Engagement', desc: 'Infrastructure for mentorship, job shadowing, and internship pipelines — built in.' },
-                  { icon: '📋', title: 'Inspection Evidence', desc: 'Term reports, student progress data, and pillar completion records for regulatory audits.' },
-                  { icon: '🌐', title: 'Platform Access', desc: 'Featured on the Proplr platform with Compass reports, student dashboards, and analytics.' },
-                  { icon: '🎤', title: 'Launch Support', desc: 'On-campus info sessions, marketing materials, and dedicated onboarding for your team.' },
+                  { icon: '▤', title: 'Inspection Evidence', desc: 'Term reports, student progress data, and pillar completion records for regulatory audits.' },
+                  { icon: '●', title: 'Platform Access', desc: 'Featured on the Proplr platform with Compass reports, student dashboards, and analytics.' },
+                  { icon: '◆', title: 'Launch Support', desc: 'On-campus info sessions, marketing materials, and dedicated onboarding for your team.' },
                 ].map((item) => (
                   <div key={item.title} className="flex items-start gap-4 p-4 rounded-xl" style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.06)' }}>
                     <span style={{ fontSize: 22, flexShrink: 0, marginTop: 2 }}>{item.icon}</span>

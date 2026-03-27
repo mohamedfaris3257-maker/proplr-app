@@ -115,7 +115,7 @@ export default function ImportOpportunitiesPage() {
             </Link>
           </div>
           <h1 style={{ fontSize: 24, fontWeight: 700, color: '#071629', margin: 0 }}>
-            🔄 Import from Adzuna
+            Import from Adzuna
           </h1>
           <p style={{ fontSize: 14, color: '#6e7591', margin: '4px 0 0' }}>
             Fetch and review external opportunities before publishing
@@ -218,7 +218,7 @@ export default function ImportOpportunitiesPage() {
           borderRadius: 12,
           border: '1px solid rgba(0,0,0,0.08)',
         }}>
-          <div style={{ fontSize: 40, marginBottom: 12 }}>📭</div>
+          <div style={{ fontSize: 40, marginBottom: 12 }}>▤</div>
           <p style={{ fontWeight: 600, color: '#071629', margin: '0 0 4px' }}>No opportunities in staging</p>
           <p style={{ fontSize: 14, color: '#6e7591', margin: 0 }}>
             Click &quot;Fetch from Adzuna&quot; to import new opportunities for review
@@ -259,12 +259,12 @@ export default function ImportOpportunitiesPage() {
                   </p>
                   {opp.location && (
                     <p style={{ fontSize: 13, color: '#6e7591', margin: '0 0 4px' }}>
-                      📍 {opp.location}
+                      {opp.location}
                     </p>
                   )}
                   {formatSalary(opp.salary_min, opp.salary_max) && (
                     <p style={{ fontSize: 13, color: '#27ae60', fontWeight: 600, margin: '0 0 4px' }}>
-                      💰 {formatSalary(opp.salary_min, opp.salary_max)}
+                      $ {formatSalary(opp.salary_min, opp.salary_max)}
                     </p>
                   )}
                   <p style={{ fontSize: 13, color: '#666', margin: '8px 0 0', lineHeight: 1.5 }}>

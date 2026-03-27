@@ -323,10 +323,10 @@ export function CommunityFeed({
           {/* Quick links */}
           <div style={{ background: '#fff', borderRadius: 12, border: '0.5px solid rgba(0,0,0,0.1)', padding: '8px 0', marginBottom: 8 }}>
             {[
-              { icon: '🔖', label: 'Saved items', href: '/dashboard/community' },
-              { icon: '👥', label: 'Communities', href: '/dashboard/community' },
-              { icon: '📰', label: 'Newsletters', href: '/dashboard/community' },
-              { icon: '📅', label: 'Events', href: '/dashboard/events' },
+              { icon: '▤', label: 'Saved items', href: '/dashboard/community' },
+              { icon: '◆', label: 'Communities', href: '/dashboard/community' },
+              { icon: '▣', label: 'Newsletters', href: '/dashboard/community' },
+              { icon: '▣', label: 'Events', href: '/dashboard/events' },
             ].map((item) => (
               <Link
                 key={item.label}
@@ -356,7 +356,7 @@ export function CommunityFeed({
                   onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
                 >
                   <div style={{ width: 28, height: 28, borderRadius: 6, background: 'rgba(61,155,233,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, flexShrink: 0 }}>
-                    {c.type === 'cohort' ? '👥' : c.type === 'school' ? '🏫' : '💡'}
+                    {c.type === 'cohort' ? '◆' : c.type === 'school' ? '▣' : '◆'}
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontSize: 12.5, fontWeight: 600, color: '#000', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{c.name}</div>
@@ -388,9 +388,9 @@ export function CommunityFeed({
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-around' }}>
               {[
-                { icon: '🎥', label: 'Video' },
-                { icon: '🖼', label: 'Photo' },
-                { icon: '✍️', label: 'Write article' },
+                { icon: '▶', label: 'Video' },
+                { icon: '▣', label: 'Photo' },
+                { icon: '✎', label: 'Write article' },
               ].map((action) => (
                 <button
                   key={action.label}
@@ -421,7 +421,7 @@ export function CommunityFeed({
             </div>
           ) : posts.length === 0 ? (
             <div style={{ background: '#fff', borderRadius: 12, border: '0.5px solid rgba(0,0,0,0.1)', padding: 40, textAlign: 'center' }}>
-              <div style={{ fontSize: 36, marginBottom: 10 }}>💬</div>
+              <div style={{ fontSize: 36, marginBottom: 10 }}>◈</div>
               <h3 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 15, fontWeight: 700, color: '#000', margin: '0 0 4px' }}>
                 Your feed is empty
               </h3>
@@ -438,14 +438,14 @@ export function CommunityFeed({
                 {/* Pinned badge */}
                 {post.is_pinned && (
                   <div style={{ background: '#f0f2f8', padding: '5px 16px', fontSize: 11, fontWeight: 700, color: '#666', letterSpacing: 0.5, display: 'flex', alignItems: 'center', gap: 4 }}>
-                    📌 PINNED
+                    PINNED
                   </div>
                 )}
 
                 {/* Announcement banner */}
                 {post.is_announcement && (
                   <div style={{ background: '#ffcb5d', padding: '5px 16px', fontSize: 11, fontWeight: 700, color: '#071629', letterSpacing: 0.5 }}>
-                    📢 ANNOUNCEMENT
+                    ANNOUNCEMENT
                   </div>
                 )}
 
@@ -478,7 +478,7 @@ export function CommunityFeed({
                           )}
                         </div>
                         <div style={{ fontSize: 12, color: '#666', display: 'flex', alignItems: 'center', gap: 4 }}>
-                          {timeAgo(post.created_at)} · <span style={{ fontSize: 14 }}>🌐</span>
+                          {timeAgo(post.created_at)} · <span style={{ fontSize: 14 }}>●</span>
                         </div>
                       </div>
                     </div>
@@ -499,7 +499,7 @@ export function CommunityFeed({
                           onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
                           title={post.is_pinned ? 'Unpin post' : 'Pin post'}
                         >
-                          {post.is_pinned ? '📌 Unpin' : '📌 Pin'}
+                          {post.is_pinned ? 'Unpin' : 'Pin'}
                         </button>
                       )}
                     </div>
@@ -569,21 +569,21 @@ export function CommunityFeed({
                     onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#f3f2ef'; }}
                     onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
                   >
-                    <span style={{ fontSize: 18 }}>💬</span>Comment
+                    <span style={{ fontSize: 18 }}>◈</span>Comment
                   </button>
                   <button
                     style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, padding: '10px 4px', background: 'none', border: 'none', borderRadius: 8, fontSize: 13, fontWeight: 700, color: '#666', cursor: 'pointer', fontFamily: 'inherit', transition: 'background 0.15s' }}
                     onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#f3f2ef'; }}
                     onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
                   >
-                    <span style={{ fontSize: 18 }}>🔁</span>Repost
+                    <span style={{ fontSize: 18 }}>⟲</span>Repost
                   </button>
                   <button
                     style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, padding: '10px 4px', background: 'none', border: 'none', borderRadius: 8, fontSize: 13, fontWeight: 700, color: '#666', cursor: 'pointer', fontFamily: 'inherit', transition: 'background 0.15s' }}
                     onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#f3f2ef'; }}
                     onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
                   >
-                    <span style={{ fontSize: 18 }}>📤</span>Send
+                    <span style={{ fontSize: 18 }}>↗</span>Send
                   </button>
 
                   {/* Reaction picker popup */}
@@ -721,11 +721,11 @@ export function CommunityFeed({
                           const res = await fetch('/api/messages', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ recipient_id: peer.user_id, content: `Hi ${peer.name}! 👋` }),
+                            body: JSON.stringify({ recipient_id: peer.user_id, content: `Hi ${peer.name}!` }),
                           });
                           const data = await res.json();
                           if (data.success) {
-                            alert(`Message sent to ${peer.name}! Check the messaging widget (💬) in the bottom right.`);
+                            alert(`Message sent to ${peer.name}! Check the messaging widget in the bottom right.`);
                           }
                         } catch (err) {
                           console.error('Connect error:', err);
@@ -747,7 +747,7 @@ export function CommunityFeed({
           {upcomingEvents.length > 0 && (
             <div style={{ background: '#fff', borderRadius: 12, border: '0.5px solid rgba(0,0,0,0.1)', padding: '12px 16px', marginTop: 8 }}>
               <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 13, color: '#000', marginBottom: 10 }}>
-                📅 Upcoming Events
+                Upcoming Events
               </div>
               {upcomingEvents.map((event: any) => (
                 <div key={event.id} style={{ padding: '6px 0', borderBottom: '0.5px solid rgba(0,0,0,0.06)' }}>
@@ -820,14 +820,14 @@ export function CommunityFeed({
             {isAdmin && (
               <div style={{ padding: '0 20px 10px', display: 'flex', alignItems: 'center', gap: 8 }}>
                 <input type="checkbox" id="announcement" checked={isAnnouncement} onChange={(e) => setIsAnnouncement(e.target.checked)} />
-                <label htmlFor="announcement" style={{ fontSize: 13, color: '#666', cursor: 'pointer' }}>📢 Post as Announcement</label>
+                <label htmlFor="announcement" style={{ fontSize: 13, color: '#666', cursor: 'pointer' }}>Post as Announcement</label>
               </div>
             )}
 
             {/* Bottom bar */}
             <div style={{ padding: '10px 20px 14px', borderTop: '0.5px solid rgba(0,0,0,0.1)', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 12 }}>
               <div style={{ display: 'flex', gap: 8, marginRight: 'auto' }}>
-                {['🖼', '🎥', '📊', '😊'].map((icon) => (
+                {['▣', '▶', '▦', '☺'].map((icon) => (
                   <button
                     key={icon}
                     style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 22, borderRadius: '50%', padding: 6 }}

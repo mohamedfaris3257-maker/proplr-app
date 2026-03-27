@@ -25,7 +25,7 @@ export function ShowcaseRegisterForm() {
 
   if (success) return (
     <div className="text-center py-8">
-      <span style={{ fontSize: 40, display: 'block', marginBottom: 12 }}>🏆</span>
+      <span style={{ fontSize: 40, display: 'block', marginBottom: 12 }}>★</span>
       <h3 className="pub-heading" style={{ fontSize: 20, color: '#071629', marginBottom: 6 }}>Registered!</h3>
       <p style={{ color: '#6e6e73', fontSize: 14 }}>We&apos;ll be in touch with Showcase details as they&apos;re confirmed.</p>
     </div>

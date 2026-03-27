@@ -60,7 +60,7 @@ export function PillarRingWithStreak({
         {/* Streak flame badge */}
         {streak > 0 && (
           <div className="absolute bottom-0 right-0 bg-surface text-[10px] px-1 rounded-full text-gold flex items-center gap-0.5 leading-tight border border-border">
-            <span role="img" aria-label="streak fire">🔥</span>
+            <span role="img" aria-label="streak fire">↯</span>
             <span>{streak}</span>
           </div>
         )}

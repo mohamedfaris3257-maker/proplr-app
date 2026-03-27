@@ -405,7 +405,7 @@ export function CommunityInnerPage({
             {isAdmin && pendingMembers.length > 0 && (
               <div style={styles.pendingCard}>
                 <div style={styles.pendingHeader}>
-                  🛡️ Pending Requests ({pendingMembers.length})
+                  Pending Requests ({pendingMembers.length})
                 </div>
                 {pendingMembers.map((member) => {
                   const name = member.profiles?.name ?? 'Unknown';
@@ -449,7 +449,7 @@ export function CommunityInnerPage({
                     onChange={(e) => setIsAnnouncement(e.target.checked)}
                     style={{ marginRight: 6 }}
                   />
-                  📢 Post as Announcement (pinned at top, yellow highlight)
+                  Post as Announcement (pinned at top, yellow highlight)
                 </label>
               )}
               <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
@@ -512,7 +512,7 @@ export function CommunityInnerPage({
                   }}
                 >
                   {post.is_announcement && (
-                    <div style={styles.announcementBadge}>📢 ANNOUNCEMENT</div>
+                    <div style={styles.announcementBadge}>ANNOUNCEMENT</div>
                   )}
                   <div style={{ display: 'flex', gap: 10, marginBottom: 10 }}>
                     <div style={styles.avatarSm}>
@@ -603,7 +603,7 @@ export function CommunityInnerPage({
           <div style={styles.rightCol}>
             {/* Members card */}
             <div style={styles.rightCard}>
-              <div style={styles.rightCardTitle}>👥 Members ({memberCount})</div>
+              <div style={styles.rightCardTitle}>Members ({memberCount})</div>
               {members.slice(0, 8).map((member) => {
                 const name = member.profiles?.name ?? 'Unknown';
                 return (
@@ -617,7 +617,7 @@ export function CommunityInnerPage({
                     </div>
                     {(member.role === 'admin' || member.role === 'moderator') && (
                       <span style={styles.leaderBadge}>
-                        {member.role === 'admin' ? '👑 Admin' : '🛡️ Mod'}
+                        {member.role === 'admin' ? 'Admin' : 'Mod'}
                       </span>
                     )}
                   </div>
@@ -630,7 +630,7 @@ export function CommunityInnerPage({
 
             {/* Upcoming events card */}
             <div style={styles.eventsCard}>
-              <div style={styles.rightCardTitleWhite}>📅 Upcoming Events</div>
+              <div style={styles.rightCardTitleWhite}>Upcoming Events</div>
               {communityEvents.length === 0 ? (
                 <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', margin: 0 }}>
                   No upcoming events for this community.

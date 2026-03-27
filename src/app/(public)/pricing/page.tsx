@@ -161,7 +161,7 @@ export default function PricingPage() {
               <p style={{ color: '#6e6e73', fontSize: 14 }}>Enter it during registration for a discount. Codes from friends, teachers, or Proplr ambassadors all count.</p>
             </div>
             <div className="p-6 rounded-2xl" style={{ background: '#f5f5f7', border: '1px solid rgba(0,0,0,0.06)' }}>
-              <span style={{ fontSize: 24, display: 'block', marginBottom: 10 }}>🧭</span>
+              <span style={{ fontSize: 24, display: 'block', marginBottom: 10 }}>◎</span>
               <h3 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 16, color: '#071629', marginBottom: 6 }}>Just want Compass?</h3>
               <p style={{ color: '#6e6e73', fontSize: 14 }}>The Compass career assessment is also available as a standalone tool. <Link href="/compass" style={{ color: '#3d9be9', fontWeight: 600 }}>See Compass pricing →</Link></p>
             </div>
