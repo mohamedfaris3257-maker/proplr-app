@@ -3,109 +3,119 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ClubInterestForm } from '@/components/public/ClubInterestForm';
 
-export const metadata: Metadata = { title: 'Start a Proplr Club — Bring Proplr to Your School' };
+export const metadata: Metadata = {
+  title: 'Start a Proplr Club | Bring Career Development to Your School',
+  description: 'Launch a Proplr Foundation club at your school in the UAE. KHDA-certified program, fully supported by Proplr.',
+};
 
 export default function StartAClubPage() {
   return (
     <div>
       {/* ── HERO ── */}
-      <section className="pub-hero-image pub-overlay-left">
-        <Image
-          src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1920&q=80&auto=format"
-          alt="Classroom setting"
-          fill
-          priority
-          className="pub-ken-burns"
-          style={{ objectFit: 'cover' }}
-        />
-        <div className="pub-section relative z-10 w-full">
-          <div className="max-w-2xl">
-            <div className="pub-line-grow reveal mb-6" />
-            <span className="inline-block px-4 py-2 rounded-full text-xs font-bold mb-5" style={{ background: 'rgba(61,155,233,0.2)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)' }}>
-              FOR SCHOOLS & INSTITUTIONS
-            </span>
-            <h1 className="pub-heading pub-text-shadow reveal" style={{ fontSize: 'clamp(36px, 6vw, 60px)', color: '#ffffff', marginBottom: 20 }}>
-              Bring Proplr<br />
-              <span style={{ color: '#ffcb5d' }}>to your school.</span>
-            </h1>
-            <p className="reveal reveal-delay-1 pub-text-shadow" style={{ fontSize: 18, color: 'rgba(255,255,255,0.85)', maxWidth: 480, marginBottom: 32 }}>
-              We handle facilitators, mentors, industry reps, and reporting. You provide students and space. That&apos;s it.
-            </p>
-            <a href="#club-form" className="pub-btn-primary reveal reveal-delay-2">Get Started →</a>
+      <section className="relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #071629 0%, #1a3a5c 100%)', padding: '100px 24px 80px', textAlign: 'center' }}>
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 70% 50%, rgba(61,155,233,0.15) 0%, transparent 70%)' }} />
+        <div style={{ maxWidth: 700, margin: '0 auto', position: 'relative' }}>
+          <div className="reveal" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,203,93,0.15)', border: '1px solid rgba(255,203,93,0.3)', borderRadius: 100, padding: '6px 16px', marginBottom: 24 }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#ffcb5d', display: 'inline-block' }} />
+            <span style={{ fontSize: 11, fontWeight: 700, color: '#ffcb5d', letterSpacing: 1.5 }}>FOR SCHOOLS IN THE UAE</span>
+          </div>
+          <h1 className="pub-heading reveal" style={{ fontSize: 'clamp(32px, 5vw, 56px)', color: '#ffffff', marginBottom: 20, lineHeight: 1.15 }}>
+            Bring Proplr to<br />Your School
+          </h1>
+          <p className="reveal reveal-delay-1" style={{ fontSize: 17, color: 'rgba(255,255,255,0.75)', maxWidth: 520, margin: '0 auto 40px', lineHeight: 1.7 }}>
+            Launch a KHDA-certified after-school career club. We handle the curriculum, mentors, and certification. You just open the door.
+          </p>
+          <div className="reveal reveal-delay-2" style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <a href="#apply" className="pub-btn-primary" style={{ background: '#ffcb5d', color: '#071629' }}>
+              Get Started
+            </a>
+            <a href="#how-it-works" className="pub-btn-ghost" style={{ color: '#fff', borderColor: 'rgba(255,255,255,0.2)' }}>
+              How It Works
+            </a>
           </div>
         </div>
       </section>
 
-      {/* ── 3 STEPS ── */}
-      <section style={{ background: '#071629' }}>
-        <div className="pub-section">
-          <h2 className="pub-heading text-white text-center reveal" style={{ fontSize: 'clamp(24px, 3.5vw, 40px)', marginBottom: 40 }}>
-            Three steps to launch.
-          </h2>
-          <div className="grid sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            {[
-              { step: '1', title: 'Submit Interest', desc: 'Fill out the form below. Takes 3 minutes.' },
-              { step: '2', title: 'Free Intro Session', desc: 'We come to your school or hop on a call.' },
-              { step: '3', title: 'Launch in September', desc: 'Your Proplr club goes live with full support.' },
-            ].map((s, i) => (
-              <div key={s.step} className={`reveal reveal-delay-${i + 1} text-center`}>
-                <div className="w-14 h-14 rounded-full flex items-center justify-center text-xl font-bold text-white mx-auto mb-4 pub-pulse-glow" style={{ background: '#3d9be9', fontFamily: 'Montserrat, sans-serif' }}>
-                  {s.step}
-                </div>
-                <h3 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 17, color: '#ffffff', marginBottom: 6 }}>{s.title}</h3>
-                <p style={{ color: '#8ca3be', fontSize: 14, lineHeight: 1.6 }}>{s.desc}</p>
-              </div>
-            ))}
+      {/* ── TRUST BADGES ── */}
+      <section style={{ background: '#f0f2f8', padding: '24px', display: 'flex', justifyContent: 'center', gap: 40, flexWrap: 'wrap' }}>
+        {['KHDA Permit #633441', 'Fully Supported Setup', 'No Cost to Schools', 'Inspection-Ready'].map(badge => (
+          <div key={badge} className="reveal" style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, fontWeight: 600, color: '#071629' }}>
+            <span style={{ width: 20, height: 20, borderRadius: '50%', background: '#3d9be9', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            {badge}
           </div>
+        ))}
+      </section>
+
+      {/* ── HOW IT WORKS ── */}
+      <section id="how-it-works" style={{ padding: '80px 24px', maxWidth: 900, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: 56 }}>
+          <div className="reveal" style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2, color: '#3d9be9', marginBottom: 12 }}>THE PROCESS</div>
+          <h2 className="pub-heading reveal" style={{ fontSize: 36, color: '#071629' }}>
+            From interest to club in 4 steps
+          </h2>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 24 }}>
+          {[
+            { step: '01', title: 'Submit Interest', desc: 'Fill out the form below. We\'ll reach out within 48 hours to schedule a call.' },
+            { step: '02', title: 'School Briefing', desc: 'We meet with your admin team and walk through the program, KHDA compliance, and logistics.' },
+            { step: '03', title: 'Club Setup', desc: 'We handle student enrollment, parent consent, scheduling, and all KHDA documentation.' },
+            { step: '04', title: 'Program Runs', desc: 'Students attend weekly sessions. Proplr delivers everything. Your school gets the credit.' },
+          ].map((item, i) => (
+            <div key={item.step} className={`reveal reveal-delay-${(i % 4) + 1}`} style={{ background: '#fff', borderRadius: 16, padding: 28, border: '1px solid rgba(7,22,41,0.08)' }}>
+              <div style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 32, fontWeight: 900, color: 'rgba(61,155,233,0.2)', marginBottom: 12 }}>{item.step}</div>
+              <h3 style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 16, fontWeight: 700, color: '#071629', marginBottom: 8 }}>{item.title}</h3>
+              <p style={{ fontSize: 13.5, color: '#6e7591', lineHeight: 1.6, margin: 0 }}>{item.desc}</p>
+            </div>
+          ))}
         </div>
       </section>
 
       {/* ── WHAT SCHOOLS GET ── */}
-      <section style={{ background: '#f5f5f7' }}>
-        <div className="pub-section">
-          <h2 className="pub-heading text-center reveal" style={{ fontSize: 'clamp(24px, 3vw, 38px)', color: '#071629', marginBottom: 36 }}>
-            Everything included. Zero operational headache.
-          </h2>
-          <div className="grid sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
+      <section style={{ background: '#071629', padding: '80px 24px' }}>
+        <div style={{ maxWidth: 900, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <div className="reveal" style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2, color: '#ffcb5d', marginBottom: 12 }}>WHAT YOUR SCHOOL GETS</div>
+            <h2 className="pub-heading reveal" style={{ fontSize: 36, color: '#fff' }}>
+              Everything. We handle it all.
+            </h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 20 }}>
             {[
-              { icon: '▤', text: 'KHDA-aligned curriculum and reporting' },
-              { icon: '📁', text: 'Inspection-ready documentation' },
-              { icon: '🏭', text: 'Industry access: internships, panels, challenges' },
-              { icon: '◆', text: 'No disruption to teaching staff' },
-              { icon: '◆', text: 'Facilitators and mentors provided' },
-              { icon: '★', text: '6 KHDA-attested certificates per student' },
+              { title: 'KHDA Compliance', desc: 'Full documentation, permits, and inspection-ready reports handled by Proplr.' },
+              { title: 'Curriculum Delivered', desc: '6 pillars, 120 hours, assessments, and all session materials provided.' },
+              { title: '150+ Mentors', desc: 'Industry professionals from 40+ sectors come to your students.' },
+              { title: 'Student Certificates', desc: 'Every student earns KHDA-attested certificates upon completion.' },
+              { title: 'Parent Reporting', desc: 'Monthly progress reports sent automatically to parents.' },
+              { title: 'Zero School Cost', desc: 'Proplr is funded through student enrollment, not school budgets.' },
             ].map((item, i) => (
-              <div key={item.text} className={`pub-card reveal reveal-delay-${(i % 3) + 1} p-4 flex items-start gap-3`}>
-                <span style={{ fontSize: 20, flexShrink: 0 }}>{item.icon}</span>
-                <span style={{ color: '#1d1d1f', fontSize: 14, fontWeight: 500 }}>{item.text}</span>
+              <div key={item.title} className={`reveal reveal-delay-${(i % 3) + 1}`} style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 14, padding: 24, border: '1px solid rgba(255,255,255,0.08)' }}>
+                <div style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(255,203,93,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14 }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffcb5d" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <h3 style={{ fontFamily: 'Montserrat, sans-serif', fontSize: 15, fontWeight: 700, color: '#fff', marginBottom: 8 }}>{item.title}</h3>
+                <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', lineHeight: 1.6, margin: 0 }}>{item.desc}</p>
               </div>
             ))}
-          </div>
-          <div className="max-w-lg mx-auto mt-8 reveal">
-            <div className="pub-card pub-glow-border p-6 text-center" style={{ background: 'linear-gradient(135deg, #f0f8ff 0%, #ffffff 100%)' }}>
-              <span style={{ fontSize: 32, display: 'block', marginBottom: 8 }}>◎</span>
-              <h3 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 16, color: '#071629', marginBottom: 6 }}>
-                Start with a free Compass pilot
-              </h3>
-              <p style={{ color: '#6e6e73', fontSize: 14 }}>
-                Run a free career assessment for a sample cohort. No cost. No commitment.
-              </p>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* ── FORM ── */}
-      <section id="club-form" style={{ background: '#ffffff' }}>
+      {/* ── APPLY FORM ── */}
+      <section id="apply" style={{ background: '#f5f5f7' }}>
         <div className="pub-section">
           <div className="max-w-2xl mx-auto">
-            <div className="text-center mb-10 reveal">
-              <h2 className="pub-heading" style={{ fontSize: 'clamp(24px, 3vw, 36px)', color: '#071629', marginBottom: 8 }}>
-                Submit your interest.
+            <div style={{ textAlign: 'center', marginBottom: 40 }}>
+              <div className="reveal" style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2, color: '#3d9be9', marginBottom: 12 }}>GET STARTED</div>
+              <h2 className="pub-heading reveal" style={{ fontSize: 36, color: '#071629', marginBottom: 12 }}>
+                Bring Proplr to your school
               </h2>
-              <p style={{ color: '#6e6e73', fontSize: 15 }}>We&apos;ll be in touch within 48 hours.</p>
+              <p className="reveal reveal-delay-1" style={{ fontSize: 15, color: '#6e7591' }}>
+                Fill this out and we&apos;ll be in touch within 48 hours.
+              </p>
             </div>
-            <div className="pub-card p-8 reveal reveal-delay-1" style={{ border: '1px solid rgba(0,0,0,0.06)' }}>
+            <div className="pub-card p-8 reveal reveal-delay-2" style={{ border: '1px solid rgba(0,0,0,0.06)' }}>
               <ClubInterestForm />
             </div>
           </div>

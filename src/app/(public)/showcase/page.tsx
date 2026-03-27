@@ -64,10 +64,10 @@ export default function ShowcasePage() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               { icon: '★', title: 'National Competition', desc: 'Compete across industry challenge categories for prizes and recognition.' },
-              { icon: '🏗️', title: 'Live Case Challenges', desc: 'Real company briefs. Real business judges. Not teachers.' },
+              { icon: '▣', title: 'Live Case Challenges', desc: 'Real company briefs. Real business judges. Not teachers.' },
               { icon: '◆', title: 'Startup Funding Access', desc: 'Top Impact students meet seed funding partners from our network.' },
-              { icon: '✦', title: 'Student Awards', desc: 'Leadership, Innovation, Impact, and Community — recognized on stage.' },
-              { icon: '👔', title: 'Industry Judge Panel', desc: 'Assessed by UAE professionals, not academics.' },
+              { icon: '✦', title: 'Student Awards', desc: 'Leadership, Innovation, Impact, and Community - recognized on stage.' },
+              { icon: '◎', title: 'Industry Judge Panel', desc: 'Assessed by UAE professionals, not academics.' },
             ].map((item, i) => (
               <div key={item.title} className={`pub-card pub-glow-border reveal reveal-delay-${(i % 3) + 1} p-6`}>
                 <span style={{ fontSize: 28, display: 'block', marginBottom: 12 }}>{item.icon}</span>

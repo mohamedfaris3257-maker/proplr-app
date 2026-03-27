@@ -69,7 +69,7 @@ export default function MentorshipPage() {
               { icon: '◎', title: 'Assigned Mentor', desc: 'Monthly 1:1 sessions matched to your interests.' },
               { icon: '▤', title: 'CV & Portfolio Review', desc: 'Direct feedback before real applications.' },
               { icon: '◆', title: 'Industry Intros', desc: 'Warm connections in your target field.' },
-              { icon: '🗣', title: 'Interview Prep', desc: 'Mock interviews and practical guidance.' },
+              { icon: '◎', title: 'Interview Prep', desc: 'Mock interviews and practical guidance.' },
               { icon: '◎', title: 'Career Clarity', desc: 'Direction based on your Compass results.' },
               { icon: '●', title: 'UAE Network', desc: 'Access to the broader mentor community.' },
             ].map((b, i) => (

@@ -18,8 +18,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .eq('slug', slug)
     .eq('published', true)
     .single();
-  if (!data) return { title: 'Blog — Proplr' };
-  return { title: `${data.title} — Proplr Blog`, description: data.excerpt ?? undefined };
+  if (!data) return { title: 'Blog - Proplr' };
+  return { title: `${data.title} - Proplr Blog`, description: data.excerpt ?? undefined };
 }
 
 export default async function BlogPostPage({ params }: Props) {

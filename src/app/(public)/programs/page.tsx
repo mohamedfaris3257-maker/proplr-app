@@ -108,7 +108,7 @@ export default function ProgramsPage() {
                   After-school career club. 6 KHDA certificates. Real industry exposure.
                 </p>
                 <div className="flex flex-wrap gap-2 mb-6">
-                  {['120 hours', '8 months', 'AED 400/mo'].map((tag) => (
+                  {['120 hours', '8 months', '6 KHDA Certificates'].map((tag) => (
                     <span key={tag} className="px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#f5f5f7', color: '#6e6e73' }}>{tag}</span>
                   ))}
                 </div>
@@ -217,7 +217,7 @@ export default function ProgramsPage() {
             {[
               { title: 'Students', icon: '★', link: '/register', accent: '#3d9be9', desc: 'Build your portfolio and career skills.' },
               { title: 'Schools', icon: '▣', link: '/start-a-club', accent: '#ffcb5d', desc: 'Plug-and-play KHDA career program.' },
-              { title: 'Universities', icon: '🏛️', link: '/impact', accent: '#3d9be9', desc: 'Engage high-potential talent early.' },
+              { title: 'Universities', icon: '◎', link: '/impact', accent: '#3d9be9', desc: 'Engage high-potential talent early.' },
               { title: 'Partners', icon: '◆', link: '/partners', accent: '#ffcb5d', desc: 'Shape the next generation of talent.' },
             ].map((card, i) => (
               <Link

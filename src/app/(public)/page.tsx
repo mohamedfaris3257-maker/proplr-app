@@ -27,7 +27,7 @@ export default async function HomePage() {
               <span className="pub-gradient-text-animated">graduate.</span>
             </h1>
             <p className="reveal reveal-delay-1 pub-text-shadow" style={{ fontSize: 20, color: 'rgba(255,255,255,0.85)', maxWidth: 520, marginBottom: 40, lineHeight: 1.6 }}>
-              Real skills. Real mentors. Real certificates. Proplr turns your after-school hours into a career head start — backed by KHDA.
+              Real skills. Real mentors. Real certificates. Proplr turns your after-school hours into a career head start - backed by KHDA.
             </p>
             <div className="flex flex-col sm:flex-row items-start gap-4 reveal reveal-delay-2">
               <Link href="/enroll" className="pub-btn-primary" style={{ fontSize: 18, padding: '16px 40px' }}>
@@ -178,7 +178,7 @@ export default async function HomePage() {
                 6 KHDA certificates, a verified portfolio, and a national showcase where you present real work to industry judges.
               </p>
               <div className="flex flex-wrap gap-2">
-                {['6 KHDA Certs', 'Digital Portfolio', 'Live Pitch Finals'].map((t) => (
+                {['6 KHDA Certificates', 'Digital Portfolio', 'Live Pitch Finals'].map((t) => (
                   <span key={t} className="px-3 py-1 rounded-full text-xs font-semibold" style={{ background: 'rgba(7,22,41,0.06)', color: '#071629' }}>{t}</span>
                 ))}
               </div>
@@ -253,7 +253,7 @@ export default async function HomePage() {
                   After-school career club. 6 KHDA certificates. Real industry exposure before graduation.
                 </p>
                 <div className="flex flex-wrap gap-2 mb-6">
-                  {['120 hours', '8 months', 'AED 400/mo'].map((tag) => (
+                  {['120 hours', '8 months', '6 KHDA Certificates'].map((tag) => (
                     <span key={tag} className="px-3 py-1 rounded-full text-xs font-semibold" style={{ background: 'rgba(255,203,93,0.12)', color: '#a07800' }}>{tag}</span>
                   ))}
                 </div>
@@ -281,7 +281,7 @@ export default async function HomePage() {
                   Advanced acceleration for the global workforce. Industry-led, campus-delivered.
                 </p>
                 <div className="flex flex-wrap gap-2 mb-6">
-                  {['Work-ready skills', 'AED 999 flat', 'Startup track'].map((tag) => (
+                  {['Work-ready skills', 'Full Year', 'Startup track'].map((tag) => (
                     <span key={tag} className="px-3 py-1 rounded-full text-xs font-semibold" style={{ background: 'rgba(61,155,233,0.08)', color: '#1a6fad' }}>{tag}</span>
                   ))}
                 </div>
@@ -365,13 +365,13 @@ export default async function HomePage() {
             <div className="reveal reveal-left">
               <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: '#3d9be9', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 12 }}>FOR PARENTS</span>
               <h2 className="pub-heading" style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: '#071629', marginBottom: 14 }}>
-                Backed by KHDA.<br />Built for Dubai students.
+                Backed by KHDA.<br />Built for UAE students.
               </h2>
               <p style={{ color: '#5a5f7a', fontSize: 16, lineHeight: 1.65, marginBottom: 24 }}>
                 Officially licensed (Permit #633441). Certificates are KHDA-attested. Standards set by the highest education authority in Dubai.
               </p>
               <div className="flex flex-wrap gap-3">
-                {['KHDA Certified', 'Real Certificates', 'Industry Mentors'].map((b) => (
+                {['KHDA Certified', 'Future-Proofing', 'Industry Mentors'].map((b) => (
                   <span key={b} className="pub-glass px-4 py-2 rounded-full text-sm font-bold" style={{ color: '#071629' }}>{b}</span>
                 ))}
               </div>
@@ -391,31 +391,19 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── PRICING TEASER ──────────────────────────────────────────── */}
-      <section className="pub-pattern-grid" style={{ background: '#f5f5f7' }}>
-        <div className="pub-section">
-          <div className="text-center mb-12 reveal">
-            <h2 className="pub-heading" style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: '#071629', marginBottom: 8 }}>
-              Straightforward pricing.
-            </h2>
-          </div>
-          <div className="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto mb-10">
-            {[
-              { name: 'Foundation', price: 'AED 400', unit: '/mo', note: '× 8 months = AED 3,200/year', color: '#ffcb5d', bg: 'rgba(255,203,93,0.08)', border: 'rgba(255,203,93,0.3)' },
-              { name: 'Impact', price: 'AED 999', unit: '/year', note: 'University students — flat rate', color: '#3d9be9', bg: 'rgba(61,155,233,0.08)', border: 'rgba(61,155,233,0.25)' },
-            ].map((plan, i) => (
-              <div key={plan.name} className={`pub-card pub-glow-border reveal reveal-delay-${i + 1} p-8 text-center`} style={{ background: plan.bg, border: `1.5px solid ${plan.border}` }}>
-                <h3 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800, fontSize: 18, color: '#071629', marginBottom: 8 }}>{plan.name}</h3>
-                <p style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 900, fontSize: 36, color: plan.color, marginBottom: 4 }}>
-                  {plan.price}<span style={{ fontSize: 18, opacity: 0.7 }}>{plan.unit}</span>
-                </p>
-                <p style={{ color: '#5a5f7a', fontSize: 13 }}>{plan.note}</p>
-              </div>
-            ))}
-          </div>
-          <div className="text-center reveal">
-            <Link href="/pricing" className="pub-btn-ghost">See Full Pricing →</Link>
-          </div>
+      {/* ── SUMMER CAMP BANNER ────────────────────────────────────── */}
+      <section className="reveal" style={{ background: 'linear-gradient(135deg, #ffcb5d 0%, #f59e0b 100%)', padding: '60px 24px', textAlign: 'center' }}>
+        <div style={{ maxWidth: 700, margin: '0 auto' }}>
+          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2, color: 'rgba(7,22,41,0.6)', marginBottom: 12 }}>SUMMER 2026</div>
+          <h2 className="pub-heading" style={{ fontSize: 36, color: '#071629', marginBottom: 16, lineHeight: 1.2 }}>
+            Proplr Summer Camp
+          </h2>
+          <p style={{ fontSize: 16, color: '#071629', opacity: 0.8, marginBottom: 28, maxWidth: 500, margin: '0 auto 28px' }}>
+            4 weekends. 3 pillars. Real skills. Entrepreneurship, Personal Branding, and Digital Literacy - built for students who don't want to waste their summer.
+          </p>
+          <Link href="/summer-camp" className="pub-btn-navy">
+            Learn More
+          </Link>
         </div>
       </section>
 

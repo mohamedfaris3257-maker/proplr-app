@@ -49,7 +49,7 @@ export default function FoundationPage() {
               { num: '8', label: 'Months' },
               { num: '6', label: 'KHDA Certificates' },
               { num: '120', label: 'Program Hours' },
-              { num: '400', label: 'AED / Month' },
+              { num: '150+', label: 'Industry Mentors' },
             ].map((s) => (
               <div key={s.label} className="reveal">
                 <span className="pub-stat-number" style={{ fontSize: 'clamp(32px, 4vw, 48px)', color: '#ffffff', fontFamily: 'Montserrat, sans-serif', fontWeight: 900, display: 'block' }}>
@@ -208,7 +208,7 @@ export default function FoundationPage() {
               ))}
             </div>
             <p style={{ color: '#5a5f7a', fontSize: 15 }}>
-              Built for Dubai&apos;s education priorities. Inspection-ready from day one.
+              Built for UAE&apos;s education priorities. Inspection-ready from day one.
             </p>
           </div>
         </div>
@@ -241,19 +241,31 @@ export default function FoundationPage() {
         </div>
       </section>
 
-      {/* ── PRICING CTA ────────────────────────────────────── */}
+      {/* ── SUMMER CAMP BANNER ────────────────────────────────────── */}
+      <section className="reveal" style={{ background: 'linear-gradient(135deg, #ffcb5d 0%, #f59e0b 100%)', padding: '60px 24px', textAlign: 'center' }}>
+        <div style={{ maxWidth: 700, margin: '0 auto' }}>
+          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2, color: 'rgba(7,22,41,0.6)', marginBottom: 12 }}>SUMMER 2026</div>
+          <h2 className="pub-heading" style={{ fontSize: 36, color: '#071629', marginBottom: 16, lineHeight: 1.2 }}>
+            Proplr Summer Camp
+          </h2>
+          <p style={{ fontSize: 16, color: '#071629', opacity: 0.8, marginBottom: 28, maxWidth: 500, margin: '0 auto 28px' }}>
+            4 weekends. 3 pillars. Real skills. Entrepreneurship, Personal Branding, and Digital Literacy - built for students who don't want to waste their summer.
+          </p>
+          <Link href="/summer-camp" className="pub-btn-navy">
+            Learn More
+          </Link>
+        </div>
+      </section>
+
+      {/* ── ENROLLMENT CTA ────────────────────────────────────────── */}
       <section className="pub-pattern-grid" style={{ background: '#ffffff' }}>
         <div className="pub-section text-center reveal" style={{ paddingTop: 80, paddingBottom: 80 }}>
-          <h2 className="pub-heading" style={{ fontSize: 'clamp(36px, 5vw, 56px)', color: '#071629', marginBottom: 8 }}>
-            <span className="pub-gradient-text-animated">AED 400</span>/month
+          <h2 className="pub-heading" style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: '#071629', marginBottom: 12 }}>
+            Ready to get started?
           </h2>
-          <p style={{ color: '#5a5f7a', fontSize: 18, marginBottom: 6 }}>
-            8 months &middot; AED 3,200/year
-          </p>
-          <p style={{ color: '#9ca3af', fontSize: 14, marginBottom: 36 }}>
+          <p style={{ color: '#5a5f7a', fontSize: 16, marginBottom: 36 }}>
             Everything included. No hidden fees. KHDA certified.
           </p>
-
           <div className="flex flex-wrap justify-center gap-3 mb-12">
             {['6 KHDA Certificates', 'Industry Mentorship', 'Portfolio Building', 'Compass Assessment', 'Showcase Eligibility'].map((f) => (
               <span key={f} className="px-4 py-2 rounded-full text-sm font-medium" style={{ background: '#f5f5f7', color: '#1d1d1f', border: '1px solid rgba(0,0,0,0.08)' }}>
@@ -261,7 +273,6 @@ export default function FoundationPage() {
               </span>
             ))}
           </div>
-
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link href="/enroll?plan=foundation" className="pub-btn-primary">Register for Foundation</Link>
             <Link href="/start-a-club" className="pub-btn-navy">Start a Club at My School</Link>

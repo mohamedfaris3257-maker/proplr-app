@@ -64,7 +64,7 @@ export default function ImpactPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 reveal reveal-delay-2">
               <Link href="/enroll?plan=impact" className="pub-btn-primary">Join the Waitlist</Link>
-              <Link href="/partners" className="pub-btn-ghost" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.4)' }}>Launch a Campus Chapter</Link>
+              <Link href="/campus-chapter" className="pub-btn-ghost" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.4)' }}>Launch a Campus Chapter</Link>
             </div>
           </div>
         </div>
@@ -96,9 +96,9 @@ export default function ImpactPage() {
         <div className="pub-section">
           <div className="text-center mb-12 reveal">
             <h2 className="pub-heading" style={{ fontSize: 'clamp(26px, 4vw, 42px)', color: '#071629', marginBottom: 10 }}>
-              6 Pillars. University intensity.
+              6 Pillars. Industry intensity.
             </h2>
-            <p style={{ color: '#6e6e73', fontSize: 16 }}>Same framework as Foundation. Higher stakes. Real deliverables.</p>
+            <p style={{ color: '#6e6e73', fontSize: 16 }}>Same framework. Higher stakes. Real deliverables.</p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
             {PILLARS.map((p, i) => (
@@ -292,7 +292,7 @@ export default function ImpactPage() {
                 We bring the program.<br />You bring the students.
               </h2>
               <p style={{ color: '#6e6e73', fontSize: 15, lineHeight: 1.6, marginBottom: 24 }}>
-                Proplr Impact runs as a student chapter on your campus &mdash; mentors, curriculum, and industry connections included.
+                Proplr Impact runs as a student chapter on your campus  - mentors, curriculum, and industry connections included.
               </p>
               <div className="pub-card p-6 mb-6" style={{ border: '1px solid rgba(61,155,233,0.12)' }}>
                 <p style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 13, color: '#071629', marginBottom: 16 }}>
@@ -313,7 +313,7 @@ export default function ImpactPage() {
                   ))}
                 </ul>
               </div>
-              <Link href="/partners" className="pub-btn-navy">Launch a Chapter</Link>
+              <Link href="/campus-chapter" className="pub-btn-navy">Launch a Chapter</Link>
             </div>
           </div>
         </div>
@@ -331,7 +331,7 @@ export default function ImpactPage() {
             Ready to go <span className="pub-gradient-text-animated">beyond the degree?</span>
           </h2>
           <p className="reveal reveal-delay-1" style={{ color: '#6e6e73', fontSize: 17, marginBottom: 36, maxWidth: 480, margin: '0 auto 36px' }}>
-            AED 999 &middot; Full academic year &middot; Everything included.
+            Full academic year. Everything included. KHDA certified.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center reveal reveal-delay-2">
             <Link href="/enroll?plan=impact" className="pub-btn-primary">Register Now</Link>

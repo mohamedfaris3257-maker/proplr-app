@@ -256,8 +256,8 @@ export default function PartnersPage() {
               </h3>
               <div className="space-y-4">
                 {[
-                  { icon: '📜', title: 'KHDA-Aligned Co-Curricular', desc: 'A ready-made program that meets Dubai\'s inspection and accreditation criteria.' },
-                  { icon: '🏭', title: 'Industry Engagement', desc: 'Infrastructure for mentorship, job shadowing, and internship pipelines — built in.' },
+                  { icon: '★', title: 'KHDA-Aligned Co-Curricular', desc: 'A ready-made program that meets Dubai\'s inspection and accreditation criteria.' },
+                  { icon: '◎', title: 'Industry Engagement', desc: 'Infrastructure for mentorship, job shadowing, and internship pipelines - built in.' },
                   { icon: '▤', title: 'Inspection Evidence', desc: 'Term reports, student progress data, and pillar completion records for regulatory audits.' },
                   { icon: '●', title: 'Platform Access', desc: 'Featured on the Proplr platform with Compass reports, student dashboards, and analytics.' },
                   { icon: '◆', title: 'Launch Support', desc: 'On-campus info sessions, marketing materials, and dedicated onboarding for your team.' },
@@ -342,7 +342,7 @@ export default function PartnersPage() {
               ))}
             </div>
             <p style={{ color: '#6e6e73', fontSize: 15 }}>
-              Built for Dubai&apos;s education priorities. Inspection-ready from day one.
+              Built for the UAE&apos;s education priorities. Inspection-ready from day one.
             </p>
           </div>
         </div>

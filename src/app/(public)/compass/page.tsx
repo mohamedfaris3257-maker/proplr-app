@@ -89,11 +89,11 @@ export default function CompassPage() {
             {[
               { icon: '✦', label: 'AI-Powered Career Report' },
               { icon: '◎', label: '3-Path Career Matches' },
-              { icon: '🔀', label: 'Adjacent Career Paths' },
+              { icon: '◇', label: 'Adjacent Career Paths' },
               { icon: '▦', label: 'Career Cluster View' },
-              { icon: '👨‍👩‍👧', label: 'Parent Report' },
+              { icon: '◈', label: 'Parent Report' },
               { icon: '▣', label: 'School Analytics' },
-              { icon: '✏️', label: 'Personal Input Weighting' },
+              { icon: '✦', label: 'Personal Input Weighting' },
               { icon: '↯', label: 'Instant Delivery' },
             ].map((item, i) => (
               <div key={item.label} className={`pub-glass reveal reveal-scale reveal-delay-${(i % 4) + 1} p-5 text-center rounded-2xl`}>
