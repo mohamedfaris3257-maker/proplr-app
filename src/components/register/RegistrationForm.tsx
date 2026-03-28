@@ -48,7 +48,7 @@ const HOW_HEARD_OPTIONS = [
   'Teacher/counsellor', 'Online search', 'Other',
 ];
 
-const STEP_LABELS = ['Personal Info', 'Parent/Guardian', 'Profile & Interests', 'Review & Submit'];
+const STEP_LABELS = ['Personal Info', 'Parent/Guardian (Optional)', 'Profile & Interests', 'Review & Submit'];
 
 function ProgressBar({ step }: { step: number }) {
   return (
@@ -143,9 +143,7 @@ export default function RegistrationForm() {
       if (!formData.school_name.trim()) return 'School name is required.';
     }
     if (step === 2) {
-      if (!formData.parent_name.trim()) return 'Parent/guardian name is required.';
-      if (!formData.parent_email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.parent_email)) return 'A valid parent email is required.';
-      if (!formData.parental_consent) return 'Parental consent is required to proceed.';
+      // Parent/guardian info is optional — no validation required
     }
     if (step === 3) {
       if (formData.interests.length === 0) return 'Select at least one interest.';
@@ -194,15 +192,24 @@ export default function RegistrationForm() {
       if (!authData.user) throw new Error('Account creation failed. Please try again.');
 
       // Create profile immediately (user is now authenticated)
-      await supabase.from('profiles').insert({
+      const { error: profileError } = await supabase.from('profiles').insert({
         user_id: authData.user.id,
         name: formData.full_name.trim(),
+        email: formData.email.toLowerCase().trim(),
         type: 'school_student',
+        role: 'student',
+        plan: 'free',
         photo_url: photoUrl || null,
-        school: formData.school_name.trim(),
+        school_name: formData.school_name.trim(),
         grade: formData.grade || null,
         interests: formData.interests,
+        onboarding_complete: false,
       });
+
+      if (profileError) {
+        console.error('Profile insert error:', profileError);
+        // Don't block signup — profile can be created later
+      }
 
       // Save full registration record (non-blocking)
       fetch('/api/register', {
@@ -216,10 +223,10 @@ export default function RegistrationForm() {
           school_name: formData.school_name,
           grade: formData.grade || null,
           class_name: formData.class_name || null,
-          parent_name: formData.parent_name,
-          parent_email: formData.parent_email,
+          parent_name: formData.parent_name || null,
+          parent_email: formData.parent_email || null,
           parent_phone: formData.parent_phone || null,
-          parental_consent: true,
+          parental_consent: formData.parental_consent || false,
           photo_url: photoUrl || null,
           interests: formData.interests,
           extracurriculars: formData.extracurriculars || null,
@@ -300,12 +307,13 @@ export default function RegistrationForm() {
 
   const renderStep2 = () => (
     <div className="space-y-4">
+      <p className="text-sm text-text-muted">These fields are optional. You can skip this step if not applicable.</p>
       <div>
-        <label className="block text-sm font-medium text-text-secondary mb-1.5">Parent/Guardian Full Name <span className="text-red">*</span></label>
+        <label className="block text-sm font-medium text-text-secondary mb-1.5">Parent/Guardian Full Name</label>
         <input type="text" className="input-field" placeholder="John Smith" value={formData.parent_name} onChange={(e) => set('parent_name', e.target.value)} />
       </div>
       <div>
-        <label className="block text-sm font-medium text-text-secondary mb-1.5">Parent Email <span className="text-red">*</span></label>
+        <label className="block text-sm font-medium text-text-secondary mb-1.5">Parent Email</label>
         <input type="email" className="input-field" placeholder="parent@example.com" value={formData.parent_email} onChange={(e) => set('parent_email', e.target.value)} />
       </div>
       <div>
@@ -315,7 +323,7 @@ export default function RegistrationForm() {
       <div className="bg-surface-2 border border-border rounded-xl p-4">
         <label className="flex items-start gap-3 cursor-pointer">
           <input type="checkbox" className="mt-0.5 w-5 h-5 accent-gold flex-shrink-0 cursor-pointer" checked={formData.parental_consent} onChange={(e) => set('parental_consent', e.target.checked)} />
-          <span className="text-sm text-text-secondary leading-relaxed">I confirm I have parental consent to register this student on Proplr <span className="text-red">*</span></span>
+          <span className="text-sm text-text-secondary leading-relaxed">I confirm I have parental consent to register this student on Proplr</span>
         </label>
       </div>
     </div>
