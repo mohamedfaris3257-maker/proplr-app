@@ -19,20 +19,31 @@ export async function GET(req: NextRequest) {
 
   const communityIds = (memberships || []).map((m: any) => m.community_id);
 
-  if (communityIds.length === 0) {
+  // Check if filtering by specific community
+  const url = new URL(req.url);
+  const communityIdFilter = url.searchParams.get('community_id');
+
+  if (communityIds.length === 0 && !communityIdFilter) {
     return NextResponse.json({ posts: [] });
   }
 
-  // Fetch posts from those communities
-  const { data: posts, error } = await db
+  // Build query - filter by specific community or all user's communities
+  let postsQuery = db
     .from('posts')
     .select(`
       *,
       profiles!posts_user_id_fkey(name, photo_url, type, school_name),
       communities!posts_community_id_fkey(name, type),
       post_reactions(user_id, reaction)
-    `)
-    .in('community_id', communityIds)
+    `);
+
+  if (communityIdFilter) {
+    postsQuery = postsQuery.eq('community_id', communityIdFilter);
+  } else {
+    postsQuery = postsQuery.in('community_id', communityIds);
+  }
+
+  const { data: posts, error } = await postsQuery
     .order('is_pinned', { ascending: false })
     .order('is_announcement', { ascending: false })
     .order('created_at', { ascending: false })
@@ -41,15 +52,22 @@ export async function GET(req: NextRequest) {
   if (error) {
     console.error('[Feed GET]', error);
     // Try without the foreign key hints
-    const { data: posts2, error: error2 } = await db
+    let fallbackQuery = db
       .from('posts')
       .select(`
         *,
         profiles(name, photo_url, type, school_name),
         communities(name, type),
         post_reactions(user_id, reaction)
-      `)
-      .in('community_id', communityIds)
+      `);
+
+    if (communityIdFilter) {
+      fallbackQuery = fallbackQuery.eq('community_id', communityIdFilter);
+    } else {
+      fallbackQuery = fallbackQuery.in('community_id', communityIds);
+    }
+
+    const { data: posts2, error: error2 } = await fallbackQuery
       .order('created_at', { ascending: false })
       .limit(50);
 

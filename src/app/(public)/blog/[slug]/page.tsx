@@ -37,7 +37,7 @@ export default async function BlogPostPage({ params }: Props) {
   return (
     <div>
       {/* ── HEADER ───────────────────────────────────────── */}
-      <section style={{ background: '#ffffff', padding: '56px 24px 48px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
+      <section style={{ background: '#ffffff', padding: '136px 24px 48px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
         <div className="max-w-[760px] mx-auto">
           <Link href="/blog" style={{ color: '#3d9be9', fontSize: 14, fontWeight: 600, display: 'inline-block', marginBottom: 24 }}>
             ← Back to Blog
@@ -82,7 +82,7 @@ export default async function BlogPostPage({ params }: Props) {
         <div className="max-w-[760px] mx-auto text-center">
           <p style={{ color: '#6e6e73', fontSize: 15, marginBottom: 16 }}>Enjoyed this article? Explore what Proplr offers.</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Link href="/enroll" className="pub-btn-primary">Get Started →</Link>
+            <a href="/enroll" target="_blank" rel="noopener noreferrer" className="pub-btn-primary">Get Started →</a>
             <Link href="/blog" className="pub-btn-ghost">More Articles →</Link>
           </div>
         </div>

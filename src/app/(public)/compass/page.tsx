@@ -146,7 +146,7 @@ export default function CompassPage() {
             Register for a Proplr program to get your full Compass assessment included.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/enroll" className="pub-btn-primary">Register Now →</Link>
+            <a href="/enroll" target="_blank" rel="noopener noreferrer" className="pub-btn-primary">Register Now →</a>
             <Link href="/start-a-club" className="pub-btn-ghost">Bring Compass to Your School →</Link>
           </div>
         </div>
@@ -161,7 +161,7 @@ export default function CompassPage() {
           <p style={{ color: '#8ca3be', fontSize: 15, marginBottom: 24 }}>
             Compass is included in Foundation and Impact programs.
           </p>
-          <Link href="/enroll" className="pub-btn-primary">Register Now</Link>
+          <a href="/enroll" target="_blank" rel="noopener noreferrer" className="pub-btn-primary">Register Now</a>
         </div>
       </section>
     </div>

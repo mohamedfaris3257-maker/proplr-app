@@ -5,35 +5,57 @@ import { IconAI, IconCompass, IconChart, IconZap, IconTrophy } from '@/component
 export default async function HomePage() {
   return (
     <div>
-      {/* ── HERO - FULL-BLEED IMAGE ─────────────────────────────────── */}
-      <section className="pub-hero-image pub-overlay-dark" style={{ minHeight: '92vh' }}>
+      {/* ── HERO - FULL-BLEED IMAGE WITH NAV OVERLAY ────────────────── */}
+      <section className="pub-hero-image pub-overlay-dark" style={{ minHeight: '100vh' }}>
         <Image
-          src="https://images.pexels.com/photos/7972950/pexels-photo-7972950.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+          src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
           alt="Students collaborating"
           fill
           priority
           className="pub-ken-burns"
           style={{ objectFit: 'cover', objectPosition: 'center 30%' }}
         />
-        <div className="pub-section relative z-10 w-full" style={{ paddingTop: 120, paddingBottom: 100 }}>
+        {/* Gradient overlay for better text contrast */}
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(7,22,41,0.85) 0%, rgba(61,155,233,0.4) 50%, rgba(7,22,41,0.7) 100%)', zIndex: 1 }} />
+        <div className="pub-section relative z-10 w-full" style={{ paddingTop: 140, paddingBottom: 100 }}>
           <div className="max-w-4xl">
-            <div className="pub-line-grow reveal mb-8" />
+            {/* Eyebrow badge */}
+            <div className="reveal" style={{ marginBottom: 28 }}>
+              <span style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 8,
+                background: 'rgba(255,255,255,0.12)',
+                backdropFilter: 'blur(12px)',
+                border: '1px solid rgba(255,255,255,0.15)',
+                borderRadius: 100,
+                padding: '8px 20px',
+                fontSize: 13,
+                fontWeight: 700,
+                color: '#ffffff',
+                letterSpacing: '0.04em',
+              boxShadow: '0 0 20px rgba(255,203,93,0.3)',
+              }}>
+                <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#ffcb5d', display: 'inline-block', animation: 'pulse 2s ease-in-out infinite' }} />
+                KHDA Certified - Permit #633441
+              </span>
+            </div>
             <h1
               className="pub-heading pub-text-shadow reveal"
-              style={{ fontSize: 'clamp(42px, 7vw, 80px)', color: '#ffffff', marginBottom: 24, lineHeight: 1.05 }}
+              style={{ fontSize: 'clamp(40px, 7vw, 76px)', color: '#ffffff', marginBottom: 28, lineHeight: 1.08, letterSpacing: '-0.02em' }}
             >
               Build your career<br />
-              before you<br />
+              before you{' '}
               <span className="pub-gradient-text-animated">graduate.</span>
             </h1>
-            <p className="reveal reveal-delay-1 pub-text-shadow" style={{ fontSize: 20, color: 'rgba(255,255,255,0.85)', maxWidth: 520, marginBottom: 40, lineHeight: 1.6 }}>
+            <p className="reveal reveal-delay-1 pub-text-shadow" style={{ fontSize: 19, color: 'rgba(255,255,255,0.85)', maxWidth: 520, marginBottom: 40, lineHeight: 1.65 }}>
               Real skills. Real mentors. Real certificates. Proplr turns your after-school hours into a career head start - backed by KHDA.
             </p>
             <div className="flex flex-col sm:flex-row items-start gap-4 reveal reveal-delay-2">
-              <Link href="/enroll" className="pub-btn-primary" style={{ fontSize: 18, padding: '16px 40px' }}>
+              <a href="/enroll" target="_blank" rel="noopener noreferrer" className="pub-btn-primary" style={{ fontSize: 17, padding: '16px 36px' }}>
                 Get Started →
-              </Link>
-              <a href="#how-it-works" className="pub-btn-ghost" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.3)' }}>
+              </a>
+              <a href="#how-it-works" className="pub-btn-ghost" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.3)', padding: '16px 36px', fontSize: 17 }}>
                 See How It Works
               </a>
             </div>
@@ -357,8 +379,8 @@ export default async function HomePage() {
             <div className="reveal reveal-right">
               <div className="pub-img-card">
                 <Image
-                  src="https://images.pexels.com/photos/9829488/pexels-photo-9829488.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                  alt="Students learning together"
+                  src="https://images.pexels.com/photos/7942464/pexels-photo-7942464.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                  alt="Students celebrating achievement"
                   width={600}
                   height={400}
                   style={{ width: '100%', height: 'auto', display: 'block' }}
@@ -370,11 +392,16 @@ export default async function HomePage() {
       </section>
 
       {/* ── SUMMER CAMP BANNER ────────────────────────────────────── */}
-      <section className="reveal" style={{ position: 'relative', overflow: 'hidden', padding: '72px 24px', textAlign: 'center' }}>
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, #ffcb5d 0%, #f59e0b 50%, #ff8c00 100%)' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 30% 50%, rgba(255,255,255,0.2) 0%, transparent 60%)' }} />
-        <div style={{ maxWidth: 700, margin: '0 auto', position: 'relative' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(7,22,41,0.1)', borderRadius: 100, padding: '6px 16px', marginBottom: 20 }}>
+      <section className="pub-hero-image" style={{ minHeight: 380, position: 'relative', overflow: 'hidden' }}>
+        <Image
+          src="https://images.pexels.com/photos/8423041/pexels-photo-8423041.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+          alt="Summer camp students"
+          fill
+          style={{ objectFit: 'cover' }}
+        />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,160,0,0.85) 0%, rgba(245,158,11,0.75) 50%, rgba(255,140,0,0.85) 100%)', zIndex: 1 }} />
+        <div className="pub-section relative z-10 w-full text-center reveal" style={{ paddingTop: 72, paddingBottom: 72 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(7,22,41,0.15)', borderRadius: 100, padding: '6px 16px', marginBottom: 20 }}>
             <span style={{ fontSize: 18 }}>&#9728;</span>
             <span style={{ fontSize: 11, fontWeight: 800, color: '#071629', letterSpacing: 1.5 }}>SUMMER 2026</span>
           </div>
@@ -428,9 +455,9 @@ export default async function HomePage() {
             September 2026 cohort is forming now. Spots are limited to keep clubs small and impactful.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/enroll" className="pub-btn-primary" style={{ fontSize: 18, padding: '16px 40px' }}>
+            <a href="/enroll" target="_blank" rel="noopener noreferrer" className="pub-btn-primary" style={{ fontSize: 18, padding: '16px 40px' }}>
               Get Started →
-            </Link>
+            </a>
             <Link href="/start-a-club" style={{ color: '#3d9be9', fontSize: 15, fontWeight: 600, textDecoration: 'none' }}>
               Or bring Proplr to your school →
             </Link>

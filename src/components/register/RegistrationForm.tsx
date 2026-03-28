@@ -228,8 +228,8 @@ export default function RegistrationForm() {
         }),
       }).catch(() => {}); // non-fatal
 
-      // Redirect to dashboard immediately
-      router.push('/onboarding');
+      // Redirect to dashboard with welcome popup
+      router.push('/dashboard?welcome=true');
       router.refresh();
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'An unexpected error occurred.');

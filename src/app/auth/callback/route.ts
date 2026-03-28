@@ -19,9 +19,9 @@ export async function GET(request: Request) {
           .eq('user_id', user.id)
           .single();
 
-        // New user or incomplete profile → send to onboarding
+        // New user → send to dashboard (welcome popup will show)
         if (!profile?.school_name) {
-          return NextResponse.redirect(`${origin}/onboarding`);
+          return NextResponse.redirect(`${origin}/dashboard?welcome=true`);
         }
       }
 

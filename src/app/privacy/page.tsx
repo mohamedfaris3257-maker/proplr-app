@@ -5,7 +5,8 @@ export const metadata = {
 
 export default function PrivacyPage() {
   return (
-    <main style={{ maxWidth: 760, margin: '0 auto', padding: '60px 24px', fontFamily: "'DM Sans', sans-serif", color: '#1d1d1f', lineHeight: 1.8 }}>
+    <div style={{ background: '#ffffff', minHeight: '100vh' }}>
+    <main style={{ maxWidth: 760, margin: '0 auto', padding: '140px 24px 60px', fontFamily: "'DM Sans', sans-serif", color: '#2d2d3a', lineHeight: 1.8 }}>
       <div style={{ marginBottom: 40 }}>
         <a href="/" style={{ fontSize: 13, color: '#3d9be9', textDecoration: 'none' }}>← Back to Proplr</a>
       </div>
@@ -113,9 +114,10 @@ To exercise these rights, email privacy@proplr.ae. We will respond within 30 day
       ].map(section => (
         <div key={section.title} style={{ marginBottom: 32 }}>
           <h2 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 17, fontWeight: 700, color: '#071629', marginBottom: 10 }}>{section.title}</h2>
-          <p style={{ fontSize: 14.5, color: '#4a4a5a', whiteSpace: 'pre-line' }}>{section.content}</p>
+          <p style={{ fontSize: 14.5, color: '#2d2d3a', whiteSpace: 'pre-line' }}>{section.content}</p>
         </div>
       ))}
     </main>
+    </div>
   )
 }

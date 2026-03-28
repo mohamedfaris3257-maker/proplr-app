@@ -28,7 +28,7 @@ export default async function ShopPage() {
   return (
     <div>
       {/* Hero */}
-      <section style={{ background: '#ffffff', padding: '80px 24px 60px' }}>
+      <section style={{ background: '#ffffff', padding: '160px 24px 60px' }}>
         <div className="max-w-[1100px] mx-auto text-center">
           <h1
             className="reveal"

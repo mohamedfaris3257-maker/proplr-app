@@ -27,7 +27,7 @@ export default async function BlogPage() {
   return (
     <div>
       {/* ── HERO ─────────────────────────────────────────── */}
-      <section style={{ background: '#ffffff', padding: '72px 24px 56px' }}>
+      <section style={{ background: '#ffffff', padding: '120px 24px 56px' }}>
         <div className="max-w-[1200px] mx-auto">
           <h1 className="pub-heading reveal" style={{ fontSize: 'clamp(28px, 4vw, 48px)', color: '#071629', marginBottom: 12 }}>
             Proplr Blog.

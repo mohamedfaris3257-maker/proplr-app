@@ -55,7 +55,7 @@ export default function PricingPage() {
   return (
     <div>
       {/* ── HERO ─────────────────────────────────────────── */}
-      <section style={{ background: '#ffffff', padding: '80px 24px 60px' }}>
+      <section style={{ background: '#ffffff', padding: '160px 24px 60px' }}>
         <div className="max-w-[1200px] mx-auto text-center">
           <h1 className="pub-heading reveal" style={{ fontSize: 'clamp(32px, 5vw, 56px)', color: '#071629', marginBottom: 16 }}>
             Simple pricing. Real returns.
@@ -103,9 +103,9 @@ export default function PricingPage() {
                 ))}
               </ul>
 
-              <Link href="/enroll?plan=foundation" className="pub-btn-navy w-full text-center block">
+              <a href="/enroll?plan=foundation" target="_blank" rel="noopener noreferrer" className="pub-btn-navy w-full text-center block">
                 Register for Foundation →
-              </Link>
+              </a>
             </div>
 
             {/* Impact */}
@@ -143,9 +143,9 @@ export default function PricingPage() {
                 ))}
               </ul>
 
-              <Link href="/enroll?plan=impact" className="pub-btn-primary w-full text-center block">
+              <a href="/enroll?plan=impact" target="_blank" rel="noopener noreferrer" className="pub-btn-primary w-full text-center block">
                 Join Now →
-              </Link>
+              </a>
             </div>
           </div>
         </div>
@@ -193,7 +193,7 @@ export default function PricingPage() {
             Ready to invest in your future?
           </h2>
           <p style={{ color: '#8ca3be', fontSize: 17, marginBottom: 32 }}>Clubs are forming now. Program starts September 2026.</p>
-          <Link href="/enroll" className="pub-btn-primary">Get Started →</Link>
+          <a href="/enroll" target="_blank" rel="noopener noreferrer" className="pub-btn-primary">Get Started →</a>
           <p style={{ color: '#4a6785', fontSize: 13, marginTop: 16 }}>Questions? <a href="mailto:hello@proplr.ae" style={{ color: '#3d9be9' }}>hello@proplr.ae</a></p>
         </div>
       </section>

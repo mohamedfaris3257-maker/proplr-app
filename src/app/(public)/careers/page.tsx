@@ -28,7 +28,7 @@ export default async function CareersPage() {
   return (
     <div>
       {/* ── HERO ─────────────────────────────────────────── */}
-      <section className="relative overflow-hidden" style={{ background: '#ffffff' }}>
+      <section className="relative overflow-hidden" style={{ background: '#ffffff', paddingTop: 80 }}>
         <div className="pub-orb-yellow" style={{ width: 400, height: 400, top: -150, right: -80 }} />
         <div className="pub-section relative z-10">
           <div className="max-w-3xl">

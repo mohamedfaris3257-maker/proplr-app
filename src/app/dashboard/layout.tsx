@@ -1,7 +1,9 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
 import { DashboardSidebar } from '@/components/dashboard/DashboardSidebar';
 import { MessagingWidget } from '@/components/dashboard/MessagingWidget';
+import { WelcomePopup } from '@/components/dashboard/WelcomePopup';
 import type { Profile } from '@/lib/types';
 
 export default async function DashboardLayout({
@@ -16,13 +18,22 @@ export default async function DashboardLayout({
 
   if (!user) redirect('/login');
 
-  const { data: profile } = await supabase
+  let { data: profile } = await supabase
     .from('profiles')
     .select('*')
     .eq('user_id', user.id)
     .single();
 
-  if (!profile) redirect('/onboarding');
+  // If no profile exists, create a minimal one so dashboard loads
+  if (!profile) {
+    const { data: newProfile } = await supabase
+      .from('profiles')
+      .insert({ user_id: user.id, name: user.email?.split('@')[0] || 'Student' })
+      .select('*')
+      .single();
+    if (!newProfile) redirect('/login');
+    profile = newProfile;
+  }
 
   return (
     <div
@@ -43,6 +54,9 @@ export default async function DashboardLayout({
         currentUserId={user.id}
         currentUserName={(profile as Profile).name || ''}
       />
+      <Suspense fallback={null}>
+        <WelcomePopup name={(profile as Profile).name || ''} />
+      </Suspense>
     </div>
   );
 }

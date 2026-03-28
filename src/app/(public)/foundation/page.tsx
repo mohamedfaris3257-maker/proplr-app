@@ -33,7 +33,7 @@ export default function FoundationPage() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 reveal reveal-delay-2">
-              <Link href="/enroll?plan=foundation" className="pub-btn-primary">Register Now</Link>
+              <a href="/enroll?plan=foundation" target="_blank" rel="noopener noreferrer" className="pub-btn-primary">Register Now</a>
               <Link href="/start-a-club" className="pub-btn-ghost" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.4)' }}>Start a Club</Link>
             </div>
           </div>
@@ -173,7 +173,7 @@ export default function FoundationPage() {
       <section style={{ background: '#f5f5f7' }}>
         <div className="pub-section">
           <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-            <div className="reveal-left">
+            <div className="reveal reveal-left">
               <div className="pub-img-card">
                 <Image
                   src="https://images.pexels.com/photos/8419521/pexels-photo-8419521.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
@@ -184,7 +184,7 @@ export default function FoundationPage() {
                 />
               </div>
             </div>
-            <div className="reveal-right">
+            <div className="reveal reveal-right">
               <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: '#3d9be9', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 12 }}>
                 INDUSTRY EXPOSURE
               </span>
@@ -271,8 +271,28 @@ export default function FoundationPage() {
             ))}
           </div>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link href="/enroll?plan=foundation" className="pub-btn-primary">Register for Foundation</Link>
+            <a href="/enroll?plan=foundation" target="_blank" rel="noopener noreferrer" className="pub-btn-primary">Register for Foundation</a>
             <Link href="/start-a-club" className="pub-btn-navy">Start a Club at My School</Link>
+          </div>
+
+          <div className="mt-10">
+            <p style={{ fontSize: 13, color: '#5a5f7a', fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: '0.08em', marginBottom: 12 }}>Follow us</p>
+            <div className="flex justify-center gap-4">
+              <a href="https://www.instagram.com/proplrae/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 44, height: 44, borderRadius: '50%', background: '#071629', transition: 'background 0.2s' }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="2" y="2" width="20" height="20" rx="5" stroke="#3d9be9" strokeWidth="2" />
+                  <circle cx="12" cy="12" r="5" stroke="#3d9be9" strokeWidth="2" />
+                  <circle cx="17.5" cy="6.5" r="1.5" fill="#3d9be9" />
+                </svg>
+              </a>
+              <a href="https://www.linkedin.com/company/proplrae/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 44, height: 44, borderRadius: '50%', background: '#071629', transition: 'background 0.2s' }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" stroke="#3d9be9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <rect x="2" y="9" width="4" height="12" stroke="#3d9be9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <circle cx="4" cy="4" r="2" stroke="#3d9be9" strokeWidth="2" />
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
       </section>

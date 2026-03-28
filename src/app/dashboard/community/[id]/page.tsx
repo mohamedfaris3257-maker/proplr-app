@@ -79,7 +79,7 @@ export default async function CommunityDetailRoute({ params }: Props) {
       currentUserId={user.id}
       currentUserName={userProfile?.name || ''}
       currentUserPhoto={userProfile?.photo_url || null}
-      isMember={!!currentMember}
+      isMember={!!currentMember || isPlatformAdmin}
       userRole={currentMember?.role ?? (isPlatformAdmin ? 'admin' : null)}
       isPlatformAdmin={isPlatformAdmin}
     />

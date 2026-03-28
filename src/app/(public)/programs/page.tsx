@@ -256,7 +256,7 @@ export default function ProgramsPage() {
             Real skills. Real mentors. Real outcomes.
           </p>
           <div className="reveal reveal-delay-2">
-            <Link href="/enroll" className="pub-btn-primary">Apply Now →</Link>
+            <a href="/enroll" target="_blank" rel="noopener noreferrer" className="pub-btn-primary">Apply Now →</a>
           </div>
         </div>
       </section>
@@ -272,7 +272,7 @@ export default function ProgramsPage() {
           <p style={{ color: '#8ca3be', fontSize: 17, marginBottom: 36, maxWidth: 420, margin: '0 auto 36px' }}>
             Join the Proplr pipeline. September 2026 cohort now enrolling.
           </p>
-          <Link href="/enroll" className="pub-btn-primary">Get Started →</Link>
+          <a href="/enroll" target="_blank" rel="noopener noreferrer" className="pub-btn-primary">Get Started →</a>
         </div>
       </section>
     </div>

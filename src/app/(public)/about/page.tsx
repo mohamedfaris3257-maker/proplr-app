@@ -7,7 +7,7 @@ export default function AboutPage() {
   return (
     <div>
       {/* ── HERO ─────────────────────────────────────────── */}
-      <section className="relative overflow-hidden" style={{ background: '#ffffff' }}>
+      <section className="relative overflow-hidden" style={{ background: '#ffffff', paddingTop: 80 }}>
         <div className="pub-orb-blue" style={{ width: 500, height: 500, top: -150, right: -80 }} />
         <div className="pub-section relative z-10">
           <div className="max-w-3xl">

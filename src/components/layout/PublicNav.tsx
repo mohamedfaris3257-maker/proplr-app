@@ -20,6 +20,7 @@ export function PublicNav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [programsOpen, setProgramsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hasDarkHero, setHasDarkHero] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -33,30 +34,52 @@ export function PublicNav() {
   }, []);
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 20);
+    // Detect if the page has a dark hero (pub-hero-image class or data-dark-hero attribute)
+    const checkDarkHero = () => {
+      const hero = document.querySelector('.pub-hero-image, [data-dark-hero]');
+      setHasDarkHero(!!hero);
+    };
+    checkDarkHero();
+    // Re-check on route changes (Next.js client navigation)
+    const observer = new MutationObserver(checkDarkHero);
+    observer.observe(document.body, { childList: true, subtree: true });
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const handler = () => setScrolled(window.scrollY > 60);
     window.addEventListener('scroll', handler, { passive: true });
     handler();
     return () => window.removeEventListener('scroll', handler);
   }, []);
 
+  // Use transparent + white text only on pages with dark hero images and when not scrolled
+  const isTransparent = !scrolled && hasDarkHero;
+  const textColor = isTransparent ? '#ffffff' : '#1d1d1f';
+  const textMuted = isTransparent ? 'rgba(255,255,255,0.75)' : '#6e6e73';
+  const logoColor = isTransparent ? '#ffffff' : '#071629';
+  const hoverBg = isTransparent ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.04)';
+  const hamburgerColor = isTransparent ? '#ffffff' : '#071629';
+
   return (
     <motion.header
-      className="sticky top-0 z-50"
+      className="fixed top-0 left-0 right-0 z-50"
       initial={{ y: -80 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
       style={{
-        backdropFilter: 'blur(20px)',
-        background: scrolled ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0.75)',
-        borderBottom: scrolled ? '1px solid rgba(0,0,0,0.06)' : '1px solid transparent',
-        boxShadow: scrolled ? '0 1px 12px rgba(0,0,0,0.04)' : 'none',
-        transition: 'background 0.3s, border-color 0.3s, box-shadow 0.3s',
+        backdropFilter: isTransparent ? 'none' : 'blur(20px)',
+        WebkitBackdropFilter: isTransparent ? 'none' : 'blur(20px)',
+        background: isTransparent ? 'transparent' : 'rgba(255,255,255,0.92)',
+        borderBottom: isTransparent ? '1px solid transparent' : '1px solid rgba(0,0,0,0.06)',
+        boxShadow: isTransparent ? 'none' : '0 1px 12px rgba(0,0,0,0.04)',
+        transition: 'background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, backdrop-filter 0.4s ease',
       }}
     >
       <div className="max-w-[1200px] mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo with hover spin on the propeller "r" */}
         <Link href="/" className="group flex items-center gap-2 flex-shrink-0">
-          <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 900, fontSize: 20, color: '#071629', letterSpacing: '-0.04em' }}>
+          <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 900, fontSize: 20, color: logoColor, letterSpacing: '-0.04em', transition: 'color 0.4s ease' }}>
             propl<span className="inline-block transition-transform duration-500 group-hover:rotate-[360deg]" style={{ color: '#3d9be9', transformOrigin: 'center' }}>r</span>
           </span>
         </Link>
@@ -67,8 +90,13 @@ export function PublicNav() {
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setProgramsOpen((o) => !o)}
-              className="flex items-center gap-1 px-4 py-2 rounded-full text-sm font-medium transition-colors hover:bg-[#f5f5f7]"
-              style={{ color: programsOpen ? '#3d9be9' : '#1d1d1f' }}
+              className="flex items-center gap-1 px-4 py-2 rounded-full text-sm font-medium"
+              style={{
+                color: programsOpen ? '#3d9be9' : textColor,
+                transition: 'color 0.4s ease, background 0.2s ease',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = hoverBg)}
+              onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
             >
               Programs
               <motion.svg
@@ -115,8 +143,13 @@ export function PublicNav() {
             <Link
               key={link.href}
               href={link.href}
-              className="relative px-4 py-2 rounded-full text-sm font-medium transition-colors hover:bg-[#f5f5f7] group"
-              style={{ color: '#1d1d1f' }}
+              className="relative px-4 py-2 rounded-full text-sm font-medium group"
+              style={{
+                color: textColor,
+                transition: 'color 0.4s ease, background 0.2s ease',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = hoverBg)}
+              onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
             >
               {link.label}
             </Link>
@@ -127,8 +160,13 @@ export function PublicNav() {
         <div className="hidden md:flex items-center gap-3">
           <Link
             href="/login"
-            className="px-4 py-2 rounded-full text-sm font-medium transition-colors hover:bg-[#f5f5f7]"
-            style={{ color: '#6e6e73' }}
+            className="px-4 py-2 rounded-full text-sm font-medium"
+            style={{
+              color: textMuted,
+              transition: 'color 0.4s ease, background 0.2s ease',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = hoverBg)}
+            onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
           >
             Sign In
           </Link>
@@ -147,17 +185,20 @@ export function PublicNav() {
         >
           <div className="w-5 h-5 relative flex flex-col justify-center items-center">
             <motion.span
-              className="absolute block w-full h-[1.8px] rounded-full bg-[#071629]"
+              className="absolute block w-full h-[1.8px] rounded-full"
+              style={{ background: hamburgerColor, transition: 'background 0.4s ease' }}
               animate={mobileOpen ? { rotate: 45, y: 0 } : { rotate: 0, y: -4 }}
               transition={{ duration: 0.25 }}
             />
             <motion.span
-              className="absolute block w-full h-[1.8px] rounded-full bg-[#071629]"
+              className="absolute block w-full h-[1.8px] rounded-full"
+              style={{ background: hamburgerColor, transition: 'background 0.4s ease' }}
               animate={mobileOpen ? { opacity: 0, x: -10 } : { opacity: 1, x: 0 }}
               transition={{ duration: 0.2 }}
             />
             <motion.span
-              className="absolute block w-full h-[1.8px] rounded-full bg-[#071629]"
+              className="absolute block w-full h-[1.8px] rounded-full"
+              style={{ background: hamburgerColor, transition: 'background 0.4s ease' }}
               animate={mobileOpen ? { rotate: -45, y: 0 } : { rotate: 0, y: 4 }}
               transition={{ duration: 0.25 }}
             />
@@ -173,8 +214,12 @@ export function PublicNav() {
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
-            className="md:hidden border-t bg-white overflow-hidden"
-            style={{ borderColor: 'rgba(0,0,0,0.06)' }}
+            className="md:hidden overflow-hidden"
+            style={{
+              background: 'rgba(255,255,255,0.97)',
+              backdropFilter: 'blur(20px)',
+              borderTop: '1px solid rgba(0,0,0,0.06)',
+            }}
           >
             <div className="px-6 py-4 space-y-1">
               <p className="text-xs font-semibold text-[#6e6e73] uppercase tracking-wider mb-2 px-3">Programs</p>

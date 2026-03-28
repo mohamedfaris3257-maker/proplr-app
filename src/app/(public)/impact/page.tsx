@@ -63,7 +63,7 @@ export default function ImpactPage() {
               The university program that turns ambition into industry-ready capability.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 reveal reveal-delay-2">
-              <Link href="/enroll?plan=impact" className="pub-btn-primary">Join the Waitlist</Link>
+              <a href="/enroll?plan=impact" target="_blank" rel="noopener noreferrer" className="pub-btn-primary">Join the Waitlist</a>
               <Link href="/campus-chapter" className="pub-btn-ghost" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.4)' }}>Launch a Campus Chapter</Link>
             </div>
           </div>
@@ -334,7 +334,7 @@ export default function ImpactPage() {
             Full academic year. Everything included. KHDA certified.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center reveal reveal-delay-2">
-            <Link href="/enroll?plan=impact" className="pub-btn-primary">Register Now</Link>
+            <a href="/enroll?plan=impact" target="_blank" rel="noopener noreferrer" className="pub-btn-primary">Register Now</a>
             <Link href="/foundation" className="pub-btn-ghost">Explore Foundation (K-12)</Link>
           </div>
         </div>

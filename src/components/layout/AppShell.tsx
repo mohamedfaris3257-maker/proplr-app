@@ -20,7 +20,7 @@ export async function AppShell({ children }: AppShellProps) {
     .eq('user_id', user.id)
     .single();
 
-  if (!profile) redirect('/onboarding');
+  if (!profile) redirect('/dashboard');
 
   return (
     <div className="flex min-h-screen bg-background">

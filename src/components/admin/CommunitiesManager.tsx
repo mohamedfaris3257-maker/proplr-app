@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 import { Avatar } from '@/components/ui/Avatar';
 import { formatDate } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
 
 type CommunityType = 'cohort' | 'school' | 'interest';
 
@@ -87,6 +88,7 @@ export function CommunitiesManager() {
   const [membersLoading, setMembersLoading] = useState(false);
   const [members, setMembers] = useState<CommunityMember[]>([]);
   const [actionInProgress, setActionInProgress] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     loadData();
@@ -441,6 +443,21 @@ export function CommunitiesManager() {
                     </p>
                   </div>
                   <div className="flex items-center gap-2 flex-shrink-0">
+                    <button
+                      onClick={() => router.push(`/dashboard/community/${community.id}`)}
+                      style={{
+                        background: 'rgba(61,155,233,0.1)',
+                        color: '#3d9be9',
+                        border: 'none',
+                        borderRadius: 100,
+                        padding: '6px 14px',
+                        fontSize: 12.5,
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        fontFamily: 'inherit',
+                      }}>
+                      View
+                    </button>
                     <Button
                       variant="secondary"
                       size="sm"

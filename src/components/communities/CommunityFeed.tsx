@@ -78,6 +78,7 @@ export function CommunityFeed({
   const [showPostModal, setShowPostModal] = useState(false);
   const [postContent, setPostContent] = useState('');
   const [selectedCommunity, setSelectedCommunity] = useState(myCommunities[0]?.id || '');
+  const [activeCommunity, setActiveCommunity] = useState<string>('all');
   const [isAnnouncement, setIsAnnouncement] = useState(false);
   const [posting, setPosting] = useState(false);
   const [reactionPickerPost, setReactionPickerPost] = useState<string | null>(null);
@@ -93,9 +94,12 @@ export function CommunityFeed({
 
   /* ─── Fetch feed ──────────────────────────────────────────────────── */
 
-  const fetchFeed = useCallback(async () => {
+  const fetchFeed = useCallback(async (communityFilter?: string) => {
     try {
-      const res = await fetch('/api/feed');
+      const url = communityFilter && communityFilter !== 'all'
+        ? `/api/feed?community_id=${communityFilter}`
+        : '/api/feed';
+      const res = await fetch(url);
       const data = await res.json();
       if (data.posts) setPosts(data.posts);
     } catch (err) {
@@ -106,8 +110,8 @@ export function CommunityFeed({
   }, []);
 
   useEffect(() => {
-    fetchFeed();
-  }, [fetchFeed]);
+    fetchFeed(activeCommunity);
+  }, [fetchFeed, activeCommunity]);
 
   // Close reaction picker on outside click
   useEffect(() => {
@@ -412,6 +416,47 @@ export function CommunityFeed({
             <button style={{ fontSize: 13, fontWeight: 700, color: '#000', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: 4 }}>
               Top ▾
             </button>
+          </div>
+
+          {/* Community tabs */}
+          <div style={{ background: '#fff', borderRadius: 12, border: '0.5px solid rgba(0,0,0,0.1)', padding: '10px 16px', marginBottom: 8, display: 'flex', gap: 8, overflowX: 'auto', scrollbarWidth: 'none' as any }}>
+            <button
+              onClick={() => setActiveCommunity('all')}
+              style={{
+                padding: '7px 18px',
+                borderRadius: 100,
+                border: 'none',
+                fontSize: 13,
+                fontWeight: 600,
+                cursor: 'pointer',
+                fontFamily: 'inherit',
+                whiteSpace: 'nowrap' as any,
+                background: activeCommunity === 'all' ? '#071629' : '#f3f2ef',
+                color: activeCommunity === 'all' ? '#fff' : '#333',
+                transition: 'all 0.15s',
+              }}>
+              All
+            </button>
+            {myCommunities.map(community => (
+              <button
+                key={community.id}
+                onClick={() => setActiveCommunity(community.id)}
+                style={{
+                  padding: '7px 18px',
+                  borderRadius: 100,
+                  border: 'none',
+                  fontSize: 13,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  fontFamily: 'inherit',
+                  whiteSpace: 'nowrap' as any,
+                  background: activeCommunity === community.id ? '#3d9be9' : '#f3f2ef',
+                  color: activeCommunity === community.id ? '#fff' : '#333',
+                  transition: 'all 0.15s',
+                }}>
+                {community.name}
+              </button>
+            ))}
           </div>
 
           {/* Feed posts */}

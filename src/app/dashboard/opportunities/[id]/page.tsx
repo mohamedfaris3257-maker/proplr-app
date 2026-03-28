@@ -18,7 +18,7 @@ export default async function OpportunityDetailPage({ params }: OpportunityDetai
   ]);
 
   if (!opportunity) redirect('/dashboard/opportunities');
-  if (!profile) redirect('/onboarding');
+  if (!profile) redirect('/dashboard');
 
   const [{ data: portfolioItems }, { data: application }, { data: savedItem }] = await Promise.all([
     supabase.from('portfolio_items').select('id, title').eq('user_id', user.id).order('created_at', { ascending: false }),

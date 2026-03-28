@@ -93,7 +93,7 @@ export default async function FaqPage() {
   return (
     <div>
       {/* ── HERO ─────────────────────────────────────────── */}
-      <section style={{ background: '#ffffff', padding: '72px 24px 56px' }}>
+      <section style={{ background: '#ffffff', padding: '152px 24px 56px' }}>
         <div className="max-w-[1200px] mx-auto text-center">
           <h1 className="pub-heading reveal" style={{ fontSize: 'clamp(28px, 4vw, 48px)', color: '#071629', marginBottom: 12 }}>
             Questions? We&apos;ve got answers.

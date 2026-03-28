@@ -795,6 +795,10 @@ details.pub-card summary span:last-child {
 .pub-ken-burns {
   animation: pub-ken-burns 20s ease-in-out alternate infinite;
 }
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
 
 /* Text shadow for readability on images */
 .pub-text-shadow {
