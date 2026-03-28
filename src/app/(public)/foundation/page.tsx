@@ -24,13 +24,12 @@ export default function FoundationPage() {
               PROPLR FOUNDATION &middot; GRADES 8 - 12
             </span>
 
-            <h1 className="pub-heading pub-text-shadow reveal" style={{ fontSize: 'clamp(36px, 6vw, 72px)', color: '#ffffff', marginBottom: 20, lineHeight: 1.05 }}>
-              Get career-ready while<br />
-              you&apos;re still in <span style={{ color: '#ffcb5d' }}>school.</span>
+            <h1 className="pub-heading pub-text-shadow reveal" style={{ fontSize: 'clamp(28px, 4vw, 52px)', color: '#ffffff', marginBottom: 20, lineHeight: 1.05 }}>
+              Get career-ready while you&apos;re still in <span style={{ color: '#ffcb5d' }}>school.</span>
             </h1>
 
-            <p className="pub-text-shadow reveal reveal-delay-1" style={{ fontSize: 20, color: 'rgba(255,255,255,0.9)', maxWidth: 520, marginBottom: 40 }}>
-              Most students graduate with zero real-world experience. Proplr students graduate with 6 KHDA certificates, a portfolio, and industry connections.
+            <p className="pub-text-shadow reveal reveal-delay-1" style={{ fontSize: 18, color: 'rgba(255,255,255,0.9)', maxWidth: 520, marginBottom: 40 }}>
+              You don&apos;t know what you want to do after school - and that&apos;s okay. Proplr helps you figure it out through real experiences, real mentors, and a career assessment that actually makes sense.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 reveal reveal-delay-2">
@@ -64,12 +63,50 @@ export default function FoundationPage() {
         </div>
       </section>
 
+      {/* ── THE PROBLEM ──────────────────────────────────── */}
+      <section style={{ background: '#ffffff' }}>
+        <div className="pub-section" style={{ paddingTop: 80, paddingBottom: 80 }}>
+          <div className="max-w-3xl mx-auto text-center reveal">
+            <h2 className="pub-heading" style={{ fontSize: 'clamp(24px, 3.5vw, 38px)', color: '#071629', marginBottom: 16 }}>
+              School teaches you subjects.<br />
+              <span className="pub-gradient-text-animated">Nobody teaches you what to do with them.</span>
+            </h2>
+            <p style={{ color: '#5a5f7a', fontSize: 16, lineHeight: 1.7, maxWidth: 560, margin: '0 auto 32px' }}>
+              Most students pick a university or career path based on guesswork. Proplr gives you real experiences across 6 industries so you can make an informed choice - not a panicked one.
+            </p>
+            <div className="flex flex-wrap justify-center gap-3">
+              {['Confused about careers?', 'No real-world experience?', 'Blank CV?', 'Picking a major blindly?'].map(tag => (
+                <span key={tag} className="px-4 py-2 rounded-full text-sm font-medium" style={{ background: 'rgba(239,68,68,0.08)', color: '#ef4444', border: '1px solid rgba(239,68,68,0.15)' }}>
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── COMPASS TEASER ──────────────────────────────── */}
+      <section style={{ background: '#071629', padding: '64px 24px' }}>
+        <div className="max-w-3xl mx-auto text-center reveal">
+          <span className="inline-block px-4 py-2 rounded-full text-xs font-bold mb-5" style={{ background: 'rgba(61,155,233,0.15)', color: '#3d9be9', border: '1px solid rgba(61,155,233,0.25)' }}>
+            COMPASS AI ASSESSMENT
+          </span>
+          <h2 className="pub-heading" style={{ fontSize: 'clamp(22px, 3vw, 32px)', color: '#ffffff', marginBottom: 12 }}>
+            It starts with knowing yourself.
+          </h2>
+          <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 15, lineHeight: 1.7, maxWidth: 500, margin: '0 auto 28px' }}>
+            Every Foundation student takes the Compass Career Assessment - an AI-powered report that maps your strengths, interests, and career paths. It&apos;s your north star for the rest of the program.
+          </p>
+          <Link href="/compass" className="pub-btn-primary pub-btn-sm">Learn About Compass</Link>
+        </div>
+      </section>
+
       {/* ── 6 PILLARS ──────────────────────────────────────── */}
       <section style={{ background: '#f5f5f7' }}>
         <div className="pub-section">
           <div className="text-center mb-12 reveal">
             <h2 className="pub-heading" style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: '#071629', marginBottom: 10 }}>
-              6 pillars. <span className="pub-gradient-text-animated">One program.</span>
+              6 Pillars. <span className="pub-gradient-text-animated">One program.</span>
             </h2>
             <p style={{ color: '#5a5f7a', fontSize: 16 }}>20 hours per pillar &middot; KHDA-certified</p>
           </div>
@@ -169,48 +206,24 @@ export default function FoundationPage() {
         </div>
       </section>
 
-      <div className="pub-divider" />
-
-      {/* ── INDUSTRY EXPOSURE CARDS ───────────────────────── */}
-      <section style={{ background: '#ffffff' }}>
-        <div className="pub-section">
-          <div className="grid sm:grid-cols-3 gap-6">
-            {[
-              { title: 'Job Shadowing', desc: 'Observe professionals in real workflows.', badge: 'Years 9 - 12' },
-              { title: 'Internships', desc: 'Hands-on projects during school breaks.', badge: 'Senior Years' },
-              { title: 'Mentorship', desc: '150+ experts across 20+ countries.', badge: '150+ Mentors' },
-            ].map((card, i) => (
-              <div key={card.title} className={`pub-card pub-glow-border reveal reveal-delay-${i + 1} p-8`}>
-                <span
-                  className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-5"
-                  style={{ background: 'rgba(255,203,93,0.15)', color: '#a07800', border: '1px solid rgba(255,203,93,0.3)' }}
-                  dangerouslySetInnerHTML={{ __html: card.badge }}
-                />
-                <h3 style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 800, fontSize: 18, color: '#071629', marginBottom: 8 }}>
-                  {card.title}
-                </h3>
-                <p style={{ color: '#5a5f7a', fontSize: 14, lineHeight: 1.6 }}>{card.desc}</p>
-              </div>
-            ))}
+      {/* ── SUMMER CAMP BANNER ────────────────────────────────────── */}
+      <section className="reveal" style={{ position: 'relative', overflow: 'hidden', padding: '72px 24px', textAlign: 'center' }}>
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, #ffcb5d 0%, #f59e0b 50%, #ff8c00 100%)' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 30% 50%, rgba(255,255,255,0.2) 0%, transparent 60%)' }} />
+        <div style={{ maxWidth: 700, margin: '0 auto', position: 'relative' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(7,22,41,0.1)', borderRadius: 100, padding: '6px 16px', marginBottom: 20 }}>
+            <span style={{ fontSize: 18 }}>&#9728;</span>
+            <span style={{ fontSize: 11, fontWeight: 800, color: '#071629', letterSpacing: 1.5 }}>SUMMER 2026</span>
           </div>
-        </div>
-      </section>
-
-      {/* ── KHDA ALIGNMENT ─────────────────────────────────── */}
-      <section style={{ background: '#f5f5f7' }}>
-        <div className="pub-section-compact">
-          <div className="max-w-3xl mx-auto text-center reveal py-10">
-            <div className="flex flex-wrap justify-center gap-3 mb-6">
-              {['KHDA Permit #633441', 'Dubai E33 Aligned', 'UAE AI 2031', 'Rahhal Framework'].map((badge) => (
-                <span key={badge} className="pub-glass px-5 py-2 rounded-full text-sm font-bold" style={{ color: '#071629' }}>
-                  {badge}
-                </span>
-              ))}
-            </div>
-            <p style={{ color: '#5a5f7a', fontSize: 15 }}>
-              Built for UAE&apos;s education priorities. Inspection-ready from day one.
-            </p>
-          </div>
+          <h2 className="pub-heading" style={{ fontSize: 'clamp(28px, 4vw, 42px)', color: '#071629', marginBottom: 14, lineHeight: 1.15 }}>
+            Don&apos;t waste your summer.
+          </h2>
+          <p style={{ fontSize: 16, color: 'rgba(7,22,41,0.75)', marginBottom: 28, maxWidth: 480, margin: '0 auto 28px', lineHeight: 1.6 }}>
+            4 weekends. 3 pillars. Entrepreneurship, Personal Branding, and Digital Literacy. Build something real while everyone else is doing nothing.
+          </p>
+          <Link href="/summer-camp" style={{ background: '#071629', color: '#fff', borderRadius: 100, padding: '14px 32px', fontSize: 15, fontWeight: 700, textDecoration: 'none', fontFamily: 'inherit', display: 'inline-block' }}>
+            Check It Out
+          </Link>
         </div>
       </section>
 
@@ -238,22 +251,6 @@ export default function FoundationPage() {
               Learn More
             </Link>
           </div>
-        </div>
-      </section>
-
-      {/* ── SUMMER CAMP BANNER ────────────────────────────────────── */}
-      <section className="reveal" style={{ background: 'linear-gradient(135deg, #ffcb5d 0%, #f59e0b 100%)', padding: '60px 24px', textAlign: 'center' }}>
-        <div style={{ maxWidth: 700, margin: '0 auto' }}>
-          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2, color: 'rgba(7,22,41,0.6)', marginBottom: 12 }}>SUMMER 2026</div>
-          <h2 className="pub-heading" style={{ fontSize: 36, color: '#071629', marginBottom: 16, lineHeight: 1.2 }}>
-            Proplr Summer Camp
-          </h2>
-          <p style={{ fontSize: 16, color: '#071629', opacity: 0.8, marginBottom: 28, maxWidth: 500, margin: '0 auto 28px' }}>
-            4 weekends. 3 pillars. Real skills. Entrepreneurship, Personal Branding, and Digital Literacy - built for students who don't want to waste their summer.
-          </p>
-          <Link href="/summer-camp" className="pub-btn-navy">
-            Learn More
-          </Link>
         </div>
       </section>
 

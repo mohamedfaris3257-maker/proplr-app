@@ -81,7 +81,7 @@ export default function ImpactPage() {
               { value: '35%', label: 'Faster Job Placement' },
             ].map((s) => (
               <div key={s.label} className="reveal">
-                <span className="pub-stat-number" style={{ fontSize: 'clamp(28px, 4vw, 44px)', display: 'block' }}>
+                <span className="pub-stat-number" style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: '#ffffff', display: 'block' }}>
                   {s.value}
                 </span>
                 <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, fontWeight: 600 }}>{s.label}</span>
@@ -96,7 +96,7 @@ export default function ImpactPage() {
         <div className="pub-section">
           <div className="text-center mb-12 reveal">
             <h2 className="pub-heading" style={{ fontSize: 'clamp(26px, 4vw, 42px)', color: '#071629', marginBottom: 10 }}>
-              6 Pillars. Industry intensity.
+              6 Pillars. <span className="pub-gradient-text-animated">One program.</span>
             </h2>
             <p style={{ color: '#6e6e73', fontSize: 16 }}>Same framework. Higher stakes. Real deliverables.</p>
           </div>
@@ -221,8 +221,8 @@ export default function ImpactPage() {
         <div className="pub-section relative z-10" style={{ paddingTop: 80, paddingBottom: 80 }}>
           <div className="max-w-3xl mx-auto text-center">
             <span
-              className="inline-block px-4 py-2 rounded-full text-xs font-bold mb-6 reveal pub-float-slow pub-pulse-glow"
-              style={{ background: 'rgba(255,203,93,0.15)', color: '#ffcb5d', border: '1px solid rgba(255,203,93,0.3)' }}
+              className="inline-block px-4 py-2 rounded-full text-xs font-bold mb-6 reveal pub-float-slow"
+              style={{ background: '#ffcb5d', color: '#071629', letterSpacing: 1 }}
             >
               NATIONAL SHOWCASE
             </span>
@@ -235,7 +235,7 @@ export default function ImpactPage() {
             <p className="pub-text-shadow reveal reveal-delay-1" style={{ color: 'rgba(255,255,255,0.85)', fontSize: 17, lineHeight: 1.6, maxWidth: 560, margin: '0 auto 32px' }}>
               Teams compete on live industry briefs. Judges are hiring managers. Winners get funded.
             </p>
-            <div className="flex flex-wrap justify-center gap-3 mb-10 reveal reveal-delay-2">
+            <div className="flex flex-wrap justify-center gap-3 mb-10 reveal reveal-delay-2" style={{ whiteSpace: 'nowrap' }}>
               {SHOWCASE_CHIPS.map((chip) => (
                 <span
                   key={chip}

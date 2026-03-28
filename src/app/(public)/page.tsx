@@ -336,28 +336,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── SHOWCASE BANNER - FULL BLEED IMAGE ───────────────────────── */}
-      <section className="pub-hero-image pub-overlay-dark" style={{ minHeight: 400 }}>
-        <Image
-          src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1920&q=80&auto=format"
-          alt="Conference stage"
-          fill
-          style={{ objectFit: 'cover' }}
-        />
-        <div className="pub-section relative z-10 w-full text-center reveal" style={{ paddingTop: 72, paddingBottom: 72 }}>
-          <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full text-sm font-semibold" style={{ background: 'rgba(255,203,93,0.15)', color: '#ffcb5d', border: '1px solid rgba(255,203,93,0.25)' }}>
-            <IconTrophy /> Coming 2026
-          </div>
-          <h2 className="pub-heading pub-text-shadow" style={{ fontSize: 'clamp(30px, 5vw, 52px)', color: '#ffffff', marginBottom: 16 }}>
-            Proplr National Showcase
-          </h2>
-          <p className="pub-text-shadow" style={{ color: 'rgba(255,255,255,0.8)', fontSize: 17, maxWidth: 500, margin: '0 auto 32px' }}>
-            Where the best student teams in the UAE compete on real industry challenges.
-          </p>
-          <Link href="/showcase" className="pub-btn-primary">Learn More →</Link>
-        </div>
-      </section>
-
       {/* ── PARENT TRUST - WITH IMAGE ────────────────────────────────── */}
       <section style={{ background: '#ffffff' }}>
         <div className="pub-section">
@@ -392,18 +370,45 @@ export default async function HomePage() {
       </section>
 
       {/* ── SUMMER CAMP BANNER ────────────────────────────────────── */}
-      <section className="reveal" style={{ background: 'linear-gradient(135deg, #ffcb5d 0%, #f59e0b 100%)', padding: '60px 24px', textAlign: 'center' }}>
-        <div style={{ maxWidth: 700, margin: '0 auto' }}>
-          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2, color: 'rgba(7,22,41,0.6)', marginBottom: 12 }}>SUMMER 2026</div>
-          <h2 className="pub-heading" style={{ fontSize: 36, color: '#071629', marginBottom: 16, lineHeight: 1.2 }}>
-            Proplr Summer Camp
+      <section className="reveal" style={{ position: 'relative', overflow: 'hidden', padding: '72px 24px', textAlign: 'center' }}>
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, #ffcb5d 0%, #f59e0b 50%, #ff8c00 100%)' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 30% 50%, rgba(255,255,255,0.2) 0%, transparent 60%)' }} />
+        <div style={{ maxWidth: 700, margin: '0 auto', position: 'relative' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(7,22,41,0.1)', borderRadius: 100, padding: '6px 16px', marginBottom: 20 }}>
+            <span style={{ fontSize: 18 }}>&#9728;</span>
+            <span style={{ fontSize: 11, fontWeight: 800, color: '#071629', letterSpacing: 1.5 }}>SUMMER 2026</span>
+          </div>
+          <h2 className="pub-heading" style={{ fontSize: 'clamp(28px, 4vw, 42px)', color: '#071629', marginBottom: 14, lineHeight: 1.15 }}>
+            Don&apos;t waste your summer.
           </h2>
-          <p style={{ fontSize: 16, color: '#071629', opacity: 0.8, marginBottom: 28, maxWidth: 500, margin: '0 auto 28px' }}>
-            4 weekends. 3 pillars. Real skills. Entrepreneurship, Personal Branding, and Digital Literacy - built for students who don't want to waste their summer.
+          <p style={{ fontSize: 16, color: 'rgba(7,22,41,0.75)', marginBottom: 28, maxWidth: 480, margin: '0 auto 28px', lineHeight: 1.6 }}>
+            4 weekends. 3 pillars. Entrepreneurship, Personal Branding, and Digital Literacy. Build something real while everyone else is doing nothing.
           </p>
-          <Link href="/summer-camp" className="pub-btn-navy">
-            Learn More
+          <Link href="/summer-camp" style={{ background: '#071629', color: '#fff', borderRadius: 100, padding: '14px 32px', fontSize: 15, fontWeight: 700, textDecoration: 'none', fontFamily: 'inherit', display: 'inline-block' }}>
+            Check It Out
           </Link>
+        </div>
+      </section>
+
+      {/* ── SHOWCASE BANNER - FULL BLEED IMAGE ───────────────────────── */}
+      <section className="pub-hero-image pub-overlay-dark" style={{ minHeight: 400 }}>
+        <Image
+          src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1920&q=80&auto=format"
+          alt="Conference stage"
+          fill
+          style={{ objectFit: 'cover' }}
+        />
+        <div className="pub-section relative z-10 w-full text-center reveal" style={{ paddingTop: 72, paddingBottom: 72 }}>
+          <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full text-sm font-semibold" style={{ background: '#ffcb5d', color: '#071629' }}>
+            <IconTrophy /> Coming 2026
+          </div>
+          <h2 className="pub-heading pub-text-shadow" style={{ fontSize: 'clamp(30px, 5vw, 52px)', color: '#ffffff', marginBottom: 16 }}>
+            Proplr National Showcase
+          </h2>
+          <p className="pub-text-shadow" style={{ color: 'rgba(255,255,255,0.8)', fontSize: 17, maxWidth: 500, margin: '0 auto 32px' }}>
+            Where the best student teams in the UAE compete on real industry challenges.
+          </p>
+          <Link href="/showcase" className="pub-btn-primary">Learn More</Link>
         </div>
       </section>
 
