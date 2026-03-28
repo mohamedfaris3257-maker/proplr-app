@@ -11,7 +11,7 @@ export default function ShowcasePage() {
       {/* ── HERO ── */}
       <section className="pub-hero-image" style={{ minHeight: 420 }}>
         <Image
-          src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1920&q=80&auto=format"
+          src="https://images.pexels.com/photos/2833037/pexels-photo-2833037.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
           alt="Conference stage"
           fill
           priority

@@ -1,0 +1,122 @@
+{
+  "hero": {
+    "url": "https://images.pexels.com/photos/7972950/pexels-photo-7972950.jpeg",
+    "large": "https://images.pexels.com/photos/7972950/pexels-photo-7972950.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "medium": "https://images.pexels.com/photos/7972950/pexels-photo-7972950.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "photographer": "George Pak",
+    "pexelsUrl": "https://www.pexels.com/photo/students-sitting-outdoors-with-laptops-at-wooden-table-7972950/",
+    "width": 6000,
+    "height": 4000,
+    "alt": "Two students focus on studying with laptops at an outdoor university setting, promoting technology and education."
+  },
+  "mentorship": {
+    "url": "https://images.pexels.com/photos/8419521/pexels-photo-8419521.jpeg",
+    "large": "https://images.pexels.com/photos/8419521/pexels-photo-8419521.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "medium": "https://images.pexels.com/photos/8419521/pexels-photo-8419521.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "photographer": "RDNE Stock project",
+    "pexelsUrl": "https://www.pexels.com/photo/a-teacher-talking-to-his-student-8419521/",
+    "width": 6720,
+    "height": 4480,
+    "alt": "A teacher and student engaging in discussion in a school hallway."
+  },
+  "presentation": {
+    "url": "https://images.pexels.com/photos/15141529/pexels-photo-15141529.jpeg",
+    "large": "https://images.pexels.com/photos/15141529/pexels-photo-15141529.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "medium": "https://images.pexels.com/photos/15141529/pexels-photo-15141529.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "photographer": "Matheus Bertelli",
+    "pexelsUrl": "https://www.pexels.com/photo/man-speaking-about-ideas-in-meeting-15141529/",
+    "width": 6456,
+    "height": 4304,
+    "alt": "Two colleagues giving a dynamic business presentation in a modern office environment, engaging their audience."
+  },
+  "university": {
+    "url": "https://images.pexels.com/photos/6684506/pexels-photo-6684506.jpeg",
+    "large": "https://images.pexels.com/photos/6684506/pexels-photo-6684506.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "medium": "https://images.pexels.com/photos/6684506/pexels-photo-6684506.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "photographer": "Andy Barbour",
+    "pexelsUrl": "https://www.pexels.com/photo/a-group-of-students-studying-in-the-library-6684506/",
+    "width": 6596,
+    "height": 4397,
+    "alt": "Multiracial group of college students studying together indoors in a library."
+  },
+  "foundation": {
+    "url": "https://images.pexels.com/photos/32165215/pexels-photo-32165215.jpeg",
+    "large": "https://images.pexels.com/photos/32165215/pexels-photo-32165215.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "medium": "https://images.pexels.com/photos/32165215/pexels-photo-32165215.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "photographer": "Green odette",
+    "pexelsUrl": "https://www.pexels.com/photo/teen-students-posing-in-school-uniforms-32165215/",
+    "width": 7005,
+    "height": 4670,
+    "alt": "Group of stylish teenagers posing confidently in school uniforms outside a building."
+  },
+  "dubai-office": {
+    "url": "https://images.pexels.com/photos/8468516/pexels-photo-8468516.jpeg",
+    "large": "https://images.pexels.com/photos/8468516/pexels-photo-8468516.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "medium": "https://images.pexels.com/photos/8468516/pexels-photo-8468516.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "photographer": "cottonbro studio",
+    "pexelsUrl": "https://www.pexels.com/photo/interracial-people-in-workplace-8468516/",
+    "width": 6720,
+    "height": 4480,
+    "alt": "Team of professionals engaged in a pensive discussion in a modern office setting."
+  },
+  "workshop": {
+    "url": "https://images.pexels.com/photos/18999483/pexels-photo-18999483.jpeg",
+    "large": "https://images.pexels.com/photos/18999483/pexels-photo-18999483.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "medium": "https://images.pexels.com/photos/18999483/pexels-photo-18999483.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "photographer": "Matheus Bertelli",
+    "pexelsUrl": "https://www.pexels.com/photo/attentive-audience-during-meeting-18999483/",
+    "width": 6455,
+    "height": 4303,
+    "alt": "Professionals engaged in a meeting in a modern office space discussing business strategies."
+  },
+  "certificate": {
+    "url": "https://images.pexels.com/photos/9829488/pexels-photo-9829488.jpeg",
+    "large": "https://images.pexels.com/photos/9829488/pexels-photo-9829488.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "medium": "https://images.pexels.com/photos/9829488/pexels-photo-9829488.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "photographer": "Ron Lach",
+    "pexelsUrl": "https://www.pexels.com/photo/cup-of-coffee-on-certificate-9829488/",
+    "width": 7036,
+    "height": 4691,
+    "alt": "Graduation certificate with a coffee cup placed on top in a flat lay style"
+  },
+  "summer-camp": {
+    "url": "https://images.pexels.com/photos/8033971/pexels-photo-8033971.jpeg",
+    "large": "https://images.pexels.com/photos/8033971/pexels-photo-8033971.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "medium": "https://images.pexels.com/photos/8033971/pexels-photo-8033971.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "photographer": "RDNE Stock project",
+    "pexelsUrl": "https://www.pexels.com/photo/nature-weather-summer-friends-8033971/",
+    "width": 6720,
+    "height": 4480,
+    "alt": "Two children practicing archery outdoors, having fun and learning teamwork at summer camp."
+  },
+  "showcase": {
+    "url": "https://images.pexels.com/photos/2833037/pexels-photo-2833037.jpeg",
+    "large": "https://images.pexels.com/photos/2833037/pexels-photo-2833037.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "medium": "https://images.pexels.com/photos/2833037/pexels-photo-2833037.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "photographer": "Luis Quintero",
+    "pexelsUrl": "https://www.pexels.com/photo/photo-of-people-gathering-in-room-2833037/",
+    "width": 6240,
+    "height": 4160,
+    "alt": "Vibrant crowd at a conference with a focus on an attentive participant."
+  },
+  "entrepreneurship": {
+    "url": "https://images.pexels.com/photos/7413915/pexels-photo-7413915.jpeg",
+    "large": "https://images.pexels.com/photos/7413915/pexels-photo-7413915.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "medium": "https://images.pexels.com/photos/7413915/pexels-photo-7413915.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "photographer": "RDNE Stock project",
+    "pexelsUrl": "https://www.pexels.com/photo/marketing-exit-technology-business-7413915/",
+    "width": 6652,
+    "height": 4435,
+    "alt": "A young entrepreneur gives a presentation on startup strategies indoors with a flip chart."
+  },
+  "partners": {
+    "url": "https://images.pexels.com/photos/7433830/pexels-photo-7433830.jpeg",
+    "large": "https://images.pexels.com/photos/7433830/pexels-photo-7433830.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "medium": "https://images.pexels.com/photos/7433830/pexels-photo-7433830.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "photographer": "Vlada Karpovich",
+    "pexelsUrl": "https://www.pexels.com/photo/men-doing-hand-shake-7433830/",
+    "width": 6180,
+    "height": 4120,
+    "alt": "Professional business meeting with handshake in modern office room with multiple colleagues."
+  }
+}

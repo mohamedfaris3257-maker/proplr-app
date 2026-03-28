@@ -111,6 +111,9 @@ export function PublicFooter() {
             Get Started →
           </Link>
         </div>
+        <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', marginTop: 16, textAlign: 'center' }}>
+          Photos courtesy of <a href="https://pexels.com" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.4)' }}>Pexels</a>
+        </p>
       </div>
     </footer>
   );

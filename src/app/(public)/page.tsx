@@ -8,7 +8,7 @@ export default async function HomePage() {
       {/* ── HERO - FULL-BLEED IMAGE ─────────────────────────────────── */}
       <section className="pub-hero-image pub-overlay-dark" style={{ minHeight: '92vh' }}>
         <Image
-          src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1920&q=80&auto=format"
+          src="https://images.pexels.com/photos/7972950/pexels-photo-7972950.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
           alt="Students collaborating"
           fill
           priority
@@ -103,7 +103,7 @@ export default async function HomePage() {
             <div className="reveal reveal-left">
               <div className="pub-img-card">
                 <Image
-                  src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80&auto=format"
+                  src="https://images.pexels.com/photos/8419521/pexels-photo-8419521.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                   alt="Industry mentorship session"
                   width={600}
                   height={400}
@@ -132,7 +132,7 @@ export default async function HomePage() {
             <div className="reveal reveal-left md:order-2">
               <div className="pub-img-card">
                 <Image
-                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80&auto=format"
+                  src="https://images.pexels.com/photos/18999483/pexels-photo-18999483.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                   alt="Team collaboration"
                   width={600}
                   height={400}
@@ -161,7 +161,7 @@ export default async function HomePage() {
             <div className="reveal reveal-left">
               <div className="pub-img-card">
                 <Image
-                  src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=800&q=80&auto=format"
+                  src="https://images.pexels.com/photos/15141529/pexels-photo-15141529.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                   alt="Student presenting on stage"
                   width={600}
                   height={400}
@@ -191,7 +191,7 @@ export default async function HomePage() {
       <section
         className="pub-parallax-bg relative overflow-hidden"
         style={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1920&q=80&auto=format)',
+          backgroundImage: 'url(https://images.pexels.com/photos/6684506/pexels-photo-6684506.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -237,7 +237,7 @@ export default async function HomePage() {
             <div className="pub-card reveal reveal-left p-0 overflow-hidden" style={{ border: '2px solid rgba(255,203,93,0.3)' }}>
               <div style={{ position: 'relative', height: 220 }}>
                 <Image
-                  src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800&q=80&auto=format"
+                  src="https://images.pexels.com/photos/7433830/pexels-photo-7433830.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                   alt="High school students"
                   fill
                   style={{ objectFit: 'cover' }}
@@ -265,7 +265,7 @@ export default async function HomePage() {
             <div className="pub-card reveal reveal-right p-0 overflow-hidden" style={{ border: '2px solid rgba(61,155,233,0.3)' }}>
               <div style={{ position: 'relative', height: 220 }}>
                 <Image
-                  src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=800&q=80&auto=format"
+                  src="https://images.pexels.com/photos/6684506/pexels-photo-6684506.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                   alt="University students"
                   fill
                   style={{ objectFit: 'cover' }}
@@ -295,7 +295,7 @@ export default async function HomePage() {
       {/* ── COMPASS TEASER - DARK WITH IMAGE ─────────────────────────── */}
       <section className="relative overflow-hidden" style={{ background: '#071629' }}>
         <Image
-          src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80&auto=format"
+          src="https://images.pexels.com/photos/8468516/pexels-photo-8468516.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
           alt="Abstract technology"
           fill
           style={{ objectFit: 'cover', opacity: 0.15 }}
@@ -357,7 +357,7 @@ export default async function HomePage() {
             <div className="reveal reveal-right">
               <div className="pub-img-card">
                 <Image
-                  src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&q=80&auto=format"
+                  src="https://images.pexels.com/photos/9829488/pexels-photo-9829488.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                   alt="Students learning together"
                   width={600}
                   height={400}
@@ -393,7 +393,7 @@ export default async function HomePage() {
       {/* ── SHOWCASE BANNER - FULL BLEED IMAGE ───────────────────────── */}
       <section className="pub-hero-image pub-overlay-dark" style={{ minHeight: 400 }}>
         <Image
-          src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1920&q=80&auto=format"
+          src="https://images.pexels.com/photos/2833037/pexels-photo-2833037.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
           alt="Conference stage"
           fill
           style={{ objectFit: 'cover' }}
@@ -415,7 +415,7 @@ export default async function HomePage() {
       {/* ── FINAL CTA - FULL BLEED ──────────────────────────────────── */}
       <section className="pub-hero-image pub-overlay-dark" style={{ minHeight: 420 }}>
         <Image
-          src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1920&q=80&auto=format"
+          src="https://images.pexels.com/photos/8033971/pexels-photo-8033971.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
           alt="Students working together"
           fill
           style={{ objectFit: 'cover' }}

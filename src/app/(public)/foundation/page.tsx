@@ -10,7 +10,7 @@ export default function FoundationPage() {
       {/* ── HERO ───────────────────────────────────────────── */}
       <section className="pub-hero-image pub-overlay-left" style={{ minHeight: 520 }}>
         <Image
-          src="https://images.unsplash.com/photo-1577896851231-70ef18881754?w=1920&q=80&auto=format"
+          src="https://images.pexels.com/photos/32165215/pexels-photo-32165215.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
           alt="High school students collaborating"
           fill
           className="pub-ken-burns"
@@ -176,7 +176,7 @@ export default function FoundationPage() {
             <div className="reveal-left">
               <div className="pub-img-card">
                 <Image
-                  src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&q=80&auto=format"
+                  src="https://images.pexels.com/photos/8419521/pexels-photo-8419521.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                   alt="Students in office mentorship session"
                   width={800}
                   height={530}
@@ -230,7 +230,7 @@ export default function FoundationPage() {
       {/* ── NATIONAL SHOWCASE ──────────────────────────────── */}
       <section className="pub-hero-image pub-overlay-dark" style={{ minHeight: 380 }}>
         <Image
-          src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1920&q=80&auto=format"
+          src="https://images.pexels.com/photos/2833037/pexels-photo-2833037.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
           alt="Conference stage with audience"
           fill
           className="pub-ken-burns"

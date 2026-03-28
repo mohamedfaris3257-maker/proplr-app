@@ -36,7 +36,7 @@ export default function ImpactPage() {
       {/* ── HERO ─────────────────────────────────────────── */}
       <section className="pub-hero-image pub-overlay-left" style={{ minHeight: 520 }}>
         <Image
-          src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=1920&q=80&auto=format"
+          src="https://images.pexels.com/photos/6684506/pexels-photo-6684506.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
           alt="University students on campus"
           fill
           className="pub-ken-burns"
@@ -163,7 +163,7 @@ export default function ImpactPage() {
             <div className="reveal-left">
               <div className="pub-img-card">
                 <Image
-                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80&auto=format"
+                  src="https://images.pexels.com/photos/18999483/pexels-photo-18999483.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                   alt="Team collaborating on a project"
                   width={800}
                   height={530}
@@ -212,7 +212,7 @@ export default function ImpactPage() {
       {/* ── NATIONAL SHOWCASE ────────────────────────────── */}
       <section className="pub-hero-image pub-overlay-dark" style={{ minHeight: 420 }}>
         <Image
-          src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=1920&q=80&auto=format"
+          src="https://images.pexels.com/photos/15141529/pexels-photo-15141529.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
           alt="Person presenting on stage"
           fill
           className="pub-ken-burns"
@@ -264,7 +264,7 @@ export default function ImpactPage() {
             <div className="reveal reveal-left">
               <div className="pub-img-card">
                 <Image
-                  src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=80&auto=format"
+                  src="https://images.pexels.com/photos/6684506/pexels-photo-6684506.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                   alt="University campus"
                   width={800}
                   height={530}

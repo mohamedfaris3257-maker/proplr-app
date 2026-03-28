@@ -11,7 +11,7 @@ export default function MentorshipPage() {
       {/* ── HERO ── */}
       <section className="pub-hero-image pub-overlay-left">
         <Image
-          src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1920&q=80&auto=format"
+          src="https://images.pexels.com/photos/8419521/pexels-photo-8419521.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
           alt="Mentorship session"
           fill
           priority

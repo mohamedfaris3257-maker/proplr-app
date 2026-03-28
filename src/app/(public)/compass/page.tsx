@@ -10,7 +10,7 @@ export default function CompassPage() {
       {/* ── HERO ───────────────────────────────────────────── */}
       <section className="pub-hero-image pub-overlay-dark">
         <Image
-          src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80&auto=format"
+          src="https://images.pexels.com/photos/8468516/pexels-photo-8468516.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
           alt="Abstract technology background"
           fill
           priority

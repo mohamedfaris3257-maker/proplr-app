@@ -11,7 +11,7 @@ export default function SummerCampPage() {
       {/* ── HERO ── */}
       <section className="pub-hero-image pub-overlay-left">
         <Image
-          src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1920&q=80&auto=format"
+          src="https://images.pexels.com/photos/7972950/pexels-photo-7972950.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
           alt="Students working together outdoors during summer"
           fill
           priority

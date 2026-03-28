@@ -11,7 +11,7 @@ export default function PartnersPage() {
       {/* ── HERO ───────────────────────────────────────────── */}
       <section className="pub-hero-image pub-overlay-left" style={{ minHeight: 520 }}>
         <Image
-          src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1920&q=80&auto=format"
+          src="https://images.pexels.com/photos/18999483/pexels-photo-18999483.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
           alt="Business professionals in a collaborative meeting"
           fill
           className="pub-ken-burns"
@@ -105,7 +105,7 @@ export default function PartnersPage() {
             <div className="reveal-left">
               <div className="pub-img-card">
                 <Image
-                  src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&q=80&auto=format"
+                  src="https://images.pexels.com/photos/8419521/pexels-photo-8419521.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                   alt="Mentorship session with professionals and students"
                   width={800}
                   height={530}
@@ -182,7 +182,7 @@ export default function PartnersPage() {
       {/* ── FULL-WIDTH DIVIDER IMAGE ──────────────────────── */}
       <section className="pub-hero-image pub-overlay-dark" style={{ minHeight: 340 }}>
         <Image
-          src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=1920&q=80&auto=format"
+          src="https://images.pexels.com/photos/6684506/pexels-photo-6684506.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
           alt="University campus with students"
           fill
           className="pub-ken-burns"
@@ -228,7 +228,7 @@ export default function PartnersPage() {
             <div className="reveal-left order-1 md:order-2">
               <div className="pub-img-card">
                 <Image
-                  src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80&auto=format"
+                  src="https://images.pexels.com/photos/6684506/pexels-photo-6684506.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                   alt="University students on campus"
                   width={800}
                   height={530}

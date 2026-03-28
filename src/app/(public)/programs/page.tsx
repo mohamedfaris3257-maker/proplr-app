@@ -19,7 +19,7 @@ export default function ProgramsPage() {
       {/* ── HERO ──────────────────────────────────────────── */}
       <section className="pub-hero-image pub-overlay-dark" style={{ minHeight: 520 }}>
         <Image
-          src="https://images.unsplash.com/photo-1529390079861-591de354faf5?w=1920&q=80&auto=format"
+          src="https://images.pexels.com/photos/32165215/pexels-photo-32165215.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
           alt="Students collaborating on career projects"
           fill
           priority
@@ -90,7 +90,7 @@ export default function ProgramsPage() {
             <div className="pub-card pub-glow-border reveal-left p-0 overflow-hidden" style={{ border: '1px solid rgba(255,203,93,0.2)' }}>
               <div style={{ position: 'relative', height: 200 }}>
                 <Image
-                  src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800&q=80&auto=format"
+                  src="https://images.pexels.com/photos/7433830/pexels-photo-7433830.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                   alt="High school students in a career development workshop"
                   fill
                   style={{ objectFit: 'cover' }}
@@ -122,7 +122,7 @@ export default function ProgramsPage() {
             <div className="pub-card pub-glow-border reveal-right p-0 overflow-hidden" style={{ border: '1px solid rgba(61,155,233,0.2)' }}>
               <div style={{ position: 'relative', height: 200 }}>
                 <Image
-                  src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=800&q=80&auto=format"
+                  src="https://images.pexels.com/photos/6684506/pexels-photo-6684506.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                   alt="University students collaborating on advanced projects"
                   fill
                   style={{ objectFit: 'cover' }}
@@ -240,7 +240,7 @@ export default function ProgramsPage() {
       {/* ── FULL-BLEED IMAGE CTA ──────────────────────────── */}
       <section className="pub-hero-image pub-overlay-dark" style={{ minHeight: 360 }}>
         <Image
-          src="https://images.unsplash.com/photo-1529390079861-591de354faf5?w=1920&q=80&auto=format"
+          src="https://images.pexels.com/photos/32165215/pexels-photo-32165215.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
           alt="Students working together on career projects"
           fill
           style={{ objectFit: 'cover' }}
