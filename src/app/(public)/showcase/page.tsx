@@ -97,7 +97,7 @@ export default function ShowcasePage() {
               },
               {
                 label: 'For Parents', color: '#071629',
-                points: ['See exactly what the program produced', 'Industry-judged, not school-graded', 'Tangible outcomes before committing further', 'Your child on stage — literally'],
+                points: ['See exactly what the program produced', 'Industry-judged, not school-graded', 'Tangible outcomes before committing further', 'Your child on stage - literally'],
               },
             ].map((section, i) => (
               <div key={section.label} className={`pub-card reveal reveal-delay-${i + 1} p-7`} style={{ border: `2px solid ${section.color}25` }}>

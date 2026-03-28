@@ -3,7 +3,7 @@ import Image from 'next/image';
 import type { Metadata } from 'next';
 import { IndustryPartnerForm, InstitutionPartnerForm } from '@/components/public/PartnerForms';
 
-export const metadata: Metadata = { title: 'Partner with Proplr — Shape the Next Generation' };
+export const metadata: Metadata = { title: 'Partner with Proplr - Shape the Next Generation' };
 
 export default function PartnersPage() {
   return (
@@ -31,7 +31,7 @@ export default function PartnersPage() {
             </h1>
 
             <p className="pub-text-shadow reveal reveal-delay-1" style={{ fontSize: 20, color: 'rgba(255,255,255,0.9)', maxWidth: 480, marginBottom: 40 }}>
-              Connect your organisation with Dubai&apos;s most motivated young talent &mdash; and help them build the careers of tomorrow.
+              Connect your organisation with Dubai&apos;s most motivated young talent  - and help them build the careers of tomorrow.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 reveal reveal-delay-2">
@@ -83,7 +83,7 @@ export default function PartnersPage() {
               { icon: '▣', title: 'Brand Visibility', desc: 'Reach Dubai\'s next generation of professionals. Your brand in front of thousands of students and parents.' },
               { icon: '◆', title: 'CSR Alignment', desc: 'Align with UAE AI 2031, Dubai E33, and Rahhal Framework goals. Meaningful impact, not just optics.' },
               { icon: '▦', title: 'Compass Reports', desc: 'Receive data-driven insights on student skills, interests, and career readiness from our proprietary assessments.' },
-              { icon: '★', title: 'Showcase Sponsorship', desc: 'Put your brand behind our national pitch competition — live finals, cash prizes, cross-school teams.' },
+              { icon: '★', title: 'Showcase Sponsorship', desc: 'Put your brand behind our national pitch competition - live finals, cash prizes, cross-school teams.' },
               { icon: '⟁', title: 'Pipeline Building', desc: 'Build your future workforce. Connect early with students who match your industry and culture.' },
             ].map((card, i) => (
               <div key={card.title} className={`pub-card pub-glow-border reveal reveal-delay-${(i % 3) + 1} p-7`}>
@@ -98,7 +98,7 @@ export default function PartnersPage() {
         </div>
       </section>
 
-      {/* ── INDUSTRY PARTNERS — IMAGE + TEXT ────────────────── */}
+      {/* ── INDUSTRY PARTNERS - IMAGE + TEXT ────────────────── */}
       <section id="industry-form" style={{ background: '#ffffff' }}>
         <div className="pub-section">
           <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
@@ -203,7 +203,7 @@ export default function PartnersPage() {
         </div>
       </section>
 
-      {/* ── INSTITUTION PARTNERS — IMAGE + TEXT ─────────────── */}
+      {/* ── INSTITUTION PARTNERS - IMAGE + TEXT ─────────────── */}
       <section id="institution-form" style={{ background: '#ffffff' }}>
         <div className="pub-section">
           <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
@@ -215,7 +215,7 @@ export default function PartnersPage() {
                 Launch a Proplr Impact Chapter at your campus.
               </h2>
               <p style={{ color: '#6e6e73', fontSize: 15, lineHeight: 1.7, marginBottom: 20 }}>
-                Proplr Impact operates through student chapters inside universities, entrepreneurship centres, and accelerators. Whether you&apos;re a school looking to enhance your co-curricular offering or a university wanting to give students a head start &mdash; we&apos;ll build it with you.
+                Proplr Impact operates through student chapters inside universities, entrepreneurship centres, and accelerators. Whether you&apos;re a school looking to enhance your co-curricular offering or a university wanting to give students a head start  - we&apos;ll build it with you.
               </p>
               <div className="flex flex-wrap gap-3">
                 {['Impact Chapters', 'Compass Pilot', 'KHDA-Aligned', 'Inspection Ready'].map((tag) => (
@@ -355,7 +355,7 @@ export default function PartnersPage() {
             Ready to make an <span style={{ color: '#ffcb5d' }}>impact?</span>
           </h2>
           <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 17, maxWidth: 520, margin: '0 auto 36px' }}>
-            Whether you&apos;re a Fortune 500 or a local startup, a top university or a neighbourhood school &mdash; there&apos;s a way to work together.
+            Whether you&apos;re a Fortune 500 or a local startup, a top university or a neighbourhood school  - there&apos;s a way to work together.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <a href="#industry-form" className="pub-btn-primary">Partner as Industry</a>
@@ -363,7 +363,7 @@ export default function PartnersPage() {
           </div>
           <div className="mt-8">
             <a href="mailto:hello@proplr.ae" style={{ color: '#3d9be9', fontSize: 15, fontWeight: 600 }} className="hover:text-white transition-colors">
-              Or reach out directly &mdash; hello@proplr.ae
+              Or reach out directly  - hello@proplr.ae
             </a>
           </div>
         </div>

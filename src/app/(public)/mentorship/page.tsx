@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { MentorApplicationForm } from '@/components/public/MentorApplicationForm';
 
-export const metadata: Metadata = { title: 'Mentorship — Proplr', description: 'Get matched with experienced UAE professionals.' };
+export const metadata: Metadata = { title: 'Mentorship - Proplr', description: 'Get matched with experienced UAE professionals.' };
 
 export default function MentorshipPage() {
   return (

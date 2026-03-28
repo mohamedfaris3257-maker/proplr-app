@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 
-export const metadata: Metadata = { title: 'Pricing — Proplr', description: 'Simple pricing. Real returns.' };
+export const metadata: Metadata = { title: 'Pricing - Proplr', description: 'Simple pricing. Real returns.' };
 
 const FOUNDATION_FEATURES = [
   '6 KHDA-certified pillar completions',
@@ -31,7 +31,7 @@ const IMPACT_FEATURES = [
 const FAQS = [
   {
     q: 'Can I pay monthly for Foundation?',
-    a: 'Yes. Foundation is structured as AED 400/month across the 8-month program year (September to April). You can pay monthly or upfront — your choice.',
+    a: 'Yes. Foundation is structured as AED 400/month across the 8-month program year (September to April). You can pay monthly or upfront - your choice.',
   },
   {
     q: "What if my school doesn't have a Proplr club yet?",
@@ -43,7 +43,7 @@ const FAQS = [
   },
   {
     q: 'Is Compass included in my enrollment?',
-    a: 'Yes — both Foundation and Impact include a Compass Career Assessment at the start of the year and a reassessment at graduation to show your progress.',
+    a: 'Yes - both Foundation and Impact include a Compass Career Assessment at the start of the year and a reassessment at graduation to show your progress.',
   },
   {
     q: "What's the refund policy?",
@@ -75,7 +75,7 @@ export default function PricingPage() {
             <div className="pub-card reveal p-10" style={{ border: '2px solid rgba(255,203,93,0.35)', background: '#ffffff' }}>
               <div className="mb-6">
                 <span className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-4" style={{ background: '#ffcb5d', color: '#071629' }}>
-                  School Students · Grades 8–12
+                  School Students · Grades 8-12
                 </span>
                 <h2 className="pub-heading" style={{ fontSize: 28, color: '#071629', marginBottom: 6 }}>Foundation</h2>
                 <p style={{ color: '#6e6e73', fontSize: 14 }}>The full-year co-curricular program for K-12</p>

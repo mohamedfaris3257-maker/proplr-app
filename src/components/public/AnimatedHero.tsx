@@ -73,7 +73,7 @@ export function AnimatedHero() {
                 margin: 0,
               }}
             >
-              Proplr gets you career-ready before you graduate — through real experiences,
+              Proplr gets you career-ready before you graduate - through real experiences,
               real mentors, and real industry connections. Not more homework.
             </motion.p>
 

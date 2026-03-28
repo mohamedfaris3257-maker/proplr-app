@@ -20,12 +20,12 @@ export default function CookiesPage() {
         {
           title: 'Cookies We Use',
           content: `Essential Cookies (always active):
-• supabase-auth-token — keeps you logged in securely
-• next-auth session — maintains your session
+• supabase-auth-token - keeps you logged in securely
+• next-auth session - maintains your session
 These cannot be disabled as they are necessary for the Platform to function.
 
 Analytics Cookies (require consent):
-• Google Analytics (_ga, _gid) — helps us understand how visitors use Proplr so we can improve it. Collects anonymized data including pages visited, time spent, and device type. No personal information is shared with Google.
+• Google Analytics (_ga, _gid) - helps us understand how visitors use Proplr so we can improve it. Collects anonymized data including pages visited, time spent, and device type. No personal information is shared with Google.
 
 We do NOT use:
 • Advertising or tracking cookies

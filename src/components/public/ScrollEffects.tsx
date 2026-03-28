@@ -22,7 +22,7 @@ export function ScrollEffects() {
         const scrollY = window.scrollY;
         const vh = window.innerHeight;
 
-        // Parallax — moves elements at different speeds
+        // Parallax - moves elements at different speeds
         document.querySelectorAll<HTMLElement>('.pub-parallax').forEach((el) => {
           const speed = parseFloat(el.dataset.speed || '0.3');
           const rect = el.getBoundingClientRect();
@@ -32,7 +32,7 @@ export function ScrollEffects() {
           }
         });
 
-        // Scroll-scale — grows as it enters viewport center
+        // Scroll-scale - grows as it enters viewport center
         document.querySelectorAll<HTMLElement>('.pub-scroll-scale').forEach((el) => {
           const rect = el.getBoundingClientRect();
           const center = rect.top + rect.height / 2;
@@ -47,7 +47,7 @@ export function ScrollEffects() {
       });
     };
 
-    // Counter animation — counts up when element enters view
+    // Counter animation - counts up when element enters view
     const counterObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {

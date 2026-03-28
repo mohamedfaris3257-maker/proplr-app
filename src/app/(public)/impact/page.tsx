@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { Metadata } from 'next';
 
-export const metadata: Metadata = { title: 'Proplr Impact — University Program' };
+export const metadata: Metadata = { title: 'Proplr Impact - University Program' };
 
 const PILLARS = [
   { num: '01', title: 'Leadership' },
@@ -136,7 +136,7 @@ export default function ImpactPage() {
         </div>
       </section>
 
-      {/* ── WHAT MAKES IMPACT DIFFERENT — SPLIT LAYOUT ──── */}
+      {/* ── WHAT MAKES IMPACT DIFFERENT - SPLIT LAYOUT ──── */}
       <section style={{ background: '#ffffff' }}>
         <div className="pub-section">
           <div className="text-center mb-14 reveal">
@@ -159,7 +159,7 @@ export default function ImpactPage() {
             </h2>
           </div>
           <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-            {/* Left — Image */}
+            {/* Left - Image */}
             <div className="reveal-left">
               <div className="pub-img-card">
                 <Image
@@ -171,7 +171,7 @@ export default function ImpactPage() {
                 />
               </div>
             </div>
-            {/* Right — 3 Differentiator Cards */}
+            {/* Right - 3 Differentiator Cards */}
             <div className="reveal-right space-y-5">
               {DIFFERENTIATORS.map((d, i) => (
                 <div
@@ -260,7 +260,7 @@ export default function ImpactPage() {
       <section style={{ background: '#f5f5f7' }}>
         <div className="pub-section-compact">
           <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-            {/* Left — Image */}
+            {/* Left - Image */}
             <div className="reveal reveal-left">
               <div className="pub-img-card">
                 <Image
@@ -272,7 +272,7 @@ export default function ImpactPage() {
                 />
               </div>
             </div>
-            {/* Right — What your campus gets */}
+            {/* Right - What your campus gets */}
             <div className="reveal reveal-right">
               <span
                 style={{

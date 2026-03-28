@@ -23,7 +23,7 @@ export default function TermsPage() {
         },
         {
           title: '3. Eligibility',
-          content: 'The Platform is available to students in Grades 8–12 (Foundation program) and university students (Impact program). Students under 18 require verifiable parental consent to enroll. We reserve the right to verify eligibility at any time.'
+          content: 'The Platform is available to students in Grades 8-12 (Foundation program) and university students (Impact program). Students under 18 require verifiable parental consent to enroll. We reserve the right to verify eligibility at any time.'
         },
         {
           title: '4. Account Responsibilities',

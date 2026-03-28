@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
-export const metadata: Metadata = { title: 'About Proplr — Founded for UAE Students' };
+export const metadata: Metadata = { title: 'About Proplr - Founded for UAE Students' };
 
 export default function AboutPage() {
   return (
@@ -16,7 +16,7 @@ export default function AboutPage() {
               <span className="pub-gradient-text">to guide students.</span>
             </h1>
             <p className="reveal reveal-delay-1" style={{ fontSize: 18, color: '#6e6e73', lineHeight: 1.65, maxWidth: 560 }}>
-              Together with students, educators, and industry partners — we&apos;re reinventing how young people discover careers, gain real-world experience, and find clarity before they graduate.
+              Together with students, educators, and industry partners - we&apos;re reinventing how young people discover careers, gain real-world experience, and find clarity before they graduate.
             </p>
           </div>
         </div>
@@ -60,7 +60,7 @@ export default function AboutPage() {
               },
               {
                 title: 'The Skills Gap',
-                body: 'Employers and universities report that graduates lack essential skills — teamwork, communication, adaptability — despite strong academic results. In the UAE, where the economy demands entrepreneurial, tech-savvy thinkers, traditional curricula rarely provide real-world exposure.',
+                body: 'Employers and universities report that graduates lack essential skills - teamwork, communication, adaptability - despite strong academic results. In the UAE, where the economy demands entrepreneurial, tech-savvy thinkers, traditional curricula rarely provide real-world exposure.',
                 bg: 'rgba(61,155,233,0.06)',
                 border: 'rgba(61,155,233,0.18)',
               },
@@ -72,7 +72,7 @@ export default function AboutPage() {
               },
               {
                 title: 'The Opportunity',
-                body: 'Proplr exists to close this gap — linking career discovery with the skills, mentorship, and exposure needed to thrive in the modern economy.',
+                body: 'Proplr exists to close this gap - linking career discovery with the skills, mentorship, and exposure needed to thrive in the modern economy.',
                 bg: 'rgba(39,174,96,0.06)',
                 border: 'rgba(39,174,96,0.18)',
               },
@@ -96,12 +96,12 @@ export default function AboutPage() {
             {[
               {
                 name: 'Alina Satheesh',
-                uni: 'University of Birmingham, UK — Business Management',
+                uni: 'University of Birmingham, UK - Business Management',
                 bio: 'Alina holds a Business Management degree from the University of Birmingham (UK) and has spent her career in student development across the UK and UAE. She understands firsthand what it feels like to graduate without the connections, clarity, or career direction that school never provided. Her work in student leadership and development has been nationally recognized.',
               },
               {
                 name: 'Faris',
-                uni: 'Carleton University, Canada — Engineering',
+                uni: 'Carleton University, Canada - Engineering',
                 bio: "Faris holds an Engineering degree from Carleton University (Canada) and served as President of the Carleton University Students' Association, managing a $6M budget and representing 27,000 students. He has presented to Canadian Prime Ministers and received national media coverage for his student leadership work. He now calls Dubai home and brings that experience back to the students who need it most.",
               },
             ].map((founder, i) => (
@@ -155,7 +155,7 @@ export default function AboutPage() {
             Certified by Dubai&apos;s Knowledge Authority.
           </h2>
           <p style={{ color: '#6e6e73', fontSize: 15, lineHeight: 1.7 }}>
-            Every certificate we issue carries official UAE recognition — and it means every hour a student spends in our program counts toward something real.
+            Every certificate we issue carries official UAE recognition - and it means every hour a student spends in our program counts toward something real.
           </p>
         </div>
       </section>

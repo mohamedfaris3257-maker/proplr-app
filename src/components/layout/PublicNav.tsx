@@ -11,7 +11,7 @@ const NAV_LINKS = [
 ];
 
 const PROGRAMS_LINKS = [
-  { label: 'Foundation (K-12)', href: '/foundation', desc: 'Grades 8–12 co-curricular program' },
+  { label: 'Foundation (K-12)', href: '/foundation', desc: 'Grades 8-12 co-curricular program' },
   { label: 'Impact (University)', href: '/impact', desc: 'University-level industry program' },
   { label: 'Summer Camp', href: '/summer-camp', desc: 'Intensive pre-September experience' },
 ];

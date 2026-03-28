@@ -29,7 +29,7 @@ export default function NotFound() {
         This page doesn&apos;t exist yet.
       </h1>
       <p style={{ fontSize: 15, color: '#6e7591', maxWidth: 400, lineHeight: 1.6, marginBottom: 32 }}>
-        Maybe it&apos;s still being built — just like your career. Head back to Proplr and keep going.
+        Maybe it&apos;s still being built - just like your career. Head back to Proplr and keep going.
       </p>
       <div style={{ display: 'flex', gap: 12 }}>
         <a href="/" style={{

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { Metadata } from 'next';
 
-export const metadata: Metadata = { title: 'Proplr Foundation — K-12 Program' };
+export const metadata: Metadata = { title: 'Proplr Foundation - K-12 Program' };
 
 export default function FoundationPage() {
   return (
@@ -21,7 +21,7 @@ export default function FoundationPage() {
           <div className="max-w-2xl">
             <div className="pub-line-grow reveal mb-8" />
             <span className="inline-block px-4 py-2 rounded-full text-xs font-bold mb-6" style={{ background: 'rgba(255,203,93,0.2)', color: '#ffcb5d', border: '1px solid rgba(255,203,93,0.3)' }}>
-              PROPLR FOUNDATION &middot; GRADES 8 &ndash; 12
+              PROPLR FOUNDATION &middot; GRADES 8 - 12
             </span>
 
             <h1 className="pub-heading pub-text-shadow reveal" style={{ fontSize: 'clamp(36px, 6vw, 72px)', color: '#ffffff', marginBottom: 20, lineHeight: 1.05 }}>
@@ -78,9 +78,9 @@ export default function FoundationPage() {
             {[
               { num: '01', title: 'Leadership', desc: 'Learn to lead teams, run meetings, and make decisions under pressure.' },
               { num: '02', title: 'Entrepreneurship', desc: 'Build and pitch a real business idea with mentors who\'ve done it.' },
-              { num: '03', title: 'Digital Literacy', desc: 'Go from user to creator — AI tools, data, and digital skills that actually matter.' },
+              { num: '03', title: 'Digital Literacy', desc: 'Go from user to creator - AI tools, data, and digital skills that actually matter.' },
               { num: '04', title: 'Communication', desc: 'Present to real audiences. Write. Persuade. Be heard.' },
-              { num: '05', title: 'Personal Branding', desc: 'Build a LinkedIn, a portfolio, and a reputation — before you need one.' },
+              { num: '05', title: 'Personal Branding', desc: 'Build a LinkedIn, a portfolio, and a reputation - before you need one.' },
               { num: '06', title: 'Project Management', desc: 'Ship real projects on time. Skills every employer wants.' },
             ].map((p, i) => (
               <div
@@ -132,7 +132,7 @@ export default function FoundationPage() {
         </div>
       </section>
 
-      {/* ── INDUSTRY EXPOSURE — IMAGE + TEXT ROW ──────────── */}
+      {/* ── INDUSTRY EXPOSURE - IMAGE + TEXT ROW ──────────── */}
       <section style={{ background: '#f5f5f7' }}>
         <div className="pub-section">
           <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
@@ -176,7 +176,7 @@ export default function FoundationPage() {
         <div className="pub-section">
           <div className="grid sm:grid-cols-3 gap-6">
             {[
-              { title: 'Job Shadowing', desc: 'Observe professionals in real workflows.', badge: 'Years 9 &ndash; 12' },
+              { title: 'Job Shadowing', desc: 'Observe professionals in real workflows.', badge: 'Years 9 - 12' },
               { title: 'Internships', desc: 'Hands-on projects during school breaks.', badge: 'Senior Years' },
               { title: 'Mentorship', desc: '150+ experts across 20+ countries.', badge: '150+ Mentors' },
             ].map((card, i) => (

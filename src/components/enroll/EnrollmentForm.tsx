@@ -318,7 +318,7 @@ export function EnrollmentForm() {
         }}>
           <div style={{ width: 8, height: 8, borderRadius: '50%', background: accent }} />
           <span style={{ fontSize: 13, fontWeight: 600, color: '#071629' }}>{selectedPlan.name}</span>
-          <span style={{ fontSize: 12, color: '#6e7591' }}>— {selectedPlan.price}</span>
+          <span style={{ fontSize: 12, color: '#6e7591' }}>- {selectedPlan.price}</span>
         </div>
       )}
       <div>
@@ -552,7 +552,7 @@ export function EnrollmentForm() {
       {selectedPlan && (
         <div style={{ padding: '14px 18px', borderRadius: 14, background: `${accent}08`, border: `1.5px solid ${accent}30` }}>
           <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 16, color: '#071629', marginBottom: 2 }}>{selectedPlan.name}</div>
-          <div style={{ fontSize: 13, color: '#6e7591' }}>{selectedPlan.price} — {selectedPlan.sub}</div>
+          <div style={{ fontSize: 13, color: '#6e7591' }}>{selectedPlan.price} - {selectedPlan.sub}</div>
         </div>
       )}
       {/* Personal */}

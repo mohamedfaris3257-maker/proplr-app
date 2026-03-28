@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 /**
- * Reading progress bar — thin gradient bar at top of viewport
+ * Reading progress bar - thin gradient bar at top of viewport
  * Shows how far the user has scrolled through the page.
  */
 export function ScrollProgress() {

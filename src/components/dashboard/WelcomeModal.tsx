@@ -96,7 +96,7 @@ export function WelcomeModal({ name }: WelcomeModalProps) {
               lineHeight: 1.6,
               margin: '0 0 24px',
             }}>
-              You&apos;re all set. This is your Proplr dashboard — your hub for courses,
+              You&apos;re all set. This is your Proplr dashboard - your hub for courses,
               events, communities, and building your career portfolio.
             </p>
 

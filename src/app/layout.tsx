@@ -7,7 +7,7 @@ import { CookieConsent } from "@/components/CookieConsent";
 const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-sans', weight: ['400', '500', '600', '700'] });
 
 export const metadata: Metadata = {
-  title: "Proplr — UAE Student Career Development",
+  title: "Proplr - UAE Student Career Development",
   description: "Empowering UAE students to build their future through structured career development across six pillars.",
   icons: {
     icon: "/favicon.ico",

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {
-  title: 'Shop — Proplr',
+  title: 'Shop - Proplr',
   description: 'Official Proplr merchandise and products.',
 };
 

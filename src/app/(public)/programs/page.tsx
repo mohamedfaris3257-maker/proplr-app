@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { Metadata } from 'next';
 
-export const metadata: Metadata = { title: 'Programs – Proplr' };
+export const metadata: Metadata = { title: 'Programs - Proplr' };
 
 const PILLARS = [
   { num: '01', title: 'Leadership', color: '#ffcb5d' },
@@ -37,7 +37,7 @@ export default function ProgramsPage() {
               <span className="pub-gradient-text-animated">One pipeline.</span>
             </h1>
             <p className="pub-text-shadow reveal reveal-delay-1" style={{ fontSize: 19, color: '#e0e0e5', lineHeight: 1.6, maxWidth: 480, margin: '0 auto 40px' }}>
-              KHDA-certified programs that build real skills, industry access, and a portfolio — not just another certificate.
+              KHDA-certified programs that build real skills, industry access, and a portfolio - not just another certificate.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center reveal reveal-delay-2">
               <Link href="/foundation" className="pub-btn-primary">Foundation K-12 →</Link>
@@ -47,7 +47,7 @@ export default function ProgramsPage() {
         </div>
       </section>
 
-      {/* ── MARQUEE — PILLAR STRIP ────────────────────────── */}
+      {/* ── MARQUEE - PILLAR STRIP ────────────────────────── */}
       <section style={{ background: '#071629', overflow: 'hidden' }}>
         <div style={{ padding: '20px 0' }}>
           <div className="pub-marquee-track">
@@ -73,7 +73,7 @@ export default function ProgramsPage() {
         </div>
       </section>
 
-      {/* ── TWO COHORTS — BENTO LAYOUT ────────────────────── */}
+      {/* ── TWO COHORTS - BENTO LAYOUT ────────────────────── */}
       <section style={{ background: '#f5f5f7' }}>
         <div className="pub-section">
           <div className="text-center mb-14 reveal">
@@ -97,7 +97,7 @@ export default function ProgramsPage() {
                 />
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 30%, rgba(7,22,41,0.7) 100%)' }} />
                 <span className="absolute bottom-4 left-6 px-3 py-1 rounded-full text-xs font-bold" style={{ background: 'rgba(255,203,93,0.9)', color: '#071629' }}>
-                  Grades 8–12
+                  Grades 8-12
                 </span>
               </div>
               <div className="p-8">
@@ -153,7 +153,7 @@ export default function ProgramsPage() {
         </div>
       </section>
 
-      {/* ── 6 PILLARS — COMPACT GRID ──────────────────────── */}
+      {/* ── 6 PILLARS - COMPACT GRID ──────────────────────── */}
       <section className="relative overflow-hidden pub-pattern-grid" style={{ background: '#ffffff' }}>
         <div className="pub-section">
           <div className="text-center mb-12 reveal">
@@ -204,7 +204,7 @@ export default function ProgramsPage() {
         </div>
       </section>
 
-      {/* ── FOR EVERYONE — JOURNEY CARDS ───────────────────── */}
+      {/* ── FOR EVERYONE - JOURNEY CARDS ───────────────────── */}
       <section style={{ background: '#ffffff' }}>
         <div className="pub-section">
           <div className="text-center mb-14 reveal">

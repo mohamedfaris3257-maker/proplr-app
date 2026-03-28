@@ -215,7 +215,7 @@ export function OnboardingFlow() {
                     </div>
                     <div style={{ flex: 1, textAlign: 'left' }}>
                       <p style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 14, color: '#071629', margin: 0 }}>School Student</p>
-                      <p style={{ fontSize: 12, color: '#6e7591', margin: '2px 0 0' }}>Grades K–12 · Proplr Foundation Track</p>
+                      <p style={{ fontSize: 12, color: '#6e7591', margin: '2px 0 0' }}>Grades K-12 · Proplr Foundation Track</p>
                     </div>
                     {form.type === 'school_student' && <Check size={18} color="#E8A838" />}
                   </button>
@@ -242,7 +242,7 @@ export function OnboardingFlow() {
                     </div>
                     <div style={{ flex: 1, textAlign: 'left' }}>
                       <p style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 14, color: '#071629', margin: 0 }}>University Student</p>
-                      <p style={{ fontSize: 12, color: '#6e7591', margin: '2px 0 0' }}>Years 1–4 · Proplr Impact Track</p>
+                      <p style={{ fontSize: 12, color: '#6e7591', margin: '2px 0 0' }}>Years 1-4 · Proplr Impact Track</p>
                     </div>
                     {form.type === 'uni_student' && <Check size={18} color="#3d9be9" />}
                   </button>
@@ -324,7 +324,7 @@ export function OnboardingFlow() {
             {step === 4 && (
               <div>
                 <h2 style={s.heading}>Profile Photo</h2>
-                <p style={s.sub}>Optional — you can always add one later</p>
+                <p style={s.sub}>Optional - you can always add one later</p>
 
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, padding: '20px 0' }}>
                   {form.photoPreview ? (

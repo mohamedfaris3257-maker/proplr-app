@@ -26,7 +26,7 @@ export default function PrivacyPage() {
 • Educational data: school name, grade level, program enrollment
 • Parent/guardian data: name, email, phone (for students under 18)
 • Usage data: pages visited, features used, login times, device and browser type
-• Payment data: handled securely by Stripe — we do not store card numbers
+• Payment data: handled securely by Stripe - we do not store card numbers
 • Communications: messages sent through our platform, support requests`
         },
         {
@@ -92,7 +92,7 @@ To exercise these rights, email privacy@proplr.ae. We will respond within 30 day
         },
         {
           title: '9. Cookies',
-          content: 'We use essential cookies to keep you logged in and secure your session. We use analytics cookies (Google Analytics) to understand how our platform is used — these require your consent and can be declined via our cookie banner. See our Cookie Policy for full details.'
+          content: 'We use essential cookies to keep you logged in and secure your session. We use analytics cookies (Google Analytics) to understand how our platform is used - these require your consent and can be declined via our cookie banner. See our Cookie Policy for full details.'
         },
         {
           title: '10. Security',

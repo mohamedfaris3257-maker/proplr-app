@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Careers — Proplr', description: 'Join the team building the future of student career development in the UAE.' };
+export const metadata: Metadata = { title: 'Careers - Proplr', description: 'Join the team building the future of student career development in the UAE.' };
 
 interface JobPosting {
   id: string;
@@ -73,7 +73,7 @@ export default async function CareersPage() {
               <p style={{ color: '#6e6e73', fontSize: 15 }}>
                 {openRoles.length > 0
                   ? `${openRoles.length} open position${openRoles.length !== 1 ? 's' : ''}`
-                  : 'No open roles right now — but we\'re always growing.'}
+                  : 'No open roles right now - but we\'re always growing.'}
               </p>
             </div>
 
@@ -127,7 +127,7 @@ export default async function CareersPage() {
                 <p style={{ color: '#6e6e73', fontSize: 14, lineHeight: 1.7, maxWidth: 480, margin: '0 auto 20px' }}>
                   No openings are listed yet, but we&apos;re always interested in passionate educators, technologists, and career development professionals.
                 </p>
-                <a href="mailto:hello@proplr.ae?subject=General Interest — Proplr Careers" className="pub-btn-navy">
+                <a href="mailto:hello@proplr.ae?subject=General Interest - Proplr Careers" className="pub-btn-navy">
                   Send Us Your CV →
                 </a>
               </div>

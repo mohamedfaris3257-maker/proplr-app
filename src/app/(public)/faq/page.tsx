@@ -34,11 +34,11 @@ export default async function FaqPage() {
     {
       category: 'About the Program',
       items: [
-        { q: 'What is Proplr?', a: "Proplr is a KHDA-certified student development platform running co-curricular programs inside schools (Proplr Foundation, Grades 8–12) and universities (Proplr Impact). It's not an online course platform -it's an experiential club-based program with real mentors, real industry challenges, and KHDA-certified certificates." },
+        { q: 'What is Proplr?', a: "Proplr is a KHDA-certified student development platform running co-curricular programs inside schools (Proplr Foundation, Grades 8-12) and universities (Proplr Impact). It's not an online course platform -it's an experiential club-based program with real mentors, real industry challenges, and KHDA-certified certificates." },
         { q: 'What are the 6 pillars?', a: 'Leadership, Entrepreneurship, Digital Literacy, Personal Branding, Communication, and Project Management. Every student completes all 6 across the academic year.' },
         { q: 'How long is the program?', a: 'Foundation runs for one academic year -approximately 8 months (September to April), organized into three trimesters. Impact follows a similar structure.' },
         { q: 'Is this a school subject or an after-school club?', a: "It's a co-curricular program -typically delivered as an after-school club or integrated co-curricular module. It runs alongside your regular academics without disrupting them." },
-        { q: 'When does the program start?', a: 'The 2025–2026 program begins September 2026. Registration is open now.' },
+        { q: 'When does the program start?', a: 'The 2025-2026 program begins September 2026. Registration is open now.' },
       ],
     },
     {
@@ -65,14 +65,14 @@ export default async function FaqPage() {
       items: [
         { q: 'How does a school start a Proplr club?', a: 'Submit your interest at /start-a-club. We\'ll reach out within 48 hours to discuss implementation. We handle the facilitators, mentors, industry connections, and reporting -schools provide the space and students.' },
         { q: 'What does Proplr provide to schools?', a: "Facilitators, industry mentors, program content, KHDA-aligned reporting, attendance and portfolio tracking, and National Showcase access. Schools don't need to hire or source anything." },
-        { q: 'Is there a free trial for schools?', a: 'Yes -we offer a free Compass Career Assessment pilot for a sample cohort of Grades 8–10. No commitment required.' },
+        { q: 'Is there a free trial for schools?', a: 'Yes -we offer a free Compass Career Assessment pilot for a sample cohort of Grades 8-10. No commitment required.' },
         { q: 'Can parents attend any program events?', a: 'Yes. Parent Engagement Events are a core part of the program. The National Showcase is also open to parents.' },
       ],
     },
     {
       category: 'Compass',
       items: [
-        { q: 'What is Compass?', a: 'Compass is an AI-powered Career Indicator Assessment -a standalone paid product that helps students discover their career direction in 30–45 minutes. It uses a 3-Path Match Model to generate a personalized career report.' },
+        { q: 'What is Compass?', a: 'Compass is an AI-powered Career Indicator Assessment -a standalone paid product that helps students discover their career direction in 30-45 minutes. It uses a 3-Path Match Model to generate a personalized career report.' },
         { q: 'Is Compass included with my enrollment?', a: 'Yes -both Foundation and Impact enrollments include a Compass assessment at the start of the year and a reassessment at graduation.' },
         { q: 'Can I buy Compass without enrolling in Foundation or Impact?', a: 'Yes. Compass is available as a standalone product. See /compass for details and pricing.' },
         { q: 'Who is Compass for?', a: 'Students from Grade 8 upward, parents who want to support their child\'s career exploration, and schools wanting cohort-level career insights.' },
@@ -81,8 +81,8 @@ export default async function FaqPage() {
     {
       category: 'Summer Camp',
       items: [
-        { q: 'What is the Proplr Summer Camp?', a: "An intensive pre-program summer experience for students in Grades 8–12. It includes career discovery sessions, industry speakers, hands-on challenges, and a full Compass assessment. It's a great way to try Proplr before committing to the full Foundation year." },
-        { q: 'Do I need to be enrolled in Foundation to attend Summer Camp?', a: "No. Summer Camp is open to any student in Grades 8–12, regardless of whether their school has a Proplr club." },
+        { q: 'What is the Proplr Summer Camp?', a: "An intensive pre-program summer experience for students in Grades 8-12. It includes career discovery sessions, industry speakers, hands-on challenges, and a full Compass assessment. It's a great way to try Proplr before committing to the full Foundation year." },
+        { q: 'Do I need to be enrolled in Foundation to attend Summer Camp?', a: "No. Summer Camp is open to any student in Grades 8-12, regardless of whether their school has a Proplr club." },
         { q: 'When is Summer Camp 2026?', a: 'Dates to be confirmed. Register your interest at /summer-camp and we\'ll notify you as soon as dates are announced.' },
       ],
     },

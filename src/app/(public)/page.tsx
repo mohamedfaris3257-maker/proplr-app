@@ -5,7 +5,7 @@ import { IconAI, IconCompass, IconChart, IconZap, IconTrophy } from '@/component
 export default async function HomePage() {
   return (
     <div>
-      {/* ── HERO — FULL-BLEED IMAGE ─────────────────────────────────── */}
+      {/* ── HERO - FULL-BLEED IMAGE ─────────────────────────────────── */}
       <section className="pub-hero-image pub-overlay-dark" style={{ minHeight: '92vh' }}>
         <Image
           src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1920&q=80&auto=format"
@@ -52,7 +52,7 @@ export default async function HomePage() {
             {[...Array(3)].flatMap((_, j) => [
               'KHDA Permit #633441',
               '6 Certified Courses',
-              'Grades 8 – University',
+              'Grades 8 - University',
               '150+ Industry Mentors',
               'National Showcase 2026',
               'September 2026 Cohort',
@@ -85,7 +85,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── HOW IT WORKS — IMAGE + TEXT ALTERNATING ──────────────────── */}
+      {/* ── HOW IT WORKS - IMAGE + TEXT ALTERNATING ──────────────────── */}
       <section id="how-it-works" style={{ background: '#ffffff' }}>
         <div className="pub-section">
           <div className="text-center mb-16 reveal">
@@ -117,7 +117,7 @@ export default async function HomePage() {
                 6 pillars. Real projects. Not worksheets.
               </h3>
               <p style={{ color: '#5a5f7a', fontSize: 16, lineHeight: 1.65, marginBottom: 20 }}>
-                Leadership, entrepreneurship, digital literacy, communication, personal branding, and project management — delivered through challenges, not lectures.
+                Leadership, entrepreneurship, digital literacy, communication, personal branding, and project management - delivered through challenges, not lectures.
               </p>
               <div className="flex flex-wrap gap-2">
                 {['Career Panels', 'Hackathons', 'Design Sprints', 'Portfolio Building'].map((t) => (
@@ -127,7 +127,7 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* Feature Row 2 — reversed */}
+          {/* Feature Row 2 - reversed */}
           <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
             <div className="reveal reveal-left md:order-2">
               <div className="pub-img-card">
@@ -187,7 +187,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── COUNTER STATS — PARALLAX BG ─────────────────────────────── */}
+      {/* ── COUNTER STATS - PARALLAX BG ─────────────────────────────── */}
       <section
         className="pub-parallax-bg relative overflow-hidden"
         style={{
@@ -221,7 +221,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── TWO PROGRAMS — WITH IMAGES ──────────────────────────────── */}
+      {/* ── TWO PROGRAMS - WITH IMAGES ──────────────────────────────── */}
       <section style={{ background: '#f5f5f7' }}>
         <div className="pub-section">
           <div className="text-center mb-14 reveal">
@@ -229,7 +229,7 @@ export default async function HomePage() {
               Two tracks. One ecosystem.
             </h2>
             <p style={{ color: '#5a5f7a', fontSize: 17, maxWidth: 460, margin: '0 auto' }}>
-              Whether you&apos;re in high school or university — we built this for you.
+              Whether you&apos;re in high school or university - we built this for you.
             </p>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
@@ -244,7 +244,7 @@ export default async function HomePage() {
                 />
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 30%, rgba(7,22,41,0.7) 100%)' }} />
                 <span className="absolute bottom-4 left-6 px-3 py-1 rounded-full text-xs font-bold" style={{ background: '#ffcb5d', color: '#071629' }}>
-                  Grades 8–12
+                  Grades 8-12
                 </span>
               </div>
               <div className="p-8">
@@ -292,7 +292,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── COMPASS TEASER — DARK WITH IMAGE ─────────────────────────── */}
+      {/* ── COMPASS TEASER - DARK WITH IMAGE ─────────────────────────── */}
       <section className="relative overflow-hidden" style={{ background: '#071629' }}>
         <Image
           src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80&auto=format"
@@ -336,7 +336,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── SHOWCASE BANNER — FULL BLEED IMAGE ───────────────────────── */}
+      {/* ── SHOWCASE BANNER - FULL BLEED IMAGE ───────────────────────── */}
       <section className="pub-hero-image pub-overlay-dark" style={{ minHeight: 400 }}>
         <Image
           src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1920&q=80&auto=format"
@@ -358,7 +358,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── PARENT TRUST — WITH IMAGE ────────────────────────────────── */}
+      {/* ── PARENT TRUST - WITH IMAGE ────────────────────────────────── */}
       <section style={{ background: '#ffffff' }}>
         <div className="pub-section">
           <div className="grid md:grid-cols-2 gap-14 items-center">
@@ -407,7 +407,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── FINAL CTA — FULL BLEED ──────────────────────────────────── */}
+      {/* ── FINAL CTA - FULL BLEED ──────────────────────────────────── */}
       <section className="pub-hero-image pub-overlay-dark" style={{ minHeight: 420 }}>
         <Image
           src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1920&q=80&auto=format"

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const revalidate = 300;
-export const metadata: Metadata = { title: 'Blog — Proplr', description: 'Career tips, platform updates, and student stories.' };
+export const metadata: Metadata = { title: 'Blog - Proplr', description: 'Career tips, platform updates, and student stories.' };
 
 interface BlogPost {
   id: string;
@@ -44,7 +44,7 @@ export default async function BlogPage() {
           {items.length === 0 ? (
             <div className="text-center py-20 reveal">
               <p style={{ color: '#6e6e73', fontSize: 16, marginBottom: 8 }}>No posts published yet.</p>
-              <p style={{ color: '#9ca3af', fontSize: 14 }}>Check back soon — we&apos;re writing.</p>
+              <p style={{ color: '#9ca3af', fontSize: 14 }}>Check back soon - we&apos;re writing.</p>
             </div>
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">

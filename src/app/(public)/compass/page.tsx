@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { Metadata } from 'next';
 
-export const metadata: Metadata = { title: 'Compass — AI Career Assessment by Proplr' };
+export const metadata: Metadata = { title: 'Compass - AI Career Assessment by Proplr' };
 
 export default function CompassPage() {
   return (

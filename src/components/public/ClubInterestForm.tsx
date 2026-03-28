@@ -85,7 +85,7 @@ export function ClubInterestForm() {
         </div>
         <div>
           <label className="block text-sm font-semibold mb-1.5" style={{ color: '#1d1d1f' }}>Grade Range</label>
-          <input className="pub-input" placeholder="e.g. Grades 9–12" value={form.grade_range} onChange={(e) => set('grade_range', e.target.value)} />
+          <input className="pub-input" placeholder="e.g. Grades 9-12" value={form.grade_range} onChange={(e) => set('grade_range', e.target.value)} />
         </div>
       </div>
 
