@@ -137,9 +137,7 @@ export function EnrollmentForm() {
       if (!formData.school_name.trim()) return 'School/university name is required.';
     }
     if (step === 3) {
-      if (!formData.parent_name.trim()) return 'Parent/guardian name is required.';
-      if (!formData.parent_email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.parent_email)) return 'A valid parent email is required.';
-      if (!formData.parental_consent) return 'Parental consent is required to proceed.';
+      // Parent/guardian info is optional — no validation required
     }
     if (step === 4 && formData.interests.length === 0) return 'Select at least one interest.';
     return null;
@@ -195,15 +193,23 @@ export function EnrollmentForm() {
       if (authError) throw new Error(authError.message);
       if (!authData.user) throw new Error('Account creation failed. Please try again.');
 
-      await supabase.from('profiles').insert({
+      const { error: profileError } = await supabase.from('profiles').insert({
         user_id: authData.user.id,
         name: formData.full_name.trim(),
+        email: formData.email.toLowerCase().trim(),
         type: formData.plan === 'impact' ? 'university_student' : 'school_student',
+        role: 'student',
+        plan: 'free',
         photo_url: photoUrl || null,
         school_name: formData.school_name.trim(),
         grade: formData.grade || null,
         interests: formData.interests,
+        onboarding_complete: false,
       });
+
+      if (profileError) {
+        console.error('Profile insert error:', profileError);
+      }
 
       // Save full registration record (non-blocking)
       fetch('/api/register', {
@@ -216,10 +222,10 @@ export function EnrollmentForm() {
           nationality: formData.nationality || null,
           school_name: formData.school_name,
           grade: formData.grade || null,
-          parent_name: formData.parent_name,
-          parent_email: formData.parent_email,
+          parent_name: formData.parent_name || null,
+          parent_email: formData.parent_email || null,
           parent_phone: formData.parent_phone || null,
-          parental_consent: true,
+          parental_consent: formData.parental_consent || false,
           photo_url: photoUrl || null,
           interests: formData.interests,
           extracurriculars: formData.extracurriculars || null,
@@ -383,15 +389,15 @@ export function EnrollmentForm() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div style={{ padding: '12px 16px', borderRadius: 12, background: '#f0f2f8', border: '1px solid #e0e4ed' }}>
         <p style={{ fontSize: 13, color: '#6e7591', lineHeight: 1.6, margin: 0 }}>
-          Since our students are minors, we require a parent or guardian to approve the enrollment.
+          These fields are optional. You can skip this step if not applicable.
         </p>
       </div>
       <div>
-        <label style={labelStyle}>Parent/Guardian Full Name {reqStar}</label>
+        <label style={labelStyle}>Parent/Guardian Full Name</label>
         <input style={inputStyle} placeholder="John Smith" value={formData.parent_name} onChange={e => set('parent_name', e.target.value)} />
       </div>
       <div>
-        <label style={labelStyle}>Parent Email {reqStar}</label>
+        <label style={labelStyle}>Parent Email</label>
         <input style={inputStyle} type="email" placeholder="parent@example.com" value={formData.parent_email} onChange={e => set('parent_email', e.target.value)} />
       </div>
       <div>
@@ -412,7 +418,7 @@ export function EnrollmentForm() {
             style={{ width: 20, height: 20, accentColor: accent, marginTop: 1, flexShrink: 0, cursor: 'pointer' }}
           />
           <span style={{ fontSize: 13, color: '#3a3f54', lineHeight: 1.6 }}>
-            I, the parent/guardian, consent to this student enrolling in Proplr and confirm all information provided is accurate. {reqStar}
+            I, the parent/guardian, consent to this student enrolling in Proplr and confirm all information provided is accurate.
           </span>
         </label>
       </div>
