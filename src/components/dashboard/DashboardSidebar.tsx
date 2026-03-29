@@ -36,15 +36,18 @@ export function DashboardSidebar({ profile }: DashboardSidebarProps) {
     <aside style={{
       width: 230,
       minWidth: 230,
-      background: '#071629',
+      background: '#ffffff',
       display: 'flex',
       flexDirection: 'column',
       padding: '20px 12px',
-      height: '100vh',
+      height: 'calc(100vh - 24px)',
       position: 'sticky',
-      top: 0,
+      top: 12,
       overflowY: 'auto',
-      borderRight: '1px solid rgba(255,255,255,0.04)',
+      borderRadius: 20,
+      margin: '12px 0 12px 12px',
+      boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
+      border: '1px solid rgba(0,0,0,0.06)',
     }}>
       {/* Logo */}
       <Link href="/" style={{
@@ -55,7 +58,7 @@ export function DashboardSidebar({ profile }: DashboardSidebarProps) {
         fontFamily: "'Montserrat', sans-serif",
         fontWeight: 800,
         fontSize: 18,
-        color: '#fff',
+        color: '#071629',
         textDecoration: 'none',
         letterSpacing: -0.5,
       }}>
@@ -85,13 +88,13 @@ export function DashboardSidebar({ profile }: DashboardSidebarProps) {
             borderRadius: 12,
             fontSize: 13,
             fontWeight: item.active ? 600 : 400,
-            color: item.active ? '#fff' : 'rgba(255,255,255,0.5)',
+            color: item.active ? '#0ea5e9' : '#64748b',
             textDecoration: 'none',
             transition: 'all .2s',
             background: item.active
-              ? 'linear-gradient(135deg, rgba(59,130,246,0.25), rgba(59,130,246,0.1))'
+              ? 'rgba(14,165,233,0.08)'
               : 'transparent',
-            borderLeft: item.active ? '3px solid #3b82f6' : '3px solid transparent',
+            borderLeft: item.active ? '3px solid #0ea5e9' : '3px solid transparent',
             position: 'relative',
           }}>
             {item.icon}
@@ -103,14 +106,14 @@ export function DashboardSidebar({ profile }: DashboardSidebarProps) {
                 width: 6,
                 height: 6,
                 borderRadius: '50%',
-                background: '#3b82f6',
-                boxShadow: '0 0 8px #3b82f6',
+                background: '#0ea5e9',
+                boxShadow: '0 0 8px #0ea5e9',
               }} />
             )}
           </Link>
         ))}
 
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', margin: '8px 0', paddingTop: 8 }} />
+        <div style={{ borderTop: '1px solid rgba(0,0,0,0.06)', margin: '8px 0', paddingTop: 8 }} />
 
         <button onClick={handleSignOut} style={{
           display: 'flex',
@@ -119,7 +122,7 @@ export function DashboardSidebar({ profile }: DashboardSidebarProps) {
           padding: '10px 12px',
           borderRadius: 12,
           fontSize: 13,
-          color: 'rgba(255,255,255,0.4)',
+          color: '#94a3b8',
           background: 'transparent',
           border: 'none',
           cursor: 'pointer',
@@ -136,8 +139,8 @@ export function DashboardSidebar({ profile }: DashboardSidebarProps) {
 
       {/* Help card */}
       <div style={{
-        background: 'linear-gradient(135deg, rgba(59,130,246,0.15), rgba(168,85,247,0.1))',
-        border: '1px solid rgba(59,130,246,0.15)',
+        background: 'linear-gradient(135deg, rgba(14,165,233,0.06), rgba(168,85,247,0.04))',
+        border: '1px solid rgba(14,165,233,0.1)',
         borderRadius: 16,
         padding: 16,
         marginTop: 12,
@@ -146,24 +149,24 @@ export function DashboardSidebar({ profile }: DashboardSidebarProps) {
           width: 32,
           height: 32,
           borderRadius: 10,
-          background: 'rgba(59,130,246,0.2)',
+          background: 'rgba(14,165,233,0.1)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           marginBottom: 10,
           fontSize: 14,
-          color: '#3b82f6',
+          color: '#0ea5e9',
         }}>
           ?
         </div>
-        <p style={{ fontSize: 13, fontWeight: 700, margin: 0, color: '#fff' }}>Need help?</p>
-        <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', margin: '4px 0 12px', lineHeight: 1.4 }}>
+        <p style={{ fontSize: 13, fontWeight: 700, margin: 0, color: '#071629' }}>Need help?</p>
+        <p style={{ fontSize: 11, color: '#94a3b8', margin: '4px 0 12px', lineHeight: 1.4 }}>
           Have a question? Send us a message.
         </p>
         <button style={{
-          background: 'rgba(59,130,246,0.2)',
-          color: '#3b82f6',
-          border: '1px solid rgba(59,130,246,0.2)',
+          background: 'rgba(14,165,233,0.08)',
+          color: '#0ea5e9',
+          border: '1px solid rgba(14,165,233,0.12)',
           borderRadius: 100,
           padding: '7px 14px',
           fontSize: 11.5,

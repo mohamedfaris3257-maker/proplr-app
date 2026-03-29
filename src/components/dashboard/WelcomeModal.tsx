@@ -50,14 +50,14 @@ export function WelcomeModal({ name }: WelcomeModalProps) {
             transition={{ type: 'spring', duration: 0.5 }}
             onClick={(e) => e.stopPropagation()}
             style={{
-              background: '#111f36',
+              background: '#ffffff',
               borderRadius: 24,
               padding: '48px 40px 36px',
               maxWidth: 440,
               width: '90%',
               textAlign: 'center',
               boxShadow: '0 32px 100px rgba(0,0,0,0.4)',
-              border: '1px solid rgba(255,255,255,0.08)',
+              border: '1px solid rgba(0,0,0,0.08)',
               position: 'relative',
             }}
           >
@@ -86,7 +86,7 @@ export function WelcomeModal({ name }: WelcomeModalProps) {
               fontFamily: "'Montserrat', sans-serif",
               fontWeight: 800,
               fontSize: 24,
-              color: '#fff',
+              color: '#071629',
               margin: '0 0 8px',
             }}>
               Welcome, {firstName}!
@@ -122,7 +122,7 @@ export function WelcomeModal({ name }: WelcomeModalProps) {
                     borderRadius: 12,
                     padding: '12px 14px',
                     fontSize: 12.5,
-                    color: '#e2e8f0',
+                    color: '#334155',
                     fontWeight: 500,
                     display: 'flex',
                     alignItems: 'center',

@@ -97,18 +97,18 @@ export function DashboardWalkthrough() {
             transition={{ type: 'spring', duration: 0.5 }}
             onClick={(e) => e.stopPropagation()}
             style={{
-              background: '#111f36',
+              background: '#ffffff',
               borderRadius: 24,
               maxWidth: 480,
               width: '92%',
               boxShadow: '0 32px 100px rgba(0,0,0,0.5)',
-              border: '1px solid rgba(255,255,255,0.08)',
+              border: '1px solid rgba(0,0,0,0.08)',
               overflow: 'hidden',
               position: 'relative',
             }}
           >
             {/* Progress bar */}
-            <div style={{ height: 4, background: 'rgba(255,255,255,0.06)' }}>
+            <div style={{ height: 4, background: 'rgba(0,0,0,0.06)' }}>
               <motion.div
                 animate={{ width: `${progress}%` }}
                 transition={{ duration: 0.4, ease: 'easeOut' }}
@@ -156,7 +156,7 @@ export function DashboardWalkthrough() {
 
                   <h3 style={{
                     fontFamily: "'Montserrat', sans-serif",
-                    fontSize: 22, fontWeight: 800, color: '#fff',
+                    fontSize: 22, fontWeight: 800, color: '#071629',
                     margin: '0 0 10px', letterSpacing: -0.3,
                   }}>
                     {current.title}
@@ -176,7 +176,7 @@ export function DashboardWalkthrough() {
                 {STEPS.map((_, i) => (
                   <div key={i} style={{
                     width: i === step ? 20 : 8, height: 8, borderRadius: 100,
-                    background: i === step ? current.color : i < step ? `${current.color}40` : 'rgba(255,255,255,0.08)',
+                    background: i === step ? current.color : i < step ? `${current.color}40` : 'rgba(0,0,0,0.08)',
                     transition: 'all 0.3s ease',
                     boxShadow: i === step ? `0 0 8px ${current.color}40` : 'none',
                   }} />
@@ -191,8 +191,8 @@ export function DashboardWalkthrough() {
                 {step > 0 && (
                   <button onClick={handleBack} style={{
                     padding: '12px 24px', borderRadius: 100,
-                    background: 'rgba(255,255,255,0.06)', color: '#e2e8f0',
-                    border: '1px solid rgba(255,255,255,0.08)',
+                    background: 'rgba(0,0,0,0.05)', color: '#334155',
+                    border: '1px solid rgba(0,0,0,0.08)',
                     fontSize: 13, fontWeight: 600,
                     fontFamily: "'DM Sans', sans-serif", cursor: 'pointer',
                   }}>

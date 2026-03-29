@@ -51,13 +51,13 @@ export default async function OpportunitiesPage({ searchParams }: OpportunitiesP
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           marginBottom: 24, padding: '20px 24px',
-          background: '#111f36', borderRadius: 18,
-          border: '1px solid rgba(255,255,255,0.06)',
+          background: '#ffffff', borderRadius: 18,
+          border: '1px solid rgba(0,0,0,0.06)', boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
         }}>
           <div>
             <h1 style={{
               fontFamily: "'Montserrat', sans-serif", fontSize: 22, fontWeight: 800,
-              color: '#fff', margin: 0, display: 'flex', alignItems: 'center', gap: 10,
+              color: '#071629', margin: 0, display: 'flex', alignItems: 'center', gap: 10,
               letterSpacing: -0.3,
             }}>
               <div style={{
@@ -81,11 +81,11 @@ export default async function OpportunitiesPage({ searchParams }: OpportunitiesP
           {(opportunities || []).length === 0 ? (
             <div style={{
               padding: 48, textAlign: 'center',
-              background: '#111f36', borderRadius: 18,
-              border: '1px solid rgba(255,255,255,0.06)',
+              background: '#ffffff', borderRadius: 18,
+              border: '1px solid rgba(0,0,0,0.06)',
             }}>
               <Briefcase className="w-10 h-10 mx-auto mb-3" style={{ color: '#64748b' }} />
-              <p style={{ fontWeight: 700, color: '#e2e8f0', fontFamily: "'Montserrat', sans-serif" }}>No opportunities found</p>
+              <p style={{ fontWeight: 700, color: '#071629', fontFamily: "'Montserrat', sans-serif" }}>No opportunities found</p>
               <p style={{ fontSize: 13, color: '#64748b', marginTop: 4 }}>Try adjusting your filters</p>
             </div>
           ) : (

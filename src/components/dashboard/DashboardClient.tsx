@@ -38,13 +38,13 @@ interface DashboardClientProps {
 /* ─── color system ──────────────────────────────────────────────────── */
 
 const C = {
-  bg: '#0c1a2e',
-  card: '#111f36',
-  cardBorder: 'rgba(255,255,255,0.06)',
-  cardHover: 'rgba(255,255,255,0.03)',
-  text: '#e2e8f0',
+  bg: '#f0f2f8',
+  card: '#ffffff',
+  cardBorder: 'rgba(0,0,0,0.08)',
+  cardHover: 'rgba(0,0,0,0.02)',
+  text: '#071629',
   textMuted: '#64748b',
-  textDim: '#475569',
+  textDim: '#94a3b8',
   blue: '#0ea5e9',
   purple: '#a855f7',
   green: '#22c55e',
@@ -170,6 +170,7 @@ export function DashboardClient({
     background: C.card,
     borderRadius: 18,
     border: `1px solid ${C.cardBorder}`,
+    boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
   }
 
   return (
@@ -183,7 +184,7 @@ export function DashboardClient({
         {/* TOP BAR */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 26 }}>
           <div>
-            <h1 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 26, fontWeight: 800, color: '#fff', margin: 0, letterSpacing: -0.5 }}>
+            <h1 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 26, fontWeight: 800, color: '#071629', margin: 0, letterSpacing: -0.5 }}>
               Hello, {firstName} 👋
             </h1>
             <p style={{ fontSize: 13, color: C.textMuted, margin: '4px 0 0' }}>
@@ -253,7 +254,7 @@ export function DashboardClient({
               </div>
               <div style={{
                 fontFamily: "'Montserrat', sans-serif", fontSize: 30, fontWeight: 800,
-                color: '#fff', lineHeight: 1, letterSpacing: -1,
+                color: '#071629', lineHeight: 1, letterSpacing: -1,
               }}>
                 {stat.value}
               </div>
@@ -265,8 +266,8 @@ export function DashboardClient({
         {/* MY PILLARS */}
         <div style={{ ...cardStyle, padding: '22px 24px', marginBottom: 16 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
-            <h3 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 16, fontWeight: 800, color: '#fff', margin: 0, letterSpacing: -0.3 }}>My Pillars</h3>
-            <div style={{ display: 'flex', gap: 3, alignItems: 'center', background: 'rgba(255,255,255,0.05)', borderRadius: 100, padding: 3 }}>
+            <h3 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 16, fontWeight: 800, color: '#071629', margin: 0, letterSpacing: -0.3 }}>My Pillars</h3>
+            <div style={{ display: 'flex', gap: 3, alignItems: 'center', background: 'rgba(0,0,0,0.04)', borderRadius: 100, padding: 3 }}>
               {['All', 'Active', 'Completed'].map(t => (
                 <button key={t} onClick={() => setActiveTab(t)} style={{
                   padding: '5px 16px', borderRadius: 100, fontSize: 12, border: 'none', cursor: 'pointer',
@@ -293,17 +294,17 @@ export function DashboardClient({
                 href={`/dashboard/courses/${p.id}`}
                 style={{
                   display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px',
-                  background: 'rgba(255,255,255,0.02)', borderRadius: 14,
+                  background: 'rgba(0,0,0,0.02)', borderRadius: 14,
                   textDecoration: 'none', color: 'inherit', transition: 'all .2s',
                   border: `1px solid ${C.cardBorder}`,
                   borderLeft: `4px solid ${p.color}`,
                 }}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.05)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(0,0,0,0.04)';
                   (e.currentTarget as HTMLElement).style.borderColor = `${p.color}40`;
                 }}
                 onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.02)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(0,0,0,0.02)';
                   (e.currentTarget as HTMLElement).style.borderColor = C.cardBorder;
                 }}
               >
@@ -316,15 +317,15 @@ export function DashboardClient({
                   {p.emoji}
                 </div>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 13.5, fontWeight: 700, color: '#fff' }}>{p.title}</div>
+                  <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 13.5, fontWeight: 700, color: '#071629' }}>{p.title}</div>
                   <div style={{ fontSize: 11, color: C.textMuted, marginTop: 2 }}>Facilitated by Proplr Team</div>
                 </div>
                 <div style={{ width: 130 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10.5, color: C.textMuted, marginBottom: 5 }}>
                     <span>Progress</span>
-                    <span style={{ fontWeight: 700, color: '#fff' }}>{p.progress}%</span>
+                    <span style={{ fontWeight: 700, color: '#071629' }}>{p.progress}%</span>
                   </div>
-                  <div style={{ height: 6, background: 'rgba(255,255,255,0.08)', borderRadius: 10, overflow: 'hidden' }}>
+                  <div style={{ height: 6, background: 'rgba(0,0,0,0.08)', borderRadius: 10, overflow: 'hidden' }}>
                     <div style={{
                       height: '100%', width: `${p.progress}%`,
                       background: `linear-gradient(90deg, ${p.color}, ${p.color}99)`,
@@ -347,7 +348,7 @@ export function DashboardClient({
         {/* MY TASKS */}
         <div style={{ ...cardStyle, padding: '22px 24px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <h3 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 16, fontWeight: 800, color: '#fff', margin: 0, letterSpacing: -0.3 }}>My Tasks</h3>
+            <h3 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 16, fontWeight: 800, color: '#071629', margin: 0, letterSpacing: -0.3 }}>My Tasks</h3>
             <Link href="/dashboard/tasks" style={{ fontSize: 12, color: C.blue, textDecoration: 'none', fontWeight: 600 }}>+ Add new</Link>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
@@ -361,14 +362,14 @@ export function DashboardClient({
             ) : (
               taskItems.map(task => (
                 <div key={task.id} style={{
-                  background: task.priority === 'high' ? `${C.red}08` : 'rgba(255,255,255,0.02)',
+                  background: task.priority === 'high' ? `${C.red}08` : 'rgba(0,0,0,0.02)',
                   borderRadius: 14, padding: '16px 18px',
                   border: `1px solid ${task.priority === 'high' ? `${C.red}20` : C.cardBorder}`,
                   borderLeft: `4px solid ${task.priority === 'high' ? C.red : C.textDim}`,
                   transition: 'all 0.2s',
                 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                    <span style={{ fontSize: 13, fontWeight: 600, color: '#fff', flex: 1, paddingRight: 8, lineHeight: 1.3 }}>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: '#071629', flex: 1, paddingRight: 8, lineHeight: 1.3 }}>
                       {task.title}
                     </span>
                     <span style={{
@@ -421,7 +422,7 @@ export function DashboardClient({
                 ? <img src={profile.photo_url} alt={fullName} style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
                 : firstName?.[0]?.toUpperCase()}
             </div>
-            <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 800, fontSize: 15, color: '#fff' }}>{fullName}</div>
+            <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 800, fontSize: 15, color: '#071629' }}>{fullName}</div>
             <div style={{ fontSize: 12, color: C.textMuted, marginTop: 3 }}>{profile.email}</div>
             <div style={{
               marginTop: 10, display: 'inline-flex', padding: '4px 14px',
@@ -438,7 +439,7 @@ export function DashboardClient({
         <div style={{ ...cardStyle, padding: '18px 20px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
             <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: C.textMuted, padding: '0 4px', fontSize: 14, fontFamily: 'inherit' }}>‹</button>
-            <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 13, fontWeight: 700, color: '#fff' }}>{monthName}</span>
+            <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 13, fontWeight: 700, color: '#071629' }}>{monthName}</span>
             <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: C.textMuted, padding: '0 4px', fontSize: 14, fontFamily: 'inherit' }}>›</button>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', textAlign: 'center', gap: 2 }}>
@@ -465,10 +466,10 @@ export function DashboardClient({
         <div style={{
           ...cardStyle,
           padding: 20,
-          background: 'linear-gradient(180deg, #0f1d32 0%, #0a1525 100%)',
+          background: 'linear-gradient(180deg, #f8f9fc 0%, #f0f2f8 100%)',
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
-            <span style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 800, fontSize: 14, color: '#fff', letterSpacing: -0.3 }}>★ Leaderboard</span>
+            <span style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 800, fontSize: 14, color: '#071629', letterSpacing: -0.3 }}>★ Leaderboard</span>
             <Link href="/dashboard/leaderboard" style={{ fontSize: 11, color: C.gold, textDecoration: 'none', fontWeight: 600 }}>See all →</Link>
           </div>
 
@@ -481,12 +482,12 @@ export function DashboardClient({
                 {/* 2nd */}
                 <div style={{ flex: 1, textAlign: 'center' }}>
                   <div style={{ fontSize: 20, marginBottom: 6 }}>🥈</div>
-                  <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.5)', marginBottom: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <div style={{ fontSize: 10, color: 'rgba(0,0,0,0.4)', marginBottom: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {topStudents[1]?.name?.split(' ')[0] || '—'}
                   </div>
                   <div style={{
-                    background: 'rgba(255,255,255,0.06)', borderRadius: '10px 10px 0 0', height: 48,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: '#fff',
+                    background: 'rgba(0,0,0,0.06)', borderRadius: '10px 10px 0 0', height: 48,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: '#071629',
                   }}>
                     {topStudents[1]?.total_hours || 0}h
                   </div>
@@ -494,7 +495,7 @@ export function DashboardClient({
                 {/* 1st */}
                 <div style={{ flex: 1, textAlign: 'center' }}>
                   <div style={{ fontSize: 24, marginBottom: 6 }}>🥇</div>
-                  <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.9)', marginBottom: 4, fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <div style={{ fontSize: 10, color: 'rgba(0,0,0,0.8)', marginBottom: 4, fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {topStudents[0]?.name?.split(' ')[0] || '—'}
                   </div>
                   <div style={{
@@ -508,12 +509,12 @@ export function DashboardClient({
                 {/* 3rd */}
                 <div style={{ flex: 1, textAlign: 'center' }}>
                   <div style={{ fontSize: 18, marginBottom: 6 }}>🥉</div>
-                  <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.5)', marginBottom: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <div style={{ fontSize: 10, color: 'rgba(0,0,0,0.4)', marginBottom: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {topStudents[2]?.name?.split(' ')[0] || '—'}
                   </div>
                   <div style={{
-                    background: 'rgba(255,255,255,0.04)', borderRadius: '10px 10px 0 0', height: 36,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, color: '#fff',
+                    background: 'rgba(0,0,0,0.03)', borderRadius: '10px 10px 0 0', height: 36,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, color: '#071629',
                   }}>
                     {topStudents[2]?.total_hours || 0}h
                   </div>
@@ -524,19 +525,19 @@ export function DashboardClient({
               {topStudents.slice(3, 5).map((s, i) => (
                 <div key={s.user_id} style={{
                   display: 'flex', alignItems: 'center', gap: 10, padding: '8px 0',
-                  borderTop: '0.5px solid rgba(255,255,255,0.06)',
+                  borderTop: '0.5px solid rgba(0,0,0,0.06)',
                 }}>
                   <span style={{ fontSize: 12, color: C.textDim, minWidth: 16, fontWeight: 700 }}>{i + 4}</span>
                   <div style={{
-                    width: 28, height: 28, borderRadius: '50%', background: 'rgba(255,255,255,0.08)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, color: '#fff',
+                    width: 28, height: 28, borderRadius: '50%', background: 'rgba(0,0,0,0.08)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, color: '#071629',
                     overflow: 'hidden', flexShrink: 0,
                   }}>
                     {s.photo_url
                       ? <img src={s.photo_url} alt={s.name} style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
                       : s.name?.[0]?.toUpperCase() || '?'}
                   </div>
-                  <span style={{ flex: 1, fontSize: 12, color: 'rgba(255,255,255,0.6)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <span style={{ flex: 1, fontSize: 12, color: 'rgba(0,0,0,0.5)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {s.name || 'Student'}
                   </span>
                   <span style={{ fontSize: 11, color: C.gold, fontWeight: 700 }}>{s.total_hours}h</span>
@@ -552,7 +553,7 @@ export function DashboardClient({
               }}>
                 <span style={{ fontSize: 12, color: C.blue, fontWeight: 700 }}>Your rank</span>
                 <span style={{ flex: 1 }} />
-                <span style={{ fontSize: 12, color: '#fff', fontWeight: 800 }}>#{currentUserRank} · {currentHours}h</span>
+                <span style={{ fontSize: 12, color: '#071629', fontWeight: 800 }}>#{currentUserRank} · {currentHours}h</span>
               </div>
             </>
           )}
@@ -561,7 +562,7 @@ export function DashboardClient({
         {/* UPCOMING EVENT */}
         <div style={{ ...cardStyle, padding: 20 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-            <span style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 800, fontSize: 14, color: '#fff', letterSpacing: -0.3 }}>Upcoming</span>
+            <span style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 800, fontSize: 14, color: '#071629', letterSpacing: -0.3 }}>Upcoming</span>
             <Link href="/dashboard/events" style={{ fontSize: 11, color: C.blue, textDecoration: 'none', fontWeight: 600 }}>See all →</Link>
           </div>
           {nextEvent ? (
@@ -581,7 +582,7 @@ export function DashboardClient({
                 </span>
               </div>
               <div>
-                <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 13.5, fontWeight: 700, color: '#fff', lineHeight: 1.3 }}>
+                <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 13.5, fontWeight: 700, color: '#071629', lineHeight: 1.3 }}>
                   {nextEvent.title}
                 </div>
                 <div style={{ fontSize: 11, color: C.textMuted, margin: '4px 0 12px' }}>
@@ -606,7 +607,7 @@ export function DashboardClient({
         {/* REMINDERS */}
         {notifications.length > 0 && (
           <div style={{ ...cardStyle, padding: 20 }}>
-            <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 800, fontSize: 14, color: '#fff', marginBottom: 12, letterSpacing: -0.3 }}>
+            <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 800, fontSize: 14, color: '#071629', marginBottom: 12, letterSpacing: -0.3 }}>
               Reminders
             </div>
             {notifications.slice(0, 3).map((n: any, i: number) => {
@@ -622,7 +623,7 @@ export function DashboardClient({
                     boxShadow: `0 0 6px ${dotColors[i % dotColors.length]}40`,
                   }} />
                   <div>
-                    <div style={{ fontSize: 12.5, fontWeight: 600, color: '#fff' }}>{n.title}</div>
+                    <div style={{ fontSize: 12.5, fontWeight: 600, color: '#071629' }}>{n.title}</div>
                     <div style={{ fontSize: 11, color: C.textMuted }}>{n.message}</div>
                   </div>
                 </div>
