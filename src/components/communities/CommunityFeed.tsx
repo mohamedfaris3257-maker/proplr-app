@@ -296,7 +296,7 @@ export function CommunityFeed({
   /* ─── Render ──────────────────────────────────────────────────────── */
 
   return (
-    <div style={{ flex: 1, overflowY: 'auto', background: '#f0f2f8', minHeight: '100vh' }}>
+    <div style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
       <div style={{ display: 'flex', gap: 24, maxWidth: 1128, margin: '0 auto', padding: '24px 16px', alignItems: 'flex-start' }}>
 
         {/* ━━━━ LEFT PANEL ━━━━ */}

@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { tryCreateAdminClient } from '@/lib/supabase/admin';
-import { CommunityFeed } from '@/components/communities/CommunityFeed';
+import { CommunityWrapper } from '@/components/communities/CommunityWrapper';
 import type { Profile } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
@@ -26,11 +26,12 @@ export default async function CommunityPage() {
     { data: profile },
     { data: memberRows },
     { data: upcomingEvents },
+    { data: allCommunities },
   ] = await Promise.all([
     db.from('profiles').select('*').eq('user_id', user.id).single(),
     db
       .from('community_members')
-      .select('community_id, role, communities(id, name, type)')
+      .select('community_id, role, communities(id, name, type, description, cover_url)')
       .eq('user_id', user.id)
       .eq('status', 'approved'),
     db
@@ -39,14 +40,50 @@ export default async function CommunityPage() {
       .gte('date', new Date().toISOString().split('T')[0])
       .order('date', { ascending: true })
       .limit(4),
+    db
+      .from('communities')
+      .select('id, name, description, type, cover_url')
+      .eq('is_active', true),
   ]);
 
-  // Get member count for "connections" display
-  const myCommunityIds = (memberRows || []).map((r: any) => {
-    const c = Array.isArray(r.communities) ? r.communities[0] : r.communities;
-    return c?.id;
-  }).filter(Boolean);
+  // Build my communities data
+  const myCommunityIds: string[] = [];
+  const myCommunities: { id: string; name: string; type: string }[] = [];
+  const allMyCommunityData: { id: string; name: string; description: string | null; type: string; cover_url: string | null }[] = [];
 
+  (memberRows || []).forEach((r: any) => {
+    const c = Array.isArray(r.communities) ? r.communities[0] : r.communities;
+    if (c) {
+      myCommunityIds.push(c.id);
+      myCommunities.push({ id: c.id, name: c.name, type: c.type });
+      allMyCommunityData.push({
+        id: c.id,
+        name: c.name,
+        description: c.description || null,
+        type: c.type,
+        cover_url: c.cover_url || null,
+      });
+    }
+  });
+
+  // Get member counts for all communities
+  const memberCounts: Record<string, number> = {};
+  if (allCommunities && allCommunities.length > 0) {
+    const communityIds = allCommunities.map((c: any) => c.id);
+    const { data: countRows } = await db
+      .from('community_members')
+      .select('community_id')
+      .in('community_id', communityIds)
+      .eq('status', 'approved');
+
+    if (countRows) {
+      countRows.forEach((row: any) => {
+        memberCounts[row.community_id] = (memberCounts[row.community_id] || 0) + 1;
+      });
+    }
+  }
+
+  // Connection count
   let connectionCount = 0;
   if (myCommunityIds.length > 0) {
     const { count } = await db
@@ -58,7 +95,7 @@ export default async function CommunityPage() {
     connectionCount = count || 0;
   }
 
-  // Get suggested peers (same school, not in same communities)
+  // Get suggested peers
   let suggestedPeers: any[] = [];
   if (profile?.school_name) {
     const { data: peers } = await db
@@ -71,36 +108,18 @@ export default async function CommunityPage() {
     suggestedPeers = peers || [];
   }
 
-  // Build communities list for post selector
-  const myCommunities = (memberRows || []).map((r: any) => {
-    const c = Array.isArray(r.communities) ? r.communities[0] : r.communities;
-    return c ? { id: c.id as string, name: c.name as string, type: c.type as string } : null;
-  }).filter((c): c is { id: string; name: string; type: string } => c !== null);
-
-  // Get discover communities
-  let discoverCommunities: any[] = [];
-  if (myCommunityIds.length > 0) {
-    const { data } = await db
-      .from('communities')
-      .select('id, name, description, type, cover_url')
-      .eq('is_active', true)
-      .not('id', 'in', `(${myCommunityIds.join(',')})`)
-      .limit(6);
-    discoverCommunities = data || [];
-  } else {
-    const { data } = await db
-      .from('communities')
-      .select('id, name, description, type, cover_url')
-      .eq('is_active', true)
-      .limit(6);
-    discoverCommunities = data || [];
-  }
+  // Discover communities (not joined)
+  const discoverCommunities = (allCommunities || [])
+    .filter((c: any) => !myCommunityIds.includes(c.id))
+    .slice(0, 12);
 
   return (
-    <CommunityFeed
+    <CommunityWrapper
       profile={profile as unknown as Profile}
       myCommunities={myCommunities}
       discoverCommunities={discoverCommunities}
+      allMyCommunityData={allMyCommunityData}
+      memberCounts={memberCounts}
       connectionCount={connectionCount}
       suggestedPeers={suggestedPeers}
       upcomingEvents={upcomingEvents || []}
