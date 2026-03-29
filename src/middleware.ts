@@ -25,9 +25,8 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // Use getSession for middleware (faster, avoids redirect loops)
+  const { data: { session } } = await supabase.auth.getSession();
   const pathname = request.nextUrl.pathname;
 
   // Admin — always allow, no protection
@@ -42,15 +41,17 @@ export async function middleware(request: NextRequest) {
 
   // Dashboard — must be logged in
   if (pathname.startsWith('/dashboard')) {
-    if (!user) {
-      return NextResponse.redirect(new URL('/login', request.url));
+    if (!session) {
+      const loginUrl = new URL('/login', request.url);
+      loginUrl.searchParams.set('redirect', pathname);
+      return NextResponse.redirect(loginUrl);
     }
     return supabaseResponse;
   }
 
   // Auth pages — redirect to dashboard if already logged in
   if (pathname === '/login' || pathname === '/register') {
-    if (user) {
+    if (session) {
       return NextResponse.redirect(new URL('/dashboard', request.url));
     }
     return supabaseResponse;

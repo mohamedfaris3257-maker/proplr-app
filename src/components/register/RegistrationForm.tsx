@@ -193,6 +193,7 @@ export default function RegistrationForm() {
 
       // Create profile immediately (user is now authenticated)
       const { error: profileError } = await supabase.from('profiles').insert({
+        id: authData.user.id,
         user_id: authData.user.id,
         name: formData.full_name.trim(),
         email: formData.email.toLowerCase().trim(),
@@ -207,8 +208,13 @@ export default function RegistrationForm() {
       });
 
       if (profileError) {
-        console.error('Profile insert error:', profileError);
-        // Don't block signup — profile can be created later
+        console.error('Profile insert error:', {
+          message: profileError.message,
+          code: profileError.code,
+          details: profileError.details,
+          hint: profileError.hint,
+        });
+        // Don't block signup — dashboard layout creates a minimal profile if needed
       }
 
       // Save full registration record (non-blocking)

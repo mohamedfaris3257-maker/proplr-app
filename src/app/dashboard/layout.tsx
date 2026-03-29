@@ -28,7 +28,16 @@ export default async function DashboardLayout({
   if (!profile) {
     const { data: newProfile } = await supabase
       .from('profiles')
-      .insert({ user_id: user.id, name: user.email?.split('@')[0] || 'Student' })
+      .insert({
+        id: user.id,
+        user_id: user.id,
+        name: user.email?.split('@')[0] || 'Student',
+        email: user.email || '',
+        type: 'school_student',
+        role: 'student',
+        plan: 'free',
+        onboarding_complete: false,
+      })
       .select('*')
       .single();
     if (!newProfile) redirect('/login');
