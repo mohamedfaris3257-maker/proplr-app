@@ -29,8 +29,13 @@ export async function middleware(request: NextRequest) {
   const { data: { session } } = await supabase.auth.getSession();
   const pathname = request.nextUrl.pathname;
 
-  // Admin — always allow, no protection
+  // Admin — must be logged in (role check happens in admin layout)
   if (pathname.startsWith('/admin')) {
+    if (!session) {
+      const loginUrl = new URL('/login', request.url);
+      loginUrl.searchParams.set('redirect', pathname);
+      return NextResponse.redirect(loginUrl);
+    }
     return supabaseResponse;
   }
 
