@@ -265,33 +265,33 @@ export function CommunityFeed({
   /* ─── Render ──────────────────────────────────────────────────────── */
 
   return (
-    <div style={{ flex: 1, overflowY: 'auto', background: '#f3f2ef', minHeight: '100vh' }}>
+    <div style={{ flex: 1, overflowY: 'auto', background: '#0c1a2e', minHeight: '100vh' }}>
       <div style={{ display: 'flex', gap: 24, maxWidth: 1128, margin: '0 auto', padding: '24px 16px', alignItems: 'flex-start' }}>
 
         {/* ━━━━ LEFT PANEL ━━━━ */}
         <div style={{ flex: '0 0 240px', position: 'sticky', top: 20 }}>
 
           {/* Profile card */}
-          <div style={{ background: '#fff', borderRadius: 12, overflow: 'hidden', border: '0.5px solid rgba(0,0,0,0.1)', marginBottom: 8 }}>
-            <div style={{ height: 56, background: 'linear-gradient(135deg, #071629 0%, #3d9be9 100%)', position: 'relative' }}>
+          <div style={{ background: '#111f36', borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.06)', marginBottom: 8 }}>
+            <div style={{ height: 56, background: 'linear-gradient(135deg, #0ea5e9 0%, #a855f7 100%)', position: 'relative' }}>
               <div style={{ position: 'absolute', top: 8, right: 8, fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.6)', letterSpacing: 1 }}>PROPLR</div>
             </div>
             <div style={{ padding: '0 16px 12px', position: 'relative' }}>
               <div style={{ width: 64, height: 64, borderRadius: '50%', background: '#3d9be9', border: '3px solid #fff', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 24, marginTop: -32, marginBottom: 6 }}>
                 {initial}
               </div>
-              <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 15, color: '#000' }}>{profile.name}</div>
-              <div style={{ fontSize: 12, color: '#666', marginTop: 2, lineHeight: 1.4 }}>
+              <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 15, color: '#e2e8f0' }}>{profile.name}</div>
+              <div style={{ fontSize: 12, color: '#64748b', marginTop: 2, lineHeight: 1.4 }}>
                 {profile.school_name || 'Student'} · Proplr Member
               </div>
-              <div style={{ fontSize: 12, color: '#666', marginTop: 2 }}>Dubai, UAE</div>
+              <div style={{ fontSize: 12, color: '#64748b', marginTop: 2 }}>Dubai, UAE</div>
               <div style={{ borderTop: '0.5px solid rgba(0,0,0,0.1)', marginTop: 10, paddingTop: 10, display: 'flex', flexDirection: 'column', gap: 6 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12 }}>
-                  <span style={{ color: '#666' }}>Profile views</span>
+                  <span style={{ color: '#64748b' }}>Profile views</span>
                   <span style={{ color: '#3d9be9', fontWeight: 600 }}>—</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12 }}>
-                  <span style={{ color: '#666' }}>Post impressions</span>
+                  <span style={{ color: '#64748b' }}>Post impressions</span>
                   <span style={{ color: '#3d9be9', fontWeight: 600 }}>—</span>
                 </div>
               </div>
@@ -309,9 +309,9 @@ export function CommunityFeed({
             const pct = Math.round((filled / fields.length) * 100);
             if (pct >= 100) return null;
             return (
-              <div style={{ background: '#fff', borderRadius: 12, border: '0.5px solid rgba(0,0,0,0.1)', padding: '12px 16px', marginBottom: 8 }}>
+              <div style={{ background: '#111f36', borderRadius: 12, border: '1px solid rgba(255,255,255,0.06)', padding: '12px 16px', marginBottom: 8 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, marginBottom: 6 }}>
-                  <span style={{ fontWeight: 600, color: '#000' }}>Profile strength</span>
+                  <span style={{ fontWeight: 600, color: '#e2e8f0' }}>Profile strength</span>
                   <span style={{ color: '#3d9be9', fontWeight: 600 }}>{pct}%</span>
                 </div>
                 <div style={{ height: 5, background: '#e8eaf0', borderRadius: 10, overflow: 'hidden' }}>
@@ -325,7 +325,7 @@ export function CommunityFeed({
           })()}
 
           {/* Quick links */}
-          <div style={{ background: '#fff', borderRadius: 12, border: '0.5px solid rgba(0,0,0,0.1)', padding: '8px 0', marginBottom: 8 }}>
+          <div style={{ background: '#111f36', borderRadius: 12, border: '1px solid rgba(255,255,255,0.06)', padding: '8px 0', marginBottom: 8 }}>
             {[
               { icon: '▤', label: 'Saved items', href: '/dashboard/community' },
               { icon: '◆', label: 'Communities', href: '/dashboard/community' },
@@ -335,7 +335,7 @@ export function CommunityFeed({
               <Link
                 key={item.label}
                 href={item.href}
-                style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 16px', fontSize: 13.5, color: '#000', textDecoration: 'none' }}
+                style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 16px', fontSize: 13.5, color: '#e2e8f0', textDecoration: 'none' }}
                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#f3f2ef'; }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
               >
@@ -347,15 +347,15 @@ export function CommunityFeed({
 
           {/* Discover communities */}
           {discoverCommunities.length > 0 && (
-            <div style={{ background: '#fff', borderRadius: 12, border: '0.5px solid rgba(0,0,0,0.1)', padding: '12px 16px' }}>
-              <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 13, color: '#000', marginBottom: 10 }}>
+            <div style={{ background: '#111f36', borderRadius: 12, border: '1px solid rgba(255,255,255,0.06)', padding: '12px 16px' }}>
+              <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 13, color: '#e2e8f0', marginBottom: 10 }}>
                 Discover Communities
               </div>
               {discoverCommunities.slice(0, 4).map((c: any) => (
                 <Link
                   key={c.id}
                   href={`/dashboard/community/${c.id}`}
-                  style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 0', textDecoration: 'none', borderBottom: '0.5px solid rgba(0,0,0,0.06)' }}
+                  style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 0', textDecoration: 'none', borderBottom: '0.5px solid rgba(255,255,255,0.06)' }}
                   onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#f3f2ef'; }}
                   onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
                 >
@@ -363,8 +363,8 @@ export function CommunityFeed({
                     {c.type === 'cohort' ? '◆' : c.type === 'school' ? '▣' : '◆'}
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 12.5, fontWeight: 600, color: '#000', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{c.name}</div>
-                    <div style={{ fontSize: 10.5, color: '#666', textTransform: 'capitalize' }}>{c.type}</div>
+                    <div style={{ fontSize: 12.5, fontWeight: 600, color: '#e2e8f0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{c.name}</div>
+                    <div style={{ fontSize: 10.5, color: '#64748b', textTransform: 'capitalize' }}>{c.type}</div>
                   </div>
                 </Link>
               ))}
@@ -376,14 +376,14 @@ export function CommunityFeed({
         <div style={{ flex: 1, maxWidth: 600, minWidth: 0 }}>
 
           {/* Post creation box */}
-          <div style={{ background: '#fff', borderRadius: 12, border: '0.5px solid rgba(0,0,0,0.1)', padding: '12px 16px', marginBottom: 8 }}>
+          <div style={{ background: '#111f36', borderRadius: 12, border: '1px solid rgba(255,255,255,0.06)', padding: '12px 16px', marginBottom: 8 }}>
             <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 10 }}>
-              <div style={{ width: 46, height: 46, borderRadius: '50%', background: '#3d9be9', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 17, flexShrink: 0, border: '1px solid rgba(0,0,0,0.15)' }}>
+              <div style={{ width: 46, height: 46, borderRadius: '50%', background: '#3d9be9', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 17, flexShrink: 0, border: '1px solid rgba(255,255,255,0.1)' }}>
                 {initial}
               </div>
               <button
                 onClick={() => setShowPostModal(true)}
-                style={{ flex: 1, textAlign: 'left', background: 'transparent', border: '1px solid rgba(0,0,0,0.3)', borderRadius: 32, padding: '10px 16px', fontSize: 14, color: '#666', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600 }}
+                style={{ flex: 1, textAlign: 'left', background: 'transparent', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 32, padding: '10px 16px', fontSize: 14, color: '#64748b', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600 }}
                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#f3f2ef'; }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
               >
@@ -399,7 +399,7 @@ export function CommunityFeed({
                 <button
                   key={action.label}
                   onClick={() => setShowPostModal(true)}
-                  style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 16px', background: 'none', border: 'none', borderRadius: 8, fontSize: 13.5, color: '#666', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600 }}
+                  style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 16px', background: 'none', border: 'none', borderRadius: 8, fontSize: 13.5, color: '#64748b', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600 }}
                   onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#f3f2ef'; }}
                   onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
                 >
@@ -410,67 +410,100 @@ export function CommunityFeed({
             </div>
           </div>
 
-          {/* Sort bar */}
-          <div style={{ background: '#fff', borderRadius: 12, border: '0.5px solid rgba(0,0,0,0.1)', padding: '8px 16px', marginBottom: 8, display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-            <span style={{ fontSize: 13, color: '#666' }}>Sort by: </span>
-            <button style={{ fontSize: 13, fontWeight: 700, color: '#000', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: 4 }}>
-              Top ▾
-            </button>
-          </div>
+          {/* Community tabs — mirror pill box */}
+          <div style={{
+            background: 'linear-gradient(135deg, #071629 0%, #0f2240 100%)',
+            borderRadius: 16,
+            border: '1px solid rgba(255,255,255,0.05)',
+            padding: '14px 18px',
+            marginBottom: 10,
+            boxShadow: '0 4px 20px rgba(7,22,41,0.15)',
+          }}>
+            {/* Current community indicator */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <div style={{
+                  width: 8, height: 8, borderRadius: '50%',
+                  background: activeCommunity === 'all' ? '#ffcb5d' : '#3b82f6',
+                  boxShadow: `0 0 8px ${activeCommunity === 'all' ? '#ffcb5d' : '#3b82f6'}60`,
+                }} />
+                <span style={{ fontSize: 12, fontWeight: 700, color: '#fff', letterSpacing: 0.5 }}>
+                  {activeCommunity === 'all'
+                    ? 'All Communities'
+                    : myCommunities.find(c => c.id === activeCommunity)?.name || 'Community'}
+                </span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>Sort by:</span>
+                <button style={{ fontSize: 11, fontWeight: 700, color: '#ffcb5d', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: 3 }}>
+                  Top ▾
+                </button>
+              </div>
+            </div>
 
-          {/* Community tabs */}
-          <div style={{ background: '#fff', borderRadius: 12, border: '0.5px solid rgba(0,0,0,0.1)', padding: '10px 16px', marginBottom: 8, display: 'flex', gap: 8, overflowX: 'auto', scrollbarWidth: 'none' as any }}>
-            <button
-              onClick={() => setActiveCommunity('all')}
-              style={{
-                padding: '7px 18px',
-                borderRadius: 100,
-                border: 'none',
-                fontSize: 13,
-                fontWeight: 600,
-                cursor: 'pointer',
-                fontFamily: 'inherit',
-                whiteSpace: 'nowrap' as any,
-                background: activeCommunity === 'all' ? '#071629' : '#f3f2ef',
-                color: activeCommunity === 'all' ? '#fff' : '#333',
-                transition: 'all 0.15s',
-              }}>
-              All
-            </button>
-            {myCommunities.map(community => (
+            {/* Mirror pill tabs */}
+            <div style={{
+              display: 'flex', gap: 6, overflowX: 'auto', scrollbarWidth: 'none' as any,
+              padding: '3px', background: 'rgba(255,255,255,0.06)', borderRadius: 100,
+            }}>
               <button
-                key={community.id}
-                onClick={() => setActiveCommunity(community.id)}
+                onClick={() => setActiveCommunity('all')}
                 style={{
-                  padding: '7px 18px',
+                  padding: '8px 20px',
                   borderRadius: 100,
                   border: 'none',
-                  fontSize: 13,
-                  fontWeight: 600,
+                  fontSize: 12,
+                  fontWeight: 700,
                   cursor: 'pointer',
                   fontFamily: 'inherit',
                   whiteSpace: 'nowrap' as any,
-                  background: activeCommunity === community.id ? '#3d9be9' : '#f3f2ef',
-                  color: activeCommunity === community.id ? '#fff' : '#333',
-                  transition: 'all 0.15s',
+                  background: activeCommunity === 'all'
+                    ? 'linear-gradient(135deg, #ffcb5d, #f59e0b)'
+                    : 'transparent',
+                  color: activeCommunity === 'all' ? '#071629' : 'rgba(255,255,255,0.6)',
+                  transition: 'all 0.25s ease',
+                  boxShadow: activeCommunity === 'all' ? '0 2px 10px rgba(255,203,93,0.3)' : 'none',
                 }}>
-                {community.name}
+                ◎ All
               </button>
-            ))}
+              {myCommunities.map(community => (
+                <button
+                  key={community.id}
+                  onClick={() => setActiveCommunity(community.id)}
+                  style={{
+                    padding: '8px 20px',
+                    borderRadius: 100,
+                    border: 'none',
+                    fontSize: 12,
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    fontFamily: 'inherit',
+                    whiteSpace: 'nowrap' as any,
+                    background: activeCommunity === community.id
+                      ? 'linear-gradient(135deg, #3b82f6, #1d4ed8)'
+                      : 'transparent',
+                    color: activeCommunity === community.id ? '#fff' : 'rgba(255,255,255,0.6)',
+                    transition: 'all 0.25s ease',
+                    boxShadow: activeCommunity === community.id ? '0 2px 10px rgba(59,130,246,0.3)' : 'none',
+                  }}>
+                  {community.type === 'cohort' ? '◆' : community.type === 'school' ? '▣' : '◈'} {community.name}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Feed posts */}
           {loading ? (
-            <div style={{ background: '#fff', borderRadius: 12, border: '0.5px solid rgba(0,0,0,0.1)', padding: 40, textAlign: 'center', color: '#666', fontSize: 13 }}>
+            <div style={{ background: '#111f36', borderRadius: 12, border: '1px solid rgba(255,255,255,0.06)', padding: 40, textAlign: 'center', color: '#64748b', fontSize: 13 }}>
               Loading your feed...
             </div>
           ) : posts.length === 0 ? (
-            <div style={{ background: '#fff', borderRadius: 12, border: '0.5px solid rgba(0,0,0,0.1)', padding: 40, textAlign: 'center' }}>
+            <div style={{ background: '#111f36', borderRadius: 12, border: '1px solid rgba(255,255,255,0.06)', padding: 40, textAlign: 'center' }}>
               <div style={{ fontSize: 36, marginBottom: 10 }}>◈</div>
-              <h3 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 15, fontWeight: 700, color: '#000', margin: '0 0 4px' }}>
+              <h3 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 15, fontWeight: 700, color: '#e2e8f0', margin: '0 0 4px' }}>
                 Your feed is empty
               </h3>
-              <p style={{ fontSize: 13, color: '#666', margin: 0 }}>
+              <p style={{ fontSize: 13, color: '#64748b', margin: 0 }}>
                 {myCommunities.length === 0
                   ? 'Join a community to see posts in your feed!'
                   : 'Be the first to share something with your community!'}
@@ -478,11 +511,11 @@ export function CommunityFeed({
             </div>
           ) : (
             posts.map((post) => (
-              <div key={post.id} style={{ background: '#fff', borderRadius: 12, border: '0.5px solid rgba(0,0,0,0.1)', marginBottom: 8, overflow: 'hidden' }}>
+              <div key={post.id} style={{ background: '#111f36', borderRadius: 12, border: '1px solid rgba(255,255,255,0.06)', marginBottom: 8, overflow: 'hidden' }}>
 
                 {/* Pinned badge */}
                 {post.is_pinned && (
-                  <div style={{ background: '#f0f2f8', padding: '5px 16px', fontSize: 11, fontWeight: 700, color: '#666', letterSpacing: 0.5, display: 'flex', alignItems: 'center', gap: 4 }}>
+                  <div style={{ background: 'rgba(255,255,255,0.06)', padding: '5px 16px', fontSize: 11, fontWeight: 700, color: '#64748b', letterSpacing: 0.5, display: 'flex', alignItems: 'center', gap: 4 }}>
                     PINNED
                   </div>
                 )}
@@ -504,17 +537,17 @@ export function CommunityFeed({
                         </div>
                       </Link>
                       <div>
-                        <Link href={`/dashboard/profile/${post.user_id}`} style={{ fontWeight: 700, fontSize: 14, color: '#000', lineHeight: 1.2, textDecoration: 'none' }}
+                        <Link href={`/dashboard/profile/${post.user_id}`} style={{ fontWeight: 700, fontSize: 14, color: '#e2e8f0', lineHeight: 1.2, textDecoration: 'none' }}
                           onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.textDecoration = 'underline'; }}
                           onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.textDecoration = 'none'; }}>
                           {post.profiles?.name || 'Unknown'}
                         </Link>
-                        <div style={{ fontSize: 12, color: '#666', lineHeight: 1.4 }}>
+                        <div style={{ fontSize: 12, color: '#64748b', lineHeight: 1.4 }}>
                           {post.profiles?.type?.replace('_', ' ')}
                           {post.community && (
                             <>
                               {' · Proplr '}
-                              <Link href={`/dashboard/community/${post.community_id}`} style={{ color: '#666', textDecoration: 'none' }}
+                              <Link href={`/dashboard/community/${post.community_id}`} style={{ color: '#64748b', textDecoration: 'none' }}
                                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.textDecoration = 'underline'; }}
                                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.textDecoration = 'none'; }}>
                                 {post.community.name}
@@ -522,7 +555,7 @@ export function CommunityFeed({
                             </>
                           )}
                         </div>
-                        <div style={{ fontSize: 12, color: '#666', display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <div style={{ fontSize: 12, color: '#64748b', display: 'flex', alignItems: 'center', gap: 4 }}>
                           {timeAgo(post.created_at)} · <span style={{ fontSize: 14 }}>●</span>
                         </div>
                       </div>
@@ -539,7 +572,7 @@ export function CommunityFeed({
                               body: JSON.stringify({ post_id: post.id, is_pinned: newPinned }),
                             });
                           }}
-                          style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: '#666', padding: '4px 8px', borderRadius: 6, fontFamily: 'inherit', fontWeight: 600 }}
+                          style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: '#64748b', padding: '4px 8px', borderRadius: 6, fontFamily: 'inherit', fontWeight: 600 }}
                           onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#f3f2ef'; }}
                           onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
                           title={post.is_pinned ? 'Unpin post' : 'Pin post'}
@@ -551,14 +584,14 @@ export function CommunityFeed({
                   </div>
 
                   {/* Post content */}
-                  <p style={{ fontSize: 14, color: '#000', lineHeight: 1.6, margin: '0 0 10px', whiteSpace: 'pre-wrap' }}>
+                  <p style={{ fontSize: 14, color: '#e2e8f0', lineHeight: 1.6, margin: '0 0 10px', whiteSpace: 'pre-wrap' }}>
                     {showFullContent[post.id] || post.content.length < 200
                       ? post.content
                       : post.content.slice(0, 200) + '...'}
                     {post.content.length > 200 && (
                       <button
                         onClick={() => toggleFullContent(post.id)}
-                        style={{ background: 'none', border: 'none', color: '#666', cursor: 'pointer', fontFamily: 'inherit', fontSize: 14, fontWeight: 700 }}
+                        style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', fontFamily: 'inherit', fontSize: 14, fontWeight: 700 }}
                       >
                         {showFullContent[post.id] ? ' less' : ' ...more'}
                       </button>
@@ -573,7 +606,7 @@ export function CommunityFeed({
 
                 {/* Reaction summary row */}
                 {(post.total_reactions > 0 || post.comments_count > 0) && (
-                  <div style={{ padding: '4px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 13, color: '#666' }}>
+                  <div style={{ padding: '4px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 13, color: '#64748b' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                       {getTopReactionEmojis(post).map((emoji, i) => (
                         <span key={i} style={{ fontSize: 14 }}>{emoji}</span>
@@ -610,21 +643,21 @@ export function CommunityFeed({
                   </button>
                   <button
                     onClick={() => toggleComments(post.id)}
-                    style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, padding: '10px 4px', background: 'none', border: 'none', borderRadius: 8, fontSize: 13, fontWeight: 700, color: '#666', cursor: 'pointer', fontFamily: 'inherit', transition: 'background 0.15s' }}
+                    style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, padding: '10px 4px', background: 'none', border: 'none', borderRadius: 8, fontSize: 13, fontWeight: 700, color: '#64748b', cursor: 'pointer', fontFamily: 'inherit', transition: 'background 0.15s' }}
                     onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#f3f2ef'; }}
                     onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
                   >
                     <span style={{ fontSize: 18 }}>◈</span>Comment
                   </button>
                   <button
-                    style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, padding: '10px 4px', background: 'none', border: 'none', borderRadius: 8, fontSize: 13, fontWeight: 700, color: '#666', cursor: 'pointer', fontFamily: 'inherit', transition: 'background 0.15s' }}
+                    style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, padding: '10px 4px', background: 'none', border: 'none', borderRadius: 8, fontSize: 13, fontWeight: 700, color: '#64748b', cursor: 'pointer', fontFamily: 'inherit', transition: 'background 0.15s' }}
                     onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#f3f2ef'; }}
                     onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
                   >
                     <span style={{ fontSize: 18 }}>⟲</span>Repost
                   </button>
                   <button
-                    style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, padding: '10px 4px', background: 'none', border: 'none', borderRadius: 8, fontSize: 13, fontWeight: 700, color: '#666', cursor: 'pointer', fontFamily: 'inherit', transition: 'background 0.15s' }}
+                    style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, padding: '10px 4px', background: 'none', border: 'none', borderRadius: 8, fontSize: 13, fontWeight: 700, color: '#64748b', cursor: 'pointer', fontFamily: 'inherit', transition: 'background 0.15s' }}
                     onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#f3f2ef'; }}
                     onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
                   >
@@ -636,7 +669,7 @@ export function CommunityFeed({
                     <div
                       ref={pickerRef}
                       onMouseLeave={() => setReactionPickerPost(null)}
-                      style={{ position: 'absolute', bottom: '100%', left: 8, background: '#fff', borderRadius: 32, padding: '8px 12px', boxShadow: '0 4px 20px rgba(0,0,0,0.15)', display: 'inline-flex', gap: 4, zIndex: 100, marginBottom: 4 }}
+                      style={{ position: 'absolute', bottom: '100%', left: 8, background: '#111f36', borderRadius: 32, padding: '8px 12px', boxShadow: '0 4px 20px rgba(0,0,0,0.15)', display: 'inline-flex', gap: 4, zIndex: 100, marginBottom: 4 }}
                     >
                       {REACTIONS.map((r) => (
                         <button
@@ -662,7 +695,7 @@ export function CommunityFeed({
                       <div style={{ width: 36, height: 36, borderRadius: '50%', background: '#3d9be9', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 13, flexShrink: 0 }}>
                         {initial}
                       </div>
-                      <div style={{ flex: 1, border: '1px solid rgba(0,0,0,0.3)', borderRadius: 32, padding: '8px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <div style={{ flex: 1, border: '1px solid rgba(255,255,255,0.12)', borderRadius: 32, padding: '8px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
                         <input
                           placeholder="Add a comment..."
                           style={{ flex: 1, border: 'none', outline: 'none', fontSize: 13, fontFamily: 'inherit', background: 'transparent' }}
@@ -680,7 +713,7 @@ export function CommunityFeed({
                     </div>
 
                     {loadingComments[post.id] && (
-                      <div style={{ fontSize: 12, color: '#666', padding: '8px 0' }}>Loading comments...</div>
+                      <div style={{ fontSize: 12, color: '#64748b', padding: '8px 0' }}>Loading comments...</div>
                     )}
 
                     {/* Comments list */}
@@ -690,15 +723,15 @@ export function CommunityFeed({
                           {getInitials(comment.profiles?.name || '?')}
                         </div>
                         <div>
-                          <div style={{ background: '#f3f2ef', borderRadius: '0 12px 12px 12px', padding: '8px 12px', display: 'inline-block', maxWidth: 400 }}>
-                            <Link href={`/dashboard/profile/${comment.user_id}`} style={{ fontWeight: 700, fontSize: 13, color: '#000', textDecoration: 'none' }}
+                          <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '0 12px 12px 12px', padding: '8px 12px', display: 'inline-block', maxWidth: 400 }}>
+                            <Link href={`/dashboard/profile/${comment.user_id}`} style={{ fontWeight: 700, fontSize: 13, color: '#e2e8f0', textDecoration: 'none' }}
                               onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.textDecoration = 'underline'; }}
                               onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.textDecoration = 'none'; }}>
                               {comment.profiles?.name || 'Unknown'}
                             </Link>
-                            <div style={{ fontSize: 13, color: '#000', marginTop: 2 }}>{comment.content}</div>
+                            <div style={{ fontSize: 13, color: '#e2e8f0', marginTop: 2 }}>{comment.content}</div>
                           </div>
-                          <div style={{ fontSize: 11.5, color: '#666', marginTop: 4, paddingLeft: 4 }}>{timeAgo(comment.created_at)}</div>
+                          <div style={{ fontSize: 11.5, color: '#64748b', marginTop: 4, paddingLeft: 4 }}>{timeAgo(comment.created_at)}</div>
                         </div>
                       </div>
                     ))}
@@ -713,8 +746,8 @@ export function CommunityFeed({
         <div style={{ flex: '0 0 280px', position: 'sticky', top: 20 }}>
 
           {/* Proplr Updates (like LinkedIn News) */}
-          <div style={{ background: '#fff', borderRadius: 12, border: '0.5px solid rgba(0,0,0,0.1)', padding: '12px 16px', marginBottom: 8 }}>
-            <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 15, color: '#000', marginBottom: 12 }}>Proplr Updates</div>
+          <div style={{ background: '#111f36', borderRadius: 12, border: '1px solid rgba(255,255,255,0.06)', padding: '12px 16px', marginBottom: 8 }}>
+            <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 15, color: '#e2e8f0', marginBottom: 12 }}>Proplr Updates</div>
             {[
               { title: 'National Showcase 2026 announced', time: 'Coming soon', readers: null },
               { title: 'New pillar sessions added for Term 2', time: '2h ago', readers: 124 },
@@ -725,27 +758,27 @@ export function CommunityFeed({
                 <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#000', marginTop: 6, flexShrink: 0 }} />
                 <div>
                   <div
-                    style={{ fontSize: 13, fontWeight: 700, color: '#000', lineHeight: 1.3, cursor: 'pointer' }}
+                    style={{ fontSize: 13, fontWeight: 700, color: '#e2e8f0', lineHeight: 1.3, cursor: 'pointer' }}
                     onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.textDecoration = 'underline'; }}
                     onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.textDecoration = 'none'; }}
                   >
                     {item.title}
                   </div>
-                  <div style={{ fontSize: 11.5, color: '#666', marginTop: 2 }}>
+                  <div style={{ fontSize: 11.5, color: '#64748b', marginTop: 2 }}>
                     {item.time}{item.readers ? ` · ${item.readers} readers` : ''}
                   </div>
                 </div>
               </div>
             ))}
-            <button style={{ fontSize: 13, color: '#666', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 700, marginTop: 4 }}>
+            <button style={{ fontSize: 13, color: '#64748b', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 700, marginTop: 4 }}>
               Show more ▾
             </button>
           </div>
 
           {/* Suggested connections */}
           {suggestedPeers.length > 0 && (
-            <div style={{ background: '#fff', borderRadius: 12, border: '0.5px solid rgba(0,0,0,0.1)', padding: '12px 16px' }}>
-              <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 15, color: '#000', marginBottom: 12 }}>
+            <div style={{ background: '#111f36', borderRadius: 12, border: '1px solid rgba(255,255,255,0.06)', padding: '12px 16px' }}>
+              <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 15, color: '#e2e8f0', marginBottom: 12 }}>
                 People you may know
               </div>
               {suggestedPeers.map((peer: any) => (
@@ -754,12 +787,12 @@ export function CommunityFeed({
                     {getInitials(peer.name)}
                   </div>
                   <div style={{ flex: 1 }}>
-                    <Link href={`/dashboard/profile/${peer.user_id}`} style={{ fontWeight: 700, fontSize: 13.5, color: '#000', textDecoration: 'none', display: 'block' }}
+                    <Link href={`/dashboard/profile/${peer.user_id}`} style={{ fontWeight: 700, fontSize: 13.5, color: '#e2e8f0', textDecoration: 'none', display: 'block' }}
                       onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.textDecoration = 'underline'; }}
                       onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.textDecoration = 'none'; }}>
                       {peer.name}
                     </Link>
-                    <div style={{ fontSize: 12, color: '#666', lineHeight: 1.3 }}>{peer.school_name}</div>
+                    <div style={{ fontSize: 12, color: '#64748b', lineHeight: 1.3 }}>{peer.school_name}</div>
                     <button
                       onClick={async () => {
                         try {
@@ -790,14 +823,14 @@ export function CommunityFeed({
 
           {/* Upcoming events */}
           {upcomingEvents.length > 0 && (
-            <div style={{ background: '#fff', borderRadius: 12, border: '0.5px solid rgba(0,0,0,0.1)', padding: '12px 16px', marginTop: 8 }}>
-              <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 13, color: '#000', marginBottom: 10 }}>
+            <div style={{ background: '#111f36', borderRadius: 12, border: '1px solid rgba(255,255,255,0.06)', padding: '12px 16px', marginTop: 8 }}>
+              <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 13, color: '#e2e8f0', marginBottom: 10 }}>
                 Upcoming Events
               </div>
               {upcomingEvents.map((event: any) => (
-                <div key={event.id} style={{ padding: '6px 0', borderBottom: '0.5px solid rgba(0,0,0,0.06)' }}>
-                  <div style={{ fontSize: 12.5, fontWeight: 600, color: '#000' }}>{event.title}</div>
-                  <div style={{ fontSize: 11, color: '#666', marginTop: 2 }}>
+                <div key={event.id} style={{ padding: '6px 0', borderBottom: '0.5px solid rgba(255,255,255,0.06)' }}>
+                  <div style={{ fontSize: 12.5, fontWeight: 600, color: '#e2e8f0' }}>{event.title}</div>
+                  <div style={{ fontSize: 11, color: '#64748b', marginTop: 2 }}>
                     {new Date(event.date).toLocaleDateString('en-AE', { day: 'numeric', month: 'short' })}
                     {event.time ? ` · ${event.time}` : ''}
                   </div>
@@ -818,13 +851,13 @@ export function CommunityFeed({
           onClick={() => setShowPostModal(false)}
         >
           <div
-            style={{ background: '#fff', borderRadius: 12, width: 560, maxWidth: '95vw', overflow: 'hidden' }}
+            style={{ background: '#111f36', borderRadius: 12, width: 560, maxWidth: '95vw', overflow: 'hidden' }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal header */}
             <div style={{ padding: '14px 20px', borderBottom: '0.5px solid rgba(0,0,0,0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 16, color: '#000' }}>Create a post</span>
-              <button onClick={() => setShowPostModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 22, color: '#666', width: 32, height: 32, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              <span style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 16, color: '#e2e8f0' }}>Create a post</span>
+              <button onClick={() => setShowPostModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 22, color: '#64748b', width: 32, height: 32, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#f3f2ef'; }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}>
                 ✕
@@ -837,11 +870,11 @@ export function CommunityFeed({
                 {initial}
               </div>
               <div>
-                <div style={{ fontWeight: 700, fontSize: 14, color: '#000' }}>{profile.name}</div>
+                <div style={{ fontWeight: 700, fontSize: 14, color: '#e2e8f0' }}>{profile.name}</div>
                 <select
                   value={selectedCommunity}
                   onChange={(e) => setSelectedCommunity(e.target.value)}
-                  style={{ fontSize: 12, border: '1px solid rgba(0,0,0,0.3)', borderRadius: 16, padding: '2px 10px', cursor: 'pointer', fontFamily: 'inherit', marginTop: 2, background: '#fff' }}
+                  style={{ fontSize: 12, border: '1px solid rgba(255,255,255,0.12)', borderRadius: 16, padding: '2px 10px', cursor: 'pointer', fontFamily: 'inherit', marginTop: 2, background: '#111f36' }}
                 >
                   {myCommunities.map((c) => (
                     <option key={c.id} value={c.id}>{c.name}</option>
@@ -856,7 +889,7 @@ export function CommunityFeed({
                 placeholder="What do you want to talk about?"
                 value={postContent}
                 onChange={(e) => setPostContent(e.target.value)}
-                style={{ width: '100%', minHeight: 180, border: 'none', outline: 'none', fontSize: 16, fontFamily: 'inherit', resize: 'none', color: '#000', lineHeight: 1.6 }}
+                style={{ width: '100%', minHeight: 180, border: 'none', outline: 'none', fontSize: 16, fontFamily: 'inherit', resize: 'none', color: '#e2e8f0', lineHeight: 1.6 }}
                 autoFocus
               />
             </div>
@@ -865,7 +898,7 @@ export function CommunityFeed({
             {isAdmin && (
               <div style={{ padding: '0 20px 10px', display: 'flex', alignItems: 'center', gap: 8 }}>
                 <input type="checkbox" id="announcement" checked={isAnnouncement} onChange={(e) => setIsAnnouncement(e.target.checked)} />
-                <label htmlFor="announcement" style={{ fontSize: 13, color: '#666', cursor: 'pointer' }}>Post as Announcement</label>
+                <label htmlFor="announcement" style={{ fontSize: 13, color: '#64748b', cursor: 'pointer' }}>Post as Announcement</label>
               </div>
             )}
 

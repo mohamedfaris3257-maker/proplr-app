@@ -17,7 +17,6 @@ export function RegisterForm() {
     setError('');
     const supabase = createClient();
 
-    // 1. Create the auth account (email + password only)
     const { data, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
@@ -35,14 +34,12 @@ export function RegisterForm() {
       return;
     }
 
-    // 2. Redirect to dashboard
     window.location.href = '/dashboard';
   };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-      {/* Email/Password Form */}
-      <form onSubmit={handleSignUp} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <form onSubmit={handleSignUp} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <div style={s.inputWrap}>
           <MailIcon />
           <input
@@ -94,8 +91,6 @@ export function RegisterForm() {
   );
 }
 
-// ── STYLES ──────────────────────────────────────────────────────────────────
-
 const s: Record<string, React.CSSProperties> = {
   inputWrap: {
     position: 'relative',
@@ -104,68 +99,67 @@ const s: Record<string, React.CSSProperties> = {
   },
   input: {
     width: '100%',
-    padding: '11px 12px 11px 38px',
-    border: '1px solid rgba(7,22,41,.1)',
-    borderRadius: 12,
-    fontSize: 13.5,
-    color: '#071629',
-    background: '#f7f8fb',
+    padding: '13px 14px 13px 42px',
+    border: '1px solid rgba(255,255,255,0.08)',
+    borderRadius: 14,
+    fontSize: 14,
+    color: '#e2e8f0',
+    background: 'rgba(255,255,255,0.04)',
     fontFamily: "'DM Sans', sans-serif",
     outline: 'none',
-    transition: 'border-color .2s',
+    transition: 'border-color .2s, box-shadow .2s',
   },
   eyeBtn: {
     position: 'absolute',
-    right: 12,
+    right: 14,
     top: '50%',
     transform: 'translateY(-50%)',
     background: 'none',
     border: 'none',
     cursor: 'pointer',
-    color: '#6e7591',
+    color: '#64748b',
     display: 'flex',
     padding: 0,
   },
   errorBox: {
     fontSize: 12,
-    color: '#c0392b',
-    background: 'rgba(255,71,87,.08)',
-    border: '1px solid rgba(255,71,87,.15)',
-    borderRadius: 10,
-    padding: '8px 12px',
+    color: '#f87171',
+    background: 'rgba(239,68,68,0.1)',
+    border: '1px solid rgba(239,68,68,0.2)',
+    borderRadius: 12,
+    padding: '10px 14px',
   },
   submitBtn: {
     width: '100%',
-    padding: '12px 16px',
-    background: '#3d9be9',
+    padding: '14px 16px',
+    background: 'linear-gradient(135deg, #0ea5e9, #0284c7)',
     color: '#fff',
     border: 'none',
-    borderRadius: 12,
+    borderRadius: 14,
     fontSize: 14,
-    fontWeight: 600,
+    fontWeight: 700,
     fontFamily: "'DM Sans', sans-serif",
     cursor: 'pointer',
     marginTop: 4,
-    transition: 'opacity .2s',
+    transition: 'all .2s',
+    boxShadow: '0 4px 20px rgba(14,165,233,0.3)',
   },
   toggleText: {
     fontSize: 13,
-    color: '#6e7591',
+    color: '#64748b',
     textAlign: 'center',
     margin: '4px 0 0',
   },
   toggleLink: {
-    color: '#3d9be9',
-    fontWeight: 600,
+    color: '#0ea5e9',
+    fontWeight: 700,
     textDecoration: 'none',
   },
 };
 
-// ── ICONS ────────────────────────────────────────────────────────────────────
-
 function MailIcon() {
   return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6e7591" strokeWidth="2" style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)' }}>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2" style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)' }}>
       <rect x="2" y="4" width="20" height="16" rx="2" />
       <path d="M22 7l-10 6L2 7" />
     </svg>
@@ -174,7 +168,7 @@ function MailIcon() {
 
 function LockIcon() {
   return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6e7591" strokeWidth="2" style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)' }}>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2" style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)' }}>
       <rect x="3" y="11" width="18" height="11" rx="2" />
       <path d="M7 11V7a5 5 0 0 1 10 0v4" />
     </svg>
@@ -183,7 +177,7 @@ function LockIcon() {
 
 function EyeIcon() {
   return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
       <circle cx="12" cy="12" r="3" />
     </svg>
@@ -192,7 +186,7 @@ function EyeIcon() {
 
 function EyeOffIcon() {
   return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
       <line x1="1" y1="1" x2="23" y2="23" />
     </svg>

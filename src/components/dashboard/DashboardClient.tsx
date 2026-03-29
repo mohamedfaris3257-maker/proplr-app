@@ -4,6 +4,8 @@ import { useState } from 'react'
 import Link from 'next/link'
 import type { Profile } from '@/lib/types'
 import { WelcomeModal } from './WelcomeModal'
+import { FeatureCarousel } from './FeatureCarousel'
+import { DashboardWalkthrough } from './DashboardWalkthrough'
 
 /* ─── types ─────────────────────────────────────────────────────────── */
 
@@ -33,7 +35,25 @@ interface DashboardClientProps {
   currentStreak: number
 }
 
-/* ─── constants ─────────────────────────────────────────────────────── */
+/* ─── color system ──────────────────────────────────────────────────── */
+
+const C = {
+  bg: '#0c1a2e',
+  card: '#111f36',
+  cardBorder: 'rgba(255,255,255,0.06)',
+  cardHover: 'rgba(255,255,255,0.03)',
+  text: '#e2e8f0',
+  textMuted: '#64748b',
+  textDim: '#475569',
+  blue: '#0ea5e9',
+  purple: '#a855f7',
+  green: '#22c55e',
+  amber: '#f59e0b',
+  red: '#ef4444',
+  orange: '#f97316',
+  pink: '#ec4899',
+  gold: '#ffcb5d',
+}
 
 const PILLAR_EMOJI: Record<string, string> = {
   Leadership: '◎',
@@ -45,21 +65,21 @@ const PILLAR_EMOJI: Record<string, string> = {
 }
 
 const PILLAR_COLORS: Record<string, string> = {
-  Leadership: '#3d9be9',
-  Entrepreneurship: '#f59e0b',
-  'Digital Literacy': '#10b981',
-  'Personal Branding': '#ec4899',
-  Communication: '#f97316',
-  'Project Management': '#8b5cf6',
+  Leadership: C.blue,
+  Entrepreneurship: C.amber,
+  'Digital Literacy': C.green,
+  'Personal Branding': C.pink,
+  Communication: C.orange,
+  'Project Management': C.purple,
 }
 
 /* ─── helpers ───────────────────────────────────────────────────────── */
 
 function getLevel(progress: number) {
-  if (progress >= 100) return { label: 'Certified ★', color: 'rgba(255,203,93,.2)', text: '#7a5800' }
-  if (progress >= 70) return { label: 'Advanced', color: 'rgba(61,155,233,.12)', text: '#1a5ea5' }
-  if (progress >= 30) return { label: 'Intermediate', color: 'rgba(255,203,93,.15)', text: '#7a5800' }
-  return { label: 'Beginner', color: 'rgba(46,213,115,.12)', text: '#1a7a42' }
+  if (progress >= 100) return { label: 'Certified ★', color: `${C.gold}25`, text: C.gold }
+  if (progress >= 70) return { label: 'Advanced', color: `${C.blue}25`, text: C.blue }
+  if (progress >= 30) return { label: 'Intermediate', color: `${C.amber}25`, text: C.amber }
+  return { label: 'Beginner', color: `${C.green}25`, text: C.green }
 }
 
 /* ─── component ─────────────────────────────────────────────────────── */
@@ -87,13 +107,11 @@ export function DashboardClient({
   const firstName = profile.name?.split(' ')[0] || 'Student'
   const fullName = profile.name || 'Student'
 
-  /* ── overall progress ── */
   const progressValues = courses.map((c: any) => courseProgressMap[c.id] || 0)
   const overallProgress = progressValues.length > 0
     ? Math.round(progressValues.reduce((a, b) => a + b, 0) / progressValues.length)
     : 0
 
-  /* ── pillar data ── */
   const pillars = courses.map((c: any) => {
     const pillarName = c.pillar_tag || c.title || 'General'
     const progress = courseProgressMap[c.id] || 0
@@ -106,7 +124,7 @@ export function DashboardClient({
       levelColor: level.color,
       levelText: level.text,
       progress,
-      color: PILLAR_COLORS[pillarName] || '#3d9be9',
+      color: PILLAR_COLORS[pillarName] || C.blue,
     }
   })
 
@@ -115,7 +133,6 @@ export function DashboardClient({
     : activeTab === 'Active' ? pillars.filter(p => p.progress > 0 && p.progress < 100)
     : pillars
 
-  /* ── tasks ── */
   const taskItems = pendingTasks.slice(0, 4).map((t: any) => ({
     id: t.id,
     title: t.title || 'Untitled Task',
@@ -123,10 +140,8 @@ export function DashboardClient({
     priority: t.priority === 'high' ? 'high' : 'low',
   }))
 
-  /* ── next event ── */
   const nextEvent = upcomingEvents[0] || null
 
-  /* ── calendar ── */
   const now = new Date()
   const year = now.getFullYear()
   const month = now.getMonth()
@@ -141,122 +156,134 @@ export function DashboardClient({
     .filter((e: any) => { const d = new Date(e.date); return d.getMonth() === month && d.getFullYear() === year })
     .map((e: any) => new Date(e.date).getDate().toString())
 
-  /* ── leaderboard ── */
-  const currentUserInTop5 = topStudents.some(s => s.user_id === profile.user_id)
   const currentHours = currentUserEntry?.total_hours || 0
+
+  /* ── stat cards ── */
+  const stats = [
+    { label: 'Hours Logged', value: String(totalHours), icon: '◷', color: C.blue, glow: `${C.blue}20` },
+    { label: 'Badges Earned', value: String(badgeCount), icon: '★', color: C.amber, glow: `${C.amber}20` },
+    { label: 'Pillars Done', value: `${completedPillars}/6`, icon: '▤', color: C.green, glow: `${C.green}20` },
+    { label: 'Day Streak', value: `${currentStreak}`, icon: '↯', color: C.red, glow: `${C.red}20` },
+  ]
+
+  const cardStyle: React.CSSProperties = {
+    background: C.card,
+    borderRadius: 18,
+    border: `1px solid ${C.cardBorder}`,
+  }
 
   return (
     <>
       <WelcomeModal name={profile.name || ''} />
-      {/* ═══════════════════ MAIN CONTENT ═══════════════════ */}
-      <div style={{ flex: 1, overflowY: 'auto', padding: '28px 24px' }}>
+      <DashboardWalkthrough />
 
-        {/* ── TOP BAR ── */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
+      {/* ═══════ MAIN ═══════ */}
+      <div style={{ flex: 1, overflowY: 'auto', padding: '28px 28px' }}>
+
+        {/* TOP BAR */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 26 }}>
           <div>
-            <h1 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 24, fontWeight: 700, color: '#071629', margin: 0 }}>
-              Hello, {firstName}
+            <h1 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 26, fontWeight: 800, color: '#fff', margin: 0, letterSpacing: -0.5 }}>
+              Hello, {firstName} 👋
             </h1>
-            <p style={{ fontSize: 13, color: '#6e7591', margin: '4px 0 0' }}>
+            <p style={{ fontSize: 13, color: C.textMuted, margin: '4px 0 0' }}>
               Let&apos;s see what&apos;s happening today.
             </p>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#fff', border: '0.5px solid rgba(7,22,41,0.08)', borderRadius: 100, padding: '8px 16px', fontSize: 13, color: '#6e7591', width: 220 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: 8,
+              background: C.card, border: `1px solid ${C.cardBorder}`,
+              borderRadius: 100, padding: '9px 18px', fontSize: 13, color: C.textMuted,
+              width: 220,
+            }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
               Search courses, tasks...
             </div>
-            <div style={{ width: 38, height: 38, background: '#fff', border: '0.5px solid rgba(7,22,41,0.08)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', position: 'relative', fontSize: 16 }}>
-              ●
+            <div style={{
+              width: 40, height: 40, background: C.card, border: `1px solid ${C.cardBorder}`,
+              borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              cursor: 'pointer', position: 'relative',
+            }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={C.textMuted} strokeWidth="2">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+              </svg>
               {notifications.length > 0 && (
-                <div style={{ position: 'absolute', top: 6, right: 6, width: 8, height: 8, background: '#ff4757', borderRadius: '50%', border: '1.5px solid #f0f2f8' }} />
+                <div style={{
+                  position: 'absolute', top: 6, right: 6, width: 10, height: 10,
+                  background: C.red, borderRadius: '50%', border: `2px solid ${C.bg}`,
+                  boxShadow: `0 0 8px ${C.red}60`,
+                }} />
               )}
             </div>
           </div>
         </div>
 
-        {/* ── HERO BANNER — navy ── */}
-        <div style={{
-          background: '#071629',
-          borderRadius: 20,
-          padding: '28px 32px',
-          marginBottom: 20,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          overflow: 'hidden',
-          position: 'relative',
-        }}>
-          <div style={{ position: 'absolute', right: -40, top: -40, width: 200, height: 200, background: 'rgba(61,155,233,0.08)', borderRadius: '50%' }} />
-          <div style={{ position: 'absolute', right: 60, bottom: -60, width: 160, height: 160, background: 'rgba(255,203,93,0.06)', borderRadius: '50%' }} />
+        {/* FEATURE CAROUSEL */}
+        <FeatureCarousel />
 
-          <div style={{ position: 'relative', zIndex: 1 }}>
-            <div style={{ fontSize: 11, color: '#ffcb5d', fontWeight: 700, letterSpacing: 1.5, marginBottom: 8 }}>PROPLR FOUNDATION TRACK</div>
-            <h2 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 20, fontWeight: 700, color: '#fff', margin: '0 0 6px' }}>
-              Build your career before you graduate.
-            </h2>
-            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', margin: '0 0 20px' }}>
-              Complete your 6 pillars · Earn KHDA certificates · Get industry-ready
-            </p>
-            <div style={{ display: 'flex', gap: 10 }}>
-              <Link href="/dashboard/courses" style={{ background: '#3d9be9', color: '#fff', borderRadius: 100, padding: '9px 20px', fontSize: 13, fontWeight: 600, textDecoration: 'none', fontFamily: 'inherit' }}>
-                Continue Learning →
-              </Link>
-              <Link href="/dashboard/events" style={{ background: 'rgba(255,255,255,0.1)', color: '#fff', borderRadius: 100, padding: '9px 20px', fontSize: 13, textDecoration: 'none', fontFamily: 'inherit' }}>
-                View Schedule
-              </Link>
-            </div>
-          </div>
-
-          <div style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
-            <div style={{ width: 80, height: 80, borderRadius: '50%', border: '4px solid rgba(255,255,255,0.1)', borderTopColor: '#ffcb5d', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 6px' }}>
-              <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 18, fontWeight: 700, color: '#fff' }}>{overallProgress}%</span>
-            </div>
-            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)' }}>Overall Progress</div>
-          </div>
-        </div>
-
-        {/* ── STAT CARDS — white, clean ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 24 }}>
-          {[
-            { label: 'Hours Logged', value: String(totalHours), icon: '◷', accent: '#3d9be9', lightBg: 'rgba(61,155,233,0.08)' },
-            { label: 'Badges Earned', value: String(badgeCount), icon: '★', accent: '#f59e0b', lightBg: 'rgba(245,158,11,0.08)' },
-            { label: 'Pillars Done', value: `${completedPillars}/6`, icon: '▤', accent: '#10b981', lightBg: 'rgba(16,185,129,0.08)' },
-            { label: 'Day Streak', value: `${currentStreak}`, icon: '↯', accent: '#ef4444', lightBg: 'rgba(239,68,68,0.08)' },
-          ].map(stat => (
-            <div key={stat.label} style={{ background: '#fff', borderRadius: 16, padding: '18px 20px', boxShadow: '0 1px 8px rgba(7,22,41,0.06)' }}>
-              <div style={{ width: 36, height: 36, borderRadius: 10, background: stat.lightBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, marginBottom: 12 }}>
+        {/* STAT CARDS */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14, marginBottom: 24 }}>
+          {stats.map(stat => (
+            <div key={stat.label} style={{
+              ...cardStyle,
+              padding: '22px 22px',
+              position: 'relative',
+              overflow: 'hidden',
+              cursor: 'default',
+              transition: 'all 0.25s ease',
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.borderColor = `${stat.color}40`;
+              (e.currentTarget as HTMLElement).style.boxShadow = `0 0 20px ${stat.glow}`;
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.borderColor = C.cardBorder;
+              (e.currentTarget as HTMLElement).style.boxShadow = 'none';
+            }}
+            >
+              <div style={{
+                width: 42, height: 42, borderRadius: 12,
+                background: `${stat.color}15`, display: 'flex',
+                alignItems: 'center', justifyContent: 'center',
+                fontSize: 18, color: stat.color, marginBottom: 14,
+              }}>
                 {stat.icon}
               </div>
-              <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 24, fontWeight: 700, color: '#071629', lineHeight: 1 }}>
+              <div style={{
+                fontFamily: "'Montserrat', sans-serif", fontSize: 30, fontWeight: 800,
+                color: '#fff', lineHeight: 1, letterSpacing: -1,
+              }}>
                 {stat.value}
               </div>
-              <div style={{ fontSize: 12, color: '#6e7591', marginTop: 4 }}>{stat.label}</div>
+              <div style={{ fontSize: 12, color: C.textMuted, marginTop: 5, fontWeight: 500 }}>{stat.label}</div>
             </div>
           ))}
         </div>
 
-        {/* ── MY PILLARS — vertical list in white card ── */}
-        <div style={{ background: '#fff', borderRadius: 20, padding: '20px 24px', marginBottom: 16, boxShadow: '0 1px 8px rgba(7,22,41,0.06)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <h3 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 15, fontWeight: 700, color: '#071629', margin: 0 }}>My Pillars</h3>
-            <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+        {/* MY PILLARS */}
+        <div style={{ ...cardStyle, padding: '22px 24px', marginBottom: 16 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
+            <h3 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 16, fontWeight: 800, color: '#fff', margin: 0, letterSpacing: -0.3 }}>My Pillars</h3>
+            <div style={{ display: 'flex', gap: 3, alignItems: 'center', background: 'rgba(255,255,255,0.05)', borderRadius: 100, padding: 3 }}>
               {['All', 'Active', 'Completed'].map(t => (
                 <button key={t} onClick={() => setActiveTab(t)} style={{
-                  padding: '4px 14px', borderRadius: 100, fontSize: 12, border: 'none', cursor: 'pointer',
-                  fontFamily: 'inherit', background: activeTab === t ? '#071629' : 'transparent',
-                  color: activeTab === t ? '#fff' : '#6e7591',
+                  padding: '5px 16px', borderRadius: 100, fontSize: 12, border: 'none', cursor: 'pointer',
+                  fontFamily: 'inherit', fontWeight: 600, transition: 'all 0.2s',
+                  background: activeTab === t ? C.blue : 'transparent',
+                  color: activeTab === t ? '#fff' : C.textMuted,
                 }}>
                   {t}
                 </button>
               ))}
-              <Link href="/dashboard/courses" style={{ fontSize: 12, color: '#3d9be9', textDecoration: 'none', marginLeft: 8 }}>See all →</Link>
+              <Link href="/dashboard/courses" style={{ fontSize: 12, color: C.blue, textDecoration: 'none', marginLeft: 8, fontWeight: 600 }}>See all →</Link>
             </div>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {filteredPillars.length === 0 && (
-              <p style={{ fontSize: 13, color: '#6e7591', textAlign: 'center', padding: '16px 0' }}>
+              <p style={{ fontSize: 13, color: C.textMuted, textAlign: 'center', padding: '16px 0' }}>
                 No pillars found for this filter.
               </p>
             )}
@@ -265,66 +292,95 @@ export function DashboardClient({
                 key={p.id}
                 href={`/dashboard/courses/${p.id}`}
                 style={{
-                  display: 'flex', alignItems: 'center', gap: 14, padding: '12px 16px',
-                  background: '#f8f9fc', borderRadius: 12, borderLeft: `4px solid ${p.color}`,
-                  textDecoration: 'none', color: 'inherit', transition: 'background .15s',
+                  display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px',
+                  background: 'rgba(255,255,255,0.02)', borderRadius: 14,
+                  textDecoration: 'none', color: 'inherit', transition: 'all .2s',
+                  border: `1px solid ${C.cardBorder}`,
+                  borderLeft: `4px solid ${p.color}`,
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.05)';
+                  (e.currentTarget as HTMLElement).style.borderColor = `${p.color}40`;
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.02)';
+                  (e.currentTarget as HTMLElement).style.borderColor = C.cardBorder;
                 }}
               >
-                <div style={{ fontSize: 22 }}>{p.emoji}</div>
+                <div style={{
+                  width: 42, height: 42, borderRadius: 12,
+                  background: `${p.color}15`, display: 'flex',
+                  alignItems: 'center', justifyContent: 'center',
+                  fontSize: 20, color: p.color,
+                }}>
+                  {p.emoji}
+                </div>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 13, fontWeight: 700, color: '#071629' }}>{p.title}</div>
-                  <div style={{ fontSize: 11, color: '#6e7591', marginTop: 2 }}>Facilitated by Proplr Team</div>
+                  <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 13.5, fontWeight: 700, color: '#fff' }}>{p.title}</div>
+                  <div style={{ fontSize: 11, color: C.textMuted, marginTop: 2 }}>Facilitated by Proplr Team</div>
                 </div>
-                <div style={{ width: 120 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10.5, color: '#6e7591', marginBottom: 4 }}>
+                <div style={{ width: 130 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10.5, color: C.textMuted, marginBottom: 5 }}>
                     <span>Progress</span>
-                    <span style={{ fontWeight: 600, color: '#071629' }}>{p.progress}%</span>
+                    <span style={{ fontWeight: 700, color: '#fff' }}>{p.progress}%</span>
                   </div>
-                  <div style={{ height: 5, background: '#e8eaf0', borderRadius: 10, overflow: 'hidden' }}>
-                    <div style={{ height: '100%', width: `${p.progress}%`, background: p.color, borderRadius: 10, transition: 'width .4s ease' }} />
+                  <div style={{ height: 6, background: 'rgba(255,255,255,0.08)', borderRadius: 10, overflow: 'hidden' }}>
+                    <div style={{
+                      height: '100%', width: `${p.progress}%`,
+                      background: `linear-gradient(90deg, ${p.color}, ${p.color}99)`,
+                      borderRadius: 10, transition: 'width .5s ease',
+                      boxShadow: `0 0 8px ${p.color}40`,
+                    }} />
                   </div>
                 </div>
-                <span style={{ fontSize: 10, fontWeight: 600, padding: '3px 10px', borderRadius: 100, background: `${p.color}18`, color: p.color }}>{p.level}</span>
+                <span style={{
+                  fontSize: 10, fontWeight: 700, padding: '4px 12px', borderRadius: 100,
+                  background: p.levelColor, color: p.levelText, whiteSpace: 'nowrap',
+                }}>
+                  {p.level}
+                </span>
               </Link>
             ))}
           </div>
         </div>
 
-        {/* ── MY TASKS — 2-col grid in white card ── */}
-        <div style={{ background: '#fff', borderRadius: 20, padding: '20px 24px', boxShadow: '0 1px 8px rgba(7,22,41,0.06)' }}>
+        {/* MY TASKS */}
+        <div style={{ ...cardStyle, padding: '22px 24px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <h3 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 15, fontWeight: 700, color: '#071629', margin: 0 }}>My Tasks</h3>
-            <Link href="/dashboard/tasks" style={{ fontSize: 12, color: '#3d9be9', textDecoration: 'none' }}>+ Add new</Link>
+            <h3 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 16, fontWeight: 800, color: '#fff', margin: 0, letterSpacing: -0.3 }}>My Tasks</h3>
+            <Link href="/dashboard/tasks" style={{ fontSize: 12, color: C.blue, textDecoration: 'none', fontWeight: 600 }}>+ Add new</Link>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             {taskItems.length === 0 ? (
               <div style={{
-                gridColumn: '1/-1', background: 'rgba(255,203,93,0.08)', border: '1.5px dashed rgba(255,203,93,0.4)',
-                borderRadius: 12, padding: 24, textAlign: 'center', color: '#b87d00', fontSize: 13,
+                gridColumn: '1/-1', background: `${C.amber}10`, border: `1.5px dashed ${C.amber}30`,
+                borderRadius: 14, padding: 28, textAlign: 'center', color: C.amber, fontSize: 13,
               }}>
-                All caught up! No pending tasks.
+                All caught up! No pending tasks. 🎉
               </div>
             ) : (
               taskItems.map(task => (
                 <div key={task.id} style={{
-                  background: task.priority === 'high' ? 'rgba(255,203,93,0.12)' : '#f8f9fc',
-                  borderRadius: 12, padding: '14px 16px',
-                  borderLeft: `3px solid ${task.priority === 'high' ? '#ffcb5d' : '#e8eaf0'}`,
+                  background: task.priority === 'high' ? `${C.red}08` : 'rgba(255,255,255,0.02)',
+                  borderRadius: 14, padding: '16px 18px',
+                  border: `1px solid ${task.priority === 'high' ? `${C.red}20` : C.cardBorder}`,
+                  borderLeft: `4px solid ${task.priority === 'high' ? C.red : C.textDim}`,
+                  transition: 'all 0.2s',
                 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                    <span style={{ fontSize: 12.5, fontWeight: 600, color: '#071629', flex: 1, paddingRight: 8, lineHeight: 1.3 }}>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: '#fff', flex: 1, paddingRight: 8, lineHeight: 1.3 }}>
                       {task.title}
                     </span>
                     <span style={{
-                      fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 100, whiteSpace: 'nowrap',
-                      background: task.priority === 'high' ? 'rgba(239,68,68,0.1)' : 'rgba(16,185,129,0.1)',
-                      color: task.priority === 'high' ? '#dc2626' : '#059669',
+                      fontSize: 10, fontWeight: 700, padding: '2px 10px', borderRadius: 100, whiteSpace: 'nowrap',
+                      background: task.priority === 'high' ? `${C.red}20` : `${C.green}20`,
+                      color: task.priority === 'high' ? C.red : C.green,
                     }}>
                       {task.priority === 'high' ? 'High' : 'Low'}
                     </span>
                   </div>
                   {task.due && (
-                    <div style={{ fontSize: 11, color: '#6e7591' }}>Due: {task.due}</div>
+                    <div style={{ fontSize: 11, color: C.textMuted }}>Due: {task.due}</div>
                   )}
                 </div>
               ))
@@ -333,50 +389,71 @@ export function DashboardClient({
         </div>
       </div>
 
-      {/* ═══════════════════ RIGHT PANEL (300px) ═══════════════════ */}
+      {/* ═══════ RIGHT PANEL ═══════ */}
       <div style={{ width: 300, minWidth: 300, overflowY: 'auto', padding: '28px 20px 28px 0', display: 'flex', flexDirection: 'column', gap: 16 }}>
 
-        {/* ── PROFILE CARD ── */}
-        <div style={{ background: '#fff', borderRadius: 20, padding: 20, textAlign: 'center', boxShadow: '0 1px 8px rgba(7,22,41,0.06)', position: 'relative' }}>
-          <Link href="/dashboard/profile" style={{ position: 'absolute', top: 14, right: 14, background: 'none', border: 'none', cursor: 'pointer', color: '#6e7591', fontSize: 13, textDecoration: 'none' }}>
-            ✎
-          </Link>
+        {/* PROFILE CARD */}
+        <div style={{ ...cardStyle, padding: 0, overflow: 'hidden' }}>
           <div style={{
-            width: 56, height: 56, borderRadius: '50%', background: '#3d9be9', color: '#fff',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontFamily: "'Montserrat', sans-serif", fontSize: 20, fontWeight: 700,
-            margin: '0 auto 10px', overflow: 'hidden',
+            height: 64,
+            background: 'linear-gradient(135deg, #0ea5e9 0%, #a855f7 100%)',
+            position: 'relative',
           }}>
-            {profile.photo_url
-              ? <img src={profile.photo_url} alt={fullName} style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
-              : firstName?.[0]?.toUpperCase()}
+            <Link href="/dashboard/profile" style={{
+              position: 'absolute', top: 12, right: 12,
+              background: 'rgba(0,0,0,0.2)', backdropFilter: 'blur(10px)',
+              border: 'none', cursor: 'pointer', color: '#fff', fontSize: 12,
+              textDecoration: 'none', borderRadius: 100, padding: '4px 12px',
+              fontWeight: 600,
+            }}>
+              Edit ✎
+            </Link>
           </div>
-          <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 14, color: '#071629' }}>{fullName}</div>
-          <div style={{ fontSize: 12, color: '#6e7591', marginTop: 3 }}>{profile.email}</div>
-          <div style={{ marginTop: 10, display: 'inline-flex', padding: '3px 12px', background: 'rgba(61,155,233,0.1)', borderRadius: 100, fontSize: 11, fontWeight: 600, color: '#3d9be9' }}>
-            Foundation Track
+          <div style={{ padding: '0 20px 20px', textAlign: 'center' }}>
+            <div style={{
+              width: 60, height: 60, borderRadius: '50%', background: C.blue, color: '#fff',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontFamily: "'Montserrat', sans-serif", fontSize: 22, fontWeight: 800,
+              margin: '-30px auto 10px', overflow: 'hidden',
+              border: `3px solid ${C.card}`, boxShadow: `0 4px 16px rgba(0,0,0,0.3)`,
+            }}>
+              {profile.photo_url
+                ? <img src={profile.photo_url} alt={fullName} style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
+                : firstName?.[0]?.toUpperCase()}
+            </div>
+            <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 800, fontSize: 15, color: '#fff' }}>{fullName}</div>
+            <div style={{ fontSize: 12, color: C.textMuted, marginTop: 3 }}>{profile.email}</div>
+            <div style={{
+              marginTop: 10, display: 'inline-flex', padding: '4px 14px',
+              background: `${C.blue}15`,
+              borderRadius: 100, fontSize: 11, fontWeight: 700, color: C.blue,
+              border: `1px solid ${C.blue}25`,
+            }}>
+              Foundation Track
+            </div>
           </div>
         </div>
 
-        {/* ── CALENDAR ── */}
-        <div style={{ background: '#fff', borderRadius: 20, padding: '16px 18px', boxShadow: '0 1px 8px rgba(7,22,41,0.06)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-            <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#6e7591', padding: '0 4px', fontSize: 13, fontFamily: 'inherit' }}>‹</button>
-            <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 12.5, fontWeight: 700, color: '#071629' }}>{monthName}</span>
-            <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#6e7591', padding: '0 4px', fontSize: 13, fontFamily: 'inherit' }}>›</button>
+        {/* CALENDAR */}
+        <div style={{ ...cardStyle, padding: '18px 20px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+            <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: C.textMuted, padding: '0 4px', fontSize: 14, fontFamily: 'inherit' }}>‹</button>
+            <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 13, fontWeight: 700, color: '#fff' }}>{monthName}</span>
+            <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: C.textMuted, padding: '0 4px', fontSize: 14, fontFamily: 'inherit' }}>›</button>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', textAlign: 'center', gap: 1 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', textAlign: 'center', gap: 2 }}>
             {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(d => (
-              <div key={d} style={{ fontSize: 9.5, color: '#6e7591', padding: '2px 0', fontWeight: 600 }}>{d}</div>
+              <div key={d} style={{ fontSize: 10, color: C.textDim, padding: '3px 0', fontWeight: 700 }}>{d}</div>
             ))}
             {calDays.map((d, i) => (
               <div key={i} style={{
-                fontSize: 11, padding: '4px 2px', borderRadius: '50%', cursor: d ? 'pointer' : 'default',
-                color: d === today ? '#fff' : eventDays.includes(d) ? '#3d9be9' : '#071629',
-                background: d === today ? '#3d9be9' : 'transparent',
+                fontSize: 11.5, padding: '5px 2px', borderRadius: 8, cursor: d ? 'pointer' : 'default',
+                color: d === today ? '#fff' : eventDays.includes(d) ? C.blue : C.textMuted,
+                background: d === today ? C.blue : 'transparent',
                 fontWeight: d === today || eventDays.includes(d) ? 700 : 400,
                 aspectRatio: '1', display: 'flex', alignItems: 'center', justifyContent: 'center',
                 visibility: d === '' ? 'hidden' : 'visible',
+                boxShadow: d === today ? `0 2px 10px ${C.blue}50` : 'none',
               }}>
                 {d}
               </div>
@@ -384,54 +461,59 @@ export function DashboardClient({
           </div>
         </div>
 
-        {/* ── LEADERBOARD — navy, podium ── */}
-        <div style={{ background: '#071629', borderRadius: 20, padding: 18, boxShadow: '0 4px 20px rgba(7,22,41,0.15)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <span style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 13, color: '#fff' }}>★ Leaderboard</span>
-            <Link href="/dashboard/leaderboard" style={{ fontSize: 11, color: '#ffcb5d', textDecoration: 'none' }}>See all →</Link>
+        {/* LEADERBOARD */}
+        <div style={{
+          ...cardStyle,
+          padding: 20,
+          background: 'linear-gradient(180deg, #0f1d32 0%, #0a1525 100%)',
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
+            <span style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 800, fontSize: 14, color: '#fff', letterSpacing: -0.3 }}>★ Leaderboard</span>
+            <Link href="/dashboard/leaderboard" style={{ fontSize: 11, color: C.gold, textDecoration: 'none', fontWeight: 600 }}>See all →</Link>
           </div>
 
           {topStudents.length === 0 ? (
-            <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', textAlign: 'center', padding: '12px 0' }}>No data yet.</p>
+            <p style={{ fontSize: 12, color: C.textDim, textAlign: 'center', padding: '12px 0' }}>No data yet.</p>
           ) : (
             <>
-              {/* Podium — top 3 */}
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end', gap: 6, marginBottom: 16 }}>
+              {/* Podium */}
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end', gap: 8, marginBottom: 18 }}>
                 {/* 2nd */}
                 <div style={{ flex: 1, textAlign: 'center' }}>
-                  <div style={{ fontSize: 18, marginBottom: 4 }}>▲2</div>
-                  <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.6)', marginBottom: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <div style={{ fontSize: 20, marginBottom: 6 }}>🥈</div>
+                  <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.5)', marginBottom: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {topStudents[1]?.name?.split(' ')[0] || '—'}
                   </div>
                   <div style={{
-                    background: 'rgba(255,255,255,0.1)', borderRadius: '8px 8px 0 0', height: 44,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 600, color: '#fff',
+                    background: 'rgba(255,255,255,0.06)', borderRadius: '10px 10px 0 0', height: 48,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: '#fff',
                   }}>
                     {topStudents[1]?.total_hours || 0}h
                   </div>
                 </div>
                 {/* 1st */}
                 <div style={{ flex: 1, textAlign: 'center' }}>
-                  <div style={{ fontSize: 22, marginBottom: 4 }}>▲1</div>
-                  <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.9)', marginBottom: 4, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <div style={{ fontSize: 24, marginBottom: 6 }}>🥇</div>
+                  <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.9)', marginBottom: 4, fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {topStudents[0]?.name?.split(' ')[0] || '—'}
                   </div>
                   <div style={{
-                    background: '#ffcb5d', borderRadius: '8px 8px 0 0', height: 60,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700, color: '#071629',
+                    background: `linear-gradient(180deg, ${C.gold}, ${C.amber})`, borderRadius: '10px 10px 0 0', height: 64,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 800, color: '#071629',
+                    boxShadow: `0 0 20px ${C.gold}30`,
                   }}>
                     {topStudents[0]?.total_hours || 0}h
                   </div>
                 </div>
                 {/* 3rd */}
                 <div style={{ flex: 1, textAlign: 'center' }}>
-                  <div style={{ fontSize: 16, marginBottom: 4 }}>▲3</div>
-                  <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.6)', marginBottom: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <div style={{ fontSize: 18, marginBottom: 6 }}>🥉</div>
+                  <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.5)', marginBottom: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {topStudents[2]?.name?.split(' ')[0] || '—'}
                   </div>
                   <div style={{
-                    background: 'rgba(255,255,255,0.06)', borderRadius: '8px 8px 0 0', height: 32,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 600, color: '#fff',
+                    background: 'rgba(255,255,255,0.04)', borderRadius: '10px 10px 0 0', height: 36,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, color: '#fff',
                   }}>
                     {topStudents[2]?.total_hours || 0}h
                   </div>
@@ -441,92 +523,107 @@ export function DashboardClient({
               {/* Ranks 4-5 */}
               {topStudents.slice(3, 5).map((s, i) => (
                 <div key={s.user_id} style={{
-                  display: 'flex', alignItems: 'center', gap: 8, padding: '7px 0',
+                  display: 'flex', alignItems: 'center', gap: 10, padding: '8px 0',
                   borderTop: '0.5px solid rgba(255,255,255,0.06)',
                 }}>
-                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', minWidth: 14 }}>{i + 4}</span>
+                  <span style={{ fontSize: 12, color: C.textDim, minWidth: 16, fontWeight: 700 }}>{i + 4}</span>
                   <div style={{
-                    width: 26, height: 26, borderRadius: '50%', background: 'rgba(255,255,255,0.1)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 700, color: '#fff',
+                    width: 28, height: 28, borderRadius: '50%', background: 'rgba(255,255,255,0.08)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, color: '#fff',
                     overflow: 'hidden', flexShrink: 0,
                   }}>
                     {s.photo_url
                       ? <img src={s.photo_url} alt={s.name} style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
                       : s.name?.[0]?.toUpperCase() || '?'}
                   </div>
-                  <span style={{ flex: 1, fontSize: 12, color: 'rgba(255,255,255,0.7)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <span style={{ flex: 1, fontSize: 12, color: 'rgba(255,255,255,0.6)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {s.name || 'Student'}
                   </span>
-                  <span style={{ fontSize: 11, color: '#ffcb5d', fontWeight: 600 }}>{s.total_hours}h</span>
+                  <span style={{ fontSize: 11, color: C.gold, fontWeight: 700 }}>{s.total_hours}h</span>
                 </div>
               ))}
 
               {/* Your rank */}
               <div style={{
-                marginTop: 12, padding: '8px 12px', background: 'rgba(61,155,233,0.15)',
-                borderRadius: 10, display: 'flex', alignItems: 'center', gap: 8,
+                marginTop: 14, padding: '10px 14px',
+                background: `${C.blue}15`,
+                borderRadius: 12, display: 'flex', alignItems: 'center', gap: 8,
+                border: `1px solid ${C.blue}20`,
               }}>
-                <span style={{ fontSize: 11.5, color: '#3d9be9', fontWeight: 600 }}>Your rank</span>
+                <span style={{ fontSize: 12, color: C.blue, fontWeight: 700 }}>Your rank</span>
                 <span style={{ flex: 1 }} />
-                <span style={{ fontSize: 12, color: '#fff', fontWeight: 700 }}>#{currentUserRank} · {currentHours}h</span>
+                <span style={{ fontSize: 12, color: '#fff', fontWeight: 800 }}>#{currentUserRank} · {currentHours}h</span>
               </div>
             </>
           )}
         </div>
 
-        {/* ── UPCOMING EVENT ── */}
-        <div style={{ background: '#fff', borderRadius: 20, padding: 18, boxShadow: '0 1px 8px rgba(7,22,41,0.06)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-            <span style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 13, color: '#071629' }}>Upcoming</span>
-            <Link href="/dashboard/events" style={{ fontSize: 11, color: '#3d9be9', textDecoration: 'none' }}>See all →</Link>
+        {/* UPCOMING EVENT */}
+        <div style={{ ...cardStyle, padding: 20 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+            <span style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 800, fontSize: 14, color: '#fff', letterSpacing: -0.3 }}>Upcoming</span>
+            <Link href="/dashboard/events" style={{ fontSize: 11, color: C.blue, textDecoration: 'none', fontWeight: 600 }}>See all →</Link>
           </div>
           {nextEvent ? (
-            <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+            <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
               <div style={{
-                minWidth: 42, height: 42, background: '#071629', borderRadius: 10,
-                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                minWidth: 48, height: 48,
+                background: `linear-gradient(135deg, ${C.blue}, ${C.purple})`,
+                borderRadius: 12, display: 'flex', flexDirection: 'column',
+                alignItems: 'center', justifyContent: 'center',
+                boxShadow: `0 4px 16px ${C.blue}30`,
               }}>
-                <span style={{ fontSize: 9, color: '#ffcb5d', fontWeight: 700, lineHeight: 1 }}>
+                <span style={{ fontSize: 9, color: '#fff', fontWeight: 800, lineHeight: 1, letterSpacing: 0.5, opacity: 0.8 }}>
                   {new Date(nextEvent.date).toLocaleDateString('en-US', { month: 'short' }).toUpperCase()}
                 </span>
-                <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 16, fontWeight: 700, color: '#fff', lineHeight: 1 }}>
+                <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 18, fontWeight: 800, color: '#fff', lineHeight: 1 }}>
                   {new Date(nextEvent.date).getDate()}
                 </span>
               </div>
               <div>
-                <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 13, fontWeight: 700, color: '#071629', lineHeight: 1.3 }}>
+                <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 13.5, fontWeight: 700, color: '#fff', lineHeight: 1.3 }}>
                   {nextEvent.title}
                 </div>
-                <div style={{ fontSize: 11, color: '#6e7591', margin: '3px 0 10px' }}>
+                <div style={{ fontSize: 11, color: C.textMuted, margin: '4px 0 12px' }}>
                   {nextEvent.time || ''}{nextEvent.location ? ` · ${nextEvent.location}` : nextEvent.online_link ? ' · Online' : ''}
                 </div>
                 <Link href="/dashboard/events" style={{
-                  background: '#3d9be9', color: '#fff', border: 'none', borderRadius: 100,
-                  padding: '6px 16px', fontSize: 11.5, fontWeight: 600, textDecoration: 'none', fontFamily: 'inherit',
+                  background: C.blue, color: '#fff',
+                  border: 'none', borderRadius: 100,
+                  padding: '7px 18px', fontSize: 11.5, fontWeight: 700,
+                  textDecoration: 'none', fontFamily: 'inherit',
+                  boxShadow: `0 2px 10px ${C.blue}40`,
                 }}>
                   RSVP →
                 </Link>
               </div>
             </div>
           ) : (
-            <p style={{ fontSize: 12, color: '#6e7591', textAlign: 'center', padding: '8px 0' }}>No upcoming events.</p>
+            <p style={{ fontSize: 12, color: C.textMuted, textAlign: 'center', padding: '8px 0' }}>No upcoming events.</p>
           )}
         </div>
 
-        {/* ── REMINDERS ── */}
+        {/* REMINDERS */}
         {notifications.length > 0 && (
-          <div style={{ background: '#fff', borderRadius: 20, padding: 18, boxShadow: '0 1px 8px rgba(7,22,41,0.06)' }}>
-            <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 13, color: '#071629', marginBottom: 10 }}>
+          <div style={{ ...cardStyle, padding: 20 }}>
+            <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 800, fontSize: 14, color: '#fff', marginBottom: 12, letterSpacing: -0.3 }}>
               Reminders
             </div>
             {notifications.slice(0, 3).map((n: any, i: number) => {
-              const dotColors = ['#ff4757', '#3d9be9', '#ffcb5d']
+              const dotColors = [C.red, C.blue, C.gold]
               return (
-                <div key={n.id} style={{ display: 'flex', gap: 9, padding: '7px 0', borderBottom: i < 2 ? '0.5px solid rgba(7,22,41,0.06)' : 'none' }}>
-                  <div style={{ width: 7, height: 7, borderRadius: '50%', background: dotColors[i % dotColors.length], marginTop: 4, flexShrink: 0 }} />
+                <div key={n.id} style={{
+                  display: 'flex', gap: 10, padding: '8px 0',
+                  borderBottom: i < 2 ? `0.5px solid ${C.cardBorder}` : 'none',
+                }}>
+                  <div style={{
+                    width: 8, height: 8, borderRadius: '50%',
+                    background: dotColors[i % dotColors.length], marginTop: 4, flexShrink: 0,
+                    boxShadow: `0 0 6px ${dotColors[i % dotColors.length]}40`,
+                  }} />
                   <div>
-                    <div style={{ fontSize: 12, fontWeight: 500, color: '#071629' }}>{n.title}</div>
-                    <div style={{ fontSize: 10.5, color: '#6e7591' }}>{n.message}</div>
+                    <div style={{ fontSize: 12.5, fontWeight: 600, color: '#fff' }}>{n.title}</div>
+                    <div style={{ fontSize: 11, color: C.textMuted }}>{n.message}</div>
                   </div>
                 </div>
               )

@@ -46,28 +46,47 @@ export default async function OpportunitiesPage({ searchParams }: OpportunitiesP
   const typedPortfolioItems = (portfolioItems || []) as { id: string; title: string }[];
 
   return (
-    <div style={{ flex: 1, overflowY: 'auto', padding: '22px 20px' }}>
+    <div style={{ flex: 1, overflowY: 'auto', padding: '24px 24px' }}>
       <div className="max-w-6xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          marginBottom: 24, padding: '20px 24px',
+          background: '#111f36', borderRadius: 18,
+          border: '1px solid rgba(255,255,255,0.06)',
+        }}>
           <div>
-            <h1 className="text-2xl font-bold flex items-center gap-2" style={{ color: '#071629' }}>
-              <Briefcase className="w-6 h-6" style={{ color: '#E8A838' }} />
+            <h1 style={{
+              fontFamily: "'Montserrat', sans-serif", fontSize: 22, fontWeight: 800,
+              color: '#fff', margin: 0, display: 'flex', alignItems: 'center', gap: 10,
+              letterSpacing: -0.3,
+            }}>
+              <div style={{
+                width: 40, height: 40, borderRadius: 12,
+                background: 'rgba(249,115,22,0.15)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <Briefcase className="w-5 h-5" style={{ color: '#f97316' }} />
+              </div>
               Opportunities
             </h1>
-            <p className="text-sm mt-1" style={{ color: '#6e7591' }}>Internships, challenges, volunteering and more</p>
+            <p style={{ fontSize: 13, color: '#64748b', margin: '6px 0 0 50px' }}>Internships, challenges, volunteering and more</p>
           </div>
-          <div className="text-right hidden sm:block">
-            <p className="text-2xl font-bold" style={{ color: '#E8A838' }}>{(opportunities || []).length}</p>
-            <p className="text-xs" style={{ color: '#6e7591' }}>open positions</p>
+          <div style={{ textAlign: 'right' }}>
+            <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 28, fontWeight: 800, color: '#f97316', margin: 0 }}>{(opportunities || []).length}</p>
+            <p style={{ fontSize: 11, color: '#64748b', margin: 0 }}>open positions</p>
           </div>
         </div>
         <OpportunitiesFilter currentFilters={searchParams} isSchoolStudent={isSchoolStudent} />
         <div className="mt-6">
           {(opportunities || []).length === 0 ? (
-            <div className="p-12 text-center" style={{ background: '#fff', borderRadius: 16 }}>
-              <Briefcase className="w-10 h-10 mx-auto mb-3" style={{ color: '#6e7591' }} />
-              <p className="font-medium" style={{ color: '#071629' }}>No opportunities found</p>
-              <p className="text-sm mt-1" style={{ color: '#6e7591' }}>Try adjusting your filters</p>
+            <div style={{
+              padding: 48, textAlign: 'center',
+              background: '#111f36', borderRadius: 18,
+              border: '1px solid rgba(255,255,255,0.06)',
+            }}>
+              <Briefcase className="w-10 h-10 mx-auto mb-3" style={{ color: '#64748b' }} />
+              <p style={{ fontWeight: 700, color: '#e2e8f0', fontFamily: "'Montserrat', sans-serif" }}>No opportunities found</p>
+              <p style={{ fontSize: 13, color: '#64748b', marginTop: 4 }}>Try adjusting your filters</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">

@@ -51,8 +51,8 @@ export default async function DashboardLayout({
         display: 'flex',
         minHeight: '100vh',
         fontFamily: "'DM Sans', sans-serif",
-        background: '#f0f2f8',
-        color: '#071629',
+        background: '#0c1a2e',
+        color: '#e2e8f0',
       }}
     >
       <DashboardSidebar profile={profile as Profile} />

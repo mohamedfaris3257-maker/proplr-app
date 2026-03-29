@@ -155,11 +155,6 @@ export function OpportunityCard({
               ? 'School'
               : 'University'}
           </Badge>
-          {opportunity.source === 'adzuna' && (
-            <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-sm" style={{ background: '#e8f4fd', color: '#3d9be9' }}>
-              Adzuna
-            </span>
-          )}
         </div>
 
         {/* Description */}
