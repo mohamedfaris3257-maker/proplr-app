@@ -90,7 +90,7 @@ export default function LoginPage() {
             fontSize: 13.5,
             color: '#64748b',
             margin: '6px 0 24px',
-          }}>Sign in to continue your journey</p>
+          }}>Sign in to your Proplr community</p>
           <LoginForm />
         </div>
 

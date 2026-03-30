@@ -74,7 +74,7 @@ export function LoginForm() {
 
       <p style={s.toggleText}>
         Don&apos;t have an account?{' '}
-        <Link href="/enroll" style={s.toggleLink}>Sign up</Link>
+        <Link href="/enroll" style={s.toggleLink}>Join for free</Link>
       </p>
     </div>
   );

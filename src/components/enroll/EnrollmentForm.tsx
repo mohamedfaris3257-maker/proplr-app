@@ -7,18 +7,25 @@ import { createClient } from '@/lib/supabase/client';
 
 /* ── plan data ─────────────────────────────────────────────── */
 const PLANS: Record<string, { name: string; tag: string; price: string; sub: string; color: string }> = {
+  community: {
+    name: 'Community',
+    tag: 'Everyone Welcome',
+    price: 'Free',
+    sub: 'Join our community — upgrade anytime',
+    color: '#22c55e',
+  },
   foundation: {
     name: 'Foundation',
     tag: 'School Students · Grades 8-12',
     price: 'AED 400/mo',
-    sub: '8 months = AED 3,200/year',
+    sub: '8 months · Upgrade later',
     color: '#ffcb5d',
   },
   impact: {
     name: 'Impact',
     tag: 'University Students',
     price: 'AED 999',
-    sub: 'Flat rate · Full academic year',
+    sub: 'Full academic year · Upgrade later',
     color: '#3d9be9',
   },
 };
@@ -45,7 +52,7 @@ const SKILL_OPTIONS = [
   'Coding', 'Design', 'Negotiation', 'Time Management',
 ];
 
-const STEP_LABELS = ['Plan', 'Personal Info', 'Parent/Guardian', 'Profile & Interests', 'Review'];
+const STEP_LABELS = ['Join', 'Personal Info', 'Parent/Guardian', 'Profile & Interests', 'Review'];
 const STEP_ICONS = ['▤', '●', '◆', '◎', '✓'];
 
 /* ── form data ───────────────────────────────────────────── */
@@ -88,7 +95,7 @@ export function EnrollmentForm() {
   const [step, setStep] = useState(initialPlan && PLANS[initialPlan] ? 2 : 1);
   const [direction, setDirection] = useState(1);
   const [formData, setFormData] = useState<FormData>({
-    plan: initialPlan && PLANS[initialPlan] ? initialPlan : '',
+    plan: initialPlan && PLANS[initialPlan] ? initialPlan : 'community',
     full_name: '', email: '', password: '', confirm_password: '',
     phone: '', date_of_birth: '', nationality: '',
     school_name: '', grade: '',
@@ -128,7 +135,7 @@ export function EnrollmentForm() {
   };
 
   const validateStep = (): string | null => {
-    if (step === 1 && !formData.plan) return 'Please select a plan.';
+    if (step === 1 && !formData.plan) return 'Please select how you want to join.';
     if (step === 2) {
       if (!formData.full_name.trim()) return 'Full name is required.';
       if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) return 'A valid email is required.';
@@ -254,7 +261,7 @@ export function EnrollmentForm() {
   /* ── step renders ──────────────────────────────────────── */
   const renderPlanSelect = () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-      <p style={{ fontSize: 14, color: '#6e7591', marginBottom: 4 }}>Choose the program that fits you best.</p>
+      <p style={{ fontSize: 14, color: '#6e7591', marginBottom: 4 }}>Join for free today. You can upgrade to a paid program anytime.</p>
       {Object.entries(PLANS).map(([key, plan]) => {
         const selected = formData.plan === key;
         return (
@@ -285,7 +292,7 @@ export function EnrollmentForm() {
               </div>
               <div style={{ fontSize: 12, color: '#6e7591', fontWeight: 500, marginBottom: 4 }}>{plan.tag}</div>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
-                <span style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 800, fontSize: 20, color: '#071629' }}>{plan.price}</span>
+                <span style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 800, fontSize: plan.price === 'Free' ? 22 : 20, color: plan.price === 'Free' ? '#22c55e' : '#071629' }}>{plan.price}</span>
                 <span style={{ fontSize: 12, color: '#9ba3b8' }}>{plan.sub}</span>
               </div>
             </div>
@@ -331,7 +338,9 @@ export function EnrollmentForm() {
         }}>
           <div style={{ width: 8, height: 8, borderRadius: '50%', background: accent }} />
           <span style={{ fontSize: 13, fontWeight: 600, color: '#071629' }}>{selectedPlan.name}</span>
-          <span style={{ fontSize: 12, color: '#6e7591' }}>- {selectedPlan.price}</span>
+          <span style={{ fontSize: 12, color: '#6e7591' }}>
+            {formData.plan === 'community' ? '— Free forever, upgrade anytime' : `— ${selectedPlan.price}`}
+          </span>
         </div>
       )}
       <div>
@@ -373,15 +382,15 @@ export function EnrollmentForm() {
         </div>
       </div>
       <div>
-        <label style={labelStyle}>{formData.plan === 'impact' ? 'University' : 'School'} Name {reqStar}</label>
-        <input style={inputStyle} placeholder={formData.plan === 'impact' ? 'e.g. American University of Dubai' : 'e.g. Dubai College'} value={formData.school_name} onChange={e => set('school_name', e.target.value)} />
+        <label style={labelStyle}>School / University Name {reqStar}</label>
+        <input style={inputStyle} placeholder="e.g. Dubai College, American University of Dubai" value={formData.school_name} onChange={e => set('school_name', e.target.value)} />
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
         <div>
-          <label style={labelStyle}>{formData.plan === 'impact' ? 'Year' : 'Grade'}</label>
+          <label style={labelStyle}>Grade / Year</label>
           <select style={inputStyle} value={formData.grade} onChange={e => set('grade', e.target.value)}>
-            <option value="">Select {formData.plan === 'impact' ? 'year' : 'grade'}</option>
-            {gradeList.map(g => <option key={g} value={g}>{g}</option>)}
+            <option value="">Select grade or year</option>
+            {[...GRADE_OPTIONS, ...YEAR_OPTIONS].map(g => <option key={g} value={g}>{g}</option>)}
           </select>
         </div>
         <div>
@@ -564,8 +573,8 @@ export function EnrollmentForm() {
       {/* Plan */}
       {selectedPlan && (
         <div style={{ padding: '14px 18px', borderRadius: 14, background: `${accent}08`, border: `1.5px solid ${accent}30` }}>
-          <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 16, color: '#071629', marginBottom: 2 }}>{selectedPlan.name}</div>
-          <div style={{ fontSize: 13, color: '#6e7591' }}>{selectedPlan.price} - {selectedPlan.sub}</div>
+          <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 16, color: '#071629', marginBottom: 2 }}>{selectedPlan.name}{formData.plan === 'community' ? ' (Free)' : ''}</div>
+          <div style={{ fontSize: 13, color: '#6e7591' }}>{formData.plan === 'community' ? 'Free community membership — upgrade anytime' : `${selectedPlan.price} — ${selectedPlan.sub}`}</div>
         </div>
       )}
       {/* Personal */}
@@ -577,8 +586,8 @@ export function EnrollmentForm() {
           <ReviewRow label="Phone" value={formData.phone} />
           <ReviewRow label="Date of Birth" value={formData.date_of_birth} />
           <ReviewRow label="Nationality" value={formData.nationality} />
-          <ReviewRow label={formData.plan === 'impact' ? 'University' : 'School'} value={formData.school_name} />
-          <ReviewRow label={formData.plan === 'impact' ? 'Year' : 'Grade'} value={formData.grade} />
+          <ReviewRow label="School / University" value={formData.school_name} />
+          <ReviewRow label="Grade / Year" value={formData.grade} />
         </div>
       </div>
       {/* Parent */}

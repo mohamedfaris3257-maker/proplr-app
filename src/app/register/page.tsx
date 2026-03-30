@@ -85,12 +85,12 @@ export default function RegisterPage() {
             color: '#fff',
             margin: 0,
             letterSpacing: -0.3,
-          }}>Join Proplr</h2>
+          }}>Join Proplr — It&apos;s Free</h2>
           <p style={{
             fontSize: 13.5,
             color: '#64748b',
             margin: '6px 0 24px',
-          }}>Create your account to start enrollment</p>
+          }}>Join our community for free. Upgrade to a program anytime.</p>
           <RegisterForm />
         </div>
 
@@ -100,7 +100,7 @@ export default function RegisterPage() {
           textAlign: 'center',
           marginTop: 24,
         }}>
-          By registering, you agree to our Terms of Service and Privacy Policy
+          Join for free. No credit card required. You can upgrade anytime.
         </p>
       </div>
     </div>

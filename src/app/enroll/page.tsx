@@ -20,7 +20,7 @@ export default function EnrollPage() {
           </div>
           <span style={styles.logoText}>PROPLR</span>
         </div>
-        <p style={styles.logoSub}>Enroll and start your journey</p>
+        <p style={styles.logoSub}>Join for free — decide on a program later</p>
 
         <Suspense fallback={<div style={{ color: '#6e7591', fontSize: 14 }}>Loading...</div>}>
           <EnrollmentForm />

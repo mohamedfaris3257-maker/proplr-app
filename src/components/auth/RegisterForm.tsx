@@ -79,7 +79,7 @@ export function RegisterForm() {
           opacity: loading ? 0.6 : 1,
           cursor: loading ? 'not-allowed' : 'pointer',
         }}>
-          {loading ? 'Creating account...' : 'Create Account'}
+          {loading ? 'Creating account...' : 'Join for Free'}
         </button>
       </form>
 
