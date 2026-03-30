@@ -40,8 +40,8 @@ export default function ProgramsPage() {
               KHDA-certified programs that build real skills, industry access, and a portfolio - not just another certificate.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center reveal reveal-delay-2">
-              <Link href="/foundation" className="pub-btn-primary">Foundation K-12 →</Link>
-              <Link href="/impact" className="pub-btn-ghost">Impact University →</Link>
+              <a href="/register" className="pub-btn-primary">Join for Free →</a>
+              <Link href="/foundation" className="pub-btn-ghost">Explore Programs</Link>
             </div>
           </div>
         </div>
@@ -256,7 +256,7 @@ export default function ProgramsPage() {
             Real skills. Real mentors. Real outcomes.
           </p>
           <div className="reveal reveal-delay-2">
-            <a href="/enroll" target="_blank" rel="noopener noreferrer" className="pub-btn-primary">Apply Now →</a>
+            <a href="/register" className="pub-btn-primary">Join for Free →</a>
           </div>
         </div>
       </section>
@@ -270,9 +270,9 @@ export default function ProgramsPage() {
             Ready to launch?
           </h2>
           <p style={{ color: '#8ca3be', fontSize: 17, marginBottom: 36, maxWidth: 420, margin: '0 auto 36px' }}>
-            Join the Proplr pipeline. September 2026 cohort now enrolling.
+            Join our community for free. Upgrade to a program when you&apos;re ready.
           </p>
-          <a href="/enroll" target="_blank" rel="noopener noreferrer" className="pub-btn-primary">Get Started →</a>
+          <a href="/register" className="pub-btn-primary">Join for Free →</a>
         </div>
       </section>
     </div>

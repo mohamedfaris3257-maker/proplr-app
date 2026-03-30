@@ -61,7 +61,7 @@ export default function PricingPage() {
             Simple pricing. Real returns.
           </h1>
           <p className="reveal reveal-delay-1" style={{ color: '#6e6e73', fontSize: 18, maxWidth: 540, margin: '0 auto' }}>
-            One year with Proplr. Six KHDA certificates. A career direction. A portfolio. And a professional network you&apos;ll actually use.
+            Join Proplr for free. Upgrade to a paid program when you&apos;re ready for the full experience.
           </p>
         </div>
       </section>
@@ -69,6 +69,45 @@ export default function PricingPage() {
       {/* ── PLAN CARDS ───────────────────────────────────── */}
       <section style={{ background: '#f5f5f7', padding: '0 24px 80px' }}>
         <div className="max-w-[1200px] mx-auto">
+
+          {/* Free Community Tier */}
+          <div className="pub-card reveal p-10 max-w-xl mx-auto mb-10" style={{ border: '2px solid rgba(34,197,94,0.35)', background: '#ffffff', textAlign: 'center' }}>
+            <span className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-4" style={{ background: 'rgba(34,197,94,0.12)', color: '#16a34a' }}>
+              Everyone Welcome
+            </span>
+            <h2 className="pub-heading" style={{ fontSize: 28, color: '#071629', marginBottom: 6 }}>Community</h2>
+            <p style={{ color: '#6e6e73', fontSize: 14, marginBottom: 16 }}>Join our community for free — upgrade anytime</p>
+
+            <div className="mb-6">
+              <span className="pub-heading" style={{ fontSize: 42, color: '#22c55e' }}>Free</span>
+              <p style={{ color: '#16a34a', fontSize: 13, fontWeight: 700, marginTop: 4 }}>No credit card required</p>
+            </div>
+
+            <div style={{ height: 1, background: 'rgba(0,0,0,0.08)', margin: '20px 0' }} />
+
+            <ul className="space-y-3 mb-8 text-left max-w-xs mx-auto">
+              {['Community feed & peer connections', 'Event access & notifications', 'Career resources & articles', 'Suggested peers & networking', 'Upgrade to paid programs anytime'].map((f) => (
+                <li key={f} className="flex items-start gap-2.5 text-sm" style={{ color: '#1d1d1f' }}>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0, marginTop: 2 }}>
+                    <circle cx="8" cy="8" r="8" fill="rgba(34,197,94,0.2)" />
+                    <path d="M5 8l2 2 4-4" stroke="#16a34a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  {f}
+                </li>
+              ))}
+            </ul>
+
+            <a href="/register" className="pub-btn-primary w-full text-center block" style={{ background: '#22c55e' }}>
+              Join for Free →
+            </a>
+          </div>
+
+          <div className="text-center mb-8 reveal">
+            <p style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 13, color: '#6e6e73', textTransform: 'uppercase' as const, letterSpacing: '0.08em' }}>
+              Ready for more? Upgrade to a program
+            </p>
+          </div>
+
           <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
 
             {/* Foundation */}
@@ -104,7 +143,7 @@ export default function PricingPage() {
               </ul>
 
               <a href="/enroll?plan=foundation" target="_blank" rel="noopener noreferrer" className="pub-btn-navy w-full text-center block">
-                Register for Foundation →
+                Upgrade to Foundation →
               </a>
             </div>
 
@@ -144,7 +183,7 @@ export default function PricingPage() {
               </ul>
 
               <a href="/enroll?plan=impact" target="_blank" rel="noopener noreferrer" className="pub-btn-primary w-full text-center block">
-                Join Now →
+                Upgrade to Impact →
               </a>
             </div>
           </div>
@@ -190,10 +229,10 @@ export default function PricingPage() {
       <section style={{ background: '#071629', padding: '64px 24px' }}>
         <div className="max-w-[1200px] mx-auto text-center reveal">
           <h2 className="pub-heading text-white" style={{ fontSize: 'clamp(24px, 4vw, 38px)', marginBottom: 14 }}>
-            Ready to invest in your future?
+            Ready to join the community?
           </h2>
-          <p style={{ color: '#8ca3be', fontSize: 17, marginBottom: 32 }}>Clubs are forming now. Program starts September 2026.</p>
-          <a href="/enroll" target="_blank" rel="noopener noreferrer" className="pub-btn-primary">Get Started →</a>
+          <p style={{ color: '#8ca3be', fontSize: 17, marginBottom: 32 }}>Join for free today. Upgrade to a program when you&apos;re ready.</p>
+          <a href="/register" className="pub-btn-primary">Join for Free →</a>
           <p style={{ color: '#4a6785', fontSize: 13, marginTop: 16 }}>Questions? <a href="mailto:hello@proplr.ae" style={{ color: '#3d9be9' }}>hello@proplr.ae</a></p>
         </div>
       </section>

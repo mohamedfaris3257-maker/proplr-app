@@ -49,11 +49,11 @@ export default async function HomePage() {
               <span className="pub-gradient-text-animated">graduate.</span>
             </h1>
             <p className="reveal reveal-delay-1 pub-text-shadow" style={{ fontSize: 19, color: 'rgba(255,255,255,0.85)', maxWidth: 520, marginBottom: 40, lineHeight: 1.65 }}>
-              Real skills. Real mentors. Real certificates. Proplr turns your after-school hours into a career head start - backed by KHDA.
+              Join our community for free. Get real skills, real mentors, and real certificates. Upgrade to a program when you&apos;re ready.
             </p>
             <div className="flex flex-col sm:flex-row items-start gap-4 reveal reveal-delay-2">
-              <a href="/enroll" target="_blank" rel="noopener noreferrer" className="pub-btn-primary" style={{ fontSize: 17, padding: '16px 36px' }}>
-                Get Started →
+              <a href="/register" className="pub-btn-primary" style={{ fontSize: 17, padding: '16px 36px' }}>
+                Join for Free →
               </a>
               <a href="#how-it-works" className="pub-btn-ghost" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.3)', padding: '16px 36px', fontSize: 17 }}>
                 See How It Works
@@ -248,12 +248,29 @@ export default async function HomePage() {
         <div className="pub-section">
           <div className="text-center mb-14 reveal">
             <h2 className="pub-heading" style={{ fontSize: 'clamp(32px, 5vw, 52px)', color: '#071629', marginBottom: 12 }}>
-              Two tracks. One ecosystem.
+              Join free. Upgrade when you&apos;re ready.
             </h2>
             <p style={{ color: '#5a5f7a', fontSize: 17, maxWidth: 460, margin: '0 auto' }}>
-              Whether you&apos;re in high school or university - we built this for you.
+              Start with our free community. When you&apos;re ready, level up with a paid program.
             </p>
           </div>
+          {/* Free Community Card */}
+          <div className="pub-card reveal p-8 mb-8 max-w-2xl mx-auto text-center" style={{ border: '2px solid rgba(34,197,94,0.3)', background: '#ffffff' }}>
+            <span className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-4" style={{ background: 'rgba(34,197,94,0.12)', color: '#16a34a' }}>
+              Free Forever
+            </span>
+            <h3 className="pub-heading" style={{ fontSize: 28, color: '#071629', marginBottom: 10 }}>Proplr Community</h3>
+            <p style={{ color: '#5a5f7a', fontSize: 15, lineHeight: 1.6, marginBottom: 20 }}>
+              Join our community of students, mentors, and industry professionals. Connect, learn, and grow — completely free. Upgrade to a program anytime.
+            </p>
+            <div className="flex flex-wrap justify-center gap-2 mb-6">
+              {['Community Feed', 'Peer Connections', 'Events Access', 'Career Resources'].map((tag) => (
+                <span key={tag} className="px-3 py-1 rounded-full text-xs font-semibold" style={{ background: 'rgba(34,197,94,0.08)', color: '#16a34a' }}>{tag}</span>
+              ))}
+            </div>
+            <a href="/register" className="pub-btn-primary pub-btn-sm" style={{ background: '#22c55e' }}>Join for Free →</a>
+          </div>
+
           <div className="grid md:grid-cols-2 gap-8">
             {/* Foundation Card */}
             <div className="pub-card reveal reveal-left p-0 overflow-hidden" style={{ border: '2px solid rgba(255,203,93,0.3)' }}>
@@ -452,11 +469,11 @@ export default async function HomePage() {
             Your peers are already building their careers. Don&apos;t wait.
           </h2>
           <p className="pub-text-shadow" style={{ color: 'rgba(255,255,255,0.8)', fontSize: 18, marginBottom: 36 }}>
-            September 2026 cohort is forming now. Spots are limited to keep clubs small and impactful.
+            Join for free today. No credit card required. Upgrade to a program when you&apos;re ready.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="/enroll" target="_blank" rel="noopener noreferrer" className="pub-btn-primary" style={{ fontSize: 18, padding: '16px 40px' }}>
-              Get Started →
+            <a href="/register" className="pub-btn-primary" style={{ fontSize: 18, padding: '16px 40px' }}>
+              Join for Free →
             </a>
             <Link href="/start-a-club" style={{ color: '#3d9be9', fontSize: 15, fontWeight: 600, textDecoration: 'none' }}>
               Or bring Proplr to your school →

@@ -33,7 +33,7 @@ export default function FoundationPage() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 reveal reveal-delay-2">
-              <a href="/enroll?plan=foundation" target="_blank" rel="noopener noreferrer" className="pub-btn-primary">Register Now</a>
+              <a href="/register" className="pub-btn-primary">Join Free — Upgrade Anytime</a>
               <Link href="/start-a-club" className="pub-btn-ghost" style={{ color: '#ffffff', borderColor: 'rgba(255,255,255,0.4)' }}>Start a Club</Link>
             </div>
           </div>
@@ -261,7 +261,7 @@ export default function FoundationPage() {
             Ready to get started?
           </h2>
           <p style={{ color: '#5a5f7a', fontSize: 16, marginBottom: 36 }}>
-            Everything included. No hidden fees. KHDA certified.
+            Join free today. Upgrade to Foundation when you&apos;re ready.
           </p>
           <div className="flex flex-wrap justify-center gap-3 mb-12">
             {['6 KHDA Certificates', 'Industry Mentorship', 'Portfolio Building', 'Compass Assessment', 'Showcase Eligibility'].map((f) => (
@@ -271,7 +271,7 @@ export default function FoundationPage() {
             ))}
           </div>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="/enroll?plan=foundation" target="_blank" rel="noopener noreferrer" className="pub-btn-primary">Register for Foundation</a>
+            <a href="/register" className="pub-btn-primary">Join for Free →</a>
             <Link href="/start-a-club" className="pub-btn-navy">Start a Club at My School</Link>
           </div>
 
