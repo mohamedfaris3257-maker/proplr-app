@@ -255,8 +255,8 @@ export default async function HomePage() {
             </p>
           </div>
           {/* Free Community Card */}
-          <div className="pub-card reveal p-8 mb-8 max-w-2xl mx-auto text-center" style={{ border: '2px solid rgba(34,197,94,0.3)', background: '#ffffff' }}>
-            <span className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-4" style={{ background: 'rgba(34,197,94,0.12)', color: '#16a34a' }}>
+          <div className="pub-card reveal p-8 mb-8 max-w-2xl mx-auto text-center" style={{ border: '2px solid rgba(13,59,102,0.3)', background: '#ffffff' }}>
+            <span className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-4" style={{ background: 'rgba(13,59,102,0.1)', color: '#0D3B66' }}>
               Free Forever
             </span>
             <h3 className="pub-heading" style={{ fontSize: 28, color: '#071629', marginBottom: 10 }}>Proplr Community</h3>
@@ -265,10 +265,10 @@ export default async function HomePage() {
             </p>
             <div className="flex flex-wrap justify-center gap-2 mb-6">
               {['Community Feed', 'Peer Connections', 'Events Access', 'Career Resources'].map((tag) => (
-                <span key={tag} className="px-3 py-1 rounded-full text-xs font-semibold" style={{ background: 'rgba(34,197,94,0.08)', color: '#16a34a' }}>{tag}</span>
+                <span key={tag} className="px-3 py-1 rounded-full text-xs font-semibold" style={{ background: 'rgba(13,59,102,0.08)', color: '#0D3B66' }}>{tag}</span>
               ))}
             </div>
-            <a href="/register" className="pub-btn-primary pub-btn-sm" style={{ background: '#22c55e' }}>Join for Free →</a>
+            <a href="/register" className="pub-btn-primary pub-btn-sm" style={{ background: '#0D3B66' }}>Join for Free →</a>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">

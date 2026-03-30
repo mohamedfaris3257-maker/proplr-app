@@ -12,7 +12,7 @@ const PLANS: Record<string, { name: string; tag: string; price: string; sub: str
     tag: 'Everyone Welcome',
     price: 'Free',
     sub: 'Join our community — upgrade anytime',
-    color: '#22c55e',
+    color: '#0D3B66',
   },
   foundation: {
     name: 'Foundation',
@@ -292,7 +292,7 @@ export function EnrollmentForm() {
               </div>
               <div style={{ fontSize: 12, color: '#6e7591', fontWeight: 500, marginBottom: 4 }}>{plan.tag}</div>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
-                <span style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 800, fontSize: plan.price === 'Free' ? 22 : 20, color: plan.price === 'Free' ? '#22c55e' : '#071629' }}>{plan.price}</span>
+                <span style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 800, fontSize: plan.price === 'Free' ? 22 : 20, color: plan.price === 'Free' ? '#0D3B66' : '#071629' }}>{plan.price}</span>
                 <span style={{ fontSize: 12, color: '#9ba3b8' }}>{plan.sub}</span>
               </div>
             </div>

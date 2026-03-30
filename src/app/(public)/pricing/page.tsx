@@ -71,16 +71,16 @@ export default function PricingPage() {
         <div className="max-w-[1200px] mx-auto">
 
           {/* Free Community Tier */}
-          <div className="pub-card reveal p-10 max-w-xl mx-auto mb-10" style={{ border: '2px solid rgba(34,197,94,0.35)', background: '#ffffff', textAlign: 'center' }}>
-            <span className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-4" style={{ background: 'rgba(34,197,94,0.12)', color: '#16a34a' }}>
+          <div className="pub-card reveal p-10 max-w-xl mx-auto mb-10" style={{ border: '2px solid rgba(13,59,102,0.35)', background: '#ffffff', textAlign: 'center' }}>
+            <span className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-4" style={{ background: 'rgba(13,59,102,0.1)', color: '#0D3B66' }}>
               Everyone Welcome
             </span>
             <h2 className="pub-heading" style={{ fontSize: 28, color: '#071629', marginBottom: 6 }}>Community</h2>
             <p style={{ color: '#6e6e73', fontSize: 14, marginBottom: 16 }}>Join our community for free — upgrade anytime</p>
 
             <div className="mb-6">
-              <span className="pub-heading" style={{ fontSize: 42, color: '#22c55e' }}>Free</span>
-              <p style={{ color: '#16a34a', fontSize: 13, fontWeight: 700, marginTop: 4 }}>No credit card required</p>
+              <span className="pub-heading" style={{ fontSize: 42, color: '#0D3B66' }}>Free</span>
+              <p style={{ color: '#0D3B66', fontSize: 13, fontWeight: 700, marginTop: 4 }}>No credit card required</p>
             </div>
 
             <div style={{ height: 1, background: 'rgba(0,0,0,0.08)', margin: '20px 0' }} />
@@ -89,15 +89,15 @@ export default function PricingPage() {
               {['Community feed & peer connections', 'Event access & notifications', 'Career resources & articles', 'Suggested peers & networking', 'Upgrade to paid programs anytime'].map((f) => (
                 <li key={f} className="flex items-start gap-2.5 text-sm" style={{ color: '#1d1d1f' }}>
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0, marginTop: 2 }}>
-                    <circle cx="8" cy="8" r="8" fill="rgba(34,197,94,0.2)" />
-                    <path d="M5 8l2 2 4-4" stroke="#16a34a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <circle cx="8" cy="8" r="8" fill="rgba(13,59,102,0.15)" />
+                    <path d="M5 8l2 2 4-4" stroke="#0D3B66" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                   {f}
                 </li>
               ))}
             </ul>
 
-            <a href="/register" className="pub-btn-primary w-full text-center block" style={{ background: '#22c55e' }}>
+            <a href="/register" className="pub-btn-primary w-full text-center block" style={{ background: '#0D3B66' }}>
               Join for Free →
             </a>
           </div>
