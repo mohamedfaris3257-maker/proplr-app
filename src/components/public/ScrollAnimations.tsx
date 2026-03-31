@@ -23,7 +23,7 @@ export function ScrollAnimations() {
 
     // Small delay to let the new page render its DOM
     const timer = setTimeout(() => {
-      const els = document.querySelectorAll('.reveal');
+      const els = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-bounce, .reveal-blur, .reveal-grow, .reveal-clip, .reveal-rotate');
       els.forEach((el) => {
         // Reset previous state so elements re-animate on navigation
         el.classList.remove('in-view');
@@ -70,10 +70,12 @@ export function ScrollAnimations() {
       mutations.forEach((mutation) => {
         mutation.addedNodes.forEach((node) => {
           if (node instanceof HTMLElement) {
-            if (node.classList.contains('reveal') && !node.classList.contains('in-view')) {
+            const revealClasses = ['reveal', 'reveal-left', 'reveal-right', 'reveal-scale', 'reveal-bounce', 'reveal-blur', 'reveal-grow', 'reveal-clip', 'reveal-rotate'];
+            if (revealClasses.some(c => node.classList.contains(c)) && !node.classList.contains('in-view')) {
               intersectionObserver.observe(node);
             }
-            node.querySelectorAll('.reveal:not(.in-view)').forEach((el) => {
+            const selector = revealClasses.map(c => `.${c}:not(.in-view)`).join(', ');
+            node.querySelectorAll(selector).forEach((el) => {
               intersectionObserver.observe(el);
             });
           }
