@@ -102,7 +102,7 @@ export default function PartnersPage() {
       <section id="industry-form" style={{ background: '#ffffff' }}>
         <div className="pub-section">
           <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-            <div className="reveal-left">
+            <div className="reveal">
               <div className="pub-img-card">
                 <Image
                   src="https://images.pexels.com/photos/8419521/pexels-photo-8419521.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
@@ -113,7 +113,7 @@ export default function PartnersPage() {
                 />
               </div>
             </div>
-            <div className="reveal-right">
+            <div className="reveal reveal-delay-1">
               <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: '#3d9be9', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 12 }}>
                 INDUSTRY PARTNERS
               </span>
@@ -207,7 +207,7 @@ export default function PartnersPage() {
       <section id="institution-form" style={{ background: '#ffffff' }}>
         <div className="pub-section">
           <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-            <div className="reveal-right order-2 md:order-1">
+            <div className="reveal order-2 md:order-1">
               <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: '#071629', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 12 }}>
                 CAMPUS PARTNERSHIPS
               </span>
@@ -225,7 +225,7 @@ export default function PartnersPage() {
                 ))}
               </div>
             </div>
-            <div className="reveal-left order-1 md:order-2">
+            <div className="reveal order-1 md:order-2">
               <div className="pub-img-card">
                 <Image
                   src="https://images.pexels.com/photos/6684506/pexels-photo-6684506.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"

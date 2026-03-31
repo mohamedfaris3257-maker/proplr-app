@@ -87,7 +87,7 @@ export default function ProgramsPage() {
 
           <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
             {/* Foundation */}
-            <div className="pub-card pub-glow-border reveal-left p-0 overflow-hidden" style={{ border: '1px solid rgba(255,203,93,0.2)' }}>
+            <div className="pub-card pub-glow-border reveal p-0 overflow-hidden" style={{ border: '1px solid rgba(255,203,93,0.2)' }}>
               <div style={{ position: 'relative', height: 200 }}>
                 <Image
                   src="https://images.pexels.com/photos/7433830/pexels-photo-7433830.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
@@ -119,7 +119,7 @@ export default function ProgramsPage() {
             </div>
 
             {/* Impact */}
-            <div className="pub-card pub-glow-border reveal-right p-0 overflow-hidden" style={{ border: '1px solid rgba(61,155,233,0.2)' }}>
+            <div className="pub-card pub-glow-border reveal reveal-delay-1 p-0 overflow-hidden" style={{ border: '1px solid rgba(61,155,233,0.2)' }}>
               <div style={{ position: 'relative', height: 200 }}>
                 <Image
                   src="https://images.pexels.com/photos/6684506/pexels-photo-6684506.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
@@ -166,7 +166,7 @@ export default function ProgramsPage() {
             {PILLARS.map((p, i) => (
               <div
                 key={p.title}
-                className={`reveal ${i % 2 === 0 ? 'reveal-left' : 'reveal-right'} p-6 rounded-2xl pub-glow-border`}
+                className={`reveal reveal-delay-${(i % 3) + 1} p-6 rounded-2xl pub-glow-border`}
                 style={{ background: '#f5f5f7', border: '1px solid rgba(0,0,0,0.04)', textAlign: 'center' }}
               >
                 <span className="pub-stat-number" style={{ fontSize: 36, color: p.color, opacity: 0.3, display: 'block', marginBottom: 4 }}>
@@ -223,7 +223,7 @@ export default function ProgramsPage() {
               <Link
                 key={card.title}
                 href={card.link}
-                className={`pub-card pub-glow-border ${i % 2 === 0 ? 'reveal-left' : 'reveal-right'} p-6 block`}
+                className={`pub-card pub-glow-border reveal reveal-delay-${(i % 2) + 1} p-6 block`}
                 style={{ border: '1px solid rgba(0,0,0,0.06)', textDecoration: 'none' }}
               >
                 <span style={{ fontSize: 32, display: 'block', marginBottom: 12 }}>{card.icon}</span>

@@ -160,7 +160,7 @@ export default function ImpactPage() {
           </div>
           <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
             {/* Left - Image */}
-            <div className="reveal-left">
+            <div className="reveal">
               <div className="pub-img-card">
                 <Image
                   src="https://images.pexels.com/photos/18999483/pexels-photo-18999483.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
@@ -172,7 +172,7 @@ export default function ImpactPage() {
               </div>
             </div>
             {/* Right - 3 Differentiator Cards */}
-            <div className="reveal-right space-y-5">
+            <div className="reveal reveal-delay-1 space-y-5">
               {DIFFERENTIATORS.map((d, i) => (
                 <div
                   key={d.title}
@@ -261,7 +261,7 @@ export default function ImpactPage() {
         <div className="pub-section-compact">
           <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 items-center">
             {/* Left - Image */}
-            <div className="reveal reveal-left">
+            <div className="reveal">
               <div className="pub-img-card">
                 <Image
                   src="https://images.pexels.com/photos/6684506/pexels-photo-6684506.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
@@ -273,7 +273,7 @@ export default function ImpactPage() {
               </div>
             </div>
             {/* Right - What your campus gets */}
-            <div className="reveal reveal-right">
+            <div className="reveal reveal-delay-1">
               <span
                 style={{
                   fontFamily: 'Montserrat, sans-serif',

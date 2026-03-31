@@ -173,7 +173,7 @@ export default function FoundationPage() {
       <section style={{ background: '#f5f5f7' }}>
         <div className="pub-section">
           <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-            <div className="reveal reveal-left">
+            <div className="reveal">
               <div className="pub-img-card">
                 <Image
                   src="https://images.pexels.com/photos/8419521/pexels-photo-8419521.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
@@ -184,7 +184,7 @@ export default function FoundationPage() {
                 />
               </div>
             </div>
-            <div className="reveal reveal-right">
+            <div className="reveal reveal-delay-1">
               <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: '#3d9be9', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 12 }}>
                 INDUSTRY EXPOSURE
               </span>

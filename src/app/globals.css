@@ -229,51 +229,18 @@ body {
   color: #9ca3af;
 }
 
-/* Scroll reveal animation — only hides content when JS has loaded (progressive enhancement) */
-.js-animations .reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+/* Simple fade-up animation — pure CSS, no JS dependency */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-.js-animations .reveal.in-view {
-  opacity: 1;
-  transform: translateY(0);
+.reveal {
+  animation: fadeUp 0.6s ease both;
 }
-.js-animations .reveal-delay-1 { transition-delay: 0.08s; }
-.js-animations .reveal-delay-2 { transition-delay: 0.16s; }
-.js-animations .reveal-delay-3 { transition-delay: 0.24s; }
-.js-animations .reveal-delay-4 { transition-delay: 0.32s; }
-
-/* ─── ENHANCED ANIMATIONS & VISUAL EFFECTS ─────────────────────── */
-
-/* Reveal variants */
-.js-animations .reveal-scale {
-  opacity: 0;
-  transform: scale(0.92);
-  transition: opacity 0.7s cubic-bezier(0.23,1,0.32,1), transform 0.7s cubic-bezier(0.23,1,0.32,1);
-}
-.js-animations .reveal-scale.in-view {
-  opacity: 1;
-  transform: scale(1);
-}
-.js-animations .reveal-left {
-  opacity: 0;
-  transform: translateX(-40px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-.js-animations .reveal-left.in-view {
-  opacity: 1;
-  transform: translateX(0);
-}
-.js-animations .reveal-right {
-  opacity: 0;
-  transform: translateX(40px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-.js-animations .reveal-right.in-view {
-  opacity: 1;
-  transform: translateX(0);
-}
+.reveal-delay-1 { animation-delay: 0.1s; }
+.reveal-delay-2 { animation-delay: 0.2s; }
+.reveal-delay-3 { animation-delay: 0.3s; }
+.reveal-delay-4 { animation-delay: 0.4s; }
 
 /* Floating animation */
 @keyframes pub-float {
@@ -500,43 +467,14 @@ body {
 
 /* ─── ENHANCED INTERACTIONS & ANIMATIONS ──────────────────────── */
 
-/* Staggered reveal for grid children */
-.js-animations .reveal-stagger > * {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-.js-animations .reveal-stagger.in-view > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0s; }
-.js-animations .reveal-stagger.in-view > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.08s; }
-.js-animations .reveal-stagger.in-view > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.16s; }
-.js-animations .reveal-stagger.in-view > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.24s; }
-.js-animations .reveal-stagger.in-view > *:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 0.32s; }
-.js-animations .reveal-stagger.in-view > *:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 0.4s; }
-.js-animations .reveal-stagger.in-view > *:nth-child(n+7) { opacity: 1; transform: translateY(0); transition-delay: 0.48s; }
-
-/* Reveal from below with bounce */
-.js-animations .reveal-bounce {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.6s ease, transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.js-animations .reveal-bounce.in-view {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Reveal with blur */
-.js-animations .reveal-blur {
-  opacity: 0;
-  filter: blur(8px);
-  transform: translateY(16px);
-  transition: opacity 0.7s ease, filter 0.7s ease, transform 0.7s ease;
-}
-.js-animations .reveal-blur.in-view {
-  opacity: 1;
-  filter: blur(0);
-  transform: translateY(0);
-}
+/* Legacy reveal variant classes — all now use simple fadeUp */
+.reveal-stagger > * { animation: fadeUp 0.5s ease both; }
+.reveal-stagger > *:nth-child(2) { animation-delay: 0.08s; }
+.reveal-stagger > *:nth-child(3) { animation-delay: 0.16s; }
+.reveal-stagger > *:nth-child(4) { animation-delay: 0.24s; }
+.reveal-stagger > *:nth-child(5) { animation-delay: 0.32s; }
+.reveal-stagger > *:nth-child(6) { animation-delay: 0.4s; }
+.reveal-stagger > *:nth-child(n+7) { animation-delay: 0.48s; }
 
 /* Card tilt effect on hover */
 .pub-card-tilt {
@@ -665,18 +603,11 @@ details.pub-card summary span:last-child {
 
 /* Reduced motion — respect user preferences */
 @media (prefers-reduced-motion: reduce) {
-  .js-animations .reveal,
-  .js-animations .reveal-scale,
-  .js-animations .reveal-left,
-  .js-animations .reveal-right,
-  .js-animations .reveal-bounce,
-  .js-animations .reveal-blur,
-  .js-animations .reveal-stagger > * {
-    transition: none !important;
+  .reveal,
+  .reveal-stagger > * {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
-    filter: none !important;
   }
   .pub-marquee-track {
     animation: none !important;
@@ -818,25 +749,8 @@ details.pub-card summary span:last-child {
   overflow: hidden;
 }
 
-/* Scale on scroll — starts small, grows as it enters view */
-.js-animations .reveal-grow {
-  opacity: 0;
-  transform: scale(0.85);
-  transition: opacity 0.8s cubic-bezier(0.23,1,0.32,1), transform 1s cubic-bezier(0.23,1,0.32,1);
-}
-.js-animations .reveal-grow.in-view {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* Clip reveal from bottom */
-.js-animations .reveal-clip {
-  clip-path: inset(100% 0 0 0);
-  transition: clip-path 0.8s cubic-bezier(0.77,0,0.175,1);
-}
-.js-animations .reveal-clip.in-view {
-  clip-path: inset(0 0 0 0);
-}
+/* Legacy reveal variants — use simple fadeUp */
+.reveal-grow, .reveal-clip { animation: fadeUp 0.6s ease both; }
 
 /* Counter number pop */
 @keyframes pub-count-pop {
@@ -852,14 +766,10 @@ details.pub-card summary span:last-child {
 }
 
 /* Horizontal line grow */
-.js-animations .pub-line-grow {
-  width: 0;
+.pub-line-grow {
+  width: 80px;
   height: 2px;
   background: linear-gradient(90deg, #3d9be9, #ffcb5d);
-  transition: width 1.2s cubic-bezier(0.23,1,0.32,1);
-}
-.js-animations .pub-line-grow.in-view {
-  width: 80px;
 }
 
 /* Image rounded with tilt */
@@ -1017,9 +927,9 @@ details.pub-card summary span:last-child {
   pointer-events: none;
 }
 
-/* Stagger delays for grid children (extend delay system) */
-.js-animations .reveal-delay-5 { transition-delay: 0.40s; }
-.js-animations .reveal-delay-6 { transition-delay: 0.48s; }
+/* Extended animation delays */
+.reveal-delay-5 { animation-delay: 0.5s; }
+.reveal-delay-6 { animation-delay: 0.6s; }
 
 /* Horizontal scroll card strip for mobile */
 @media (max-width: 639px) {
@@ -1077,31 +987,8 @@ details.pub-card summary span:last-child {
   margin-left: 2px;
 }
 
-/* ─── ENHANCED CROSS-PAGE ANIMATIONS ──────────────────────────────── */
-
-/* Reveal from blur — great for headings */
-.js-animations .reveal-blur {
-  opacity: 0;
-  filter: blur(8px);
-  transform: translateY(20px);
-  transition: opacity 0.8s cubic-bezier(0.23,1,0.32,1), filter 0.8s cubic-bezier(0.23,1,0.32,1), transform 0.8s cubic-bezier(0.23,1,0.32,1);
-}
-.js-animations .reveal-blur.in-view {
-  opacity: 1;
-  filter: blur(0);
-  transform: translateY(0);
-}
-
-/* Reveal with rotation */
-.js-animations .reveal-rotate {
-  opacity: 0;
-  transform: rotate(-3deg) translateY(30px);
-  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.23,1,0.32,1);
-}
-.js-animations .reveal-rotate.in-view {
-  opacity: 1;
-  transform: rotate(0) translateY(0);
-}
+/* Legacy reveal variants — use simple fadeUp */
+.reveal-blur, .reveal-rotate { animation: fadeUp 0.6s ease both; }
 
 /* Image hover parallax tilt for all pub-img-card */
 .pub-img-card img {
@@ -1191,16 +1078,10 @@ details.pub-card summary span:last-child {
     background-attachment: scroll !important;
   }
   /* Still show content, just don't animate reveal */
-  .js-animations .reveal,
-  .js-animations .reveal-scale,
-  .js-animations .reveal-left,
-  .js-animations .reveal-right,
-  .js-animations .reveal-grow,
-  .js-animations .reveal-clip {
+  .reveal {
+    animation: none !important;
     opacity: 1 !important;
     transform: none !important;
-    clip-path: none !important;
-    transition: none !important;
   }
 }
 

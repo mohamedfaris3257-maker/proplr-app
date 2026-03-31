@@ -122,7 +122,7 @@ export default async function HomePage() {
 
           {/* Feature Row 1 */}
           <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
-            <div className="reveal reveal-left">
+            <div className="reveal">
               <div className="pub-img-card">
                 <Image
                   src="https://images.pexels.com/photos/8419521/pexels-photo-8419521.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
@@ -133,7 +133,7 @@ export default async function HomePage() {
                 />
               </div>
             </div>
-            <div className="reveal reveal-right">
+            <div className="reveal reveal-delay-1">
               <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: '#3d9be9', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 12 }}>WEEKLY SESSIONS</span>
               <h3 className="pub-heading" style={{ fontSize: 'clamp(24px, 3vw, 36px)', color: '#071629', marginBottom: 14 }}>
                 6 pillars. Real projects. Not worksheets.
@@ -151,7 +151,7 @@ export default async function HomePage() {
 
           {/* Feature Row 2 - reversed */}
           <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
-            <div className="reveal reveal-left md:order-2">
+            <div className="reveal md:order-2">
               <div className="pub-img-card">
                 <Image
                   src="https://images.pexels.com/photos/18999483/pexels-photo-18999483.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
@@ -162,7 +162,7 @@ export default async function HomePage() {
                 />
               </div>
             </div>
-            <div className="reveal reveal-right md:order-1">
+            <div className="reveal reveal-delay-1 md:order-1">
               <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: '#ffcb5d', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 12 }}>INDUSTRY ACCESS</span>
               <h3 className="pub-heading" style={{ fontSize: 'clamp(24px, 3vw, 36px)', color: '#071629', marginBottom: 14 }}>
                 Real companies. Real mentors. Real work.
@@ -180,7 +180,7 @@ export default async function HomePage() {
 
           {/* Feature Row 3 */}
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="reveal reveal-left">
+            <div className="reveal">
               <div className="pub-img-card">
                 <Image
                   src="https://images.pexels.com/photos/15141529/pexels-photo-15141529.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
@@ -191,7 +191,7 @@ export default async function HomePage() {
                 />
               </div>
             </div>
-            <div className="reveal reveal-right">
+            <div className="reveal reveal-delay-1">
               <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: '#071629', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 12 }}>SHOWCASE & PORTFOLIO</span>
               <h3 className="pub-heading" style={{ fontSize: 'clamp(24px, 3vw, 36px)', color: '#071629', marginBottom: 14 }}>
                 Graduate with proof, not just promises.
@@ -273,7 +273,7 @@ export default async function HomePage() {
 
           <div className="grid md:grid-cols-2 gap-8">
             {/* Foundation Card */}
-            <div className="pub-card reveal reveal-left p-0 overflow-hidden" style={{ border: '2px solid rgba(255,203,93,0.3)' }}>
+            <div className="pub-card reveal p-0 overflow-hidden" style={{ border: '2px solid rgba(255,203,93,0.3)' }}>
               <div style={{ position: 'relative', height: 220 }}>
                 <Image
                   src="https://images.pexels.com/photos/7433830/pexels-photo-7433830.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
@@ -301,7 +301,7 @@ export default async function HomePage() {
             </div>
 
             {/* Impact Card */}
-            <div className="pub-card reveal reveal-right p-0 overflow-hidden" style={{ border: '2px solid rgba(61,155,233,0.3)' }}>
+            <div className="pub-card reveal reveal-delay-1 p-0 overflow-hidden" style={{ border: '2px solid rgba(61,155,233,0.3)' }}>
               <div style={{ position: 'relative', height: 220 }}>
                 <Image
                   src="https://images.pexels.com/photos/6684506/pexels-photo-6684506.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
@@ -341,7 +341,7 @@ export default async function HomePage() {
         />
         <div className="pub-section relative z-10">
           <div className="grid md:grid-cols-2 gap-14 items-center">
-            <div className="reveal reveal-left">
+            <div className="reveal">
               <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: '#ffcb5d', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 14 }}>COMPASS BY PROPLR</span>
               <h2 className="pub-heading" style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: '#ffffff', marginBottom: 16 }}>
                 Not sure what you want?{' '}
@@ -354,7 +354,7 @@ export default async function HomePage() {
                 Try Compass →
               </Link>
             </div>
-            <div className="reveal reveal-right">
+            <div className="reveal reveal-delay-1">
               <div className="pub-glass p-8 rounded-2xl" style={{ background: 'rgba(255,255,255,0.05)' }}>
                 <div className="grid grid-cols-2 gap-6 text-center">
                   {[
@@ -379,7 +379,7 @@ export default async function HomePage() {
       <section style={{ background: '#ffffff' }}>
         <div className="pub-section">
           <div className="grid md:grid-cols-2 gap-14 items-center">
-            <div className="reveal reveal-left">
+            <div className="reveal">
               <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 700, fontSize: 11, color: '#3d9be9', textTransform: 'uppercase' as const, letterSpacing: '0.1em', display: 'block', marginBottom: 12 }}>FOR PARENTS</span>
               <h2 className="pub-heading" style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: '#071629', marginBottom: 14 }}>
                 Backed by KHDA.<br />Built for UAE students.
@@ -393,7 +393,7 @@ export default async function HomePage() {
                 ))}
               </div>
             </div>
-            <div className="reveal reveal-right">
+            <div className="reveal reveal-delay-1">
               <div className="pub-img-card">
                 <Image
                   src="https://images.pexels.com/photos/7942464/pexels-photo-7942464.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
