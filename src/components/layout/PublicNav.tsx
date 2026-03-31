@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { ProplrIcon } from '@/components/ProplrLogo';
 
 const NAV_LINKS = [
   { label: 'Compass', href: '/compass' },
@@ -77,10 +78,11 @@ export function PublicNav() {
       }}
     >
       <div className="max-w-[1200px] mx-auto px-6 h-16 flex items-center justify-between">
-        {/* Logo with hover spin on the propeller "r" */}
-        <Link href="/" className="group flex items-center gap-2 flex-shrink-0">
-          <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 900, fontSize: 20, color: logoColor, letterSpacing: '-0.04em', transition: 'color 0.4s ease' }}>
-            propl<span className="inline-block transition-transform duration-500 group-hover:rotate-[360deg]" style={{ color: '#3d9be9', transformOrigin: 'center' }}>r</span>
+        {/* Logo */}
+        <Link href="/" className="group flex items-center gap-2.5 flex-shrink-0">
+          <ProplrIcon size={28} />
+          <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 900, fontSize: 18, color: logoColor, letterSpacing: '-0.03em', transition: 'color 0.4s ease' }}>
+            PROPLR
           </span>
         </Link>
 

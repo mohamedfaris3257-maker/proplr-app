@@ -1,5 +1,6 @@
 import { RegisterForm } from '@/components/auth/RegisterForm';
 import { AuthBackground } from '@/components/auth/AuthBackground';
+import { ProplrIcon } from '@/components/ProplrLogo';
 
 export const dynamic = 'force-dynamic';
 
@@ -33,25 +34,7 @@ export default function RegisterPage() {
           marginBottom: 6,
           animation: 'authFloat 4s ease-in-out infinite',
         }}>
-          <div style={{
-            width: 46,
-            height: 46,
-            background: 'linear-gradient(135deg, #0ea5e9, #a855f7)',
-            borderRadius: 14,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: '0 8px 32px rgba(14,165,233,0.3)',
-            animation: 'authGlow 4s ease-in-out infinite',
-          }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="3" fill="#ffcb5d" />
-              <line x1="12" y1="2" x2="12" y2="9" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-              <line x1="12" y1="15" x2="12" y2="22" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-              <line x1="2" y1="12" x2="9" y2="12" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-              <line x1="15" y1="12" x2="22" y2="12" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-            </svg>
-          </div>
+          <ProplrIcon size={42} />
           <span style={{
             fontFamily: "'Montserrat', sans-serif",
             fontWeight: 800,

@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { ProplrIcon } from '@/components/ProplrLogo'
 import type { Profile } from '@/lib/types'
 
 interface DashboardSidebarProps {
@@ -62,18 +63,7 @@ export function DashboardSidebar({ profile }: DashboardSidebarProps) {
         textDecoration: 'none',
         letterSpacing: -0.5,
       }}>
-        <div style={{
-          width: 34,
-          height: 34,
-          background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
-          borderRadius: 10,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxShadow: '0 4px 12px rgba(59,130,246,0.3)',
-        }}>
-          <PropellerIcon />
-        </div>
+        <ProplrIcon size={32} />
         PROPLR
       </Link>
 
@@ -184,9 +174,7 @@ export function DashboardSidebar({ profile }: DashboardSidebarProps) {
 }
 
 // Icons
-function PropellerIcon() {
-  return <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" fill="#ffcb5d"/><line x1="12" y1="2" x2="12" y2="9" stroke="white" strokeWidth="2.5" strokeLinecap="round"/><line x1="12" y1="15" x2="12" y2="22" stroke="white" strokeWidth="2.5" strokeLinecap="round"/><line x1="2" y1="12" x2="9" y2="12" stroke="white" strokeWidth="2.5" strokeLinecap="round"/><line x1="15" y1="12" x2="22" y2="12" stroke="white" strokeWidth="2.5" strokeLinecap="round"/></svg>
-}
+// PropellerIcon removed — now using ProplrIcon from @/components/ProplrLogo
 function GridIcon() { return <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg> }
 function LayersIcon() { return <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg> }
 function UsersIcon() { return <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg> }

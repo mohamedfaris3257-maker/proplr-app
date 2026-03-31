@@ -1,4 +1,5 @@
 import { OnboardingFlow } from '@/components/onboarding/OnboardingFlow';
+import { ProplrIcon } from '@/components/ProplrLogo';
 
 export const dynamic = 'force-dynamic';
 
@@ -8,15 +9,7 @@ export default function OnboardingPage() {
       <div style={styles.inner}>
         {/* Logo */}
         <div style={styles.logoWrap}>
-          <div style={styles.logoBox}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="3" fill="#ffcb5d" />
-              <line x1="12" y1="2" x2="12" y2="9" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-              <line x1="12" y1="15" x2="12" y2="22" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-              <line x1="2" y1="12" x2="9" y2="12" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-              <line x1="15" y1="12" x2="22" y2="12" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-            </svg>
-          </div>
+          <ProplrIcon size={36} />
           <span style={styles.logoText}>PROPLR</span>
         </div>
         <p style={styles.logoSub}>Complete your profile to get started</p>

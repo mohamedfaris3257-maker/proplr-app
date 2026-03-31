@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { ProplrIcon } from '@/components/ProplrLogo';
 
 const adminNav = [
   { label: 'Dashboard', href: '/admin' },
@@ -58,21 +59,7 @@ export function AdminSidebar() {
           textDecoration: 'none',
         }}
       >
-        <div
-          style={{
-            width: 28,
-            height: 28,
-            background: '#071629',
-            borderRadius: 7,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#ffcb5d',
-            fontSize: 13,
-          }}
-        >
-          ✦
-        </div>
+        <ProplrIcon size={26} />
         PROPLR
       </Link>
 
