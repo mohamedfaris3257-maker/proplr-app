@@ -105,9 +105,11 @@ export default async function PublicProfilePage({
               width: 96, height: 96, borderRadius: '50%', background: '#3d9be9',
               border: '4px solid #fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
               color: '#fff', fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 36,
-              marginTop: -48, marginBottom: 8,
+              marginTop: -48, marginBottom: 8, overflow: 'hidden',
             }}>
-              {initial}
+              {profile.photo_url ? (
+                <img src={profile.photo_url} alt={profile.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              ) : initial}
             </div>
 
             <h1 style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 22, color: '#000', margin: '0 0 2px' }}>
@@ -154,14 +156,14 @@ export default async function PublicProfilePage({
                 >
                   Message
                 </Link>
-                <button style={{
+                <Link href="/dashboard/community" style={{
                   display: 'inline-flex', alignItems: 'center', gap: 6,
                   background: 'transparent', color: '#000', border: '1.5px solid #666',
                   borderRadius: 20, padding: '8px 20px', fontSize: 14, fontWeight: 700,
-                  cursor: 'pointer', fontFamily: 'inherit',
+                  cursor: 'pointer', fontFamily: 'inherit', textDecoration: 'none',
                 }}>
                   + Connect
-                </button>
+                </Link>
               </div>
             )}
             {isOwnProfile && (

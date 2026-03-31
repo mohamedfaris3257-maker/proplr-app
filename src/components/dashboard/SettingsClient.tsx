@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { CAREER_INTERESTS } from '@/lib/types';
 import type { Profile, CareerInterest } from '@/lib/types';
@@ -10,6 +11,7 @@ interface SettingsClientProps {
 }
 
 export function SettingsClient({ profile }: SettingsClientProps) {
+  const router = useRouter();
   const [name, setName] = useState(profile.name || '');
   const [schoolName, setSchoolName] = useState(profile.school_name || '');
   const [grade, setGrade] = useState(profile.grade || '');
@@ -47,6 +49,7 @@ export function SettingsClient({ profile }: SettingsClientProps) {
         setMessage({ type: 'error', text: 'Failed to save changes. Please try again.' });
       } else {
         setMessage({ type: 'success', text: 'Settings saved successfully!' });
+        router.refresh();
       }
     } catch {
       setMessage({ type: 'error', text: 'An unexpected error occurred.' });

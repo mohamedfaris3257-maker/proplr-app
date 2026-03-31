@@ -103,6 +103,8 @@ export function DashboardClient({
   currentStreak,
 }: DashboardClientProps) {
   const [activeTab, setActiveTab] = useState('All')
+  const [calMonth, setCalMonth] = useState(new Date().getMonth())
+  const [calYear, setCalYear] = useState(new Date().getFullYear())
 
   const firstName = profile.name?.split(' ')[0] || 'Student'
   const fullName = profile.name || 'Student'
@@ -143,18 +145,21 @@ export function DashboardClient({
   const nextEvent = upcomingEvents[0] || null
 
   const now = new Date()
-  const year = now.getFullYear()
-  const month = now.getMonth()
-  const today = now.getDate().toString()
-  const firstDay = new Date(year, month, 1).getDay()
-  const daysInMonth = new Date(year, month + 1, 0).getDate()
+  const todayDate = now.getDate().toString()
+  const todayMonth = now.getMonth()
+  const todayYear = now.getFullYear()
+  const today = calMonth === todayMonth && calYear === todayYear ? todayDate : ''
+  const firstDay = new Date(calYear, calMonth, 1).getDay()
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate()
   const calDays: string[] = []
   for (let i = 0; i < firstDay; i++) calDays.push('')
   for (let d = 1; d <= daysInMonth; d++) calDays.push(d.toString())
-  const monthName = now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+  const monthName = new Date(calYear, calMonth).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
   const eventDays = upcomingEvents
-    .filter((e: any) => { const d = new Date(e.date); return d.getMonth() === month && d.getFullYear() === year })
+    .filter((e: any) => { const d = new Date(e.date); return d.getMonth() === calMonth && d.getFullYear() === calYear })
     .map((e: any) => new Date(e.date).getDate().toString())
+  const prevMonth = () => { if (calMonth === 0) { setCalMonth(11); setCalYear(y => y - 1) } else setCalMonth(m => m - 1) }
+  const nextMonth = () => { if (calMonth === 11) { setCalMonth(0); setCalYear(y => y + 1) } else setCalMonth(m => m + 1) }
 
   const currentHours = currentUserEntry?.total_hours || 0
 
@@ -201,10 +206,10 @@ export function DashboardClient({
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
               Search courses, tasks...
             </div>
-            <div style={{
+            <Link href="/dashboard/events" style={{
               width: 40, height: 40, background: C.card, border: `1px solid ${C.cardBorder}`,
               borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', position: 'relative',
+              cursor: 'pointer', position: 'relative', textDecoration: 'none',
             }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={C.textMuted} strokeWidth="2">
                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
@@ -217,7 +222,7 @@ export function DashboardClient({
                   boxShadow: `0 0 8px ${C.red}60`,
                 }} />
               )}
-            </div>
+            </Link>
           </div>
         </div>
 
@@ -349,7 +354,7 @@ export function DashboardClient({
         <div style={{ ...cardStyle, padding: '22px 24px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
             <h3 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 16, fontWeight: 800, color: '#071629', margin: 0, letterSpacing: -0.3 }}>My Tasks</h3>
-            <Link href="/dashboard/tasks" style={{ fontSize: 12, color: C.blue, textDecoration: 'none', fontWeight: 600 }}>+ Add new</Link>
+            <Link href="/dashboard/tasks" style={{ fontSize: 12, color: C.blue, textDecoration: 'none', fontWeight: 600 }}>View all →</Link>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             {taskItems.length === 0 ? (
@@ -438,9 +443,9 @@ export function DashboardClient({
         {/* CALENDAR */}
         <div style={{ ...cardStyle, padding: '18px 20px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-            <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: C.textMuted, padding: '0 4px', fontSize: 14, fontFamily: 'inherit' }}>‹</button>
+            <button onClick={prevMonth} style={{ background: 'none', border: 'none', cursor: 'pointer', color: C.textMuted, padding: '0 4px', fontSize: 14, fontFamily: 'inherit' }}>‹</button>
             <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 13, fontWeight: 700, color: '#071629' }}>{monthName}</span>
-            <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: C.textMuted, padding: '0 4px', fontSize: 14, fontFamily: 'inherit' }}>›</button>
+            <button onClick={nextMonth} style={{ background: 'none', border: 'none', cursor: 'pointer', color: C.textMuted, padding: '0 4px', fontSize: 14, fontFamily: 'inherit' }}>›</button>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', textAlign: 'center', gap: 2 }}>
             {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(d => (
@@ -588,7 +593,7 @@ export function DashboardClient({
                 <div style={{ fontSize: 11, color: C.textMuted, margin: '4px 0 12px' }}>
                   {nextEvent.time || ''}{nextEvent.location ? ` · ${nextEvent.location}` : nextEvent.online_link ? ' · Online' : ''}
                 </div>
-                <Link href="/dashboard/events" style={{
+                <Link href={`/dashboard/events/${nextEvent.id}`} style={{
                   background: C.blue, color: '#fff',
                   border: 'none', borderRadius: 100,
                   padding: '7px 18px', fontSize: 11.5, fontWeight: 700,

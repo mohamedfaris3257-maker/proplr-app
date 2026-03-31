@@ -166,8 +166,9 @@ export function AdminDashboard({
   async function handleApproveHour(id: string) {
     setApproving(id);
     const supabase = createClient();
-    await supabase.from('pillar_hours').update({ status: 'approved' }).eq('id', id);
-    setPendingHours((prev) => prev.filter((h) => h.id !== id));
+    const { error } = await supabase.from('pillar_hours').update({ status: 'approved' }).eq('id', id);
+    if (!error) setPendingHours((prev) => prev.filter((h) => h.id !== id));
+    else alert('Failed to approve: ' + error.message);
     setApproving(null);
   }
 
@@ -179,11 +180,12 @@ export function AdminDashboard({
     if (!rejectModal.hourId) return;
     setRejecting(true);
     const supabase = createClient();
-    await supabase
+    const { error } = await supabase
       .from('pillar_hours')
       .update({ status: 'rejected', rejection_note: rejectModal.note || null })
       .eq('id', rejectModal.hourId);
-    setPendingHours((prev) => prev.filter((h) => h.id !== rejectModal.hourId));
+    if (!error) setPendingHours((prev) => prev.filter((h) => h.id !== rejectModal.hourId));
+    else alert('Failed to reject: ' + error.message);
     setRejecting(false);
     setRejectModal({ open: false, hourId: null, note: '' });
   }
@@ -241,8 +243,8 @@ export function AdminDashboard({
       </h1>
       <p style={{ color: '#6e7591', marginBottom: 16, fontSize: 14 }}>Proplr platform management</p>
 
-      {/* Seed Default Data */}
-      <div style={{ marginBottom: 20 }}>
+      {/* Seed Default Data — dev only */}
+      {process.env.NODE_ENV !== 'production' && <div style={{ marginBottom: 20 }}>
         <button
           onClick={handleSeedData}
           disabled={seeding}
@@ -264,7 +266,7 @@ export function AdminDashboard({
           <Database style={{ width: 15, height: 15 }} />
           {seeding ? 'Seeding...' : 'Seed Default Data'}
         </button>
-      </div>
+      </div>}
 
       {/* Seed result toast */}
       {seedResult && (
