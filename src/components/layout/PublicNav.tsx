@@ -80,7 +80,7 @@ export function PublicNav() {
       <div className="max-w-[1200px] mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="group flex items-center gap-2.5 flex-shrink-0">
-          <ProplrIcon size={28} />
+          <ProplrIcon size={32} variant={isTransparent ? 'light' : 'dark'} />
           <span style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 900, fontSize: 18, color: logoColor, letterSpacing: '-0.03em', transition: 'color 0.4s ease' }}>
             PROPLR
           </span>

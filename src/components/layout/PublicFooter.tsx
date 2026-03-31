@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ProplrLogo } from '@/components/ProplrLogo';
+import { ProplrIcon } from '@/components/ProplrLogo';
 
 const PLATFORM_LINKS = [
   { href: '/foundation', label: 'Foundation (K-12)' },
@@ -28,8 +28,9 @@ export function PublicFooter() {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-10 mb-12">
           {/* Brand */}
           <div className="md:col-span-2">
-            <div style={{ display: 'flex', alignItems: 'center', marginBottom: 12 }}>
-              <ProplrLogo height={36} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+              <ProplrIcon size={34} variant="light" />
+              <span style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 800, fontSize: 18, color: '#ffffff', letterSpacing: -0.5 }}>PROPLR</span>
             </div>
             <p style={{ color: '#8ca3be', fontSize: 14, lineHeight: 1.7, maxWidth: 320 }}>
               Dubai&apos;s KHDA-certified student development platform. Helping students Grades 8 through university

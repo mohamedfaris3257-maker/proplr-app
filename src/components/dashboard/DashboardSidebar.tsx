@@ -63,7 +63,7 @@ export function DashboardSidebar({ profile }: DashboardSidebarProps) {
         textDecoration: 'none',
         letterSpacing: -0.5,
       }}>
-        <ProplrIcon size={32} />
+        <ProplrIcon size={32} variant="dark" />
         PROPLR
       </Link>
 

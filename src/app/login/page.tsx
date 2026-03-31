@@ -1,6 +1,6 @@
 import { LoginForm } from '@/components/auth/LoginForm';
 import { AuthBackground } from '@/components/auth/AuthBackground';
-import { ProplrLogo } from '@/components/ProplrLogo';
+import { ProplrIcon } from '@/components/ProplrLogo';
 
 export const dynamic = 'force-dynamic';
 
@@ -33,7 +33,7 @@ export default function LoginPage() {
           marginBottom: 6,
           animation: 'authFloat 4s ease-in-out infinite',
         }}>
-          <ProplrLogo height={48} />
+          <ProplrIcon size={52} variant="light" />
         </div>
         <p style={{
           fontSize: 13,

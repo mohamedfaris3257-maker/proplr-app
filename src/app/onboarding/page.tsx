@@ -9,7 +9,7 @@ export default function OnboardingPage() {
       <div style={styles.inner}>
         {/* Logo */}
         <div style={styles.logoWrap}>
-          <ProplrIcon size={36} />
+          <ProplrIcon size={38} variant="dark" />
           <span style={styles.logoText}>PROPLR</span>
         </div>
         <p style={styles.logoSub}>Complete your profile to get started</p>

@@ -59,7 +59,7 @@ export function AdminSidebar() {
           textDecoration: 'none',
         }}
       >
-        <ProplrIcon size={26} />
+        <ProplrIcon size={26} variant="dark" />
         PROPLR
       </Link>
 

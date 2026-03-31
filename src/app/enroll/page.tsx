@@ -10,7 +10,7 @@ export default function EnrollPage() {
       <div style={styles.inner}>
         {/* Logo */}
         <div style={styles.logoWrap}>
-          <ProplrIcon size={36} />
+          <ProplrIcon size={38} variant="dark" />
           <span style={styles.logoText}>PROPLR</span>
         </div>
         <p style={styles.logoSub}>Join for free — decide on a program later</p>
