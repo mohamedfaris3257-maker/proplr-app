@@ -229,18 +229,23 @@ body {
   color: #9ca3af;
 }
 
-/* Simple fade-up animation — pure CSS, no JS dependency */
+/* Scroll-triggered fade-up animation */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(24px); }
   to { opacity: 1; transform: translateY(0); }
 }
+/* Elements start hidden, animate when .in-view is added by ScrollAnimations observer */
 .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+}
+.reveal.in-view {
   animation: fadeUp 0.6s ease both;
 }
-.reveal-delay-1 { animation-delay: 0.1s; }
-.reveal-delay-2 { animation-delay: 0.2s; }
-.reveal-delay-3 { animation-delay: 0.3s; }
-.reveal-delay-4 { animation-delay: 0.4s; }
+.reveal.in-view.reveal-delay-1 { animation-delay: 0.1s; }
+.reveal.in-view.reveal-delay-2 { animation-delay: 0.2s; }
+.reveal.in-view.reveal-delay-3 { animation-delay: 0.3s; }
+.reveal.in-view.reveal-delay-4 { animation-delay: 0.4s; }
 
 /* Floating animation */
 @keyframes pub-float {
@@ -468,13 +473,14 @@ body {
 /* ─── ENHANCED INTERACTIONS & ANIMATIONS ──────────────────────── */
 
 /* Legacy reveal variant classes — all now use simple fadeUp */
-.reveal-stagger > * { animation: fadeUp 0.5s ease both; }
-.reveal-stagger > *:nth-child(2) { animation-delay: 0.08s; }
-.reveal-stagger > *:nth-child(3) { animation-delay: 0.16s; }
-.reveal-stagger > *:nth-child(4) { animation-delay: 0.24s; }
-.reveal-stagger > *:nth-child(5) { animation-delay: 0.32s; }
-.reveal-stagger > *:nth-child(6) { animation-delay: 0.4s; }
-.reveal-stagger > *:nth-child(n+7) { animation-delay: 0.48s; }
+.reveal-stagger > * { opacity: 0; transform: translateY(24px); }
+.reveal-stagger.in-view > * { animation: fadeUp 0.5s ease both; }
+.reveal-stagger.in-view > *:nth-child(2) { animation-delay: 0.08s; }
+.reveal-stagger.in-view > *:nth-child(3) { animation-delay: 0.16s; }
+.reveal-stagger.in-view > *:nth-child(4) { animation-delay: 0.24s; }
+.reveal-stagger.in-view > *:nth-child(5) { animation-delay: 0.32s; }
+.reveal-stagger.in-view > *:nth-child(6) { animation-delay: 0.4s; }
+.reveal-stagger.in-view > *:nth-child(n+7) { animation-delay: 0.48s; }
 
 /* Card tilt effect on hover */
 .pub-card-tilt {
@@ -750,7 +756,8 @@ details.pub-card summary span:last-child {
 }
 
 /* Legacy reveal variants — use simple fadeUp */
-.reveal-grow, .reveal-clip { animation: fadeUp 0.6s ease both; }
+.reveal-grow, .reveal-clip { opacity: 0; transform: translateY(24px); }
+.reveal-grow.in-view, .reveal-clip.in-view { animation: fadeUp 0.6s ease both; }
 
 /* Counter number pop */
 @keyframes pub-count-pop {
@@ -928,8 +935,8 @@ details.pub-card summary span:last-child {
 }
 
 /* Extended animation delays */
-.reveal-delay-5 { animation-delay: 0.5s; }
-.reveal-delay-6 { animation-delay: 0.6s; }
+.reveal.in-view.reveal-delay-5 { animation-delay: 0.5s; }
+.reveal.in-view.reveal-delay-6 { animation-delay: 0.6s; }
 
 /* Horizontal scroll card strip for mobile */
 @media (max-width: 639px) {
@@ -988,7 +995,8 @@ details.pub-card summary span:last-child {
 }
 
 /* Legacy reveal variants — use simple fadeUp */
-.reveal-blur, .reveal-rotate { animation: fadeUp 0.6s ease both; }
+.reveal-blur, .reveal-rotate { opacity: 0; transform: translateY(24px); }
+.reveal-blur.in-view, .reveal-rotate.in-view { animation: fadeUp 0.6s ease both; }
 
 /* Image hover parallax tilt for all pub-img-card */
 .pub-img-card img {
