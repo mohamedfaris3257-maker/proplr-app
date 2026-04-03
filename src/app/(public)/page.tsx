@@ -142,7 +142,7 @@ export default async function HomePage() {
                 Leadership, entrepreneurship, digital literacy, communication, personal branding, and project management - delivered through challenges, not lectures.
               </p>
               <div className="flex flex-wrap gap-2">
-                {['Career Panels', 'Hackathons', 'Design Sprints', 'Portfolio Building'].map((t) => (
+                {['Career Panels', 'Hackathons', 'Case Studies', 'Portfolio Building'].map((t) => (
                   <span key={t} className="px-3 py-1 rounded-full text-xs font-semibold" style={{ background: 'rgba(61,155,233,0.08)', color: '#3d9be9' }}>{t}</span>
                 ))}
               </div>
@@ -419,7 +419,7 @@ export default async function HomePage() {
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,160,0,0.85) 0%, rgba(245,158,11,0.75) 50%, rgba(255,140,0,0.85) 100%)', zIndex: 1 }} />
         <div className="pub-section relative z-10 w-full text-center reveal" style={{ paddingTop: 72, paddingBottom: 72 }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(7,22,41,0.15)', borderRadius: 100, padding: '6px 16px', marginBottom: 20 }}>
-            <span style={{ fontSize: 18 }}>&#9728;</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#071629" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
             <span style={{ fontSize: 11, fontWeight: 800, color: '#071629', letterSpacing: 1.5 }}>SUMMER 2026</span>
           </div>
           <h2 className="pub-heading" style={{ fontSize: 'clamp(28px, 4vw, 42px)', color: '#071629', marginBottom: 14, lineHeight: 1.15 }}>

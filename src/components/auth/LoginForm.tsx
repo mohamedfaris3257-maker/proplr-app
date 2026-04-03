@@ -61,6 +61,12 @@ export function LoginForm() {
           </button>
         </div>
 
+        <div style={{ textAlign: 'right', marginTop: -2 }}>
+          <Link href="/reset-password" style={{ color: '#0ea5e9', fontSize: 12.5, fontWeight: 600, textDecoration: 'none' }}>
+            Forgot password?
+          </Link>
+        </div>
+
         {error && <div style={s.errorBox}>{error}</div>}
 
         <button type="submit" disabled={loading} style={{

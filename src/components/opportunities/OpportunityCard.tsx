@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Building2, Clock, Bookmark, ExternalLink, CheckCircle2 } from 'lucide-react';
+import Link from 'next/link';
+import { Building2, Clock, Bookmark, ExternalLink, CheckCircle2, Lock } from 'lucide-react';
 import { PillarBadge, Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { ApplicationModal } from '@/components/opportunities/ApplicationModal';
@@ -63,6 +64,9 @@ export function OpportunityCard({
   const [saved, setSaved] = useState(initialSaved);
   const [appStatus, setAppStatus] = useState<ApplicationStatus | null>(initialStatus);
   const [showModal, setShowModal] = useState(false);
+  const [showUpgradePrompt, setShowUpgradePrompt] = useState(false);
+
+  const isFreePlan = profile?.plan === 'free';
 
   const handleSave = async () => {
     const newSaved = !saved;
@@ -86,6 +90,10 @@ export function OpportunityCard({
 
   const handleApplyClick = () => {
     if (appStatus) return;
+    if (isFreePlan) {
+      setShowUpgradePrompt(true);
+      return;
+    }
     setShowModal(true);
   };
 
@@ -199,6 +207,22 @@ export function OpportunityCard({
           </div>
         )}
 
+        {/* Upgrade Prompt */}
+        {showUpgradePrompt && isFreePlan && (
+          <div className="mb-2 p-2.5 rounded-lg bg-gold/10 border border-gold/30 text-xs text-text-primary">
+            <p className="font-medium mb-1">Upgrade to access opportunities</p>
+            <p className="text-text-muted mb-2">
+              Foundation and Impact plans unlock applying to opportunities.
+            </p>
+            <Link
+              href="/pricing"
+              className="inline-flex items-center gap-1 text-xs font-medium text-gold hover:text-gold/80 transition-colors"
+            >
+              View Plans &rarr;
+            </Link>
+          </div>
+        )}
+
         {/* Actions */}
         <div className="flex gap-2 mt-auto">
           {appStatus ? (
@@ -208,6 +232,16 @@ export function OpportunityCard({
               <CheckCircle2 className="w-3.5 h-3.5" />
               {appStatus.charAt(0).toUpperCase() + appStatus.slice(1)}
             </div>
+          ) : isFreePlan ? (
+            <Button
+              size="sm"
+              onClick={handleApplyClick}
+              disabled={isExpired || !opportunity.is_active}
+              className="flex-1"
+            >
+              <Lock className="w-3.5 h-3.5 mr-1" />
+              Upgrade to Apply
+            </Button>
           ) : (
             <Button
               size="sm"
@@ -219,15 +253,28 @@ export function OpportunityCard({
             </Button>
           )}
           {opportunity.external_url && (
-            <a
-              href={opportunity.external_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 rounded-lg bg-surface-2 border border-border text-text-muted hover:text-text-primary hover:border-blue transition-colors"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <ExternalLink className="w-4 h-4" />
-            </a>
+            isFreePlan ? (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowUpgradePrompt(true);
+                }}
+                className="p-2 rounded-lg bg-surface-2 border border-border text-text-muted hover:text-text-primary hover:border-gold transition-colors"
+                title="Upgrade to access external link"
+              >
+                <Lock className="w-4 h-4" />
+              </button>
+            ) : (
+              <a
+                href={opportunity.external_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-lg bg-surface-2 border border-border text-text-muted hover:text-text-primary hover:border-blue transition-colors"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <ExternalLink className="w-4 h-4" />
+              </a>
+            )
           )}
         </div>
       </div>

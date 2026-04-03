@@ -180,14 +180,30 @@ export function DashboardClient({
 
   return (
     <>
+      <style>{`
+        .dc-main { flex: 1; overflow-y: auto; padding: 28px 28px; }
+        .dc-topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 26px; }
+        .dc-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+        .dc-tasks-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .dc-right { width: 300px; min-width: 300px; overflow-y: auto; padding: 28px 20px 28px 0; display: flex; flex-direction: column; gap: 16px; }
+        .dc-search { display: flex; align-items: center; gap: 8px; background: #ffffff; border: 1px solid rgba(0,0,0,0.08); border-radius: 100px; padding: 9px 18px; font-size: 13px; color: #64748b; width: 220px; }
+        @media (max-width: 767px) {
+          .dc-main { padding: 16px; }
+          .dc-topbar { flex-direction: column; align-items: flex-start; gap: 12px; }
+          .dc-stats { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+          .dc-tasks-grid { grid-template-columns: 1fr; }
+          .dc-right { width: 100%; min-width: 0; padding: 0 16px 24px; }
+          .dc-search { display: none; }
+        }
+      `}</style>
       <WelcomeModal name={profile.name || ''} />
       <DashboardWalkthrough />
 
       {/* ═══════ MAIN ═══════ */}
-      <div style={{ flex: 1, overflowY: 'auto', padding: '28px 28px' }}>
+      <div className="dc-main">
 
         {/* TOP BAR */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 26 }}>
+        <div className="dc-topbar">
           <div>
             <h1 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 26, fontWeight: 800, color: '#071629', margin: 0, letterSpacing: -0.5 }}>
               Hello, {firstName} 👋
@@ -197,12 +213,7 @@ export function DashboardClient({
             </p>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: 8,
-              background: C.card, border: `1px solid ${C.cardBorder}`,
-              borderRadius: 100, padding: '9px 18px', fontSize: 13, color: C.textMuted,
-              width: 220,
-            }}>
+            <div className="dc-search">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
               Search courses, tasks...
             </div>
@@ -230,7 +241,7 @@ export function DashboardClient({
         <FeatureCarousel />
 
         {/* STAT CARDS */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14, marginBottom: 24 }}>
+        <div className="dc-stats">
           {stats.map(stat => (
             <div key={stat.label} style={{
               ...cardStyle,
@@ -356,7 +367,7 @@ export function DashboardClient({
             <h3 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 16, fontWeight: 800, color: '#071629', margin: 0, letterSpacing: -0.3 }}>My Tasks</h3>
             <Link href="/dashboard/tasks" style={{ fontSize: 12, color: C.blue, textDecoration: 'none', fontWeight: 600 }}>View all →</Link>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+          <div className="dc-tasks-grid">
             {taskItems.length === 0 ? (
               <div style={{
                 gridColumn: '1/-1', background: `${C.amber}10`, border: `1.5px dashed ${C.amber}30`,
@@ -396,7 +407,7 @@ export function DashboardClient({
       </div>
 
       {/* ═══════ RIGHT PANEL ═══════ */}
-      <div style={{ width: 300, minWidth: 300, overflowY: 'auto', padding: '28px 20px 28px 0', display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div className="dc-right">
 
         {/* PROFILE CARD */}
         <div style={{ ...cardStyle, padding: 0, overflow: 'hidden' }}>

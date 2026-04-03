@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
@@ -13,6 +14,21 @@ interface DashboardSidebarProps {
 export function DashboardSidebar({ profile }: DashboardSidebarProps) {
   const pathname = usePathname()
   const router = useRouter()
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)')
+    const handler = (e: MediaQueryListEvent | MediaQueryList) => setIsMobile(e.matches)
+    handler(mq)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+
+  // Close sidebar on route change
+  useEffect(() => {
+    setMobileOpen(false)
+  }, [pathname])
 
   const handleSignOut = async () => {
     const supabase = createClient()
@@ -33,23 +49,8 @@ export function DashboardSidebar({ profile }: DashboardSidebarProps) {
     { icon: <SettingsIcon />, label: 'Settings', href: '/dashboard/settings', active: pathname === '/dashboard/settings' },
   ]
 
-  return (
-    <aside style={{
-      width: 230,
-      minWidth: 230,
-      background: '#ffffff',
-      display: 'flex',
-      flexDirection: 'column',
-      padding: '20px 12px',
-      height: 'calc(100vh - 24px)',
-      position: 'sticky',
-      top: 12,
-      overflowY: 'auto',
-      borderRadius: 20,
-      margin: '12px 0 12px 12px',
-      boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
-      border: '1px solid rgba(0,0,0,0.06)',
-    }}>
+  const sidebarContent = (
+    <>
       {/* Logo */}
       <Link href="/" style={{
         display: 'flex',
@@ -169,7 +170,112 @@ export function DashboardSidebar({ profile }: DashboardSidebarProps) {
           Contact us
         </button>
       </div>
-    </aside>
+    </>
+  )
+
+  return (
+    <>
+      {/* Mobile top bar */}
+      {isMobile && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 56,
+          background: '#ffffff',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '0 16px',
+          zIndex: 1000,
+          boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
+          borderBottom: '1px solid rgba(0,0,0,0.06)',
+        }}>
+          <button
+            onClick={() => setMobileOpen(true)}
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: 8,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            aria-label="Open menu"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#071629" strokeWidth="2" strokeLinecap="round">
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
+          <Link href="/" style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            fontFamily: "'Montserrat', sans-serif",
+            fontWeight: 800,
+            fontSize: 16,
+            color: '#071629',
+            textDecoration: 'none',
+            letterSpacing: -0.5,
+          }}>
+            <ProplrIcon size={28} variant="dark" />
+            PROPLR
+          </Link>
+          <div style={{ width: 38 }} />
+        </div>
+      )}
+
+      {/* Mobile backdrop */}
+      {isMobile && mobileOpen && (
+        <div
+          onClick={() => setMobileOpen(false)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0,0,0,0.4)',
+            zIndex: 1001,
+            transition: 'opacity 0.2s',
+          }}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside style={{
+        width: 230,
+        minWidth: 230,
+        background: '#ffffff',
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '20px 12px',
+        overflowY: 'auto',
+        boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
+        border: '1px solid rgba(0,0,0,0.06)',
+        ...(isMobile ? {
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          bottom: 0,
+          zIndex: 1002,
+          borderRadius: 0,
+          margin: 0,
+          height: '100vh',
+          transform: mobileOpen ? 'translateX(0)' : 'translateX(-100%)',
+          transition: 'transform 0.25s ease',
+        } : {
+          height: 'calc(100vh - 24px)',
+          position: 'sticky',
+          top: 12,
+          borderRadius: 20,
+          margin: '12px 0 12px 12px',
+        }),
+      }}>
+        {sidebarContent}
+      </aside>
+    </>
   )
 }
 

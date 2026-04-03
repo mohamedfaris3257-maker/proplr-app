@@ -45,27 +45,43 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div
-      data-theme="light"
-      style={{
-        display: 'flex',
-        minHeight: '100vh',
-        fontFamily: "'DM Sans', sans-serif",
-        background: '#f0f2f8',
-        color: '#071629',
-      }}
-    >
-      <DashboardSidebar profile={profile as Profile} />
-      <div style={{ flex: 1, minWidth: 0, display: 'flex' }}>
-        {children}
+    <>
+      <style>{`
+        .dashboard-layout {
+          display: flex;
+          min-height: 100vh;
+          font-family: 'DM Sans', sans-serif;
+          background: #f0f2f8;
+          color: #071629;
+        }
+        .dashboard-main {
+          flex: 1;
+          min-width: 0;
+          display: flex;
+        }
+        @media (max-width: 767px) {
+          .dashboard-layout {
+            flex-direction: column;
+            padding-top: 56px;
+          }
+          .dashboard-main {
+            flex-direction: column;
+          }
+        }
+      `}</style>
+      <div className="dashboard-layout" data-theme="light">
+        <DashboardSidebar profile={profile as Profile} />
+        <div className="dashboard-main">
+          {children}
+        </div>
+        <MessagingWidget
+          currentUserId={user.id}
+          currentUserName={(profile as Profile).name || ''}
+        />
+        <Suspense fallback={null}>
+          <WelcomePopup name={(profile as Profile).name || ''} />
+        </Suspense>
       </div>
-      <MessagingWidget
-        currentUserId={user.id}
-        currentUserName={(profile as Profile).name || ''}
-      />
-      <Suspense fallback={null}>
-        <WelcomePopup name={(profile as Profile).name || ''} />
-      </Suspense>
-    </div>
+    </>
   );
 }
